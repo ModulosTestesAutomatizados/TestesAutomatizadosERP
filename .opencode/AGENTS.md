@@ -41,6 +41,46 @@ Aplicar o conceito de DRY! Sempre que uma regra se repetir, avaliar a extração
 
 ---
 
+## 1.5 Nomenclatura de Units (local vs remoto)
+
+As codificações possuem duas variantes de prefixo que indicam o destino da unit:
+
+| Prefixo        | Ambiente        | Quando usar                                                    |
+| -------------- | --------------- | -------------------------------------------------------------- |
+| `P39_TDD_*`    | Remoto (ERP)    | Unit que será executada/carregada no ERP.                      |
+| `TDD_*` (ou sem prefixo) | Local (dev) | Unit em desenvolvimento local, ainda não enviada ao ERP.        |
+
+Regras:
+- Ao referenciar no `uses` uma unit **global ou feita por outro desenvolvedor** e que não exista localmente, apontar para a variante remota (`P39_TDD_*`).
+- Units de uso próprio (carregador, mapeamentos refatorados) podem ficar na variante local (`TDD_*`).
+- Não duplicar arquivos: a variante local e a remota representam a mesma unit em ambientes diferentes.
+- Exemplo: o registro de caso de teste é unit global do ERP. Referenciar **`P39_TDD_REGISTRAR_CASO_TESTE`**; a variante local `TDD_REGISTRAR_CASO_TESTE` (sem prefixo) não existe como unit global e causa erro de resolução de `uses`.
+
+---
+
+## 1.6 Herança de `uses`
+
+O interpretador possui **herança de uses**: se `UNIT A` usa `UNIT B` e `UNIT B` usa `UNIT C`, então `UNIT A` enxerga o conteúdo de `UNIT C` sem declará-la.
+
+- **Não declarar `uses` redundante** para uma unit que já vem de forma transitiva.
+- Exemplo: `TDD_CARREGAR_CASO_TESTE` já inclui `P39_TDD_REGISTRAR_CASO_TESTE` → `P39_TDD_ODBC` → `P39_TDD_CONSTANTES`; portanto a unit que usa `TDD_CARREGAR_CASO_TESTE` **não precisa** declarar `P39_TDD_ODBC`.
+- Manter o diagrama de dependências atualizado (ver seção 1.7).
+
+---
+
+## 1.7 Diagramas Mermaid de dependências
+
+A documentação dos `uses` de cada caso de teste deve ser mantida em arquivos Markdown no diretório `docs/mapeamentoUses/`, com diagramas **Mermaid** (`flowchart`/`graph`), destacando:
+
+- Dependências **diretas** do caso de teste.
+- Heranças **transitivas** de `uses` entre as units.
+- Units **externas** (fora do workspace) e units **localizadas no workspace**.
+- Convenção de nome: `docs/mapeamentoUses/<NOME_DA_UNIT>.md`.
+
+Consulte também `docs/MER.md` para o modelo de dados do banco dedicado.
+
+---
+
 ## 2. Skills disponíveis
 
 Carregue a skill correspondente ao domínio da tarefa:

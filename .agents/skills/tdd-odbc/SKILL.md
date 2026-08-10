@@ -15,10 +15,10 @@ Como eu já comentei, nosso ERP tem métodos nativos para realizar operações e
 | -------------------------- | ------------------------------------------------------------------------------------- |
 | ExecuteCommandODBC         | Operações SQL da natureza de escrita, como INSERT e UPDATE. Executa no cliente.       |
 | ExecuteCommandODBCServ     | Operações SQL da natureza de escrita, como INSERT e UPDATE. Serv executa no servidor. |
-| ExecuteReaderODBC          |               |
-| ExecuteReaderODBCServ      |               |
-| ExecuteScalarODBC          |               |
-| ExecuteScalarODBCServ      |               |
+| ExecuteReaderODBC          | Operações SQL de leitura com retorno de um conjunto de registros (cliente).           |
+| ExecuteReaderODBCServ      | Operações SQL de leitura com retorno de um conjunto de registros (servidor).          |
+| ExecuteScalarODBC          | Operações SQL de leitura com retorno de um único valor/escalar (cliente).             |
+| ExecuteScalarODBCServ      | Operações SQL de leitura com retorno de um único valor/escalar (servidor).            |
 
 ### A diferença entre 64 bits e 32 bits
 
