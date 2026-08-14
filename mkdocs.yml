@@ -2,15 +2,18 @@ site_name: Base de Conhecimento - Delphi TDD
 theme:
   name: readthedocs
 
+# Diz ao MkDocs que a documentação começa na raiz do repositório
+docs_dir: '.' 
+
 nav:
-  - Home: README.md
+  - Home: index.md
   - Diretrizes: AGENTS.md
   - Documentação:
     - MER: docs/MER.md
     - Mapeamento Uses:
-      - Duplicatas: docs/mapeamentoUses/P39_TDD_FIN_DUPLICATAS.md
-      - Bordero: docs/mapeamentoUses/P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO.md
-      - Carregar Caso Teste: docs/mapeamentoUses/TDD_CARREGAR_CASO_TESTE.md
+        - Duplicatas: docs/mapeamentoUses/P39_TDD_FIN_DUPLICATAS.md
+        - Bordero: docs/mapeamentoUses/P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO.md
+        - Carregar Caso Teste: docs/mapeamentoUses/TDD_CARREGAR_CASO_TESTE.md
   - Skills:
     - Banco Dedicado: skills/banco-dedicado/SKILL.md
     - TDD ODBC: skills/tdd-odbc/SKILL.md
