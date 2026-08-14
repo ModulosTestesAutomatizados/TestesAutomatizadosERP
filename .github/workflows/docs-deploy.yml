@@ -3,7 +3,7 @@ name: Deploy Knowledge Base
 on:
   push:
     branches:
-      - main # Executa sempre que a main for atualizada
+      - main
 
 permissions:
   contents: write
@@ -22,5 +22,13 @@ jobs:
       - name: Instalar MkDocs
         run: pip install mkdocs
         
+      - name: Preparar arquivos do MkDocs
+        run: |
+          mkdir src_docs
+          cp README.md src_docs/index.md
+          cp AGENTS.md src_docs/
+          cp -r docs/ src_docs/docs/
+          cp -r skills/ src_docs/skills/
+          
       - name: Publicar no GitHub Pages
         run: mkdocs gh-deploy --force

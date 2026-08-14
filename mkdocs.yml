@@ -2,8 +2,8 @@ site_name: Base de Conhecimento - Delphi TDD
 theme:
   name: readthedocs
 
-# Diz ao MkDocs que a documentação começa na raiz do repositório
-docs_dir: '.' 
+# Apontamos para uma pasta temporária que o GitHub Action vai criar
+docs_dir: 'src_docs'
 
 nav:
   - Home: index.md
