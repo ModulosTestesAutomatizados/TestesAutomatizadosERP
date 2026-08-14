@@ -1,0 +1,21 @@
+site_name: Base de Conhecimento - Delphi TDD
+theme:
+  name: readthedocs
+
+nav:
+  - Home: README.md
+  - Diretrizes: AGENTS.md
+  - Documentação:
+    - MER: docs/MER.md
+    - Mapeamento Uses:
+      - Duplicatas: docs/mapeamentoUses/P39_TDD_FIN_DUPLICATAS.md
+      - Bordero: docs/mapeamentoUses/P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO.md
+      - Carregar Caso Teste: docs/mapeamentoUses/TDD_CARREGAR_CASO_TESTE.md
+  - Skills:
+    - Banco Dedicado: skills/banco-dedicado/SKILL.md
+    - TDD ODBC: skills/tdd-odbc/SKILL.md
+    - Interpretador ERP: skills/interpretador-delphi-erp/SKILL.md
+    - Estrutura Testes: skills/estrutura-testes-erp/SKILL.md
+    - Entregas: skills/entregas/SKILL.md
+    - Generate Report: skills/generate-report/SKILL.md
+    - Context7: skills/context7/SKILL.md
