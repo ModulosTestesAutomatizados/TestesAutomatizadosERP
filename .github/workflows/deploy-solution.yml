@@ -34,11 +34,9 @@ jobs:
           
           [xml]$xml = Get-Content $xmlPath
           
-          $baseBuild = 4
           $runNumber = ${{ github.run_number }}
-          $newBuild = $baseBuild + $runNumber
           
-          $newVersion = "1.0.0.$newBuild"
+          $newVersion = "1.0.0.$runNumber"
           $xml.ImportExportXml.SolutionManifest.Version = $newVersion
           $xml.Save($xmlPath)
           
@@ -57,26 +55,35 @@ jobs:
         run: |
           Write-Host "Iniciando autenticação via PAC CLI..."
           
-          # Autentica usando o Service Principal diretamente no ambiente do Dataverse
-          pac auth create --applicationId "${{ secrets.POWERPLATFORM_CLIENT_ID }}" --clientSecret "${{ secrets.POWERPLATFORM_CLIENT_SECRET }}" --tenant "${{ secrets.POWERPLATFORM_TENANT_ID }}" --url "${{ secrets.POWERPLATFORM_ENV_URL }}"
+          # Localiza o executável do pac instalado pelo GitHub Action anterior
+          $pacPath = $env:POWERPLATFORMTOOLS_PACPATH
           
+          if (-not $pacPath -or -not (Test-Path $pacPath)) {
+            # Fallback caso a variável não venha preenchida
+            $pacPath = "pac"
+          }
+
+          Write-Host "Usando o executável PAC em: $pacPath"
+
+          # Autentica usando o Service Principal diretamente no ambiente
+          & $pacPath auth create --applicationId "${{ secrets.POWERPLATFORM_CLIENT_ID }}" --clientSecret "${{ secrets.POWERPLATFORM_CLIENT_SECRET }}" --tenant "${{ secrets.POWERPLATFORM_TENANT_ID }}" --url "${{ secrets.POWERPLATFORM_ENV_URL }}"
+
           if ($LASTEXITCODE -ne 0) {
-              Write-Error "Falha na autenticação com a CLI."
-              exit 1
+            Write-Error "Falha na autenticação com a CLI."
+            exit 1
           }
 
           Write-Host "Autenticação realizada com sucesso! Importando a solução..."
-          
-          # Nome do arquivo gerado no passo anterior
+
           $solutionFile = "DelphiTDD_Solution_${{ env.ZIP_VERSION }}.zip"
-          
-          # Importa a solução ignorando checagens globais desnecessárias do tenant
-          pac solution import --path $solutionFile --publish-changes --force-overwrite
-          
+
+          # Importa a solução
+          & $pacPath solution import --path $solutionFile --publish-changes --force-overwrite
+
           if ($LASTEXITCODE -ne 0) {
-              Write-Error "Falha ao importar a solução."
-              exit 1
+            Write-Error "Falha ao importar a solução."
+            exit 1
           }
-          
+
           Write-Host "Solução importada com sucesso!"
         shell: powershell
