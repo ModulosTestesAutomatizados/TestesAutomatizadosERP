@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Connector xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <connectorid>4ddf4de4-5eb0-4ea2-872e-174e5e204a34</connectorid>
+  <description>Consulta documentações oficiais evitando alucinações do agente quando escrever códigos fonte.</description>
+  <displayname>context7</displayname>
+  <iconbrandcolor></iconbrandcolor>
+  <name>new_5Fcontext7</name>
+  <connectortype>1</connectortype>
+  <openapidefinition>/Connector/new_5Fcontext7_openapidefinition.json</openapidefinition>
+  <connectionparameters>/Connector/new_5Fcontext7_connectionparameters.json</connectionparameters>
+  <policytemplateinstances>/Connector/new_5Fcontext7_policytemplateinstances.json</policytemplateinstances>
+  <iconblob>/Connector/new_5Fcontext7_iconblob.Png</iconblob>
+</Connector>

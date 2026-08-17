@@ -1,0 +1,1 @@
+{"api_key":{"type":"securestring","uiDefinition":{"displayName":"CONTEXT7_API_KEY","description":"The API Key for this connector","constraints":{"required":"true","clearText":false}}}}

@@ -1,0 +1,11 @@
+<botcomponent schemaname="cr6d8_delphitdd_fmc1IK.skill.context7_gLR">
+  <componenttype>9</componenttype>
+  <description>Use when you need to fetch, read, or validate up-to-date documentation for libraries, frameworks, SDKs, or APIs (e.g., Vue, Vuetify, Tailwind).</description>
+  <iscustomizable>0</iscustomizable>
+  <name>context7</name>
+  <parentbotid>
+    <schemaname>cr6d8_delphitdd_fmc1IK</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>
