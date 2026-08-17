@@ -1,0 +1,42 @@
+name: Deploy Copilot Studio Agent
+
+on:
+  push:
+    branches:
+      - main # O robô roda toda vez que algo for para a branch principal
+    paths:
+      - 'src/**' # Só roda se os arquivos do agente mudarem
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v3
+
+    - name: Empacotar a Solução (Pack)
+      uses: microsoft/powerplatform-actions/pack-solution@v1
+      with:
+        source-folder: src
+        solution-file: out/DelphiTDD_Solution.zip
+        solution-type: Unmanaged
+
+    - name: Autenticar na Power Platform
+      uses: microsoft/powerplatform-actions/authenticate-application@v1
+      with:
+        environment-url: ${{ secrets.POWERPLATFORM_ENV_URL }}
+        app-id: ${{ secrets.POWERPLATFORM_CLIENT_ID }}
+        client-secret: ${{ secrets.POWERPLATFORM_CLIENT_SECRET }}
+        tenant-id: ${{ secrets.POWERPLATFORM_TENANT_ID }}
+
+    - name: Importar Solução para o Copilot Studio
+      uses: microsoft/powerplatform-actions/import-solution@v1
+      with:
+        environment-url: ${{ secrets.POWERPLATFORM_ENV_URL }}
+        app-id: ${{ secrets.POWERPLATFORM_CLIENT_ID }}
+        client-secret: ${{ secrets.POWERPLATFORM_CLIENT_SECRET }}
+        tenant-id: ${{ secrets.POWERPLATFORM_TENANT_ID }}
+        solution-file: out/DelphiTDD_Solution.zip
+        force-overwrite: true
+        publish-changes: true
