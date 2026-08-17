@@ -1,0 +1,11 @@
+<botcomponent schemaname="cr6d8_delphitdd_fmc1IK.skill.generate_report">
+   <componenttype>9</componenttype>
+   <description>Use when you need to generate internal task completion reports with 4 standardized sections: Realização (what was done), Fontes modificados (file paths), p/ teste (testing instructions for non-technical testers), and O que há de novo (changelog notes).</description>
+   <iscustomizable>0</iscustomizable>
+   <name>Generate Report</name>
+   <parentbotid>
+     <schemaname>cr6d8_delphitdd_fmc1IK</schemaname>
+   </parentbotid>
+   <statecode>0</statecode>
+   <statuscode>1</statuscode>
+</botcomponent>
