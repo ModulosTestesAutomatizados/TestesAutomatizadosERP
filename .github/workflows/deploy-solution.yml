@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Incrementar Versão da Solução
         run: |
-          $xmlPath = "src/Other/Solution.xml"
+          $xmlPath = Join-Path $env:GITHUB_WORKSPACE "src\Other\Solution.xml"
           [xml]$xml = Get-Content $xmlPath
           
           # Matemática: Versão base (4) + número da execução da pipeline (começa em 1)
