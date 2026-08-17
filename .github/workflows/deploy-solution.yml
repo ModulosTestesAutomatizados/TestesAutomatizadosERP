@@ -64,6 +64,6 @@ jobs:
           app-id: ${{ env.APP_ID }}
           client-secret: ${{ env.CLIENT_SECRET }}
           tenant-id: ${{ env.TENANT_ID }}
-          path: DelphiTDD_Solution_${{ env.ZIP_VERSION }}.zip
+          solution-file: DelphiTDD_Solution_${{ env.ZIP_VERSION }}.zip
           publish-changes: true
           force-overwrite: true
