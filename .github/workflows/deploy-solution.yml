@@ -53,14 +53,6 @@ jobs:
           solution-file: 'DelphiTDD_Solution_${{ env.ZIP_VERSION }}.zip'
           solution-type: 'Unmanaged'
 
-      - name: Autenticar no Dataverse
-        uses: microsoft/powerplatform-actions/who-am-i@v1
-        with:
-          environment-url: ${{ secrets.POWERPLATFORM_ENV_URL }}
-          app-id: ${{ secrets.POWERPLATFORM_CLIENT_ID }}
-          client-secret: ${{ secrets.POWERPLATFORM_CLIENT_SECRET }}
-          tenant-id: ${{ secrets.POWERPLATFORM_TENANT_ID }}
-
       - name: Importar Solução (Deploy)
         uses: microsoft/powerplatform-actions/import-solution@v1
         with:
