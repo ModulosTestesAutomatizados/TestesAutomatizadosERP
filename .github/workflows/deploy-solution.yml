@@ -8,6 +8,12 @@ on:
       - 'src/**' # Executa apenas se houver altera es na solu o
   workflow_dispatch:
 
+env:
+  APP_ID: ${{ secrets.POWERPLATFORM_CLIENT_ID }}
+  CLIENT_SECRET: ${{ secrets.POWERPLATFORM_CLIENT_SECRET }}
+  TENANT_ID: ${{ secrets.POWERPLATFORM_TENANT_ID }}
+  ENV_URL: ${{ secrets.POWERPLATFORM_ENV_URL }}
+
 jobs:
   deploy:
     runs-on: windows-latest # Recomendado para usar o pac CLI nativamente
@@ -51,39 +57,13 @@ jobs:
           solution-file: 'DelphiTDD_Solution_${{ env.ZIP_VERSION }}.zip'
           solution-type: 'Unmanaged'
 
-      - name: Autenticar e Importar Solução via PAC CLI
-        run: |
-          Write-Host "Iniciando autenticação via PAC CLI..."
-          
-          # Localiza o executável do pac instalado pelo GitHub Action anterior
-          $pacPath = $env:POWERPLATFORMTOOLS_PACPATH
-          
-          if (-not $pacPath -or -not (Test-Path $pacPath)) {
-            # Fallback caso a variável não venha preenchida
-            $pacPath = "pac"
-          }
-
-          Write-Host "Usando o executável PAC em: $pacPath"
-
-          # Autentica usando o Service Principal diretamente no ambiente
-          & $pacPath auth create --applicationId "${{ secrets.POWERPLATFORM_CLIENT_ID }}" --clientSecret "${{ secrets.POWERPLATFORM_CLIENT_SECRET }}" --tenant "${{ secrets.POWERPLATFORM_TENANT_ID }}" --url "${{ secrets.POWERPLATFORM_ENV_URL }}"
-
-          if ($LASTEXITCODE -ne 0) {
-            Write-Error "Falha na autenticação com a CLI."
-            exit 1
-          }
-
-          Write-Host "Autenticação realizada com sucesso! Importando a solução..."
-
-          $solutionFile = "DelphiTDD_Solution_${{ env.ZIP_VERSION }}.zip"
-
-          # Importa a solução
-          & $pacPath solution import --path $solutionFile --publish-changes --force-overwrite
-
-          if ($LASTEXITCODE -ne 0) {
-            Write-Error "Falha ao importar a solução."
-            exit 1
-          }
-
-          Write-Host "Solução importada com sucesso!"
-        shell: powershell
+      - name: Importar Solução
+        uses: microsoft/powerplatform-actions/import-solution@v1
+        with:
+          environment-url: ${{ env.ENV_URL }}
+          app-id: ${{ env.APP_ID }}
+          client-secret: ${{ env.CLIENT_SECRET }}
+          tenant-id: ${{ env.TENANT_ID }}
+          path: DelphiTDD_Solution_${{ env.ZIP_VERSION }}.zip
+          publish-changes: true
+          force-overwrite: true
