@@ -53,13 +53,30 @@ jobs:
           solution-file: 'DelphiTDD_Solution_${{ env.ZIP_VERSION }}.zip'
           solution-type: 'Unmanaged'
 
-      - name: Importar Solução (Deploy)
-        uses: microsoft/powerplatform-actions/import-solution@v1
-        with:
-          environment-url: ${{ secrets.POWERPLATFORM_ENV_URL }}
-          app-id: ${{ secrets.POWERPLATFORM_CLIENT_ID }}
-          client-secret: ${{ secrets.POWERPLATFORM_CLIENT_SECRET }}
-          tenant-id: ${{ secrets.POWERPLATFORM_TENANT_ID }}
-          solution-file: 'DelphiTDD_Solution_${{ env.ZIP_VERSION }}.zip'
-          force-overwrite: true
-          publish-changes: true
+      - name: Autenticar e Importar Solução via PAC CLI
+        run: |
+          Write-Host "Iniciando autenticação via PAC CLI..."
+          
+          # Autentica usando o Service Principal diretamente no ambiente do Dataverse
+          pac auth create --applicationId "${{ secrets.POWERPLATFORM_CLIENT_ID }}" --clientSecret "${{ secrets.POWERPLATFORM_CLIENT_SECRET }}" --tenant "${{ secrets.POWERPLATFORM_TENANT_ID }}" --url "${{ secrets.POWERPLATFORM_ENV_URL }}"
+          
+          if ($LASTEXITCODE -ne 0) {
+              Write-Error "Falha na autenticação com a CLI."
+              exit 1
+          }
+
+          Write-Host "Autenticação realizada com sucesso! Importando a solução..."
+          
+          # Nome do arquivo gerado no passo anterior
+          $solutionFile = "DelphiTDD_Solution_${{ env.ZIP_VERSION }}.zip"
+          
+          # Importa a solução ignorando checagens globais desnecessárias do tenant
+          pac solution import --path $solutionFile --publish-changes --force-overwrite
+          
+          if ($LASTEXITCODE -ne 0) {
+              Write-Error "Falha ao importar a solução."
+              exit 1
+          }
+          
+          Write-Host "Solução importada com sucesso!"
+        shell: powershell
