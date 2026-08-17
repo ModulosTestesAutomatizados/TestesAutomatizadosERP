@@ -1,0 +1,11 @@
+<botcomponent schemaname="cr6d8_delphitdd_fmc1IK.skill.agents">
+   <componenttype>9</componenttype>
+   <description>Mais instruções para o agente de IA.</description>
+   <iscustomizable>0</iscustomizable>
+   <name>Agents</name>
+   <parentbotid>
+     <schemaname>cr6d8_delphitdd_fmc1IK</schemaname>
+   </parentbotid>
+   <statecode>0</statecode>
+   <statuscode>1</statuscode>
+</botcomponent>

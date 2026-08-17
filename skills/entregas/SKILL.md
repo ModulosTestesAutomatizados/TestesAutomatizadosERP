@@ -13,4 +13,9 @@ Garantir que todas as tarefas foram executadas, estão funcionais e em conformid
 
 Ao final de cada entrega, deve gerar um relatório para o fechamento de um serviço como especificado na skill `generate-report`.
 
+## 3. Skills
+
+Assim como ao final de cada serviço/feature é preciso gerar um relatório de fechamento, também precisamos de manter a nossa base de skills atualizada.
+Conforme extrair conhecimentos, revise as suas próprias skills e gere um novo markdown para atualizar os trechos relevantes ou adicionar novos tópicos.
+
 ---

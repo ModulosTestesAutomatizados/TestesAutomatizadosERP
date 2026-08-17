@@ -1,0 +1,11 @@
+<botcomponent schemaname="cr6d8_delphitdd_fmc1IK.skill.tdd_odbc">
+   <componenttype>9</componenttype>
+   <description>Utilize essas habilidade sempre que precisar de desenvolver alguma codificação com a finalidade de realizar operações no banco de dados.</description>
+   <iscustomizable>0</iscustomizable>
+   <name>TDD ODBC</name>
+   <parentbotid>
+     <schemaname>cr6d8_delphitdd_fmc1IK</schemaname>
+   </parentbotid>
+   <statecode>0</statecode>
+   <statuscode>1</statuscode>
+</botcomponent>

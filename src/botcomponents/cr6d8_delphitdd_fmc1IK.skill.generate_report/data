@@ -1,195 +1,195 @@
 datakind: InlineAgentSkill
 content: |
-  ---
-  name: generate-report
-  description: "Use when you need to generate internal task completion reports with 4 standardized sections: Realização (what was done), Fontes modificados (file paths), p/ teste (testing instructions for non-technical testers), and O que há de novo (changelog notes). Automatically extracts modified files from Git."
-  ---
-  <!-- bic:source=upload -->
-  # Gerador de Relatórios de Tarefas
+    ---
+    name: generate-report
+    description: Use when you need to generate internal task completion reports with 4 standardized sections: Realização (what was done), Fontes modificados (file paths), p/ teste (testing instructions for non-technical testers), and O que há de novo (changelog notes). Automatically extracts modified files from Git.
+    ---
+    <!-- bic:source=upload -->
+    # Gerador de Relatórios de Tarefas
 
-  ## O que faz
+    ## O que faz
 
-  Gera relatórios estruturados e padronizados para controle interno de tarefas concluídas, facilitando comunicação entre desenvolvimento e teste. Cada relatório contém 4 seções essenciais com informações prontas para documentação e sistemas internos.
+    Gera relatórios estruturados e padronizados para controle interno de tarefas concluídas, facilitando comunicação entre desenvolvimento e teste. Cada relatório contém 4 seções essenciais com informações prontas para documentação e sistemas internos.
 
-  ## Quando usar
+    ## Quando usar
 
-  Sempre que você concluir uma tarefa ou feature e precisar documentar:
-  - ✅ Para repassar para a equipe de testes
-  - ✅ Para preencher sistemas internos de controle
-  - ✅ Para gerar change notes do sistema
-  - ✅ Para documentar modificações sem jargão técnico
+    Sempre que você concluir uma tarefa ou feature e precisar documentar:
+    - ✅ Para repassar para a equipe de testes
+    - ✅ Para preencher sistemas internos de controle
+    - ✅ Para gerar change notes do sistema
+    - ✅ Para documentar modificações sem jargão técnico
 
-  ## Procedimento
+    ## Procedimento
 
-  Quando você pedir **"Gere o relatório para o serviço por favor"**, sigo estes passos:
+    Quando você pedir **"Gere o relatório para o serviço por favor"**, sigo estes passos:
 
-  ### 1. Extração Automática do Git
+    ### 1. Extração Automática do Git
 
-  - Obtenho os arquivos modificados do último commit/branch
-  - Listo apenas os paths relativos (sem prefixos técnicos desnecessários)
+    - Obtenho os arquivos modificados do último commit/branch
+    - Listo apenas os paths relativos (sem prefixos técnicos desnecessários)
 
-  ### 2. Seções do Relatório
+    ### 2. Seções do Relatório
 
-  #### **Realização (Interno)**
+    #### **Realização (Interno)**
 
-  - Descrição breve (3-5 linhas) do que foi implementado
-  - Foco no resultado, não em detalhes técnicos
-  - Linguagem clara e direta
+    - Descrição breve (3-5 linhas) do que foi implementado
+    - Foco no resultado, não em detalhes técnicos
+    - Linguagem clara e direta
 
-  #### **Fontes Modificados**
+    #### **Fontes Modificados**
 
-  - Lista de caminhos dos arquivos editados
-  - Um arquivo por linha
-  - Paths relativos ao projeto
+    - Lista de caminhos dos arquivos editados
+    - Um arquivo por linha
+    - Paths relativos ao projeto
 
-  #### **p/ Teste**
+    #### **p/ Teste**
 
-  - Instruções step-by-step para a equipe acessar a mudança
-  - Linguagem **simples**, sem jargão técnico (sem "refactor", "merge", "deploy", etc.)
-  - Como chegar ao recurso modificado (ex: "abra o menu > clique em X")
-  - Como testar se funciona (ex: "clique no botão Y e veja se Z acontece")
-  - Suposições mínimas sobre conhecimento técnico
+    - Instruções step-by-step para a equipe acessar a mudança
+    - Linguagem **simples**, sem jargão técnico (sem "refactor", "merge", "deploy", etc.)
+    - Como chegar ao recurso modificado (ex: "abra o menu > clique em X")
+    - Como testar se funciona (ex: "clique no botão Y e veja se Z acontece")
+    - Suposições mínimas sobre conhecimento técnico
 
-  #### **O que há de novo**
+    #### **O que há de novo**
 
-  - Texto curto (1-3 linhas) para change notes da versão
-  - Descreve o benefício/mudança visível para usuários
-  - Tom informal, sem termos técnicos
+    - Texto curto (1-3 linhas) para change notes da versão
+    - Descreve o benefício/mudança visível para usuários
+    - Tom informal, sem termos técnicos
 
-  ### 3. Formato
+    ### 3. Formato
 
-  # Modelo de Relatório de Tarefa
+    # Modelo de Relatório de Tarefa
 
-  Use este template como referência para o formato esperado dos relatórios.
+    Use este template como referência para o formato esperado dos relatórios.
 
-  ---
+    ---
 
-  ## Relatório de Tarefa Concluída
+    ## Relatório de Tarefa Concluída
 
-  **Data:** [YYYY-MM-DD]
+    **Data:** [YYYY-MM-DD]
 
-  **Tarefa:** [Título ou ID da tarefa]
+    **Tarefa:** [Título ou ID da tarefa]
 
-  ### Realização (Interno)
+    ### Realização (Interno)
 
-  [Descrição breve do que foi feito em 3-5 linhas. Foco no resultado.]
+    [Descrição breve do que foi feito em 3-5 linhas. Foco no resultado.]
 
-  Exemplo:
+    Exemplo:
 
-  > Implementada funcionalidade de filtro por status no painel de tarefas. Agora usuários podem visualizar apenas tarefas ativas, concluídas ou pausadas através de abas interativas. Integrado com o store existente sem quebrar compatibilidade.
+    > Implementada funcionalidade de filtro por status no painel de tarefas. Agora usuários podem visualizar apenas tarefas ativas, concluídas ou pausadas através de abas interativas. Integrado com o store existente sem quebrar compatibilidade.
 
-  ### Fontes Modificados
+    ### Fontes Modificados
 
-  - `src/components/TaskPanel.vue`
-  - `src/stores/taskStore.ts`
-  - `src/api/tasks.ts`
-  - `tests/TaskPanel.spec.ts`
+    - `src/components/TaskPanel.vue`
+    - `src/stores/taskStore.ts`
+    - `src/api/tasks.ts`
+    - `tests/TaskPanel.spec.ts`
 
-  ### p/ Teste
+    ### p/ Teste
 
-  1. [Passo 1 - como chegar ao recurso]
-  2. [Passo 2 - o que fazer]
-  3. [Passo 3 - o que esperar]
-  4. [Passo 4 (opcional) - casos adicionais]
+    1. [Passo 1 - como chegar ao recurso]
+    2. [Passo 2 - o que fazer]
+    3. [Passo 3 - o que esperar]
+    4. [Passo 4 (opcional) - casos adicionais]
 
-  Exemplo:
+    Exemplo:
 
-  1. Acesse a página de Tarefas (menu esquerdo > Tarefas)
-  2. No topo da lista, você verá três abas: "Ativas", "Concluídas" e "Pausadas"
-  3. Clique em cada aba e confirme que só aparecem tarefas do tipo selecionado
-  4. Crie uma nova tarefa, marque como concluída e veja se desaparece da aba "Ativas" e aparece em "Concluídas"
-  5. Teste o botão "Limpar filtros" (se existir) para retornar à visualização completa
+    1. Acesse a página de Tarefas (menu esquerdo > Tarefas)
+    2. No topo da lista, você verá três abas: "Ativas", "Concluídas" e "Pausadas"
+    3. Clique em cada aba e confirme que só aparecem tarefas do tipo selecionado
+    4. Crie uma nova tarefa, marque como concluída e veja se desaparece da aba "Ativas" e aparece em "Concluídas"
+    5. Teste o botão "Limpar filtros" (se existir) para retornar à visualização completa
 
-  ### O que há de novo
+    ### O que há de novo
 
-  [Texto curto (1-3 linhas) descrevendo o benefício/mudança visível.]
+    [Texto curto (1-3 linhas) descrevendo o benefício/mudança visível.]
 
-  Exemplo:
+    Exemplo:
 
-  > Novo sistema de filtros para tarefas. Organize sua lista por status com um simples clique nas abas. Melhora a produtividade ao focar apenas nas tarefas relevantes.
+    > Novo sistema de filtros para tarefas. Organize sua lista por status com um simples clique nas abas. Melhora a produtividade ao focar apenas nas tarefas relevantes.
 
-  ---
+    ---
 
-  ## Dicas de Redação
+    ## Dicas de Redação
 
-  ### Para a seção de Realização (Interno)
+    ### Para a seção de Realização (Interno)
 
-  - ✅ Use linguagem técnica se necessário (é para desenvolvedores/PO)
-  - ✅ Descreva o **o quê** e **por quê**
-  - ✅ Mencione integrações importantes
-  - ❌ Não detalhe *como* foi implementado (nem ninguém se importa com padrões de design aqui)
+    - ✅ Use linguagem técnica se necessário (é para desenvolvedores/PO)
+    - ✅ Descreva o **o quê** e **por quê**
+    - ✅ Mencione integrações importantes
+    - ❌ Não detalhe *como* foi implementado (nem ninguém se importa com padrões de design aqui)
 
-  ### Para a seção de p/ Teste
+    ### Para a seção de p/ Teste
 
-  - ✅ Instrua como um guia de usabilidade
-  - ✅ Use palavras simples: "clique", "abra", "marque", "veja"
-  - ✅ Seja específico: "menu esquerdo > Tarefas" (não "navegue")
-  - ✅ Indique resultado esperado: "você verá...", "vai desaparecer...", "deve aparecer..."
-  - ❌ Nunca diga: "faça deploy", "rode os testes", "abra o DevTools"
-  - ❌ Não use: "endpoint", "branch", "refactor", "query", "middleware"
+    - ✅ Instrua como um guia de usabilidade
+    - ✅ Use palavras simples: "clique", "abra", "marque", "veja"
+    - ✅ Seja específico: "menu esquerdo > Tarefas" (não "navegue")
+    - ✅ Indique resultado esperado: "você verá...", "vai desaparecer...", "deve aparecer..."
+    - ❌ Nunca diga: "faça deploy", "rode os testes", "abra o DevTools"
+    - ❌ Não use: "endpoint", "branch", "refactor", "query", "middleware"
 
-  ### Para a seção de O que há de novo
+    ### Para a seção de O que há de novo
 
-  - ✅ Foco no benefício do usuário
-  - ✅ Tone informal, amigável
-  - ✅ Uma frase principal + resultado prático
-  - ❌ Não descreva implementação técnica
+    - ✅ Foco no benefício do usuário
+    - ✅ Tone informal, amigável
+    - ✅ Uma frase principal + resultado prático
+    - ❌ Não descreva implementação técnica
 
-  ---
+    ---
 
-  ## Checklist Antes de Solicitar o Relatório
+    ## Checklist Antes de Solicitar o Relatório
 
-  - [ ] A tarefa está realmente concluída (não WIP)
-  - [ ] Os arquivos foram commitados/salvos
-  - [ ] Você tem clareza sobre o que foi alterado
-  - [ ] Pode instruir alguém (sem conhecimento técnico) como testar
+    - [ ] A tarefa está realmente concluída (não WIP)
+    - [ ] Os arquivos foram commitados/salvos
+    - [ ] Você tem clareza sobre o que foi alterado
+    - [ ] Pode instruir alguém (sem conhecimento técnico) como testar
 
 
-  - Markdown estruturado, pronto para copiar/colar
-  - Seções bem delimitadas
-  - Fácil de separar e usar em diferentes sistemas
+    - Markdown estruturado, pronto para copiar/colar
+    - Seções bem delimitadas
+    - Fácil de separar e usar em diferentes sistemas
 
-  ## Exemplo de Uso
+    ## Exemplo de Uso
 
-  **Você pede:**
+    **Você pede:**
 
-  ```
-  Gere o relatório para o serviço por favor
-  ```
+    ```
+    Gere o relatório para o serviço por favor
+    ```
 
-  **Eu gero:**
+    **Eu gero:**
 
-  ```markdown
-  ## Relatório de Tarefa Concluída
+    ```markdown
+    ## Relatório de Tarefa Concluída
 
-  ### Realização (Interno)
-  Implementada funcionalidade de filtro por status no painel de tarefas. Agora usuários podem visualizar apenas tarefas ativas, concluídas ou pausadas através de abas interativas.
+    ### Realização (Interno)
+    Implementada funcionalidade de filtro por status no painel de tarefas. Agora usuários podem visualizar apenas tarefas ativas, concluídas ou pausadas através de abas interativas.
 
-  ### Fontes Modificados
+    ### Fontes Modificados
 
-  - `src/components/TaskPanel.vue`
-  - `src/stores/taskStore.ts`
-  - `src/api/tasks.ts`
+    - `src/components/TaskPanel.vue`
+    - `src/stores/taskStore.ts`
+    - `src/api/tasks.ts`
 
-  ### p/ Teste
+    ### p/ Teste
 
-  1. Acesse a página de Tarefas (menu esquerdo > Tarefas)
-  2. No topo da lista, você verá três abas: "Ativas", "Concluídas" e "Pausadas"
-  3. Clique em cada aba e confirme que só aparecem tarefas do tipo selecionado
-  4. Crie uma nova tarefa, marque como concluída e veja se desaparece da aba "Ativas"
+    1. Acesse a página de Tarefas (menu esquerdo > Tarefas)
+    2. No topo da lista, você verá três abas: "Ativas", "Concluídas" e "Pausadas"
+    3. Clique em cada aba e confirme que só aparecem tarefas do tipo selecionado
+    4. Crie uma nova tarefa, marque como concluída e veja se desaparece da aba "Ativas"
 
-  ### O que há de novo
+    ### O que há de novo
 
-  Novo sistema de filtros para tarefas. Organize sua lista por status com um simples clique nas abas.
-  ```
+    Novo sistema de filtros para tarefas. Organize sua lista por status com um simples clique nas abas.
+    ```
 
-  ## Princípios
+    ## Princípios
 
-  - **Clareza acima de tudo**: A equipe de testes deve entender sem perguntar
-  - **Sem jargão**: Nada de "deploy", "branch", "refactor", "endpoint", etc.
-  - **Concisão**: Informação útil, sem fluff
-  - **Consistência**: Sempre a mesma estrutura, mesma ordem
+    - **Clareza acima de tudo**: A equipe de testes deve entender sem perguntar
+    - **Sem jargão**: Nada de "deploy", "branch", "refactor", "endpoint", etc.
+    - **Concisão**: Informação útil, sem fluff
+    - **Consistência**: Sempre a mesma estrutura, mesma ordem
 
-  ## Armazenamento
+    ## Armazenamento
 
-  Essas instruções são **persistentes**. Cada vez que você pedir "Gere o relatório para o serviço por favor", serei sempre acionado automaticamente com este guia em contexto.
+    Essas instruções são **persistentes**. Cada vez que você pedir "Gere o relatório para o serviço por favor", serei sempre acionado automaticamente com este guia em contexto.

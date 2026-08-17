@@ -1,0 +1,11 @@
+<botcomponent schemaname="cr6d8_delphitdd_fmc1IK.skill.entregas">
+  <componenttype>9</componenttype>
+  <description>Use when finished a task.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>Entregas</name>
+  <parentbotid>
+    <schemaname>cr6d8_delphitdd_fmc1IK</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

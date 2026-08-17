@@ -1,0 +1,11 @@
+<botcomponent schemaname="cr6d8_delphitdd_fmc1IK.skill.estrutura_testes_erp">
+   <componenttype>9</componenttype>
+   <description>Use essas habilidades sempre que precisar montar novas estruturas de testes destinadas ao ERP.</description>
+   <iscustomizable>0</iscustomizable>
+   <name>Estrutura Testes ERP</name>
+   <parentbotid>
+     <schemaname>cr6d8_delphitdd_fmc1IK</schemaname>
+   </parentbotid>
+   <statecode>0</statecode>
+   <statuscode>1</statuscode>
+</botcomponent>

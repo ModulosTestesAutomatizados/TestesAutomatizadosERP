@@ -1,0 +1,11 @@
+<botcomponent schemaname="cr6d8_delphitdd_fmc1IK.skill.banco_dedicado">
+   <componenttype>9</componenttype>
+   <description>Utilize essas habilidades sempre que precisar montar consultas SQL para lidar com o banco de dados dedicado de testes automatizados (TESTEAUTOMATIZADOMC.FDB).</description>
+   <iscustomizable>0</iscustomizable>
+   <name>Banco Dedicado</name>
+   <parentbotid>
+     <schemaname>cr6d8_delphitdd_fmc1IK</schemaname>
+   </parentbotid>
+   <statecode>0</statecode>
+   <statuscode>1</statuscode>
+</botcomponent>
