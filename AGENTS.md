@@ -56,7 +56,7 @@ Sempre que possível utilizar a procedure main de uma unit para adicionar instru
 
 ## 6. Skills disponíveis
 
-Carregue a skill correspondente ao domínio da tarefa:
+Skills estão disponíveis em: [Base de Conhecimento - Delphi TDD](https://modulostestesautomatizados.github.io/fonte-conhecimento-agente-delphi-tdd/) Carregue a skill correspondente ao domínio da tarefa:
 
 | Skill                      | Quando ativar                                                                                                                            |
 | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
