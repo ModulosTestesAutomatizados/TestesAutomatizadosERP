@@ -38,6 +38,70 @@ Se a skill exigir integra o l gica:
 
 ---
 
+## 🛠️ Como Criar Novas Skills via Código (Code-First)
+
+Para que qualquer desenvolvedor adicione uma nova skill ao agente sem precisar acessar o portal do Copilot Studio, basta seguir este template.
+
+O nosso agente principal tem o ID interno: `cr6d8_delphitdd_fmc1IK`. Todas as skills devem ser filhas dele.
+
+### Passo 1: Criar o Diretório da Skill
+
+Dentro da pasta `src/botcomponents/`, crie uma nova pasta seguindo esta exata nomenclatura:
+`cr6d8_delphitdd_fmc1IK.skill.[nome_da_skill]_[sufixo_aleatorio]`
+
+- **Exemplo:** `cr6d8_delphitdd_fmc1IK.skill.gerar_relatorio_abc`
+- *Nota:* O sufixo aleatório (ex: `abc`, `gLR`, `v1`) garante que o ID não conflite com outras skills no banco de dados.
+
+### Passo 2: Criar o Arquivo de Metadados (`botcomponent.xml`)
+
+Dentro da nova pasta, crie um arquivo chamado `botcomponent.xml` e cole o template abaixo.
+**Atenção:** Substitua os valores entre colchetes `[]` pelos dados da sua skill. O `schemaname` deve ser **idêntico** ao nome da pasta que você acabou de criar.
+
+```xml
+<botcomponent schemaname="cr6d8_delphitdd_fmc1IK.skill.[nome_da_skill]_[sufixo_aleatorio]">
+  <componenttype>9</componenttype>
+  <description>[Escreva aqui para que serve essa skill, o agente usará isso para saber quando chamá-la]</description>
+  <iscustomizable>0</iscustomizable>
+  <name>[Nome Amigável da Skill]</name>
+  <parentbotid>
+    <schemaname>cr6d8_delphitdd_fmc1IK</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>
+```
+
+### Passo 3: Criar o Arquivo de Lógica (data)
+
+Na mesma pasta, crie um arquivo chamado apenas *data* (sem extensão). Este arquivo contém o Prompt ou fluxo em formato YAML. Cole o template abaixo e construa a sua lógica:
+
+```yml
+datakind: InlineAgentSkill
+content: |
+  ---
+  name: [nome_da_skill_sem_espacos]
+  description: [Mesma descrição usada no arquivo xml]
+  ---
+  <!-- bic:source=upload -->
+  # Título da Instrução
+  
+  Escreva aqui as diretrizes da sua skill. Você pode usar Markdown, criar regras condicionais e orientar como o agente deve se comportar quando esta skill for acionada.
+```
+
+### Passo 4: Commit e Deploy
+
+Após criar a pasta e os dois arquivos, faça o commit e envie para a branch main. Nossa pipeline CI/CD fará o empacotamento automático e a nova skill aparecerá no Copilot Studio em poucos minutos!
+
+---
+
+### 🚀 Por que isso funciona?
+
+O Power Platform reconhece que qualquer subpasta dentro de [`src/botcomponents/`](#passo-1-criar-o-diretório-da-skill) que possua um [`botcomponent.xml`](#passo-1-criar-o-diretório-da-skill) válido e faça referência ao `parentbotid` (no nosso caso, o [`cr6d8_delphitdd_fmc1IK`](#passo-1-criar-o-diretório-da-skill)) é um componente que deve ser amarrado ao agente.
+
+Com esse manual no [`README.md`](#passo-1-criar-o-diretório-da-skill), qualquer dev da sua equipe consegue fazer engenharia de prompt, criar ações e versionar tudo bonitinho via Pull Request!
+
+---
+
 ## 🔌 Como Adicionar Novos MCPs (Conectores)
 
 Os Model Context Protocols (MCPs) e conectores personalizados ficam armazenados em `src/Connectors/`.
