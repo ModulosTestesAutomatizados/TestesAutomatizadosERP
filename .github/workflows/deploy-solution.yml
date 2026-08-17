@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'src/**' # Executa apenas se houver altera es na solu o
+  workflow_dispatch:    
 
 env:
   ENVIRONMENT_URL: 'https://[SEU-AMBIENTE].crm[X].dynamics.com'
