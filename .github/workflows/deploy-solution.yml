@@ -1,0 +1,66 @@
+name: Deploy Power Platform Solution
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**' # Executa apenas se houver altera es na solu o
+
+env:
+  ENVIRONMENT_URL: 'https://[SEU-AMBIENTE].crm[X].dynamics.com'
+  CLIENT_ID: ${{ secrets.POWERPLATFORM_CLIENT_ID }}
+  TENANT_ID: ${{ secrets.POWERPLATFORM_TENANT_ID }}
+
+jobs:
+  deploy:
+    runs-on: windows-latest # Recomendado para usar o pac CLI nativamente
+    
+    steps:
+      - name: Incrementar Versão da Solução
+        run: |
+          $xmlPath = "src/Other/Solution.xml"
+          [xml]$xml = Get-Content $xmlPath
+          
+          # Matemática: Versão base (4) + número da execução da pipeline (começa em 1)
+          $baseBuild = 4
+          $runNumber = ${{ github.run_number }}
+          $newBuild = $baseBuild + $runNumber
+          
+          # Monta a nova versão (ex: 1.0.0.5)
+          $newVersion = "1.0.0.$newBuild"
+          
+          $xml.ImportExportXml.SolutionManifest.Version = $newVersion
+          $xml.Save($xmlPath)
+          
+          $zipVersion = $newVersion -replace '\.', '_'
+          
+          echo "ZIP_VERSION=$zipVersion" >> $env:GITHUB_ENV
+        shell: powershell
+
+      - name: Empacotar Solução (Pack)
+        uses: microsoft/powerplatform-actions/pack-solution@v1
+        with:
+          solution-folder: 'src'
+          # Aqui usamos a variável com os underlines gerada no passo anterior
+          solution-file: 'DelphiTDD_Solution_${{ env.ZIP_VERSION }}.zip'
+          solution-type: 'Unmanaged'
+
+      - name: Autenticar no Dataverse
+        uses: microsoft/powerplatform-actions/whoami@v1
+        with:
+          environment-url: ${{ env.ENVIRONMENT_URL }}
+          app-id: ${{ env.CLIENT_ID }}
+          client-secret: ${{ secrets.POWERPLATFORM_CLIENT_SECRET }}
+          tenant-id: ${{ env.TENANT_ID }}
+
+      - name: Importar Solução (Deploy)
+        uses: microsoft/powerplatform-actions/import-solution@v1
+        with:
+          environment-url: ${{ env.ENVIRONMENT_URL }}
+          app-id: ${{ env.CLIENT_ID }}
+          client-secret: ${{ secrets.POWERPLATFORM_CLIENT_SECRET }}
+          tenant-id: ${{ env.TENANT_ID }}
+          solution-file: 'DelphiTDD_Solution_${{ env.ZIP_VERSION }}.zip'
+          force-overwrite: true
+          publish-changes: true
