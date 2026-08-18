@@ -114,6 +114,46 @@ Com esse manual no [`README.md`](#passo-1-criar-o-diretório-da-skill), qualquer
 
 ---
 
+---
+
+## 🤖 Agente Local no opencode
+
+O mesmo conhecimento do `skills/` é consumido pelo agente **opencode** (CLI local) **sem duplicação**: o `.opencode/opencode.json` aponta para `skills/` e para o `AGENTS.md` deste repositório. Assim, qualquer alteração nas skills via PR vale tanto para o portal (MkDocs/RAG) quanto para o agente local.
+
+### Configuração na máquina do desenvolvedor
+
+1. Clone o repositório:
+   ```bash
+   git clone git@github.com:ModulosTestesAutomatizados/fonte-conhecimento-agente-delphi-tdd.git
+   ```
+2. Execute o `abrir-agente-delphi.bat` (duplo clique). Na **primeira execução**, ele cria automaticamente o atalho **Agente Delphi TDD** na Área de Trabalho (somente se ainda não existir) e já abre o agente — sem nenhum caminho fixo (a localização é resolvida em tempo de execução).
+3. Pronto. A cada clique no atalho (ou no próprio `.bat`), o `abrir-agente-delphi.bat`:
+   - garante o atalho no Desktop, instalando-o apenas se não existir;
+   - executa `git fetch --all --prune` + `git pull --ff-only` (recebe os PRs de skills dos outros devs);
+   - se a branch atual não tiver upstream definido, cai automaticamente na `main`;
+   - em caso de conflito ou alterações locais pendentes, abre o **VS Code** na pasta para resolução manual;
+   - abre o **opencode** no diretório do repositório, carregando automaticamente as skills e as diretrizes do `AGENTS.md`, mescladas com a configuração global.
+
+### Pré-requisitos
+
+- Git instalado e no `PATH`;
+- [opencode](https://opencode.ai) instalado e no `PATH`;
+- VS Code no `PATH` (`code`) para a resolução manual de conflitos (opcional);
+- Acesso ao remote via **SSH** (chave configurada) — ou troque a URL do remote para HTTPS:
+  ```bash
+  git remote set-url origin https://github.com/ModulosTestesAutomatizados/fonte-conhecimento-agente-delphi-tdd.git
+  ```
+
+### Uso avançado
+
+Abrir o opencode em **outro projeto** (fora deste repositório) com o contexto do agente injetado. Os caminhos relativos do `.opencode/opencode.json` (`../skills` e `../AGENTS.md`) são resolvidos a partir do próprio arquivo de configuração:
+
+```bash
+OPENCODE_CONFIG=C:\caminho\do\clone\.opencode\opencode.json opencode <caminho-do-projeto>
+```
+
+---
+
 ## 🔌 Como Adicionar Novos MCPs (Conectores)
 
 Os Model Context Protocols (MCPs) e conectores personalizados ficam armazenados em `src/Connectors/`.
