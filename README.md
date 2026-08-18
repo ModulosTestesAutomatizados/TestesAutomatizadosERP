@@ -146,11 +146,19 @@ O mesmo conhecimento do `skills/` é consumido pelo agente **opencode** (CLI loc
 
 ### Uso avançado
 
-Abrir o opencode em **outro projeto** (fora deste repositório) com o contexto do agente injetado. Os caminhos relativos do `.opencode/opencode.json` (`../skills` e `../AGENTS.md`) são resolvidos a partir do próprio arquivo de configuração:
+O contexto do agente (skills + `AGENTS.md`) carrega quando o opencode é aberto **dentro deste repositório** (é o que o atalho faz). Isso acontece porque os caminhos relativos do `.opencode/opencode.json` (`./skills` e `./AGENTS.md`) são resolvidos a partir do **diretório onde o opencode é aberto** — e não do arquivo de configuração.
 
-```bash
-OPENCODE_CONFIG=C:\caminho\do\clone\.opencode\opencode.json opencode <caminho-do-projeto>
+Para usar o contexto Delphi enquanto trabalha em **outro projeto**, crie um `.opencode/opencode.json` nesse projeto apontando para o clone (com caminho absoluto ou `~`), por exemplo:
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["C:\\caminho\\do\\clone\\AGENTS.md"],
+  "skills": { "paths": ["C:\\caminho\\do\\clone\\skills"] }
+}
 ```
+
+> ⚠️ `OPENCODE_CONFIG=... opencode <projeto>` **não** injeta as skills de outro repositório: os caminhos relativos da config seriam resolvidos em relação ao `<projeto>`, não ao clone.
 
 ---
 
