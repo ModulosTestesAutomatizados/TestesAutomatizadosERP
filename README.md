@@ -44,6 +44,8 @@ Para que qualquer desenvolvedor adicione uma nova skill ao agente sem precisar a
 
 O nosso agente principal tem o ID interno: `cr6d8_delphitdd_fmc1IK`. Todas as skills devem ser filhas dele.
 
+O arquivo pode ser chamado data (sem extensão) ou data.yml. Extensão .yml é recomendada por facilitar sintaxe e validação.
+
 ### Passo 1: Criar o Diretório da Skill
 
 Dentro da pasta `src/botcomponents/`, crie uma nova pasta seguindo esta exata nomenclatura:
@@ -73,19 +75,29 @@ Dentro da nova pasta, crie um arquivo chamado `botcomponent.xml` e cole o templa
 
 ### Passo 3: Criar o Arquivo de Lógica (data)
 
-Na mesma pasta, crie um arquivo chamado apenas *data* (sem extensão). Este arquivo contém o Prompt ou fluxo em formato YAML. Cole o template abaixo e construa a sua lógica:
+- Na mesma pasta, crie um arquivo chamado *data* ou *data.yml*. Este arquivo contém o Prompt ou fluxo em formato YAML.
+- Este arquivo deve incluir:
+  - Bloco `<skill>` com `name`, `description` e `location`.
+  - Em seguida, a lógica da skill em formato YAML utilizando `content: |`.
+
+#### Cole o template abaixo e construa a sua lógica
 
 ```yml
 datakind: InlineAgentSkill
+- <skill>
+    <name>[nome_da_skill_sem_espacos]</name>
+    <description>[Descrição amigável]</description>
+    <location>custom</location>
+  </skill>
 content: |
   ---
   name: [nome_da_skill_sem_espacos]
-  description: [Mesma descrição usada no arquivo xml]
+  description: [Descrição da funcionalidade e contexto para o agente]
   ---
   <!-- bic:source=upload -->
-  # Título da Instrução
+  # Diretrizes da Skill
   
-  Escreva aqui as diretrizes da sua skill. Você pode usar Markdown, criar regras condicionais e orientar como o agente deve se comportar quando esta skill for acionada.
+  Escreva aqui as instruções que orientam o comportamento do agente.
 ```
 
 ### Passo 4: Commit e Deploy
