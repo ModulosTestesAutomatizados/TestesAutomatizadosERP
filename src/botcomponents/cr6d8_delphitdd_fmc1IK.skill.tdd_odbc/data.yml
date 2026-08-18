@@ -1,0 +1,39 @@
+datakind: InlineAgentSkill
+skill:
+  name: tdd-odbc
+  description: Conhecimentos sobre a unit que padroniza as conexões e métodos ODBC para a codificação dos testes do ERP.
+  location: custom
+content: |
+  ---
+  name: tdd-odbc
+  description: Utilize essas habilidade sempre que precisar de desenvolver alguma codificação com a finalidade de realizar operações no banco de dados.
+  ---
+  <!-- bic:source=upload -->
+  # Banco de dados dedicado
+
+  Nossos testes automatizados utilizam o módulo BI para escrever as próprias codificações de teste, utilizando diversas ferramentas e mapeamentos dos próprios componentes de telas do ERP. Mas tem um podem, o banco de dados! O nosso ERP tem um banco firebird (FDB), todas as operações SQL já tem um apply fixado para o banco vinculado ao ERP, mas os nossos testes automatizados utilizam um banco de dados dedicado, qual foi a solução? Utilizar conexão ODBC!
+
+  ## Especificações da Implementação
+
+  Como eu já comentei, nosso ERP tem métodos nativos para realizar operações e centralizar todo o tratamento das operações e transações. Com o ODBC não é diferente, nos temos os seguintes métodos ODBC:
+
+  | Método                     | Finalidade                                                                            |
+  | -------------------------- | ------------------------------------------------------------------------------------- |
+  | ExecuteCommandODBC         | Operações SQL da natureza de escrita, como INSERT e UPDATE. Executa no cliente.       |
+  | ExecuteCommandODBCServ     | Operações SQL da natureza de escrita, como INSERT e UPDATE. Serv executa no servidor. |
+  | ExecuteReaderODBC          | Operações SQL de leitura com retorno de um conjunto de registros (cliente).           |
+  | ExecuteReaderODBCServ      | Operações SQL de leitura com retorno de um conjunto de registros (servidor).          |
+  | ExecuteScalarODBC          | Operações SQL de leitura com retorno de um único valor/escalar (cliente).             |
+  | ExecuteScalarODBCServ      | Operações SQL de leitura com retorno de um único valor/escalar (servidor).            |
+
+  ### A diferença entre 64 bits e 32 bits
+
+  Nosso ERP tem uma diferença fundamental em sua arquitetura, é uma aplicação desktop que é servida por um servidor de aplicação de 64 bits, mas os clientes são 32 bits (módulos que o usuário interage por telas nativas do ERP). Os métodos ExecuteOperacaoODBC e ExecuteOperacaoODBCServ tem essa mesma diferença, métodos com o Sufixo 'Serv' são direcionados para serem executados no Servidor de 64 bits, 
+
+  Por tanto, nos testes, decidimos adotar os métodos de conexão ODBC de 32 bits, a justificativa para isso foi justamente que as codificações dos testes interagem diretamente com as telas nativas no cliente, que como já foi dito anteriormente, é 32 bits.
+
+  ## Centralização em P39_TDD_ODBC
+
+  Essa unit foi criada justamente para disponibilizar métodos com a configuração centralizada, ela possui um uses na unit de CONSTANTES, a qual tem a declaração da String de conexão ODBC que é utilizada. Dessa forma, todas as codificações vão usar os métodos implementados na abstração de P39_TDD_ODBC!
+
+  Isso não quer dizer que não temos espaço para adicionar mais uma constante como TESTE_AUTOMATIZADO_64B e criar as implementações em P39_TDD_ODBC, porém isso se mostra desnecessário justamento pelo fato de que os testes são executados no cliente, mas existe a possibilidade se futuramente surgir a necessidade.
