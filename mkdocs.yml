@@ -16,6 +16,7 @@ nav:
         - Carregar Caso Teste: docs/mapeamentoUses/TDD_CARREGAR_CASO_TESTE.md
   - Skills:
     - Banco Dedicado: skills/banco-dedicado/SKILL.md
+    - Banco ERP Unidades: skills/banco-erp-unidades/SKILL.md
     - TDD ODBC: skills/tdd-odbc/SKILL.md
     - Interpretador ERP: skills/interpretador-delphi-erp/SKILL.md
     - Estrutura Testes: skills/estrutura-testes-erp/SKILL.md
