@@ -61,7 +61,7 @@ Skills estão disponíveis em: [Base de Conhecimento - Delphi TDD](https://modul
 | Skill                      | Quando ativar                                                                                                                            |
 | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | `banco-dedicado`           | skill que aponta para a documentação da DDL do banco de dados com mermaid, string de conexão e arquivo .FDB                              |
-| `banco-erp-unidades`       | skill para consultar o banco do ERP (DADOSMC_1032-TESTES-ERP.FDB) e ler/analisar as unidades de codificação do módulo BI (GR_UNIDADE_CODIFICACAO) |
+| `banco-erp-unidades`       | skill para consultar o banco do ERP, ler e analisar as unidades de codificação do módulo BI.                                             |
 | `context7`                 | skill do mcp do context7 para consulta de documentações, evitando alucinações e suposições do agente quanto a possíveis códigos legados  |
 | `entregas`                 | skill a respeito de como as entregas das tasks devem ser feitas, requisitos para validação de conclusão                                  |
 | `estrutura-testes-erp`     | skill para informar como os testes devem ser montados                                                                                    |
