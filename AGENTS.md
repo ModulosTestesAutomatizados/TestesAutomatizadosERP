@@ -60,6 +60,8 @@ Skills estão disponíveis em: [Base de Conhecimento - Delphi TDD](https://modul
 
 | Skill                      | Quando ativar                                                                                                                            |
 | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `atualizar-repositorio-agente` | skill para sincronizar (pull) o repositório AgenteDelphiTDD do GitHub na pasta `D:\TestesAutomatizados\Agente`, comparando antes de sobrescrever |
+| `atualizar-units-teste-automatizado` | skill que autentica na TekStore (API), baixa as units TDD e atualiza o diretório local de `.pas`, solicitando credenciais e diretório quando necessário |
 | `banco-dedicado`           | skill que aponta para a documentação da DDL do banco de dados com mermaid, string de conexão e arquivo .FDB                              |
 | `banco-erp-unidades`       | skill para consultar o banco do ERP (DADOSMC_1032-TESTES-ERP.FDB) e ler/analisar as unidades de codificação do módulo BI (GR_UNIDADE_CODIFICACAO) |
 | `context7`                 | skill do mcp do context7 para consulta de documentações, evitando alucinações e suposições do agente quanto a possíveis códigos legados  |
