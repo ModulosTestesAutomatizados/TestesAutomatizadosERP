@@ -45,10 +45,10 @@ Aplicar o conceito de DRY! Sempre que uma regra se repetir, avaliar a extração
 
 As codificações possuem duas variantes de prefixo que indicam o destino da unit:
 
-| Prefixo                  | Ambiente        | Quando usar                                                    |
-| ------------------------ | --------------- | -------------------------------------------------------------- |
-| `P39_TDD_*`              | Remoto (ERP)    | Unit que será executada/carregada no ERP.                      |
-| `TDD_*` (ou sem prefixo) | Local (dev)     | Unit em desenvolvimento local, ainda não enviada ao ERP.       |
+| Prefixo                   | Ambiente        | Quando usar                                                    |
+| ------------------------- | --------------- | -------------------------------------------------------------- |
+| `P39_TDD_*`               | Remoto (ERP)    | Unit que será executada/carregada no ERP.                      |
+| `TDD_*` (ou sem prefixo)  | Local (dev)     | Unit em desenvolvimento local, ainda não enviada ao ERP.       |
 
 Regras:
 
@@ -86,15 +86,15 @@ Consulte também `docs/MER.md` para o modelo de dados do banco dedicado.
 
 Carregue a skill correspondente ao domínio da tarefa:
 
-| Skill                                | Quando ativar                                                                                                                                           |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `atualizar-repositorio-agente`       | skill para sincronizar (pull) o repositório AgenteDelphiTDD do GitHub na pasta `D:\TestesAutomatizados\Agente`, comparando antes de sobrescrever        |
-| `atualizar-units-teste-automatizado` | skill que autentica na TekStore (API), baixa as units TDD e atualiza o diretório local de `.pas`, solicitando credenciais e diretório quando necessário |
-| `banco-dedicado`                     | skill que aponta para a documentação da DDL do banco de dados com mermaid, string de conexão e arquivo .FDB                                             |
-| `banco-erp-unidades`                 | skill para consultar o banco do ERP, ler e analisar as unidades de codificação do módulo BI.                                                            |
-| `context7`                           | skill do mcp do context7 para consulta de documentações, evitando alucinações e suposições do agente quanto a possíveis códigos legados                 |
-| `entregas`                           | skill a respeito de como as entregas das tasks devem ser feitas, requisitos para validação de conclusão                                                 |
-| `estrutura-testes-erp`               | skill para informar como os testes devem ser montados                                                                                                   |
-| `generate-report`                    | skill que, ao final de cada serviço, dita como deve ser gerado o código de um markdown para fechamento de serviço                                       |
-| `interpretador-delphi-erp`           | skill para ensinar o agente as funções e limitações do módulo do ERP BI - Inteligência de negócios                                                      |
-| `tdd-odbc`                           | skill para informar o agente quanto as conexões ODBC e os métodos centralizado em 32 bits (cliente)                                                     |
+| Skill                                 | Quando ativar                                                                                                                                           |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `atualizar-repositorio-agente`        | skill para sincronizar (pull) o repositório AgenteDelphiTDD do GitHub na pasta `D:\TestesAutomatizados\Agente`, comparando antes de sobrescrever        |
+| `atualizar-units-teste-automatizado`  | skill que autentica na TekStore (API), baixa as units TDD e atualiza o diretório local de `.pas`, solicitando credenciais e diretório quando necessário |
+| `banco-dedicado`                      | skill que aponta para a documentação da DDL do banco de dados com mermaid, string de conexão e arquivo .FDB                                             |
+| `banco-erp-unidades`                  | skill para consultar o banco do ERP, ler e analisar as unidades de codificação do módulo BI.                                                            |
+| `context7`                            | skill do mcp do context7 para consulta de documentações, evitando alucinações e suposições do agente quanto a possíveis códigos legados                 |
+| `entregas`                            | skill a respeito de como as entregas das tasks devem ser feitas, requisitos para validação de conclusão                                                 |
+| `estrutura-testes-erp`                | skill para informar como os testes devem ser montados                                                                                                   |
+| `generate-report`                     | skill que, ao final de cada serviço, dita como deve ser gerado o código de um markdown para fechamento de serviço                                       |
+| `interpretador-delphi-erp`            | skill para ensinar o agente as funções e limitações do módulo do ERP BI - Inteligência de negócios                                                      |
+| `tdd-odbc`                            | skill para informar o agente quanto as conexões ODBC e os métodos centralizado em 32 bits (cliente)                                                     |
