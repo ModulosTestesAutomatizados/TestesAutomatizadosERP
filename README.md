@@ -144,6 +144,8 @@ O mesmo conhecimento do `skills/` é consumido pelo agente **opencode** (CLI loc
   git remote set-url origin https://github.com/ModulosTestesAutomatizados/fonte-conhecimento-agente-delphi-tdd.git
   ```
 
+> **Novo?** Consulte o [Tutorial completo de instalação e configuração](docs/tutorial-instalacao.md) para um guia passo a passo.
+
 ### Uso avançado
 
 O contexto do agente (skills + `AGENTS.md`) carrega quando o opencode é aberto **dentro deste repositório** (é o que o atalho faz). Isso acontece porque os caminhos relativos do `.opencode/opencode.json` (`./skills` e `./AGENTS.md`) são resolvidos a partir do **diretório onde o opencode é aberto** — e não do arquivo de configuração.
