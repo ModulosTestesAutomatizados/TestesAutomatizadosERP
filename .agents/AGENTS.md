@@ -86,9 +86,15 @@ Consulte também `docs/MER.md` para o modelo de dados do banco dedicado.
 
 Carregue a skill correspondente ao domínio da tarefa:
 
-| Skill                      | Quando ativar                                                                             |
-| -------------------------- | ----------------------------------------------------------------------------------------- |
-| `estrutura-testes-erp`     | Trabalhando com codificações de testes automatizados do ERP.                              |
-| `interpretador-delphi-erp` | Ao escrever toda e qualquer codificação Pascal é necessário entender bem o interpretador. |
-| `tdd-odbc`                 | Execuções de operações com SQL que devem interagir com o banco dedicado para testes.      |
-| `banco-dedicado`           | Quando precisar de montar alguma consulta SQL para lidar com o banco dedicado.            |
+| Skill                                 | Quando ativar                                                                                                                                           |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `atualizar-repositorio-agente`        | skill para sincronizar (pull) o repositório AgenteDelphiTDD do GitHub na pasta `D:\TestesAutomatizados\Agente`, comparando antes de sobrescrever        |
+| `atualizar-units-teste-automatizado`  | skill que autentica na TekStore (API), baixa as units TDD e atualiza o diretório local de `.pas`, solicitando credenciais e diretório quando necessário |
+| `banco-dedicado`                      | skill que aponta para a documentação da DDL do banco de dados com mermaid, string de conexão e arquivo .FDB                                             |
+| `banco-erp-unidades`                  | skill para consultar o banco do ERP, ler e analisar as unidades de codificação do módulo BI.                                                            |
+| `context7`                            | skill do mcp do context7 para consulta de documentações, evitando alucinações e suposições do agente quanto a possíveis códigos legados                 |
+| `entregas`                            | skill a respeito de como as entregas das tasks devem ser feitas, requisitos para validação de conclusão                                                 |
+| `estrutura-testes-erp`                | skill para informar como os testes devem ser montados                                                                                                   |
+| `generate-report`                     | skill que, ao final de cada serviço, dita como deve ser gerado o código de um markdown para fechamento de serviço                                       |
+| `interpretador-delphi-erp`            | skill para ensinar o agente as funções e limitações do módulo do ERP BI - Inteligência de negócios                                                      |
+| `tdd-odbc`                            | skill para informar o agente quanto as conexões ODBC e os métodos centralizado em 32 bits (cliente)                                                     |

@@ -126,3 +126,19 @@ Criar uma unit de mapeamento por tela (ex.:
   (ex.: `PESSOA_DUP` precisa ser uma pessoa com duplicatas a receber em aberto). Valores
   incoerentes caem em regras de negócio do ERP, como *"O valor do complemento deve ser
   maior que zero"*.
+
+## Contrato do JSON do caso de teste
+
+- **O JSON é a fonte da verdade do cenário de teste**: os valores explícitos nele devem
+  prevalecer. Tags zeradas ativam o *fallback* da configuração do módulo (ex.:
+  `FINANCEIRO_CONFIGURACAO`), que é rede de segurança — não o formato esperado de um
+  cenário maduro.
+- **Formato de gravação obrigatório: compacto** (sem espaços após `:` e `,`, sem aspas
+  envolventes). O `GetValueJson` nativo falha silenciosamente com *pretty-print* e/ou
+  aspas literais — e a tela do ERP **regrava o JSON nesse formato quebrado** ao editar um
+  caso. Ajustes de valores no caso devem ser gravados compactos diretamente no banco
+  dedicado (ou regravados após edição pela tela).
+- **Um caso de teste pode cobrir um fluxo completo** (ex.: `TDD_FINANCEIRO` executa
+  duplicatas + borderôs em etapas controladas por constante `cEtapaAtual`), com tags
+  compartilhadas entre os recursos e fallbacks por recurso (cliente/fornecedor,
+  valor padrão receber/pagar, etc.).
