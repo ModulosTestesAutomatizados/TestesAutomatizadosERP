@@ -68,6 +68,7 @@ Skills estão disponíveis em: [Base de Conhecimento - Delphi TDD](https://modul
 | `entregas`                 | skill a respeito de como as entregas das tasks devem ser feitas, requisitos para validação de conclusão                                  |
 | `estrutura-testes-erp`     | skill para informar como os testes devem ser montados                                                                                    |
 | `firebird-language-reference` | skill com referência condensada da linguagem SQL/PSQL do Firebird 5.x (tipos, DDL, DML, funções, transações) extraída da documentação oficial |
+| `firebird-conexao-metadados` | skill para conectar ao banco Firebird dedicado de testes e extrair metadados (DDL) com isql                                            |
 | `generate-report`          | skill que, ao final de cada serviço, dita como deve ser gerado o código de um markdown para fechamento de serviço                        |
 | `interpretador-delphi-erp` | skill para ensinar o agente as funções e limitações do módulo do ERP BI - Inteligência de negócios                                       |
 | `tdd-odbc`                 | skill para informar o agente quanto as conexões ODBC e os métodos centralizado em 32 bits (cliente)                                      |
