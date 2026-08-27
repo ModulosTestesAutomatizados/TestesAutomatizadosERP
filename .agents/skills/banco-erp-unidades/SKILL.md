@@ -38,6 +38,51 @@ métodos nativos disponíveis e a estrutura das units de teste (ver skill
   SQLSTATE 22003 / erro `-842 Short integer expected` para BLOBs textuais.
   Usar `SET BLOB ALL` no isql.
 
+## ⚠️ REGRA CRÍTICA: Inserção de novas units (Auto-incremento MANUAL)
+
+O ERP **NÃO possui triggers** para auto-incremento. O ID é controlado manualmente pela tabela **`AUTOINCREMENTOS`**.
+
+### Tabela de controle: `AUTOINCREMENTOS`
+
+| Coluna             | Tipo        | Descrição                                    |
+| ------------------ | ----------- | -------------------------------------------- |
+| `TABELA_AUTOINC`   | VARCHAR     | Nome da tabela (ex.: `GR_UNIDADE_CODIFICACAO`) |
+| `QUEBRA_AUTOINC`   | INTEGER     | Partição/quebra (geralmente `0`)             |
+| `CODIGO_AUTOINC`   | INTEGER     | **Próximo ID disponível**                    |
+
+### Processo OBRIGATÓRIO para inserir nova unit:
+
+```sql
+-- 1. Consultar próximo ID
+SELECT CODIGO_AUTOINC FROM AUTOINCREMENTOS 
+WHERE TABELA_AUTOINC = 'GR_UNIDADE_CODIFICACAO' AND QUEBRA_AUTOINC = 0;
+
+-- 2. Inserir na GR_UNIDADE_CODIFICACAO com o ID obtido
+INSERT INTO GR_UNIDADE_CODIFICACAO (
+    CODIGO_UNIT, NOME_UNIT, CODIFICACAO_UNIT, AUTOR_UNIT,
+    GRUPO_UNIT, TIPO_UNIT, ARMAZENAMENTO_UNIT, ORIGEM_UNIT,
+    PADRAOTEKSYSTEM_UNIT, DATAHORAINCLUSAO_UNIT, USUARIOINCLUSAO_UNIT
+) VALUES (
+    <proximo_id>, 'P39_TDD_NOVA_UNIT', <blob_codigo>, 'GersonTekSystem',
+    1371, 0, 0, 20, 'N', CURRENT_TIMESTAMP, 'GersonTekSystem'
+);
+
+-- 3. Atualizar o auto-incremento
+UPDATE AUTOINCREMENTOS 
+SET CODIGO_AUTOINC = CODIGO_AUTOINC + 1
+WHERE TABELA_AUTOINC = 'GR_UNIDADE_CODIFICACAO' AND QUEBRA_AUTOINC = 0;
+```
+
+> **NUNCA** insira com `CODIGO_UNIT = 0` — o ERP não consegue consultar esse registro!
+> **SEMPRE** use o autor real do ERP (ex.: `GersonTekSystem`), não `OPENCODE_AGENT`.
+
+### Exemplo atual (estado atual):
+```sql
+SELECT CODIGO_AUTOINC FROM AUTOINCREMENTOS 
+WHERE TABELA_AUTOINC = 'GR_UNIDADE_CODIFICACAO' AND QUEBRA_AUTOINC = 0;
+-- Retorna: 40 (próximo ID disponível)
+```
+
 ## Outros bancos de estudo (mesma pasta, via servidor)
 
 Os demais bancos ficam em `F:\Databases\Firebird5\` (`DADOSMC_1032-TESTES-167.FDB`,
