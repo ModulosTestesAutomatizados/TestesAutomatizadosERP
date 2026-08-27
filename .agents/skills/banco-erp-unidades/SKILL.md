@@ -19,13 +19,14 @@ métodos nativos disponíveis e a estrutura das units de teste (ver skill
 
 | Propriedade      | Valor                                                        |
 | ---------------- | ------------------------------------------------------------ |
-| Arquivo `.FDB`   | `F:\Databases\Firebird5\DADOSMC_1032-TESTES-ERP.FDB`        |
+| Arquivo `.FDB`   | Solicitar ao usuário o caminho para o arquivo.               |
+| Conexão          | Solicitar conexão via servidor ao usuário com ip e porta     |
 | SGBD             | Firebird 5.x                                                 |
 | Charset          | `WIN1252`                                                    |
 | Credencial local | `SYSDBA` / `masterkey`                                       |
 | Tabela principal | `GR_UNIDADE_CODIFICACAO`                                     |
 
-## Conexão (isql)
+## Conexão de exemplo (isql)
 
 ```powershell
 & "C:\Program Files\Firebird\Firebird_5_0\isql.exe" -user SYSDBA -password masterkey "F:\Databases\Firebird5\DADOSMC_1032-TESTES-ERP.FDB" -ch "WIN1252" -q
@@ -55,53 +56,53 @@ local falha** (SQLSTATE 08001) — acessar **via servidor de aplicação**:
 
 ## Estrutura de GR_UNIDADE_CODIFICACAO
 
-| Campo                        | Tipo Firebird | Descrição                                                        |
-| ---------------------------- | ------------- | ---------------------------------------------------------------- |
-| `CODIGO_UNIT`                | LONG (Integer) | Código sequencial da unit.                                       |
-| `PADRAOTEKSYSTEM_UNIT`       | TEXT (1)      | Marca a unit como padrão do sistema: `S` ou `N`.                 |
-| `NOME_UNIT`                  | VARYING (60)  | Nome da unit (referenciado no `uses`).                           |
-| `AUTOR_UNIT`                 | VARYING (40)  | Autor da unit.                                                   |
-| `GRUPO_UNIT`                 | LONG (Integer) | Grupo funcional da unit (ver domínios abaixo).                   |
-| `TIPO_UNIT`                  | SHORT         | Tipo de conteúdo da unit (ver domínios abaixo).                  |
-| `ARMAZENAMENTO_UNIT`         | SHORT         | Forma de armazenamento (0 = no banco).                           |
-| `URL_REPOSITORIO_PUBLICO_UNIT` | VARYING (255) | URL do repositório público da unit (se houver).                |
-| `ORIGEM_UNIT`                | SHORT         | Origem/canal de criação da unit (ver domínios abaixo).           |
-| `CODIFICACAO_UNIT`           | BLOB          | **Código Pascal** da unit (interpretador).                       |
-| `STRINGCONEXAOODBC_UNIT`     | BLOB          | String de conexão ODBC associada à unit (se houver).             |
-| `OBSERVACAO_UNIT`            | BLOB          | Observações da unit.                                             |
-| `DATAHORAINCLUSAO_UNIT`      | TIMESTAMP     | Data/hora de inclusão.                                           |
-| `DATAHORAALTERACAO_UNIT`     | TIMESTAMP     | Data/hora de alteração.                                          |
-| `USUARIOINCLUSAO_UNIT`       | VARYING (20)  | Usuário que incluiu.                                              |
-| `USUARIOALTERACAO_UNIT`      | VARYING (20)  | Usuário que alterou.                                              |
+| Campo                          | Tipo Firebird  | Descrição                                                        |
+| ------------------------------ | -------------- | ---------------------------------------------------------------- |
+| `CODIGO_UNIT`                  | LONG (Integer) | Código sequencial da unit.                                       |
+| `PADRAOTEKSYSTEM_UNIT`         | TEXT (1)       | Marca a unit como padrão do sistema: `S` ou `N`.                 |
+| `NOME_UNIT`                    | VARYING (60)   | Nome da unit (referenciado no `uses`).                           |
+| `AUTOR_UNIT`                   | VARYING (40)   | Autor da unit.                                                   |
+| `GRUPO_UNIT`                   | LONG (Integer) | Grupo funcional da unit (ver domínios abaixo).                   |
+| `TIPO_UNIT`                    | SHORT          | Tipo de conteúdo da unit (ver domínios abaixo).                  |
+| `ARMAZENAMENTO_UNIT`           | SHORT          | Forma de armazenamento (0 = no banco).                           |
+| `URL_REPOSITORIO_PUBLICO_UNIT` | VARYING (255)  | URL do repositório público da unit (se houver).                  |
+| `ORIGEM_UNIT`                  | SHORT          | Origem/canal de criação da unit (ver domínios abaixo).           |
+| `CODIFICACAO_UNIT`             | BLOB           | **Código Pascal** da unit (interpretador).                       |
+| `STRINGCONEXAOODBC_UNIT`       | BLOB           | String de conexão ODBC associada à unit (se houver).             |
+| `OBSERVACAO_UNIT`              | BLOB           | Observações da unit.                                             |
+| `DATAHORAINCLUSAO_UNIT`        | TIMESTAMP      | Data/hora de inclusão.                                           |
+| `DATAHORAALTERACAO_UNIT`       | TIMESTAMP      | Data/hora de alteração.                                          |
+| `USUARIOINCLUSAO_UNIT`         | VARYING (20)   | Usuário que incluiu.                                             |
+| `USUARIOALTERACAO_UNIT`        | VARYING (20)   | Usuário que alterou.                                             |
 
 ## Domínios de valores observados
 
 ### GRUPO_UNIT (grupos funcionais)
 
-| Valor | Significado                                          |
-| ----- | ---------------------------------------------------- |
-| `0`   | Sem grupo (units diversas/padrão do sistema).        |
-| `997` | Aniversários (`DATAANIVERSARIODIA`, `DATAANIVERSARIOMES`). |
-| `1367`| TDD Financeiro (Config Financeiro, Duplicatas SQL, Bordero, Mapeamento de Componentes). |
-| `1369`| TDD JSON base (`TDD_JSON_BASE_CADASTRO_DUPLICATAS_RECEBER`). |
+| Valor | Significado                                                                                                                                      |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `0`   | Sem grupo (units diversas/padrão do sistema).                                                                                                    |
+| `997` | Aniversários (`DATAANIVERSARIODIA`, `DATAANIVERSARIOMES`).                                                                                       |
+| `1367`| TDD Financeiro (Config Financeiro, Duplicatas SQL, Bordero, Mapeamento de Componentes).                                                          |
+| `1369`| TDD JSON base (`TDD_JSON_BASE_CADASTRO_DUPLICATAS_RECEBER`).                                                                                     |
 | `1371`| Núcleo TDD (`TDD_ODBC`, `TDD_REGISTRAR_CASO_TESTE`, `TDD_CARREGAR_CASO_TESTE`, `TDD_CASOS_DE_TESTE`, `TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS`). |
 
 ### TIPO_UNIT
 
-| Valor | Significado                                          |
-| ----- | ---------------------------------------------------- |
-| `0`   | Pascal Script (codificação do interpretador).        |
+| Valor | Significado                                                          |
+| ----- | -------------------------------------------------------------------- |
+| `0`   | Pascal Script (codificação do interpretador).                        |
 | `3`   | CSS (estilos web, ex.: `TEK_CSS_INDICADORES_NUMERICOS_FORMATO_WEB`). |
-| `4`   | SQL puro (ex.: `TEK_SQL_MONITOR_*`, `TEK_SQL_CONFIG_FIREBIRD_4`). |
-| `5`   | JSON (ex.: `TDD_JSON_BASE_CADASTRO_DUPLICATAS_RECEBER`). |
+| `4`   | SQL puro (ex.: `TEK_SQL_MONITOR_*`, `TEK_SQL_CONFIG_FIREBIRD_4`).    |
+| `5`   | JSON (ex.: `TDD_JSON_BASE_CADASTRO_DUPLICATAS_RECEBER`).             |
 
 ### ORIGEM_UNIT
 
-| Valor | Significado                                          |
-| ----- | ---------------------------------------------------- |
-| `0`   | Units padrão do sistema.                             |
-| `9`   | Importada de repositório público (ex.: `TEK_CONFERE_RESERVA_COMPOSICAO`). |
-| `20`  | Criada via módulo BI do ERP (maioria, incluindo TDD). |
+| Valor | Significado                                                                                     |
+| ----- | ----------------------------------------------------------------------------------------------- |
+| `0`   | Units padrão do sistema.                                                                        |
+| `9`   | Importada de repositório público (ex.: `TEK_CONFERE_RESERVA_COMPOSICAO`).                       |
+| `20`  | Criada via módulo BI do ERP (maioria, incluindo TDD).                                           |
 | `23`  | Configuração/integração (ex.: `MADEIRA_MADEIRA_CONFIGURACAO_TESTE`, `TEK_COMERCIO_INTEGRACAO`). |
 
 ### PADRAOTEKSYSTEM_UNIT

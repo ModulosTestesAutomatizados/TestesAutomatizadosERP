@@ -20,7 +20,7 @@ Regras do processo:
 
 | Item | Valor |
 | ---- | ----- |
-| diretório | *(em branco — solicitar ao usuário na primeira chamada)* |
+| diretório | `C:\Users\Gerson Ribeiro\Documents\TEK\ProjetosTek\Testes\TestesAutomatizadosERP\docs\assets` |
 
 **Regras obrigatórias para o diretório:**
 
