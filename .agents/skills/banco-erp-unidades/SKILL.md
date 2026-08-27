@@ -38,6 +38,18 @@ métodos nativos disponíveis e a estrutura das units de teste (ver skill
   SQLSTATE 22003 / erro `-842 Short integer expected` para BLOBs textuais.
   Usar `SET BLOB ALL` no isql.
 
+## ⚠️ REGRA CRÍTICA: Nomenclatura de Units (Local vs Remoto)
+
+| Ambiente | Prefixo | Exemplo |
+| -------- | ------- | ------- |
+| **Local (Banco ERP)** | `TDD_*` | `TDD_ASSERTS`, `TDD_ODBC`, `TDD_CASOS_DE_TESTE` |
+| **Remoto (Tek Store)** | `P39_TDD_*` | `P39_TDD_ASSERTS`, `P39_TDD_ODBC` |
+
+> **NUNCA** use `P39_TDD_*` no banco do ERP local — isso é exclusivo da Tek Store.
+> Ao inserir no `GR_UNIDADE_CODIFICACAO`, use **apenas `TDD_*`**.
+
+---
+
 ## ⚠️ REGRA CRÍTICA: Inserção de novas units (Auto-incremento MANUAL)
 
 O ERP **NÃO possui triggers** para auto-incremento. O ID é controlado manualmente pela tabela **`AUTOINCREMENTOS`**.
@@ -57,14 +69,16 @@ O ERP **NÃO possui triggers** para auto-incremento. O ID é controlado manualme
 SELECT CODIGO_AUTOINC FROM AUTOINCREMENTOS 
 WHERE TABELA_AUTOINC = 'GR_UNIDADE_CODIFICACAO' AND QUEBRA_AUTOINC = 0;
 
--- 2. Inserir na GR_UNIDADE_CODIFICACAO com o ID obtido
+-- 2. Inserir na GR_UNIDADE_CODIFICACAO com o ID obtido (NOME = TDD_*)
 INSERT INTO GR_UNIDADE_CODIFICACAO (
     CODIGO_UNIT, NOME_UNIT, CODIFICACAO_UNIT, AUTOR_UNIT,
     GRUPO_UNIT, TIPO_UNIT, ARMAZENAMENTO_UNIT, ORIGEM_UNIT,
-    PADRAOTEKSYSTEM_UNIT, DATAHORAINCLUSAO_UNIT, USUARIOINCLUSAO_UNIT
+    PADRAOTEKSYSTEM_UNIT, DATAHORAINCLUSAO_UNIT, 
+    USUARIOINCLUSAO_UNIT, USUARIOALTERACAO_UNIT
 ) VALUES (
-    <proximo_id>, 'P39_TDD_NOVA_UNIT', <blob_codigo>, 'GersonTekSystem',
-    1371, 0, 0, 20, 'N', CURRENT_TIMESTAMP, 'GersonTekSystem'
+    <proximo_id>, 'TDD_NOVA_UNIT', <blob_codigo>, 'GersonTekSystem',
+    1371, 0, 0, 20, 'N', CURRENT_TIMESTAMP, 
+    <SEU_CODIGO_USUARIO>, <SEU_CODIGO_USUARIO>
 );
 
 -- 3. Atualizar o auto-incremento
@@ -74,13 +88,15 @@ WHERE TABELA_AUTOINC = 'GR_UNIDADE_CODIFICACAO' AND QUEBRA_AUTOINC = 0;
 ```
 
 > **NUNCA** insira com `CODIGO_UNIT = 0` — o ERP não consegue consultar esse registro!
-> **SEMPRE** use o autor real do ERP (ex.: `GersonTekSystem`), não `OPENCODE_AGENT`.
+> - `AUTOR_UNIT` = autor do código (ex.: `GersonTekSystem`)
+> - `USUARIOINCLUSAO_UNIT` / `USUARIOALTERACAO_UNIT` = **seu CODIGO_USUARIO no ERP** (ex.: `2`)
+> - `NOME_UNIT` = **sem prefixo P39_** (ex.: `TDD_ASSERTS`)
 
 ### Exemplo atual (estado atual):
 ```sql
 SELECT CODIGO_AUTOINC FROM AUTOINCREMENTOS 
 WHERE TABELA_AUTOINC = 'GR_UNIDADE_CODIFICACAO' AND QUEBRA_AUTOINC = 0;
--- Retorna: 40 (próximo ID disponível)
+-- Retorna: 41 (próximo ID disponível)
 ```
 
 ## Outros bancos de estudo (mesma pasta, via servidor)
