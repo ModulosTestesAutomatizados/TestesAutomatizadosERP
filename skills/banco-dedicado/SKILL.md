@@ -30,11 +30,14 @@ no cliente.
 > - **Banco que REGISTRA** (`TESTEAUTOMATIZADOMC.FDB`): usar `NEXT VALUE FOR
 >   <GEN_*>`.
 >
-> ## Tabela `UNIT` (banco que REGISTRA)
+> ## Inclusão de units (regra padrão)
 >
-> A tabela `UNIT` do banco de registro **não** deve ser usada para gravar as units
-> TDD de codificação (ex.: `TDD_*`), **exceto quando explicitamente solicitado**
-> pelo usuário. Registrar apenas quando houver instrução explícita.
+> A inclusão de units TDD de codificação (ex.: `TDD_*`) deve ser feita **por padrão**
+> no banco que **EXECUTA** os casos de teste (`DADOSMC.FDB`), na tabela
+> **`GR_UNIDADE_CODIFICACAO`**.
+>
+> Quando o usuário solicitar explicitamente a inclusão no banco que **REGISTRA**
+> (`TESTEAUTOMATIZADOMC.FDB`), aí sim usar a tabela `UNIT` deste banco.
 
 ## Conexão ODBC
 

@@ -112,13 +112,20 @@ SELECT NEXT VALUE FOR GEN_UNIT FROM RDB$DATABASE;
 
 ---
 
-## 4. Sobre a tabela `UNIT` do banco que REGISTRA
+## 4. Inclusão de units — regra padrão
 
-> ⚠️ **Importante:** a tabela `UNIT` do banco de registro
-> (`TESTEAUTOMATIZADOMC.FDB`) tem **outra finalidade** e **não** deve ser usada
-> para gravar as units TDD de codificação dos testes (ex.: `TDD_*`), exceto
-> quando **explicitamente solicitado** pelo usuário.
+> ⚠️ **Regra atualizada:** a inclusão de units TDD de codificação (ex.: `TDD_*`)
+> deve ser feita **por padrão** no banco que **EXECUTA** os casos de teste
+> (`DADOSMC.FDB`), na tabela **`GR_UNIDADE_CODIFICACAO`**.
+>
+> Quando o usuário solicitar **explicitamente** a inclusão no banco que **REGISTRA**
+> (`TESTEAUTOMATIZADOMC.FDB`), aí sim usar a tabela `UNIT` deste banco.
 
-Histórico: persistir `TDD_ASSERTS` e `TDD_FAT_VALIDAR_RESULTADO_NOVO` na tabela
-`UNIT` (módulo Faturamento = 2) foi considerado incorreto ("cagada") e essa prática
-**não deve ser repetida** sem instrução explícita.
+| Banco | Tabela para units |
+|-------|-------------------|
+| `DADOSMC.FDB` (executa) | `GR_UNIDADE_CODIFICACAO` |
+| `TESTEAUTOMATIZADOMC.FDB` (registra) | `UNIT` |
+
+Histórico: a prática anterior de incluir units no banco que REGISTRA foi
+considerada incorreta. A regra agora é: units vão para o banco que EXECUTA
+(tabela `GR_UNIDADE_CODIFICACAO`), a menos que o usuário instrua o contrário.
