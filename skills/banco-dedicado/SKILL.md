@@ -10,6 +10,32 @@ aplicativo. Eles utilizam um **banco de dados dedicado** de testes, hospedado
 em Firebird 5, que é acessado exclusivamente por conexão **ODBC de 32 bits**
 no cliente.
 
+> **Nota:** a referência central dos bancos (qual conectar para executar vs.
+> para registrar, e **como gerar o código ao inserir registros**) está em
+> **[databases.md](databases.md)**. Sempre que a tarefa envolver "banco que
+> executa os testes" ou "banco que registra os testes", ou a **inclusão de
+> registros**, consultar `databases.md` antes de montar a conexão.
+>
+> - **Executa** os casos de teste → `DADOSMC.FDB`
+> - **Registra** os casos de teste (casos/config) → `TESTEAUTOMATIZADOMC.FDB`
+>
+> ## Regra de inclusão de registros (crítica)
+>
+> Ao **inserir registros em qualquer tabela dos bancos dedicados**, o código da
+> chave jamais deve ser gerado manualmente/aleatoriamente. A regra (detalhada em
+> `databases.md`) é:
+>
+> - **Banco que EXECUTA** (`DADOSMC.FDB`): por tabela, usar `NEXT VALUE FOR
+>   <GEN_*>` **ou** somar 1 ao `CODIGO_AUTOINC` da tabela `AUTOINCREMENTOS`.
+> - **Banco que REGISTRA** (`TESTEAUTOMATIZADOMC.FDB`): usar `NEXT VALUE FOR
+>   <GEN_*>`.
+>
+> ## Tabela `UNIT` (banco que REGISTRA)
+>
+> A tabela `UNIT` do banco de registro **não** deve ser usada para gravar as units
+> TDD de codificação (ex.: `TDD_*`), **exceto quando explicitamente solicitado**
+> pelo usuário. Registrar apenas quando houver instrução explícita.
+
 ## Conexão ODBC
 
 A conexão é centralizada e padronizada. **Nunca** deve ser criada uma nova

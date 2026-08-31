@@ -26,6 +26,12 @@ Nosso ERP tem uma diferença fundamental em sua arquitetura, é uma aplicação 
 
 Por tanto, nos testes, decidimos adotar os métodos de conexão ODBC de 32 bits, a justificativa para isso foi justamente que as codificações dos testes interagem diretamente com as telas nativas no cliente, que como já foi dito anteriormente, é 32 bits.
 
+> **Nota de referência:** ao **incluir registros** nos bancos dedicados
+> (ex.: massa de teste), a geração do código da chave deve seguir a regra de
+> **generator / AUTOINCREMENTOS** documentada em
+> `skills/banco-dedicado/databases.md` (§1.1 para `DADOSMC.FDB` e §2.1 para
+> `TESTEAUTOMATIZADOMC.FDB`). Nunca gerar código manualmente/aleatoriamente.
+
 ## Centralização em P39_TDD_ODBC
 
 Essa unit foi criada justamente para disponibilizar métodos com a configuração centralizada, ela possui um uses na unit de CONSTANTES, a qual tem a declaração da String de conexão ODBC que é utilizada. Dessa forma, todas as codificações vão usar os métodos implementados na abstração de P39_TDD_ODBC!
