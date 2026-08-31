@@ -1,5 +1,5 @@
 uses TDD_CARREGAR_CASO_TESTE, TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO,
-  P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO, TDD_ASSETS;
+  P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO, TDD_ASSERTS;
 
 const
   cModuloFinanceiro = 'FINANCEIRO';
@@ -34,9 +34,9 @@ begin
   TDD_CARREGAR_CASO_TESTE.Main;
   TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.Main;
   P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO.Main;
-  TDD_ASSETS.Main;
+  TDD_ASSERTS.Main;
 
-  lInstrucoes := 'PILOTO TDD_ASSETS - Caso Unico TDD_FINANCEIRO por ETAPAS:' + #13 +
+  lInstrucoes := 'PILOTO TDD_ASSETS (Unit 40) - Caso Unico TDD_FINANCEIRO por ETAPAS:' + #13 +
     'Etapa 1 - Cadastro de Duplicata a Receber' + #13 +
     'Etapa 2 - Cadastro de Duplicata a Pagar' + #13 +
     'Etapa 3 - Borda de Recebimento (baixa duplicatas a receber)' + #13 +
@@ -45,7 +45,7 @@ begin
     ' - altere a constante cEtapaAtual para avancar de etapa.' + #13 + #13 +
     'Metodos disponibilizados:' + #13 +
     ' - procedure ExecutarFluxoCompletoFinanceiro' + #13 +
-    '   + Usa TDD_ASSETS: Setup_CasoTeste -> ExecutarCasoTeste -> ValidarResultadoEsperado -> TearDown_CasoTeste' + #13 + #13 +
+    '   + Usa TDD_ASSETS (Unit 40): Setup_CasoTeste -> ExecutarCasoTeste -> ValidarResultadoEsperado -> TearDown_CasoTeste' + #13 + #13 +
     'Caso de Teste: Modulo=' + cModuloFinanceiro + ', Area=' + cAreaFinanceiro + ', Teste=' + cCasoTesteUnico;
   MostrarLogTexto(lInstrucoes, 'Instrucoes REFACTOR_TDD_FINANCEIRO_PILOTO_TDD_ASSETS');
 end;
