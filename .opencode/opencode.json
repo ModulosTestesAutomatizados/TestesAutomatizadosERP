@@ -28,5 +28,10 @@
         "X-MCP-Toolsets": "all"
       }
     },
+    "drawio": {
+      "type": "remote",
+      "url": "https://mcp.draw.io/mcp",
+      "enabled": true
+    }
   }
 }

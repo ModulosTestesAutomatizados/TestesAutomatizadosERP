@@ -54,7 +54,7 @@ begin
   if FDataSets.IndexOf(pDataSetName) > -1 then
     Exit;
 
-  FDataSets.Add(pDataSetName);
+  FDataSets.Add(pDataSetName);  
 end;
 
 function RegistrarResultado(pPassou: Boolean; pMsg: String): Boolean;

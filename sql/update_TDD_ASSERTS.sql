@@ -1,12 +1,13 @@
-uses P39_TDD_CASOS_DE_TESTE;
+SET BLOB ALL;
+UPDATE GR_UNIDADE_CODIFICACAO SET CODIFICACAO_UNIT = 'uses P39_TDD_CASOS_DE_TESTE;
 
-{$Region 'Constantes'}
+{$Region ''Constantes''}
 const
-  cPulada = 'ASSERTS: PULADO - ';
-  cFalha  = 'ASSERTS: FALHOU - ';
+  cPulada = ''ASSERTS: PULADO - '';
+  cFalha  = ''ASSERTS: FALHOU - '';
 {$endRegion}
 
-{$Region 'Variaveis globais de acumulo'}
+{$Region ''Variaveis globais de acumulo''}
 var
   FAssertsTotal: Integer;
   FAssertsPass:  Integer;
@@ -21,15 +22,15 @@ begin
  // P39_TDD_CASOS_DE_TESTE.Main; // Documentacao das units do uses
 
   lInstrucoes :=
-    'Unit de asserts (modelo DUnitX) para uso no interpretador.' + #13 +
-    'Cada assert registra PASS/FAIL acumulado e retorna Boolean.' + #13 +
-    'Metodos: AssertIgual, AssertIgualInteiro, AssertIgualCurrency,' + #13 +
-    'AssertVerdadeiro, AssertFalso, AssertListaVazia, AssertContem,' + #13 +
-    'AssertsZerar, AssertsTotal, AssertsPass, AssertsFail, AssertsOk, AssertsResumo.';
-  MostrarLogTexto(lInstrucoes, 'Instrucoes TDD_ASSERTS');
+    ''Unit de asserts (modelo DUnitX) para uso no interpretador.'' + #13 +
+    ''Cada assert registra PASS/FAIL acumulado e retorna Boolean.'' + #13 +
+    ''Metodos: AssertIgual, AssertIgualInteiro, AssertIgualCurrency,'' + #13 +
+    ''AssertVerdadeiro, AssertFalso, AssertListaVazia, AssertContem,'' + #13 +
+    ''AssertsZerar, AssertsTotal, AssertsPass, AssertsFail, AssertsOk, AssertsResumo.'';
+  MostrarLogTexto(lInstrucoes, ''Instrucoes TDD_ASSERTS'');
 end;
 
-{$Region 'Nucleo interno'}
+{$Region ''Nucleo interno''}
 
 procedure InicializarAcumulo;
 begin
@@ -65,7 +66,7 @@ begin
   if pPassou then
   begin
     FAssertsPass := FAssertsPass + 1;
-    LogDoProcessamentoAdd('ASSERTS: PASS - ' + pMsg);
+    LogDoProcessamentoAdd(''ASSERTS: PASS - '' + pMsg);
   end
   else
   begin
@@ -78,7 +79,7 @@ begin
 end;
 {$endRegion}
 
-{$Region 'Asserts base'}
+{$Region ''Asserts base''}
 
 function AssertsPassou(pDescricao: String): Boolean;
 begin
@@ -87,39 +88,39 @@ end;
 
 function AssertsFalhou(pDescricao, pDetalhe: String): Boolean;
 begin
-  Result := RegistrarResultado(False, pDescricao + ' ' + pDetalhe);
+  Result := RegistrarResultado(False, pDescricao + '' '' + pDetalhe);
 end;
 
 function AssertVerdadeiro(pCondicao: Boolean; pDescricao: String): Boolean;
 begin
   InicializarAcumulo;
-  Result := RegistrarResultado(pCondicao, pDescricao + ' -> esperado TRUE');
+  Result := RegistrarResultado(pCondicao, pDescricao + '' -> esperado TRUE'');
 end;
 
 function AssertFalso(pCondicao: Boolean; pDescricao: String): Boolean;
 begin
   InicializarAcumulo;
-  Result := RegistrarResultado(not pCondicao, pDescricao + ' -> esperado FALSE');
+  Result := RegistrarResultado(not pCondicao, pDescricao + '' -> esperado FALSE'');
 end;
 
 function AssertIgual(pEsperado, pObtido, pDescricao: String): Boolean;
 begin
   InicializarAcumulo;
   if pEsperado = pObtido then
-    Result := RegistrarResultado(True, pDescricao + ' [' + pEsperado + ']')
+    Result := RegistrarResultado(True, pDescricao + '' ['' + pEsperado + '']'')
   else
     Result := RegistrarResultado(False,
-      pDescricao + ': esperado "' + pEsperado + '", obtido "' + pObtido + '".');
+      pDescricao + '': esperado "'' + pEsperado + ''", obtido "'' + pObtido + ''".'');
 end;
 
 function AssertIgualInteiro(pEsperado, pObtido: Integer; pDescricao: String): Boolean;
 begin
   InicializarAcumulo;
   if pEsperado = pObtido then
-    Result := RegistrarResultado(True, pDescricao + ' [' + IntToStr(pEsperado) + ']')
+    Result := RegistrarResultado(True, pDescricao + '' ['' + IntToStr(pEsperado) + '']'')
   else
     Result := RegistrarResultado(False,
-      pDescricao + ': esperado ' + IntToStr(pEsperado) + ', obtido ' + IntToStr(pObtido) + '.');
+      pDescricao + '': esperado '' + IntToStr(pEsperado) + '', obtido '' + IntToStr(pObtido) + ''.'');
 end;
 
 function Arredondar(pValor: Currency; pCasas: Integer): Currency;
@@ -138,35 +139,35 @@ begin
   InicializarAcumulo;
   if Arredondar(pEsperado, pCasas) = Arredondar(pObtido, pCasas) then
     Result := RegistrarResultado(True,
-      pDescricao + ' [' + CurrToStr(Arredondar(pEsperado, pCasas)) + ']')
+      pDescricao + '' ['' + CurrToStr(Arredondar(pEsperado, pCasas)) + '']'')
   else
     Result := RegistrarResultado(False,
-      pDescricao + ': esperado ' + CurrToStr(Arredondar(pEsperado, pCasas)) +
-      ', obtido ' + CurrToStr(Arredondar(pObtido, pCasas)) + '.');
+      pDescricao + '': esperado '' + CurrToStr(Arredondar(pEsperado, pCasas)) +
+      '', obtido '' + CurrToStr(Arredondar(pObtido, pCasas)) + ''.'');
 end;
 
 function AssertListaVazia(pLista: TStringList; pDescricao: String): Boolean;
 begin
   InicializarAcumulo;
   if (pLista = nil) or (pLista.Count = 0) then
-    Result := RegistrarResultado(True, pDescricao + ' -> lista vazia')
+    Result := RegistrarResultado(True, pDescricao + '' -> lista vazia'')
   else
     Result := RegistrarResultado(False,
-      pDescricao + ': lista com ' + IntToStr(pLista.Count) + ' itens, esperado vazio.');
+      pDescricao + '': lista com '' + IntToStr(pLista.Count) + '' itens, esperado vazio.'');
 end;
 
 function AssertContem(pTexto, pSubstring, pDescricao: String): Boolean;
 begin
   InicializarAcumulo;
   if Pos(UpperCase(pSubstring), UpperCase(pTexto)) > 0 then
-    Result := RegistrarResultado(True, pDescricao + ' -> contem "' + pSubstring + '"')
+    Result := RegistrarResultado(True, pDescricao + '' -> contem "'' + pSubstring + ''"'')
   else
     Result := RegistrarResultado(False,
-      pDescricao + ': texto nao contem "' + pSubstring + '".');
+      pDescricao + '': texto nao contem "'' + pSubstring + ''".'');
 end;
 {$endRegion}
 
-{$Region 'Totalizadores'}
+{$Region ''Totalizadores''}
 
 procedure AssertsZerar;
 begin
@@ -200,15 +201,16 @@ end;
 function AssertsResumo: String;
 var I: Integer;
 begin
-  Result := 'Asserts: total=' + IntToStr(FAssertsTotal) +
-    ', pass=' + IntToStr(FAssertsPass) +
-    ', fail=' + IntToStr(FAssertsFail);
+  Result := ''Asserts: total='' + IntToStr(FAssertsTotal) +
+    '', pass='' + IntToStr(FAssertsPass) +
+    '', fail='' + IntToStr(FAssertsFail);
 
   if FAssertsFail > 0 then
   begin
-    Result := Result + #13 + 'Falhas:';
+    Result := Result + #13 + ''Falhas:'';
     for I := 0 to FFalhas.Count - 1 do
-      Result := Result + #13 + '  * ' + FFalhas[I];
+      Result := Result + #13 + ''  * '' + FFalhas[I];
   end;
 end;
-{$endRegion}
+{$endRegion}', DATAHORAALTERACAO_UNIT = CURRENT_TIMESTAMP, USUARIOALTERACAO_UNIT = '2' WHERE CODIGO_UNIT = 40;
+COMMIT;

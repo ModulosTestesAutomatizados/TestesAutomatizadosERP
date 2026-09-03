@@ -1,6 +1,6 @@
 { ================================================================
   TDD_STARTED - Casca única / Test Runner para testes TDD
-
+  
   Herda via P39_TDD_CASOS_DE_TESTE:
   - P39_TDD_CONSTANTES (constantes, cache, SQL)
   - P39_TDD_ODBC (TDDCommandODBC, TDDReaderODBC, TDDScalarODBC)
@@ -15,33 +15,17 @@ var
   FCasoTesteAtualId: Integer;
   FCasoTesteAtualJson: String;
   FSetupIniciado: Boolean;
-  FModoDebug: Boolean;
 
-  // Cronometros baseados em TDateTime, suportado pelo interpretador.
-  FSetupTimeMs: Integer;
-  FExecTimeMs: Integer;
-  FTotalTimeMs: Integer;
-  FSetupInicio: TDateTime;
-  FExecInicio: TDateTime;
-  FTotalInicio: TDateTime;
+  // Cronômetros (substituído TStopwatch por GetTickCount)
+  FSetupTimeMs: Cardinal;
+  FExecTimeMs: Cardinal;
+  FTotalTimeMs: Cardinal;
+  FSetupTickIni: Cardinal;
+  FExecTickIni: Cardinal;
+  FTotalTickIni: Cardinal;
 
-  // Parâmetros do sistema
-
-procedure SetModoDebug(pAtivo: Boolean);
-begin
-  FModoDebug := pAtivo;
-end;
-
-function ModoDebugAtivo: Boolean;
-begin
-  Result := FModoDebug;
-end;
-
-procedure MostrarLogTextoEmModoDebug(pTexto: String);
-begin
-  if FModoDebug then
-    MostrarLogTexto(pTexto, '[DEBUG]');
-end;
+  // Parâmetros do sistema (do JSON do caso de teste)
+  FParametrosSistemaJson: String;
 
 { ================================================================
   MAIN / INSTRUÇÕES
@@ -53,7 +37,7 @@ begin
   lInstrucoes := 'TDD_STARTED - Casca única / Test Runner para testes TDD.'                 + #13 + #13 +
     'Uses mínimo: P39_TDD_CASOS_DE_TESTE (herda CONSTANTES, ODBC, JSON, CACHE, PARAMETRO)'  + #13 + #13 +
     '=== FLUXO PADRÃO ==='                                                                  + #13 +
-    '  1. Setup_CasoTeste(Modulo, Area, CasoTesteDescricao)'                                  + #13 +
+    '  1. Setup_CasoTeste(Modulo, Area, CasoTesteId)'                                       + #13 +
     '     + Inicializa estrutura, carrega caso, aplica parâmetros do JSON, cronômetros'     + #13 +
     '  2. ExecutarCasoTeste(CasoTesteJson)'                                                 + #13 +
     '     + Implementar lógica específica do teste'                                         + #13 +
@@ -64,12 +48,12 @@ begin
     '=== PARÂMETROS DO SISTEMA ==='                                                         + #13 +
     '  JSON do caso de teste pode conter objeto "parametros":'                              + #13 +
     '  { "parametros": { "CHAVE_PARAM": "VALOR", "OUTRA_CHAVE": 123 } }'                    + #13 +
-    '  Sao aplicados automaticamente via VerificarParametros no Setup.'                     + #13 + #13 +
+    '  São aplicados automaticamente via SetParametroSistema no Setup.'                     + #13 + #13 +
     '=== MÉTRICAS ==='                                                                      + #13 +
     '  Persistidas automaticamente no banco dedicado (METRICAS_EXECUCAO_TESTE):'            + #13 +
     '  - TEMPO_SETUP_MS, TEMPO_EXECUCAO_MS, TEMPO_TOTAL_MS'                                 + #13 +
     '  - CASO_TESTE_ID, VERSAO_SISTEMA, DATA_EXECUCAO';
-  MostrarLogTexto(lInstrucoes, 'Instrucoes TDD_STARTED (Unit 41)');
+  MostrarLogTexto(lInstrucoes, 'Instruções TDD_STARTED (Unit 40)');
 end;
 
 { ================================================================
@@ -77,17 +61,34 @@ end;
   ================================================================ }
 
 procedure AplicarParametrosDoCasoTeste;
+var
+  lJsonObj: TJSONObject;
+  lChave, lValor: String;
+  i: Integer;
 begin
-  if (Trim(FCasoTesteAtualJson) = '') or (FCasoTesteAtualJson = '{}') then
+  if (Trim(FParametrosSistemaJson) = '') or (FParametrosSistemaJson = '{}') then
     Exit;
 
-  MostrarLogTextoEmModoDebug('Aplicando parametros do sistema do caso de teste...');
+  MostrarLogTextoEmModoDebug('Aplicando parâmetros do sistema do caso de teste...');
 
   try
-    VerificarParametros(FCasoTesteAtualJson);
+    lJsonObj := TJSONObject.ParseJSONValue(FParametrosSistemaJson) as TJSONObject;
+    if not Assigned(lJsonObj) then
+      Exit;
+
+    for i := 0 to lJsonObj.Count - 1 do
+    begin
+      lChave := lJsonObj.Get(i).JsonString.Value;
+      lValor := lJsonObj.Get(lChave).ToJSON;
+      if (lValor.StartsWith('"')) and (lValor.EndsWith('"')) then
+        lValor := Copy(lValor, 2, Length(lValor) - 2);
+
+      SetParametroSistema(lChave, lValor);
+      MostrarLogTextoEmModoDebug('  Parâmetro [' + lChave + '] = ' + lValor);
+    end;
   except
     on E: Exception do
-      MostrarLogTextoEmModoDebug('AVISO: Erro ao aplicar parametros: ' + E.Message);
+      MostrarLogTextoEmModoDebug('AVISO: Erro ao aplicar parâmetros: ' + E.Message);
   end;
 end;
 
@@ -95,22 +96,24 @@ end;
   SETUP DO CASO DE TESTE
   ================================================================ }
 
-function Setup_CasoTeste(const Modulo, Area: String; const CasoTesteDesc: String): Boolean;
+function Setup_CasoTeste(const Modulo, Area: String; const CasoTesteId: Integer): Boolean;
 var
   lCasoTesteJson: String;
-  lEncontrou: Boolean;
+  lResultadoEsperadoJson: String;
+  lCamposDisponiveisJson: String;
+  lParametrosJson: String;
 begin
   Result := False;
-
+  
   CallBack_AbreTela(ClassOwner);
   try
     CallBack_Mensagem(ClassOwner, '[SETUP TDD_STARTED] Inicializando....');
     MostrarLogTextoEmModoDebug('=== SETUP CASO DE TESTE INICIADO ===');
-    MostrarLogTextoEmModoDebug('Modulo: ' + Modulo + ', Area: ' + Area + ', CasoTeste: ' + CasoTesteDesc);
+    MostrarLogTextoEmModoDebug('Módulo: ' + Modulo + ', Área: ' + Area + ', CasoTesteId: ' + IntToStr(CasoTesteId));
 
-    FTotalInicio := Now;
+    FTotalTickIni := GetTickCount;
 
-    FSetupInicio := Now;
+    FSetupTickIni := GetTickCount;
 
     try
       Setup_Inicializar_CasosTeste;
@@ -118,32 +121,33 @@ begin
 
       SetModulo(Modulo);
       SetArea(Area);
-      MostrarLogTextoEmModoDebug('Modulo/Area configurados');
+      MostrarLogTextoEmModoDebug('Módulo/Área configurados');
 
       CarregarCasosTeste;
       MostrarLogTextoEmModoDebug('Casos de teste carregados');
 
-      lCasoTesteJson := '';
-      lEncontrou := False;
-      CDSCasosTestes.First;
-      while not CDSCasosTesteS.Eof do
-      begin
-        if UpperCase(Trim(CDSCasosTestes.FieldByName('DESCRICAO').AsString)) = UpperCase(Trim(CasoTesteDesc)) then
+      lCasoTesteJson := GetCasoTestePorId(CasoTesteId);
+      if lCasoTesteJson = '' then
+        raise Exception.Create(MensagemPersonalizada + 'Caso de teste ID ' + IntToStr(CasoTesteId) + ' não encontrado.');
+
+      lResultadoEsperadoJson := GetResultadoEsperadoPorId(CasoTesteId);
+      lCamposDisponiveisJson := GetCamposDisponiveisPorId(CasoTesteId);
+
+      // Extrai parâmetros do JSON do caso de teste
+      lParametrosJson := '';
+      try
+        var lJson := TJSONObject.ParseJSONValue(lCasoTesteJson) as TJSONObject;
+        if Assigned(lJson) then
         begin
-          lCasoTesteJson := CDSCasosTestes.FieldByName('CASOTESTE').AsString;
-          FCasoTesteAtualId := CDSCasosTestes.FieldByName('ID').AsInteger;
-          lEncontrou := True;
-          Break;
+          if lJson.TryGetValue('parametros', lParametrosJson) then
+            FParametrosSistemaJson := lParametrosJson;
         end;
-        CDSCasosTestes.Next;
-      end;
+      except end;
 
-      if not lEncontrou then
-        raise Exception.Create(MensagemPersonalizada + 'Caso de teste "' + CasoTesteDesc + '" nao encontrado.');
-
+      FCasoTesteAtualId := CasoTesteId;
       FCasoTesteAtualJson := lCasoTesteJson;
 
-      MostrarLogTextoEmModoDebug('Caso de teste encontrado: ' + CasoTesteDesc + ' (ID ' + IntToStr(FCasoTesteAtualId) + ')');
+      MostrarLogTextoEmModoDebug('Caso de teste carregado: ' + IntToStr(CasoTesteId));
       MostrarLogTextoEmModoDebug('JSON do caso: ' + Copy(lCasoTesteJson, 1, 200) + '...');
 
       CarregarConfiguracoes;
@@ -152,11 +156,11 @@ begin
       // APLICA PARÂMETROS DO SISTEMA ANTES DE EXECUTAR
       AplicarParametrosDoCasoTeste;
 
-      FSetupTimeMs := Round((Now - FSetupInicio) * 86400000);
+      FSetupTimeMs := GetTickCount - FSetupTickIni;
       MostrarLogTextoEmModoDebug('Setup concluído em ' + IntToStr(FSetupTimeMs) + ' ms');
       Result := True;
 
-      FExecInicio := Now;
+      FExecTickIni := GetTickCount;
 
     except
       on E: Exception do
@@ -205,8 +209,8 @@ begin
   MostrarLogTextoEmModoDebug('=== TEARDOWN CASO DE TESTE ===');
 
   try
-    FExecTimeMs := Round((Now - FExecInicio) * 86400000);
-    FTotalTimeMs := Round((Now - FTotalInicio) * 86400000);
+    FExecTimeMs := GetTickCount - FExecTickIni;
+    FTotalTimeMs := GetTickCount - FTotalTickIni;
 
     MostrarLogTextoEmModoDebug('Tempo Setup: ' + IntToStr(FSetupTimeMs) + ' ms');
     MostrarLogTextoEmModoDebug('Tempo Execução: ' + IntToStr(FExecTimeMs) + ' ms');
@@ -226,7 +230,7 @@ begin
   end;
 end;
 
-procedure PersistirMetricas(const CasoTesteId: Integer; const SetupMs, ExecMs, TotalMs: Integer);
+procedure PersistirMetricas(const CasoTesteId: Integer; const SetupMs, ExecMs, TotalMs: Cardinal);
 var
   lSql: String;
   lVersao: TVersao;
@@ -238,13 +242,19 @@ begin
     lVersao := GetVersao;
     lVersaoSistema := Format('%d.%d', [lVersao.Codigo, lVersao.Numero]);
 
-    lSql := 'INSERT INTO METRICAS_EXECUCAO_TESTE (' +
-      'CASO_TESTE_ID, VERSAO_SISTEMA, TEMPO_SETUP_MS, TEMPO_EXECUCAO_MS, TEMPO_TOTAL_MS, DATA_EXECUCAO' +
-      ') VALUES (' + IntToStr(CasoTesteId) + ', ' + QuotedStr(lVersaoSistema) + ', ' +
-      IntToStr(SetupMs) + ', ' + IntToStr(ExecMs) + ', ' + IntToStr(TotalMs) +
-      ', CURRENT_TIMESTAMP)';
+    lSql := 'INSERT INTO METRICAS_EXECUCAO_TESTE (' + #13 +
+      '  CASO_TESTE_ID, VERSAO_SISTEMA, TEMPO_SETUP_MS, TEMPO_EXECUCAO_MS, TEMPO_TOTAL_MS, DATA_EXECUCAO' + #13 +
+      ') VALUES (' + #13 +
+      '  :pCasoTesteId, :pVersao, :pSetupMs, :pExecMs, :pTotalMs, CURRENT_TIMESTAMP' + #13 +
+      ');';
 
-    TDDCommandODBC(lSql);
+    TDDCommandODBC(lSql, [
+      CasoTesteId,
+      lVersaoSistema,
+      SetupMs,
+      ExecMs,
+      TotalMs
+    ]);
 
     MostrarLogTextoEmModoDebug('Métricas persistidas com sucesso');
 
