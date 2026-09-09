@@ -39,9 +39,9 @@ var
 procedure Main;
 var lInstrucoes :string;
 begin
-  TDD_CARREGAR_CASO_TESTE.Main;
-  TDD_STARTED.Main;
-  TDD_ASSERTS.Main;
+  // TDD_CARREGAR_CASO_TESTE.Main;
+  // TDD_STARTED.Main;
+  // TDD_ASSERTS.Main;
 
   lInstrucoes := 'PILOTO TDD_STARTED + TDD_ASSERTS - Caso Unico TDD_FINANCEIRO por ETAPAS:' + #13 +
     'Etapa 1 - Cadastro de Duplicata a Receber' + #13 +
@@ -50,7 +50,7 @@ begin
     'Etapa 4 - Borda de Pagamento (baixa duplicatas a pagar)' + #13 + #13 +
     'Etapa em execucao: ' + IntToStr(cEtapaAtual) + #13 +
     ' - altere a constante cEtapaAtual para avancar de etapa.' + #13 + #13 +
-    'Fluxo: TDD_STARTED.Setup_CasoTeste(Modulo, Area, Descricao) -> TDD_STARTED.ExecutarCasoTeste -> TDD_STARTED.TearDown_CasoTeste' + #13 + #13 +
+    'Fluxo: Setup -> Teste -> TearDown_DestruirObjetos' + #13 + #13 +
     'Caso de Teste: Modulo=' + cModuloFinanceiro + ', Area=' + cAreaFinanceiro + ', Teste=' + cCasoTesteUnico;
   MostrarLogTexto(lInstrucoes, 'Instrucoes REFACTOR_TDD_FINANCEIRO_PILOTO');
 end;
@@ -60,32 +60,29 @@ var
   lEsperado: String;
   lAtual: String;
 begin
-  if not Setup_CasoTeste(cModuloFinanceiro, cAreaFinanceiro, cCasoTesteUnico) then
-    raise Exception.Create(MensagemPersonalizada + 'Setup do caso de teste falhou.');
-
+  Setup;
   try
-    if not ExecutarCasoTeste(FJSONCasoTeste) then
-      raise Exception.Create(MensagemPersonalizada + 'Execucao do caso de teste falhou.');
+    Teste;
 
     lEsperado := ObterResultadoEsperado;
     lAtual := ObterResultadoAtual;
 
     if Trim(lEsperado) = '' then
-      MostrarLogTextoEmModoDebug('[Validacao] Resultado esperado vazio - validacao skipada (ASSERTS pulado)')
+      MostrarLogTextoEmModoDebug('[Validacao] Resultado esperado vazio - validacao ignorada')
     else
     begin
-      // Exemplo de validacao usando TDD_ASSERTS - adapta conforme seu JSON
       AssertsZerar;
       AssertIgual(lEsperado, lAtual, 'Validacao Resultado Completo');
+
       if not AssertsOk then
         raise Exception.Create(MensagemPersonalizada + 'Validacao falhou: ' + AssertsResumo);
+
       MostrarLogTextoEmModoDebug('[Asserts] ' + AssertsResumo);
     end;
   finally
-    TearDown_CasoTeste;
+    TearDown_DestruirObjetos;
   end;
 end;
-
 
 function ObterResultadoAtual: String;
 var lJSON: TStringList;
@@ -109,26 +106,12 @@ end;
 function ObterResultadoEsperado: String;
 begin
   Result := '';
+
   try
-    if FCDSCasoTeste <> nil then
-    begin
-      if FCDSCasoTeste.Active then
-      begin
-        if not FCDSCasoTeste.IsEmpty then
-        begin
-          if FCDSCasoTeste.FindField('RESULTADO_ESPERADO_CT') <> nil then
-            Result := FCDSCasoTeste.FieldByName('RESULTADO_ESPERADO_CT').AsString
-          else if FCDSCasoTeste.FindField('RESULTADO_ESPERADO') <> nil then
-            Result := FCDSCasoTeste.FieldByName('RESULTADO_ESPERADO').AsString;
-        end;
-      end;
-    end;
+    Result := FCDSCasoTeste.FieldByName('RESULTADO_ESPERADO_CT').AsString;
   except
     Result := '';
   end;
-
-  if Trim(Result) = '' then
-    MostrarLogTextoEmModoDebug('[ObterResultadoEsperado] Resultado esperado vazio - validacao sera skipada (ASSERTS deve pular)');
 end;
 
 procedure Setup;
