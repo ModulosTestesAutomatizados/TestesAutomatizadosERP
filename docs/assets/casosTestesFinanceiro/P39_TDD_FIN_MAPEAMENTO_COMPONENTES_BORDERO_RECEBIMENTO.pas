@@ -13,20 +13,20 @@ var
   edtCliente:         TJvDBCalcEdit;
   
   PageControl1:           TPageControl;
-  CDSCadastroRecebimento: TClientDataSet;
-  CDSReceber:             TClientDataSet;
-  CDSProrrogacoes:        TClientDataSet;
-  CDSPagar:               TClientDataSet;
+  CDSCadastroRecebimento:      TClientDataSet;
+  CDSReceberRecebimento:       TClientDataSet;
+  CDSProrrogacoesRecebimento:  TClientDataSet;
+  CDSPagarRecebimento:         TClientDataSet;
   CDSOrdemPagto:          TClientDataSet;
-  CDSGrupoResultado:      TClientDataSet;
-  CDSComplementos:        TClientDataSet;
+  CDSGrupoResultadoRecebimento: TClientDataSet;
+  CDSComplementosRecebimento:   TClientDataSet;
   CDSChequeSaida:         TClientDataSet;
   CDSCheques:             TClientDataSet;
   CDSMovCartao:           TClientDataSet;
   
   {$Region 'Principal'}
     cbSubTipo:          TJvDBComboBox; 
-    cbQualificacao:     TJvDBComboBox;
+    cbQualificacaoRecebimento: TJvDBComboBox;
     cbCalcJuroDesconto: TJvDBComboBox;
     edtDiasDescarga:    TJvDBCalcEdit;
     edtNovoBanco:       TJvDBCalcEdit;
@@ -112,12 +112,12 @@ begin
   try
     FCadBorderoAcerto.Show;
     CDSCadastroRecebimento  := DMCadBorderoAcerto.FindComponent('CDSCadastro');
-    CDSReceber              := DMCadBorderoAcerto.FindComponent('CDSReceber');
-    CDSProrrogacoes         := DMCadBorderoAcerto.FindComponent('CDSProrrogacoes');
-    CDSPagar                := DMCadBorderoAcerto.FindComponent('CDSPagar');
+    CDSReceberRecebimento       := DMCadBorderoAcerto.FindComponent('CDSReceber');
+    CDSProrrogacoesRecebimento  := DMCadBorderoAcerto.FindComponent('CDSProrrogacoes');
+    CDSPagarRecebimento          := DMCadBorderoAcerto.FindComponent('CDSPagar');
     CDSOrdemPagto           := DMCadBorderoAcerto.FindComponent('CDSOrdemPagto');
-    CDSGrupoResultado       := DMCadBorderoAcerto.FindComponent('CDSGrupoResultado');
-    CDSComplementos         := DMCadBorderoAcerto.FindComponent('CDSComplementos');
+    CDSGrupoResultadoRecebimento := DMCadBorderoAcerto.FindComponent('CDSGrupoResultado');
+    CDSComplementosRecebimento   := DMCadBorderoAcerto.FindComponent('CDSComplementos');
     CDSChequeSaida          := DMCadBorderoAcerto.FindComponent('CDSChequeSaida'); // DEVOLVIDO
     CDSCheques              := DMCadBorderoAcerto.FindComponent('CDSCheques');
     CDSMovCartao            := DMCadBorderoAcerto.FindComponent('CDSMovCartao');
@@ -247,7 +247,7 @@ begin
   EditCodigo         := FCadBorderoAcerto.FindComponent('EditCodigo');
   PageControl1       := FCadBorderoAcerto.FindComponent('PageControl1');
   cbSubTipo          := FCadBorderoAcerto.FindComponent('CBSubTipo');
-  cbQualificacao     := FCadBorderoAcerto.FindComponent('CBQualificacao');
+  cbQualificacaoRecebimento := FCadBorderoAcerto.FindComponent('CBQualificacao');
   edtCliente         := FCadBorderoAcerto.FindComponent('EditCliente');
   DataAcerto         := FCadBorderoAcerto.FindComponent('JvDBDateEdit2');
   edtDiasDescarga    := FCadBorderoAcerto.FindComponent('JvDBCalcEdit4');

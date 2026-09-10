@@ -21,7 +21,7 @@ var
   PageControl2: TPageControl;
   
   cbTipoBordero: TJvDBComboBox;
-  cbQualificacao: TJvDBComboBox;
+  cbQualificacaoPagamento: TJvDBComboBox;
   cbCalculoJuros: TJvDBComboBox;
 
   ceCodBordero: TJvDBCalcEdit;
@@ -56,15 +56,15 @@ var
   dtEditDupReceberEntreFim: TJvDateEdit;
 
   // CDSs Vinculados ao Formulario borderô
-  CDSPagar,
-  CDSProrrogacao,
+  CDSPagarPagamento,
+  CDSProrrogacaoPagamento,
   CDSChqDevolvido,
   CDSChqTerceiro,
   CDSChqProprio,
-  CDSComplemento,
-  CDSReceber,
+  CDSComplementoPagamento,
+  CDSReceberPagamento,
   CDSAdiantamento,
-  CDSGrupoResultado,
+  CDSGrupoResultadoPagamento,
   CDSCadastroPagamento: TClientDataSet;
   
   // CDS Temporarios para obter as informações do borderô
@@ -144,7 +144,7 @@ begin
   PageControl2 := fBorderoPagamento.FindComponent('PageControl2');
                 
   cbTipoBordero  := fBorderoPagamento.FindComponent('CBSubTipo');
-  cbQualificacao := fBorderoPagamento.FindComponent('CBQualificacao');
+  cbQualificacaoPagamento := fBorderoPagamento.FindComponent('CBQualificacao');
   cbCalculoJuros := fBorderoPagamento.FindComponent('JvDBComboBox2');
   
   ceConta      := fBorderoPagamento.FindComponent('JvDBCalcEdit1');        
@@ -206,15 +206,15 @@ var
 begin
   DMBordero := DMCriadoPeloNome('DMCadBorderoPagamento');
 
-  CDSPagar             := DMBordero.FindComponent('CDSPagar');
-  CDSProrrogacao       := DMBordero.FindComponent('CDSProrrogacoes');
+  CDSPagarPagamento          := DMBordero.FindComponent('CDSPagar');
+  CDSProrrogacaoPagamento    := DMBordero.FindComponent('CDSProrrogacoes');
   CDSChqDevolvido      := DMBordero.FindComponent('CDSChequeDev');
   CDSChqTerceiro       := DMBordero.FindComponent('CDSChequeTer');
   CDSChqProprio        := DMBordero.FindComponent('CDSChequeEmit');
-  CDSComplemento       := DMBordero.FindComponent('CDSComplementos');
-  CDSReceber           := DMBordero.FindComponent('CDSReceber');
+  CDSComplementoPagamento    := DMBordero.FindComponent('CDSComplementos');
+  CDSReceberPagamento         := DMBordero.FindComponent('CDSReceber');
   CDSAdiantamento      := DMBordero.FindComponent('CDSAdiantamentos');
-  CDSGrupoResultado    := DMBordero.FindComponent('CDSGrupoResultado');
+  CDSGrupoResultadoPagamento := DMBordero.FindComponent('CDSGrupoResultado');
   CDSCadastroPagamento := DMBordero.FindComponent('CDSCadastro');
 end;
 
