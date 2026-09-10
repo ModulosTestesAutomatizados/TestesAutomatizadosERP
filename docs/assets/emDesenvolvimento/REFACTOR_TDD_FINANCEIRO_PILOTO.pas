@@ -46,9 +46,11 @@ begin
     'Fluxo: Setup -> Teste -> TearDown_DestruirObjetos' + #13 + #13 +
     'Caso de Teste: Modulo=' + cModuloFinanceiro + ', Area=' + cAreaFinanceiro + ', Teste=' + cCasoTesteUnico;
   MostrarLogTexto(lInstrucoes, 'Instrucoes REFACTOR_TDD_FINANCEIRO_PILOTO');
+
+  ExecutarFluxoCompletoFinanceiro(ValidarResultadoDaExecucao(SDHBVAIPSDU))
 end;
 
-procedure ExecutarFluxoCompletoFinanceiro;
+procedure ExecutarFluxoCompletoFinanceiro(() => {});
 var
   lEsperado: String;
   lAtual: String;

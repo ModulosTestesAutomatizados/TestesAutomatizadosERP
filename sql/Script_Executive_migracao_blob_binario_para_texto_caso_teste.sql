@@ -14,24 +14,24 @@ ALTER TABLE CASO_TESTE ADD TMP_RESULTADO_ESPERADO_CT BLOB SUB_TYPE 1 SEGMENT SIZ
 COMMIT WORK;
 
 /* =================================================================================
-   BLOCO DE SERVICO 2 - Fase 2 + 3 + 4 (atÙmicas: um ˙nico COMMIT WORK no fim)
+   BLOCO DE SERVICO 2 - Fase 2 + 3 + 4 (at√¥micas: um √∫nico COMMIT WORK no fim)
 ================================================================================= */
 
-/* Fase 2 - PersistÍncia do valor das colunas blob bin·rio nas tempor·rias */
+/* Fase 2 - Persist√äncia do valor das colunas blob bin√Årio nas tempor√°rias */
 UPDATE CASO_TESTE SET
   TMP_CASO_TESTE_CT         = CASO_TESTE_CT,
   TMP_CAMPOS_DISPONIVEIS_CT = CAMPOS_DISPONIVEIS_CT,
   TMP_RESULTADO_ESPERADO_CT = RESULTADO_ESPERADO_CT;
 
-/* Fase 3 - Drop das colunas blob bin·rio originais */
+/* Fase 3 - Drop das colunas blob bin√°rio originais */
 ALTER TABLE CASO_TESTE DROP CASO_TESTE_CT;
 
 ALTER TABLE CASO_TESTE DROP CAMPOS_DISPONIVEIS_CT;
 
 ALTER TABLE CASO_TESTE DROP RESULTADO_ESPERADO_CT;
 
-/* Fase 4 - Rename das colunas tempor·rias para os nomes originais
-            (os valores persistidos s„o mantidos e o tipo fica correto) */
+/* Fase 4 - Rename das colunas tempor√°rias para os nomes originais
+            (os valores persistidos s√£o mantidos e o tipo fica correto) */
 ALTER TABLE CASO_TESTE ALTER COLUMN TMP_CASO_TESTE_CT TO CASO_TESTE_CT;
 
 ALTER TABLE CASO_TESTE ALTER COLUMN TMP_CAMPOS_DISPONIVEIS_CT TO CAMPOS_DISPONIVEIS_CT;
@@ -41,10 +41,8 @@ ALTER TABLE CASO_TESTE ALTER COLUMN TMP_RESULTADO_ESPERADO_CT TO RESULTADO_ESPER
 COMMIT WORK;
 
 /* =================================================================================
-   FINAL - Coluna JSON_CASO_TESTE removida agora que a coluna original est· correta
+   FINAL - Coluna JSON_CASO_TESTE removida agora que a coluna original est√° correta
 ================================================================================= */
 ALTER TABLE CASO_TESTE DROP JSON_CASO_TESTE;
 
 COMMIT WORK;
-
-
