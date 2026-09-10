@@ -13,6 +13,8 @@ Regras do processo:
 2. Compara cada unit com o arquivo `.pas` local e grava **somente** se estiver
    diferente ou ausente (nunca sobrescreve conteúdo idêntico).
 3. Ao final, exibe relatório com novos / atualizados / inalterados / falhas.
+4. Após a sincronização, **chama automaticamente a skill `mermaid-testes-automatizados`**
+   para regenerar o diagrama Mermaid das units em `D:\TestesAutomatizados\ERP\Mermaid`.
 
 ---
 
@@ -20,7 +22,7 @@ Regras do processo:
 
 | Item | Valor |
 | ---- | ----- |
-| diretório | *(em branco — solicitar ao usuário na primeira chamada)* |
+| diretório | `D:\TestesAutomatizados\ERP\SourceTDD` |
 
 **Regras obrigatórias para o diretório:**
 
@@ -164,3 +166,14 @@ Write-Output ("RESUMO: " + @($lista.data).Count + " unidades na API | " + $novos
 - Units locais `.pas` que não existirem mais na API devem ser apenas **reportadas**
   (não excluídas), salvo instrução contrária do usuário.
 - Este fluxo é idempotente: rodar novamente não gera alterações se nada mudou na API.
+
+---
+
+## 6. Atualização do Mermaid
+
+Após a sincronização bem-sucedida, **carregar e executar** a skill
+`mermaid-testes-automatizados` para regenerar o diagrama das units:
+
+- Diretório das units a analisar: `D:\TestesAutomatizados\ERP\SourceTDD`
+- Diretório de saída dos diagramas: `D:\TestesAutomatizados\ERP\Mermaid`
+- Os diagramas usam como fonte a última versão baixada das units.
