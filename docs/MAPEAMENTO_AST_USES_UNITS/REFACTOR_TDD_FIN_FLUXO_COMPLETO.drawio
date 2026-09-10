@@ -1,0 +1,138 @@
+<mxfile>
+  <diagram name="Dependências (uses)">
+    <mxGraphModel>
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="lane_orq" value="Orquestrador" style="swimlane;horizontal=0;startSize=30;fillColor=#2e7d32;fontColor=#fff;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="900" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="refactor" value="REFACTOR_TDD_FIN_FLUXO_COMPLETO&#xa;(grupo 1367 - código 38)" style="rounded=1;whiteSpace=wrap;fillColor=#2e7d32;fontColor=#fff;fontStyle=1;" vertex="1" parent="lane_orq">
+          <mxGeometry x="20" y="40" width="250" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="lane_infra" value="Infra de Caso de Teste" style="swimlane;horizontal=0;startSize=30;fillColor=#e8f4f8;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="0" y="120" width="900" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="carregar" value="TDD_CARREGAR_CASO_TESTE&#xa;(grupo 1371)" style="rounded=1;whiteSpace=wrap;fillColor=#fff;" vertex="1" parent="lane_infra">
+          <mxGeometry x="20" y="40" width="180" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="registrar" value="P39_TDD_REGISTRAR_CASO_TESTE&#xa;(global/Tek Store)" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_infra">
+          <mxGeometry x="220" y="40" width="200" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="odbc" value="P39_TDD_ODBC&#xa;TDD_ODBC (grupo 1371)" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_infra">
+          <mxGeometry x="440" y="40" width="180" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="constantes" value="cConexaoODBCPadrao&#xa;(P39_TDD_CONSTANTES)" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_infra">
+          <mxGeometry x="640" y="40" width="180" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="lane_map" value="Mapeamentos de Tela" style="swimlane;horizontal=0;startSize=30;fillColor=#fff0e6;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="0" y="240" width="900" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="map_receb" value="TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO&#xa;(grupo 1367)" style="rounded=1;whiteSpace=wrap;fillColor=#fce4ec;" vertex="1" parent="lane_map">
+          <mxGeometry x="20" y="40" width="350" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="map_pag" value="P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO&#xa;(global/Tek Store)" style="rounded=1;whiteSpace=wrap;fillColor=#fce4ec;" vertex="1" parent="lane_map">
+          <mxGeometry x="400" y="40" width="380" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="lane_json" value="Sincronização do Cenário" style="swimlane;horizontal=0;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="0" y="360" width="900" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="funcoes_json" value="P39_TDD_FUNCOES_JSON&#xa;(global/Tek Store)" style="rounded=1;whiteSpace=wrap;fillColor=#f5f5f5;" vertex="1" parent="lane_json">
+          <mxGeometry x="20" y="40" width="200" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="lane_forms" value="Forms do ERP" style="swimlane;horizontal=0;startSize=30;fillColor=#f9f9f9;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="0" y="480" width="900" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="fcad_receb" value="FCadBorderoAcerto / DMCadBorderoAcerto&#xa;(tela nativa do ERP)" style="rounded=1;whiteSpace=wrap;fillColor=#f9f9f9;strokeColor=#999999;fontColor=#666;" vertex="1" parent="lane_forms">
+          <mxGeometry x="20" y="40" width="250" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="fcad_pag" value="FCadBorderoPagamento / DMCadBorderoPagamento&#xa;(tela nativa do ERP)" style="rounded=1;whiteSpace=wrap;fillColor=#f9f9f9;strokeColor=#999999;fontColor=#666;" vertex="1" parent="lane_forms">
+          <mxGeometry x="300" y="40" width="270" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="fcad_dup" value="FCadReceber / FCadPagar + DMCadDuplicata&#xa;(tela nativa do ERP)" style="rounded=1;whiteSpace=wrap;fillColor=#f9f9f9;strokeColor=#999999;fontColor=#666;" vertex="1" parent="lane_forms">
+          <mxGeometry x="600" y="40" width="270" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" edge="1" source="refactor" target="carregar" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" edge="1" source="refactor" target="map_receb" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" edge="1" source="refactor" target="map_pag" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" edge="1" source="refactor" target="funcoes_json" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" edge="1" source="carregar" target="registrar" parent="lane_infra" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" edge="1" source="registrar" target="odbc" parent="lane_infra" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7" edge="1" source="odbc" target="constantes" parent="lane_infra" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e8" edge="1" source="map_receb" target="fcad_receb" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=1;dashed=1;strokeColor=#999999;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e9" edge="1" source="map_pag" target="fcad_pag" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=1;dashed=1;strokeColor=#999999;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e10" edge="1" source="refactor" target="fcad_dup" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=1;dashed=1;strokeColor=#999999;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Fluxo de Execução (Sequência)">
+    <mxGraphModel>
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="usr" value="Usuário/Agenda" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=0;collapsible=0;recursiveResize=0;size=40;" vertex="1" parent="1">
+          <mxGeometry x="80" y="40" width="100" height="500" as="geometry"/>
+        </mxCell>
+        <mxCell id="orq" value="REFACTOR_TDD_FIN_FLUXO_COMPLETO" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=0;collapsible=0;recursiveResize=0;size=40;fillColor=#2e7d32;fontColor=#fff;" vertex="1" parent="1">
+          <mxGeometry x="230" y="40" width="140" height="500" as="geometry"/>
+        </mxCell>
+        <mxCell id="ct" value="CASO_TESTE (banco dedicado)" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=0;collapsible=0;recursiveResize=0;size=40;fillColor=#e8f4f8;" vertex="1" parent="1">
+          <mxGeometry x="420" y="40" width="160" height="500" as="geometry"/>
+        </mxCell>
+        <mxCell id="cfg" value="FINANCEIRO_CONFIGURACAO (banco dedicado)" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=0;collapsible=0;recursiveResize=0;size=40;fillColor=#fff0e6;" vertex="1" parent="1">
+          <mxGeometry x="630" y="40" width="200" height="500" as="geometry"/>
+        </mxCell>
+        <mxCell id="m1" value="ExecutarFluxoCompletoFinanceiro" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="usr" target="orq">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="m2" value="Setup (CarregarCasoTeste + config financeira)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="orq" target="orq">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="m3" value="CarregarCasoTeste('FINANCEIRO','FINANCEIRO','TDD_FINANCEIRO')" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="orq" target="ct">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="m4" value="JSON_CASO_TESTE (JSON genérico plano)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" edge="1" parent="1" source="ct" target="orq">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="m5" value="TDDReaderODBCP(SELECT * FROM FINANCEIRO_CONFIGURACAO)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="orq" target="cfg">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="m6" value="1) _IncluirDuplicata(Receber)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="orq" target="orq">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="m7" value="2) _IncluirDuplicata(Pagar)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="orq" target="orq">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="m8" value="3) _IncluirBorderoRecebimento (marca e baixa as receber)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="orq" target="orq">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="m9" value="4) _IncluirBorderoPagamento (marca e baixa as pagar)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="orq" target="orq">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="m10" value="TearDown_DestruirObjetos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="orq" target="orq">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

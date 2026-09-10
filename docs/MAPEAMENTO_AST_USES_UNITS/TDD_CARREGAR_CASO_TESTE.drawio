@@ -1,0 +1,37 @@
+<mxfile>
+  <diagram>
+    <mxGraphModel>
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="lane_local" value="Local (emDesenvolvimento)" style="swimlane;horizontal=0;startSize=30;fillColor=#2e7d32;fontColor=#fff;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="800" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="carregar" value="TDD_CARREGAR_CASO_TESTE" style="rounded=1;whiteSpace=wrap;fillColor=#2e7d32;fontColor=#fff;fontStyle=1;" vertex="1" parent="lane_local">
+          <mxGeometry x="20" y="40" width="200" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="lane_remoto" value="Remoto (P39_*)" style="swimlane;horizontal=0;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="0" y="120" width="800" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="registrar" value="P39_TDD_REGISTRAR_CASO_TESTE" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_remoto">
+          <mxGeometry x="20" y="40" width="200" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="odbc" value="P39_TDD_ODBC" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_remoto">
+          <mxGeometry x="240" y="40" width="150" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="constantes" value="P39_TDD_CONSTANTES" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_remoto">
+          <mxGeometry x="410" y="40" width="160" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" edge="1" source="carregar" target="registrar" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" edge="1" source="registrar" target="odbc" parent="lane_remoto" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" edge="1" source="odbc" target="constantes" parent="lane_remoto" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
