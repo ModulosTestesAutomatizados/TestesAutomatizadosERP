@@ -1,384 +1,255 @@
-﻿uses P39_GERAR_FAT_CONFIG_TESTE, P39_FAT_DADOS_TESTE;
+﻿//uses
+//  MOVIMENTO_CAIXA;  
 
-const  
-  FCDSCadastro = 'CDSCadastro';
-  FCDSItem = 'CDSItem';
-  FCDSFiscal = 'CDSFiscal';
-  FRGradeamento = 'FRGradeamento';  
-  FGradeItens = 'grdItem';
-
-  FBotaoIncluir = 'BotaoIncluir';
-  FBotaoGravar = 'BotaoGravar';
-  
-  idCB = 'GERA_DOCUMENTOS_FATURA';
-  cMaxDetalhamento = 2;
+const 
+  cFCadBorderoAcerto  = 'FCadBorderoAcerto';
+  cDMCadBorderoAcerto = 'DMCadBorderoAcerto';
 
 var
-  FItemMenu, FCadastro,
-   FDM: string;
-
-  FTagCli    : Integer;
-  FTagProduto: Integer;
-  FTransacao : Integer;
-
-  FCDSClientes: TClientDataSet;
-  FCDSProdutos: TClientDataSet;
-
-  grdItem : TComponent;
-  Frame          : TComponent;
-  FormCadastro   : TForm;
-  DM             : TComponent;
-  BotaoIncluir   : TComponent;
-  BotaoGravar    : TComponent;  
+  FCadBorderoAcerto:  TForm;
+  DMCadBorderoAcerto: TDataModule;
   
-  CDSCad, CDSItem,
-  CDSFiscal: TClientDataSet;
-
-procedure Main;
-begin
-  if ExecutandoNoServidor then
-    raise exception.Create(MensagemPersonalizada + #13 + 'Processamento nÃ£o disponÃ­vel para execuÃ§Ã£o pelo servidor!');
-
-  if CodigoComoClienteTekSystem <> 1000 then
-    raise exception.Create(MensagemPersonalizada + #13 + 'Processamento exclusivo para uso de testes dentro da TekSystem!');
+  EditCodigo:         TJvCalcEdit;
+  edtCliente:         TJvDBCalcEdit;
   
-  P39_GERAR_FAT_CONFIG_TESTE.Main;
-
-  CarregarUnitDinamicamente('FAT_CONFIG_TESTE');
-    
-  if not ConfirmarFiltros then
-     Exit;
-     
-  CallBack_AbreTela(idCB);
-  try
-    CallBack_Mensagem(idCB, 'Pedido de Venda');
-    if Filtro(1) = QuotedStr('S') then
-      IncluiPedidoVenda;
-    
-    CallBack_Mensagem(idCB, 'Pedido de Venda para NFCe');   
-    if Filtro(2) = QuotedStr('S') then
-      IncluiPedidoVendaNFCe;
-      
-    CallBack_Mensagem(idCB, 'AssistÃªncia Tecnica');   
-    if Filtro(3) = QuotedStr('S') then
-      IncluiAssistencia;
-    
-    CallBack_Mensagem(idCB, 'Pedido de ConsignaÃ§Ã£o');   
-    if Filtro(4) = QuotedStr('S') then
-      IncluiConsignacao;
-    
-    CallBack_Mensagem(idCB, 'ConferÃªncia e LiberaÃ§Ã£o de Pedidos');   
-    if Filtro(5) = QuotedStr('S') then
-      ConfereLiberaDocumentos;
-  finally
-    CallBack_FechaTela(idCB);
-  end;
-end;
-
-function ConfirmarFiltros: Boolean;
-var
-  CDS: TClientDataSet;
-begin
-  CDS := TClientDataSet.Create; 
-  try     
-    CDS.Data := EstruturaDeFiltrosDinamicos;      
-   
-    {01} IncluirFiltroDinamico(CDS, 'Pedidos de Venda', cTipoFiltro_Logico, 'S', '', '', '');               
-    {02} IncluirFiltroDinamico(CDS, 'Pedidos de Venda para NFCe', cTipoFiltro_Logico, 'N', '', '', '');
-    {03} IncluirFiltroDinamico(CDS, 'AssistÃªncia TÃ©cnica', cTipoFiltro_Logico, 'S', '', '', '');
-    {04} IncluirFiltroDinamico(CDS, 'Pedido de ConsignaÃ§Ã£o', cTipoFiltro_Logico, 'S', '', '', '');
-    {05} IncluirFiltroDinamico(CDS, 'Conferir e Liberar Bloqueios do Dia', cTipoFiltro_Logico, 'S', '', '', '');
-    CDS.Data := ExecutarFiltroDinamico(CDS.Data, 'Selecione os documentos e processos a serem executados');
-    
-    Result := (not CDS.IsEmpty);
-  finally
-    CDS.Free;
-  end;
-end;
-
-
-procedure IncluiPedidoVenda;
-begin
-  _Inicializar;
-  try
-    _DefinirCadastro(1);
-    _CarregaCadastros;
-    _IncluiDocumento;
-  finally
-    _Finalizar;
-  end;
-end;
-
-procedure IncluiPedidoVendaNFCe;
-begin
-  _Inicializar;
-  try
-    _DefinirCadastro(1);
-    
-    FTagCli := TagPessoaConsumidorNFCe;
-    FTagProduto := TagProdComum;
-    FTransacao  := TransacaoPedidoNF_NFCe;
-    _CarregaCadastros;
-    _IncluiDocumento;
-  finally
-    _Finalizar;
-  end;
-end;
-
-procedure IncluiAssistencia;
-begin
-  _Inicializar;
-  try
-    _DefinirCadastro(2);
-    _CarregaCadastros;
-    _IncluiDocumento;
-  finally
-    _Finalizar;
-  end;
-end;
-
-procedure IncluiConsignacao;
-begin
-  _Inicializar;
-  try
-    _DefinirCadastro(3);
-    _CarregaCadastros;
-    _IncluiDocumento;
-  finally
-    _Finalizar;
-  end;
-end;
-
-procedure ConfereLiberaDocumentos;
-var
-  sSQL: string;
-begin
-  sSQL := 'update DOCUMENTO_FATURA set DOCUMENTO_FATURA.DATACONFERENCIA_DOCFAT = current_date ' + #13 +
-    ' where DOCUMENTO_FATURA.DTEMISSAO_DOCFAT between ' + DataSQL(HOJE, 1) + ' and ' + DataSQL(HOJE, 2) + #13 +
-    '  and  DOCUMENTO_FATURA.ENTREGA_DOCFAT = ' + QuotedStr('N');
-  ExecuteCommand(sSQL); 
+  PageControl1: TPageControl;
+  CDSCadastro: TClientDataSet;
+  CDSReceber: TClientDataSet;
+  CDSProrrogacoes: TClientDataSet;
+  CDSPagar: TClientDataSet;
+  CDSOrdemPagto:     TClientDataSet;
+  CDSGrupoResultado: TClientDataSet;
+  CDSComplementos:   TClientDataSet;
+  CDSChequeSaida:    TClientDataSet;
+  CDSCheques:        TClientDataSet;
+  CDSMovCartao:      TClientDataSet;
   
-  sSQL := 	'update DOCUMENTO_BLOQUEIO ' + #13 +
-	'set DOCUMENTO_BLOQUEIO.DTLIBERACAO_DOCBLOQ = current_timestamp(0), ' + #13 +
-	'    DOCUMENTO_BLOQUEIO.USUARIOLIBERACAO_DOCBLOQ = ' + QuotedStr(Nome_Usuario_Atual) + #13 +
-	'where DOCUMENTO_BLOQUEIO.DTBLOQUEIO_DOCBLOQ >= current_date ' + #13 +
-	'      and DOCUMENTO_BLOQUEIO.DTLIBERACAO_DOCBLOQ is null ' + #13 +
-	'      and exists(select DOCUMENTO_FATURA.CODIGO_DOCFAT ' + #13 +
-	'                 from DOCUMENTO_FATURA ' + #13 +
-	'                 where DOCUMENTO_FATURA.DTEMISSAO_DOCFAT between ' + DataSQL(HOJE, 1) + ' and ' + DataSQL(HOJE, 2) + #13 +
-	'                       and DOCUMENTO_FATURA.ENTREGA_DOCFAT = ' + QuotedStr('N') + #13 +
-	'                       and DOCUMENTO_FATURA.CODIGO_DOCFAT = DOCUMENTO_BLOQUEIO.CODIGO_DOCBLOQ)'; 
-  ExecuteCommand(sSQL); 
-end;
-
-procedure _Inicializar;
-begin
-  FCDSClientes := TClientDataSet.Create;
-  FCDSProdutos := TClientDataSet.Create;
-  ScriptDeTestesEmExecucao := True;
-end;
-
-procedure _Finalizar;
-begin
-  FCDSClientes.Free;
-  FCDSProdutos.Free;
-  ScriptDeTestesEmExecucao := False;
-end;
-
-procedure _CarregaCadastros;
-begin
-  FCDSClientes.Data := P39_FAT_DADOS_TESTE.BuscaDadosClientes(FTagCli);
-  FCDSProdutos.Data := P39_FAT_DADOS_TESTE.BuscaDadosProdutos(FTagProduto);   
-
-  MostrarCDS(FCDSClientes);
-  Exit;
+  {$Region 'Principal'}
+    cbSubTipo:          TJvDBComboBox; 
+    cbQualificacao:     TJvDBComboBox;
+    cbCalcJuroDesconto: TJvDBComboBox;
+    edtDiasDescarga:    TJvDBCalcEdit;
+    edtNovoBanco:       TJvDBCalcEdit;
+    edtNovaSituacao:    TJvDBCalcEdit;
+    edtNovaConta:       TJvDBCalcEdit;
+    edtTaxaMensal:      TJvDBCalcEdit;
+    edtCaracteristica:  TJvDBCalcEdit;
+    DataAcerto:         TJvDBDateEdit;
+    mmObs:              TDBMemo;
+  {$endRegion}
   
-  if FCDSClientes.IsEmpty then
-    raise Exception.Create('Lista de Clientes para InclusÃ£o no documento vazia!');
-    
-  if FCDSProdutos.IsEmpty then
-    raise Exception.Create('Lista de Produtos para InclusÃ£o no pedido Vazia!');
-end;
-
-procedure _DefinirCadastro(tpDoc: Integer);
-begin
-  FTagCli := 0;
-  FTagProduto := 0;
-  //Pedido
-  if tpDoc = 1 then
-  begin
-    FItemMenu := 'Emisso1';
-    FCadastro := 'FCadPedidoVenda';
-    FDM       := 'DMCadPedidoVenda';
-    FTransacao  := TransacaoPedido;
-  end //Assistencia
-  else if tpDoc = 2 then
-  begin
-    FItemMenu := 'Emisso2';
-    FCadastro := 'FCadAssistencia';
-    FDM       := 'DMCadAssistencia';
-    FTagProduto := TagItemAssistencia;   
-    FTransacao  := TransacaoAssistencia;
-  end //ConsignaÃ§Ã£o
-  else if tpDoc = 3 then
-  begin
-    FItemMenu := 'Emisso5';
-    FCadastro := 'FCadPedidoConsignacao';
-    FDM       := 'DMCadPedidoConsignacao';   
-    FTransacao  := TransacaoConsignacao;
-  end; 
+  {$Region 'Totalização'}
+    TotalCredito:            TLabel;
+    GRManuais:               TLabel;
+    Prorrogacoes:            TLabel;
+    CreditoNaoUtilizado:     TLabel;
+    TotalDebito:             TLabel;
+    VlrNominalBaixado:       TLabel;
+    VlrAindaAberto:          TLabel;
+    TotalDebitosAtualizados: TLabel;
+    JurosCalculados:         TLabel;
+    DescontosCalculados:     TLabel;
+    Diferenca:               TLabel;
+    PrazosMediosDebito:      TLabel;
+    PrazosMediosCredito:     TLabel;
+    PrazosMediosGeral:       TLabel;
+ {$endRegion}
   
-end;
-
-procedure _IncluiDocumento;  
-begin  
-  FormCadastro := CriarFormPeloNome(FCadastro); 
-  if FormCadastro = nil then
-    raise exception.Create('NÃ£o encontrado Form ' + FormCadastro);
-  try  
-  FormCadastro.Show;
-  
-  DM   := DMCriadoPeloNome(FDM);
-
-  if DM = nil then
-    raise exception.Create('NÃ£o encontrado DM ' + FDM);
-
-  Frame          := FormCadastro.FindComponent(FRGradeamento);  
-  grdItem        := FormCadastro.FindComponent(FGradeItens);
-
-  CDSCad    := DM.FindComponent(FCDSCadastro);
-  CDSItem   := DM.FindComponent(FCDSItem);
-  CDSFiscal := DM.FindComponent(FCDSFiscal);
-
-  if CDSCad = nil then
-    raise exception.Create('NÃ£o encontrado CDSCadastro');
-
-  BotaoIncluir := FormCadastro.FindComponent(FBotaoIncluir);
-  BotaoGravar  := FormCadastro.FindComponent(FBotaoGravar);
-
-  FCDSClientes.First;
-  while not FCDSClientes.Eof do
-  begin   
+  {$Region 'Filtros'}
+    ExibirContasReceberDescontadas:     TCheckBox;
+    ExibirContasReceberDesconsideradas: TCheckBox;
+    ExibirContasAPagar:                 TCheckBox;
+    ExibirMovCartao:                    TCheckBox;
+    chkDataFinalVencimentoDuplicatas:   TCheckBox;
+    DataIniPagar:                       TJvDateEdit;
+    DataFimPagar:                       TJvDateEdit;
+    DataIniCartao:                      TJvDateEdit;
+    DataFimCartao:                      TJvDateEdit;
+    DtFinalVenc:                        TJvDateEdit;
+  {$endRegion} 
  
-    ExecutarMetodoDeObjeto(BotaoIncluir, 'Click');   
-
-    CDSCad.FieldByName('CLIENTE_DOCFAT').AsInteger   := FCDSClientes.FieldByName('CODIGO_PESSOA').AsInteger;
+  {$Region 'Contabilidade'}
+    edtOperacao: TDBEdit;
+    edtIntegracaoCTB: TJvDBCalcEdit;
+    edtCodigoImportacao: TDBEdit;
+    edtDataInicial: TJvDBDateEdit;
+    edtDataFinal: TJvDBDateEdit;
+  {$endRegion}
+ 
+  {$Region 'TabSheets'}
+    TabSheet1: TTabSheet;
+    TSContabilidade: TTabSheet;
+    TSDados: TTabSheet;
+    TSEmpresa: TTabSheet;
+    TSChequeSaida: TTabSheet;
+    TSOrdemPgto: TTabSheet;
+    TSMovCartao: TTabSheet;
+    TSCheque: TTabSheet;
+    TSComplementos: TTabSheet;
+    TSGrupoResultado: TTabSheet;
+    TSCarga: TTabSheet;
+    TSSituacao: TTabSheet;
+    TSFormaPagamento: TTabSheet;
+    TSProrrogacoes: TTabSheet;
+    TSReceber: TTabSheet;
+    TSPagar: TTabSheet;
+  {$endRegion}
+  
+procedure MapearBordero;
+begin
+  FCadBorderoAcerto := FormCriadoPeloNome(cFCadBorderoAcerto);
     
-    if FTransacao > 0 then
-      CDSCad.FieldByName('TRANSACAO_DOCFAT').AsInteger := FTransacao;
-      
-    CDSCad.FieldByName('OBSERVACAO_DOCFAT').AsString := 'Documento gerado por Unidade de CodificaÃ§Ã£o.' + #13 +
-     'Tag Cliente: ' + FCDSClientes.FieldByName('DESCRICAO_CARACT').AsString;
+  if FCadBorderoAcerto = nil then
+    FCadBorderoAcerto  := CriarFormPeloNome(cFCadBorderoAcerto);
+  
+  DMCadBorderoAcerto := FCadBorderoAcerto.FindComponent(cDMCadBorderoAcerto);
+  
+  try
+    FCadBorderoAcerto.Show;
+    CDSCadastro       := DMCadBorderoAcerto.FindComponent('CDSCadastro');
+    CDSReceber        := DMCadBorderoAcerto.FindComponent('CDSReceber');
+    CDSProrrogacoes   := DMCadBorderoAcerto.FindComponent('CDSProrrogacoes');
+    CDSPagar          := DMCadBorderoAcerto.FindComponent('CDSPagar');
+    CDSOrdemPagto     := DMCadBorderoAcerto.FindComponent('CDSOrdemPagto');
+    CDSGrupoResultado := DMCadBorderoAcerto.FindComponent('CDSGrupoResultado');
+    CDSComplementos   := DMCadBorderoAcerto.FindComponent('CDSComplementos');
+    CDSChequeSaida    := DMCadBorderoAcerto.FindComponent('CDSChequeSaida'); // DEVOLVIDO
+    CDSCheques        := DMCadBorderoAcerto.FindComponent('CDSCheques');
+    CDSMovCartao      := DMCadBorderoAcerto.FindComponent('CDSMovCartao');
+    EditCodigo        := FCadBorderoAcerto.FindComponent('EditCodigo');
+    edtCliente        := FCadBorderoAcerto.FindComponent('EditCliente');
+    MapearPrincipal;
+    MapearTSFiltros;
+    MapearTotalizacao;
+    MapearTabSheets;
+    MapearContabilidade;
+   // MOVIMENTO_CAIXA.EstruturaMovimentoCaixa;
      
-    if not ((CDSFiscal.State = dsInsert) or (CDSFiscal.State = dsEdit)) then
-       CDSFiscal.Edit;
-     
-    if FTagCli = TagPessoaConsumidorNFCe then
+  except
+    on E:Exception do
     begin
-      CDSCad.FieldByName('PARTICIONAVEL_DOCFAT').AsString := 'N';
-      CDSCad.FieldByName('INDICADORPRESENCA_DOCFAT').AsInteger := 1;//NFCe - OperaÃ§Ã£o presencial.  
-
-      if ClassificacaoPedidoNF_NFCe > 0 then
-        CDSCad.FieldByName('CLASSIFICACAO_DOCFAT').AsInteger := ClassificacaoPedidoNF_NFCe;    
-          
-      CDSFiscal.FieldByName('TIPOFRETE_DOCFISCAL').AsInteger := 9;
-      CDSFiscal.FieldByName('TIPOFRETECT_DOCFISCAL').AsInteger := 9;
+      ShowMessage(MensagemPersonalizada + E.Message);
+      FCadBorderoAcerto.Free; 
     end;
-    
-    if CDSFiscal.FieldByName('TIPOFRETE_DOCFISCAL').AsInteger = 9 then
-       CDSFiscal.FieldByName('PERCFRETEAUTONOMO_DOCFISCAL').AsCurrency := 0;
-       
-    if CDSFiscal.FieldByName('TIPOFRETECT_DOCFISCAL').AsInteger = 9 then
-       CDSFiscal.FieldByName('PERCFRETECT_DOCFISCAL').AsCurrency := 0;
-
-    _IncluiItens;
-
-    ExecutarMetodoDeObjeto(BotaoGravar, 'Click');
-
-    FCDSClientes.Next;
-  end;
-  finally
-    FormCadastro.Free;
-  end;
+  end; 
 end;
 
-procedure _IncluiItens;
-var
-  ItemAnt: Integer;  
-  iCont: Integer;
-  iQtdeMax: Integer;
+procedure AbrirBordero(Codigo: Integer; AbreMovCx: Boolean);
 begin
-
-  FCDSProdutos.IndexFieldNames := 'CODIGO_ITEM;VARIACAO_ITEM_DETALHE;COR_ITEM_DETALHE;ACABAMENTO_ITEM_DETALHE';
-  FCDSProdutos.First;
-  ItemAnt := 0;
-  iCont := 0;
-  while not FCDSProdutos.Eof do
-  begin
-    if (ItemAnt <> FCDSProdutos.FieldByName('CODIGO_ITEM').AsInteger) then
-       iCont := 0;
-
-    if cMaxDetalhamento = 0 then
-      iQtdeMax := 1 + Random(5)
-    else
-      iQtdeMax := cMaxDetalhamento;
-    
-    if iCont < iQtdeMax then
-    begin
-      ExecutarMetodoDeObjeto(grdItem, 'setFocus');
-      if (ItemAnt = 0) or (ItemAnt <> FCDSProdutos.FieldByName('CODIGO_ITEM').AsInteger) then
-      begin
-        CDSItem.Insert;
-        CDSItem.FieldByName('ITEM_DOCITEM').AsInteger := FCDSProdutos.FieldByName('CODIGO_ITEM').AsInteger;
-        iCont := 0;
-      end
-      else
-        CDSItem.Edit;
-
-      if _LancaDetalhamento(FCDSProdutos) then
-      begin
-        {IncluiDetalhamentoItem(AVariacao, ACor, AAcabamento: Integer; AQuantidade, AValorUnitario: Currency; ASubstituir: Boolean);}
-        ExecutarMetodoDeObjeto(Frame, 'IncluiDetalhamentoItem', 
-          [FCDSProdutos.FieldByName('VARIACAO_ITEM_DETALHE').AsInteger,
-           FCDSProdutos.FieldByName('COR_ITEM_DETALHE').AsInteger,
-           FCDSProdutos.FieldByName('ACABAMENTO_ITEM_DETALHE').AsInteger,
-           _GetQuantidadeItem,
-           _GetVlrItem, False]);                          
-      end
-      else
-      begin
-        CDSItem.FieldByName('QTDECHAPAS_DOCITEM').AsCurrency := _GetQuantidadeItem;
-        
-        if CDSItem.FieldByName('VLRUNITARIOBRUTO_DOCITEM').AsCurrency = 0 then
-          CDSItem.FieldByName('VLRUNITARIOBRUTO_DOCITEM').AsCurrency := _GetVlrItem;
-        
-      end;    
-      CDSItem.Post;
-    end;
-    ItemAnt := FCDSProdutos.FieldByName('CODIGO_ITEM').AsInteger;
-    iCont := iCont + 1;
-    FCDSProdutos.Next;
-  end;
-
+  CDSCadastro.Close;
+  AtribuirValorPropriedadeDeObjeto(DMCadBorderoAcerto, 'CodigoAtual', Codigo);                   
+  CDSCadastro.Open;
+  AtribuirValorPropriedadeDeObjeto(EditCodigo, 'Value', Codigo);
+  Calcular;
+  
+  if AbreMovCx then
+    MovBordero(Codigo, false);
 end;
 
-function _GetQuantidadeItem: Currency;
+procedure Calcular;
 begin
-  Result := QtdeFixaItem;
-  if Result = 0 then
-    Result := Max(1, Random(QtdeMaximaItem));
+  ExecutarMetodoDeObjeto(FCadBorderoAcerto, 'BotaoCalcularClick', [Nil]);
 end;
 
-function _GetVlrItem: Currency;
+procedure IncluirBordero;
 begin
-  Result := VlrFixoItem;
-  if Result = 0 then
-    Result := Max(10, Random(VlrMaximoItem));
+  ExecutarMetodoDeObjeto(FCadBorderoAcerto, 'BotaoIncluirClick', [nil]);
 end;
 
-function _LancaDetalhamento(CDSPro: TClientDataSet): Boolean;
+procedure GravarBordero;
 begin
-  Result := (CDSPro.FieldByName('DIFERENCIAVARIACAO_ITEM').AsString = 'S') or
-   (CDSPro.FieldByName('DIFERENCIACOR_ITEM').AsString = 'S') or
-   (CDSPro.FieldByName('DIFERENCIAACABAMENTO_ITEM').AsString = 'S');
+  ExecutarMetodoDeObjeto(FCadBorderoAcerto, 'BotaoGravarClick', [Nil]);
+end;
+
+procedure Excluir;
+begin
+  ExecutarMetodoDeObjeto(DMCadBorderoAcerto, 'ExcluirRegistro', [false, true]);
+end;
+
+procedure Filtrar;
+begin
+  ExecutarMetodoDeObjeto(FCadBorderoAcerto, 'BotaoFiltrarClick', [nil]);  
+end;
+
+procedure Fechar;
+begin
+  FCadBorderoAcerto.Close;
+end;
+
+procedure MapearTSFiltros;
+begin
+  ExibirContasReceberDescontadas     := FCadBorderoAcerto.FindComponent('cbExibeReceberDescontadas');
+  ExibirContasReceberDesconsideradas := FCadBorderoAcerto.FindComponent('cbExibeReceberDesconsiderado');
+  ExibirContasAPagar                 := FCadBorderoAcerto.FindComponent('cbExibeContasAPagar');
+  DataIniPagar                       := FCadBorderoAcerto.FindComponent('DataIniPagar');
+  DataFimPagar                       := FCadBorderoAcerto.FindComponent('DataFimPagar');
+  ExibirMovCartao                    := FCadBorderoAcerto.FindComponent('ckExibirMovCartao');
+  DataIniCartao                      := FCadBorderoAcerto.FindComponent('dteIniCartao');
+  DataFimCartao                      := FCadBorderoAcerto.FindComponent('dteFimCartao');
+  chkDataFinalVencimentoDuplicatas   := FCadBorderoAcerto.FindComponent('cxDataFinalVencimentoDuplicatas');  
+  DtFinalVenc                        := FCadBorderoAcerto.FindComponent('dteDataFinalVencimentoDuplicatas');
+end;
+ 
+ procedure MapearTotalizacao;
+begin
+  TotalCredito            :=  FCadBorderoAcerto.FindComponent('LabelTotCredito');
+  GRManuais               :=  FCadBorderoAcerto.FindComponent('LabelGRManuais');
+  Prorrogacoes            :=  FCadBorderoAcerto.FindComponent('LabelProrrogacoes');
+  CreditoNaoUtilizado     :=  FCadBorderoAcerto.FindComponent('LabelCreditoNaoUtilizado');
+  TotalDebito             :=  FCadBorderoAcerto.FindComponent('LabelTotDebito');
+  VlrNominalBaixado       :=  FCadBorderoAcerto.FindComponent('LabelNominalABaixar');
+  VlrAindaAberto          :=  FCadBorderoAcerto.FindComponent('LabelAindaAberto');
+  TotalDebitosAtualizados :=  FCadBorderoAcerto.FindComponent('LabelTotDebitosAtualizados');
+  JurosCalculados         :=  FCadBorderoAcerto.FindComponent('LabelJurosCalculados');
+  DescontosCalculados     :=  FCadBorderoAcerto.FindComponent('LabelDescontosCalculados');
+  Diferenca               :=  FCadBorderoAcerto.FindComponent('LabelDiferenca');
+  PrazosMediosDebito      :=  FCadBorderoAcerto.FindComponent('LabelPMD');
+  PrazosMediosCredito     :=  FCadBorderoAcerto.FindComponent('LabelPMC');
+  PrazosMediosGeral       :=  FCadBorderoAcerto.FindComponent('LabelPMG');
+end;
+
+procedure MapearContabilidade;
+begin
+  edtOperacao         := FCadBorderoAcerto.FindComponent('edtOperacao');
+  edtIntegracaoCTB    := FCadBorderoAcerto.FindComponent('edtIntegracaoCTB');
+  edtCodigoImportacao := FCadBorderoAcerto.FindComponent('edtCodigoImportacao');
+  edtDataInicial      := FCadBorderoAcerto.FindComponent('edtDataInicial');
+  edtDataFinal        := FCadBorderoAcerto.FindComponent('edtDataFinal');
+end;
+
+procedure MapearTabSheets;
+begin
+  TabSheet1       := FCadBorderoAcerto.FindComponent('TabSheet1');
+  TSContabilidade := FCadBorderoAcerto.FindComponent('TSContabilidade');
+  TSDados         := FCadBorderoAcerto.FindComponent('TSDados');
+  TSEmpresa       := FCadBorderoAcerto.FindComponent('tsEmpresa');
+  TSChequeSaida   := FCadBorderoAcerto.FindComponent('TSChequeSaida');
+  TSOrdemPgto     := FCadBorderoAcerto.FindComponent('TSOrdemPgto');
+  TSMovCartao     := FCadBorderoAcerto.FindComponent('tbsMovCartao');
+  TSCheque        := FCadBorderoAcerto.FindComponent('TSCheque');
+  TSComplementos  := FCadBorderoAcerto.FindComponent('TSComplementos');
+  TSGrupoResultado:= FCadBorderoAcerto.FindComponent('TSGrupoResultado');
+  TSCarga         := FCadBorderoAcerto.FindComponent('tsCarga');
+  TSSituacao      := FCadBorderoAcerto.FindComponent('tsSituacao');
+  TSFormaPagamento:= FCadBorderoAcerto.FindComponent('tsFormaPagamento');
+  TSProrrogacoes  := FCadBorderoAcerto.FindComponent('TSProrrogacoes');
+  TSReceber       := FCadBorderoAcerto.FindComponent('TSReceber');
+  TSPagar         := FCadBorderoAcerto.FindComponent('TSPagar');
+end;
+
+procedure MapearPrincipal;
+begin
+  EditCodigo         := FCadBorderoAcerto.FindComponent('EditCodigo');
+  PageControl1       := FCadBorderoAcerto.FindComponent('PageControl1');
+  cbSubTipo          := FCadBorderoAcerto.FindComponent('CBSubTipo');
+  cbQualificacao     := FCadBorderoAcerto.FindComponent('CBQualificacao');
+  edtCliente         := FCadBorderoAcerto.FindComponent('EditCliente');
+  DataAcerto         := FCadBorderoAcerto.FindComponent('JvDBDateEdit2');
+  edtDiasDescarga    := FCadBorderoAcerto.FindComponent('JvDBCalcEdit4');
+  edtCaracteristica  := FCadBorderoAcerto.FindComponent('edtCaracteristica');
+  edtNovoBanco       := FCadBorderoAcerto.FindComponent('JvDBCalcEditNovoBanco');
+  edtNovaSituacao    := FCadBorderoAcerto.FindComponent('JvDBCalcEditNovaSituacao');
+  edtNovaConta       := FCadBorderoAcerto.FindComponent('JvDBCalcEditNovaConta');
+  cbCalcJuroDesconto := FCadBorderoAcerto.FindComponent('JvDBComboBox2');
+  edtTaxaMensal      := FCadBorderoAcerto.FindComponent('JvDBDateEdit4');  
 end;
