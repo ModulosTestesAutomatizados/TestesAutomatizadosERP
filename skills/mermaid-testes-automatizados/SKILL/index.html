@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Mermaid Testes Automatizados - Base de Conhecimento - Delphi TDD</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Mermaid Testes Automatizados";
+        var mkdocs_page_input_path = "skills/mermaid-testes-automatizados/SKILL.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Base de Conhecimento - Delphi TDD
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../AGENTS/">Diretrizes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Documentação</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../docs/MER/">MER</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Mapeamento Uses</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/P39_TDD_FIN_DUPLICATAS/">Duplicatas</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO/">Bordero</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/TDD_CARREGAR_CASO_TESTE/">Carregar Caso Teste</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Skills</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../banco-dedicado/SKILL/">Banco Dedicado</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../banco-erp-unidades/SKILL/">Banco ERP Unidades</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tdd-odbc/SKILL/">TDD ODBC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../interpretador-delphi-erp/SKILL.md">Interpretador ERP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../estrutura-testes-erp/SKILL/">Estrutura Testes</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../entregas/SKILL.md">Entregas</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../generate-report/SKILL.md">Generate Report</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../context7/SKILL.md">Context7</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Base de Conhecimento - Delphi TDD</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Mermaid Testes Automatizados</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="mermaid-testes-automatizados">Mermaid Testes Automatizados</h1>
+<p>Gera e atualiza o diagrama <strong>Mermaid</strong> do projeto de testes automatizados a partir
+das units <code>.pas</code> localizadas no diretório padrão de source, usando o <strong>Draw.IO</strong>
+para montar o diagrama visual.</p>
+<h2 id="1-diretorios-padrao">1. Diretórios padrão</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>diretório de análise (units)</td>
+<td><code>D:\TestesAutomatizados\ERP\SourceTDD</code></td>
+</tr>
+<tr>
+<td>diretório de saída (mermaid)</td>
+<td><code>D:\TestesAutomatizados\ERP\Mermaid</code></td>
+</tr>
+<tr>
+<td>arquivo de saída principal</td>
+<td><code>D:\TestesAutomatizados\ERP\Mermaid\mermaid-units.md</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Usar esses diretórios <strong>sem perguntar</strong>, salvo solicitação explícita do usuário.</li>
+<li>Criar a pasta de saída com <code>New-Item -ItemType Directory -Force</code> se não existir.</li>
+</ul>
+<h2 id="2-analise-das-units">2. Análise das units</h2>
+<ol>
+<li>Listar arquivos <code>.pas</code> do diretório de análise.</li>
+<li>Para cada arquivo, extrair as cláusulas <code>uses</code> (interface <strong>e</strong> implementation).
+   Essas units são Pascal Script, então <code>uses</code> costuma aparecer na <strong>primeira linha</strong>.</li>
+<li>Montar um mapeamento <code>unit X</code> -&gt; <code>dependências de X</code>:</li>
+<li>Nome da unit = nome do arquivo <code>.pas</code> sem a extensão.</li>
+<li>Dependência = cada identificador listado em <code>uses</code>.</li>
+<li>Tratar <strong>aliases</strong>: units referenciadas em <code>uses</code> <strong>sem</strong> o prefixo <code>P39_</code>
+   (ex.: <code>TDD_CASOS_DE_TESTE</code>, <code>TDD_FAT_DOCUMENTO_FATURA_ITENS</code>,
+   <code>TDD_DOCUMENTO_FATURA</code>, <code>FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO</code>,
+   <code>TDD_ASSERTS</code>) devem ser resolvidas como referência à unit <code>P39_TDD_*</code>
+   correspondente quando existir (motor de script do ERP interpreta como alias).</li>
+</ol>
+<h2 id="3-geracao-no-drawio">3. Geração no Draw.IO</h2>
+<p>Usar as ferramentas MCP do Draw.IO para montar o diagrama:</p>
+<ol>
+<li><code>drawio_list-documents</code> para obter o(s) documento(s) aberto(s).</li>
+<li>Se <strong>nenhum</strong> documento estiver conectado, informar ao usuário e solicitar que
+     abra o arquivo <code>.drawio</code>/editor, OU gerar diretamente o markdown Mermaid na
+     pasta de saída (fallback), mantendo a legenda e a árvore hierárquica.</li>
+<li>Para cada unit, criar um nó com <code>drawio_add-rectangle</code> (ou <code>drawio_add-cell-of-shape</code>):</li>
+<li><code>text</code>: <code>NomeDaUnit&lt;br/&gt;&lt;i&gt;descrição da responsabilidade&lt;/i&gt;</code></li>
+<li><code>style</code>: cor conforme a categoria (ver seção 4).</li>
+<li>Para cada dependência, criar a aresta com <code>drawio_add-edge</code>:</li>
+<li><code>source_id</code> = unit dependente, <code>target_id</code> = dependência.</li>
+<li>rótulo (<code>text</code>) = [<code>uses</code>] ou [<code>alias</code>] quando for via nome sem prefixo.</li>
+<li>Exportar com <code>drawio_export-diagram</code> (SVG/PNG) e salvar na pasta de saída.</li>
+</ol>
+<h2 id="4-categorias-e-cores-dos-nos">4. Categorias e cores dos nós</h2>
+<table>
+<thead>
+<tr>
+<th>Categoria</th>
+<th>Cor</th>
+<th>Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core (constantes/tipos)</td>
+<td>laranja</td>
+<td><code>P39_TDD_CONSTANTES</code></td>
+</tr>
+<tr>
+<td>Infra (ODBC, JSON, parâmetros)</td>
+<td>azul</td>
+<td><code>P39_TDD_ODBC</code>, <code>P39_TDD_FUNCOES_JSON</code></td>
+</tr>
+<tr>
+<td>Dados/fixtures JSON</td>
+<td>verde claro</td>
+<td><code>P39_TDD_JSON_*</code></td>
+</tr>
+<tr>
+<td>Aplicação (scripts)</td>
+<td>verde</td>
+<td><code>P39_TDD_FAT_DOCUMENTO_FATURA</code></td>
+</tr>
+<tr>
+<td>Asserts</td>
+<td>roxo</td>
+<td><code>P39_TDD_ASSERTS</code>, <code>TDD_ASSERTS</code></td>
+</tr>
+<tr>
+<td>Referência alias (sem prefixo)</td>
+<td>tracejado laranja</td>
+<td><code>TDD_*</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-conteudo-do-markdown-de-saida">5. Conteúdo do markdown de saída</h2>
+<p>O arquivo <code>mermaid-units.md</code> deve conter:
+1. <strong>Grafo de dependências</strong> — <code>graph TD</code> com nós (todas as units) e arestas <code>uses</code>.
+2. <strong>Legenda</strong> — tabela cor x significado.
+3. <strong>Árvore hierárquica</strong> — níveis de dependência (0 = sem deps, 1, 2, 3+).
+4. <strong>Observações</strong> — aliases, variantes sem prefixo e fixtures JSON.</p>
+<p>Ao final, exibir resumo: total de units, total de dependências e arquivo gerado.</p>
+<h2 id="6-chamada-automatica-apos-atualizacao-de-units">6. Chamada automática após atualização de units</h2>
+<p>Sempre que o diretório de units de teste automatizado for atualizado
+(fluxo da skill <code>atualizar-units-teste-automatizado</code>), esta skill deve ser
+chamada ao final para regenerar o diagrama com as units mais recentes.</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

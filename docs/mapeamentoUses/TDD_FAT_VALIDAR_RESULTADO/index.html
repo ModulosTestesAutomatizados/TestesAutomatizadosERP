@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>TDD_FAT_VALIDAR_RESULTADO - Base de Conhecimento - Delphi TDD</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "TDD_FAT_VALIDAR_RESULTADO";
+        var mkdocs_page_input_path = "docs/mapeamentoUses/TDD_FAT_VALIDAR_RESULTADO.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Base de Conhecimento - Delphi TDD
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../AGENTS/">Diretrizes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Documentação</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../MER/">MER</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Mapeamento Uses</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../P39_TDD_FIN_DUPLICATAS/">Duplicatas</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO/">Bordero</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../TDD_CARREGAR_CASO_TESTE/">Carregar Caso Teste</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Skills</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../skills/banco-dedicado/SKILL/">Banco Dedicado</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../skills/banco-erp-unidades/SKILL/">Banco ERP Unidades</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../skills/tdd-odbc/SKILL/">TDD ODBC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../skills/interpretador-delphi-erp/SKILL.md">Interpretador ERP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../skills/estrutura-testes-erp/SKILL/">Estrutura Testes</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../skills/entregas/SKILL.md">Entregas</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../skills/generate-report/SKILL.md">Generate Report</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../skills/context7/SKILL.md">Context7</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Base de Conhecimento - Delphi TDD</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">TDD_FAT_VALIDAR_RESULTADO</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="tdd_fat_validar_resultado">TDD_FAT_VALIDAR_RESULTADO</h1>
+<p>Unit de validação do resultado esperado dos casos de teste do fluxo <strong>PEDIDO DE VENDA</strong>
+(módulo FATURAMENTO / área PEDIDO DE VENDA). Faz a ponte entre o núcleo
+<code>TDD_DOCUMENTO_FATURA</code> e os CDSComponents do formulário, executando toda a lógica de
+comparação (antes parcialmente no <code>TDD_ASSERTS</code>, agora centralizada aqui).</p>
+<h2 id="mapeamento-de-uses">Mapeamento de uses</h2>
+<pre><code class="language-mermaid">graph TD
+    A[&quot;P39_TDD_FAT_PEDIDO_VENDA&lt;br/&gt;(entry point: Setup/Teste)&quot;] --&gt; B[&quot;TDD_DOCUMENTO_FATURA&lt;br/&gt;(núcleo do fluxo PEDIDOS)&quot;]
+    B --&gt; C[&quot;TDD_FAT_VALIDAR_RESULTADO&lt;br/&gt;(orquestração + comparações)&quot;]
+    C --&gt; D[&quot;TDD_ASSERTS&lt;br/&gt;(constantes + GetOperacao)&quot;]
+    B --&gt; E[&quot;TDD_CASOS_DE_TESTE&lt;br/&gt;(CDSCasosTestes + CDSResultadoEsperado)&quot;]
+
+    B -.-&gt;|RegistrarCDS| C
+    C -.-&gt;|CDSResolution| F[&quot;CDSCad / CDSItem / CDSFiscal / CDSPedido&lt;br/&gt;CDSCondicaoTabela / CDSCondicaoDetalhe&lt;br/&gt;CDSDescontoPrincipal / CDSItemDesconto&lt;br/&gt;CDSTabela / CDSPrazos&quot;]
+</code></pre>
+<h2 id="fluxo-de-validacao">Fluxo de validação</h2>
+<pre><code class="language-mermaid">sequenceDiagram
+    participant TE as Teste_Executar
+    participant B as TDD_DOCUMENTO_FATURA
+    participant V as TDD_FAT_VALIDAR_RESULTADO
+    participant CT as CDSCasosTestes
+
+    TE-&gt;&gt;V: Cronometro_Iniciar
+    TE-&gt;&gt;B: _IncluiDocumento (grava pedido na tela)
+    TE-&gt;&gt;V: Cronometro_Finalizar
+    TE-&gt;&gt;CT: EXECUTADO := 'S'
+    TE-&gt;&gt;V: CompararResultadoEsperado(ID)
+    V-&gt;&gt;CT: FindKey(ID) → JSON resultado esperado
+    V-&gt;&gt;V: CompararQuantidadeErros(erros reais x &quot;erro.quantidade&quot;)
+    loop Para cada item do array &quot;valor&quot;
+        V-&gt;&gt;V: ObterCDS(&quot;cds&quot;) → resolve CDS
+        V-&gt;&gt;V: CDS.FieldByName(&quot;campo&quot;).AsFloat → compara
+    end
+    V-&gt;&gt;V: CompararTempo(tempo_ms x &quot;tempo.tempo_total&quot;)
+    V-&gt;&gt;CT: Marca COMPARADO S/N
+    V-&gt;&gt;V: Log + EnviarMensagemInterna se divergência
+</code></pre>
+<h2 id="formato-do-json-de-resultado-esperado-resultado_esperado_ct">Formato do JSON de resultado esperado (<code>RESULTADO_ESPERADO_CT</code>)</h2>
+<pre><code class="language-json">{
+  &quot;erro&quot;: {&quot;quantidade&quot;: 0, &quot;operacao&quot;: &quot;Igual&quot;},
+  &quot;valor&quot;: [
+    {&quot;cds&quot;: &quot;CDSCad&quot;,  &quot;campo&quot;: &quot;VALOR_BRUTO_DOCFAT&quot;,  &quot;operacao&quot;: &quot;Maior&quot;, &quot;resultado&quot;: 155.015},
+    {&quot;cds&quot;: &quot;CDSPedido&quot;,&quot;campo&quot;: &quot;TABELA_DOCPED&quot;,      &quot;operacao&quot;: &quot;Maior&quot;, &quot;resultado&quot;: 0},
+    {&quot;cds&quot;: &quot;CDSFiscal&quot;,&quot;campo&quot;: &quot;TIPOFRETE_DOCFISCAL&quot;, &quot;operacao&quot;: &quot;Igual&quot;, &quot;resultado&quot;: 9}
+  ],
+  &quot;tempo&quot;: {&quot;tempo_total&quot;: 10000, &quot;tipo_registo&quot;: &quot;milisegundo&quot;}
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Seção</th>
+<th>Campos</th>
+<th>Comportamento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>erro</code></td>
+<td><code>quantidade</code>, <code>operacao</code></td>
+<td>Compara erros reais (<code>RegistrarErroReal</code>) x configurado</td>
+</tr>
+<tr>
+<td><code>valor</code></td>
+<td>array: <code>cds</code>, <code>campo</code>, <code>operacao</code>, <code>resultado</code></td>
+<td>Cada item resolve o CDS pelo nome e compara o campo</td>
+</tr>
+<tr>
+<td><code>tempo</code></td>
+<td><code>tempo_total</code>, <code>tipo_registo</code></td>
+<td>Limite de tempo total da inclusão (ms)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cds-mapeados-no-formulario">CDS mapeados no formulário</h2>
+<table>
+<thead>
+<tr>
+<th>Tag <code>"cds"</code></th>
+<th>CDS Component</th>
+<th>Responsabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CDSCad</code></td>
+<td>CDSCadastro</td>
+<td>Dados principais do documento</td>
+</tr>
+<tr>
+<td><code>CDSItem</code></td>
+<td>CDSItem</td>
+<td>Itens do pedido</td>
+</tr>
+<tr>
+<td><code>CDSFiscal</code></td>
+<td>CDSFiscal</td>
+<td>Dados fiscais / frete</td>
+</tr>
+<tr>
+<td><code>CDSPedido</code></td>
+<td>CDSPedido</td>
+<td>Tabela de preço, condições, prazos</td>
+</tr>
+<tr>
+<td><code>CDSCondicaoTabela</code></td>
+<td>CDSCondicaoTabela</td>
+<td>Condições de pagamento</td>
+</tr>
+<tr>
+<td><code>CDSCondicaoDetalhe</code></td>
+<td>CDSCondicaoDetalhe</td>
+<td>Prazos das condições</td>
+</tr>
+<tr>
+<td><code>CDSDescontoPrincipal</code></td>
+<td>CDSDescontoPrincipal</td>
+<td>Descontos gerais</td>
+</tr>
+<tr>
+<td><code>CDSItemDesconto</code></td>
+<td>CDSItemDesconto</td>
+<td>Descontos por item</td>
+</tr>
+<tr>
+<td><code>CDSTabela</code></td>
+<td>CDSTabela</td>
+<td>Tabela de preços</td>
+</tr>
+<tr>
+<td><code>CDSPrazos</code></td>
+<td>CDSPrazos</td>
+<td>Prazos manuais</td>
+</tr>
+</tbody>
+</table>
+<h2 id="observacoes">Observações</h2>
+<ul>
+<li>O registro dos CDS é feito uma única vez no <code>Setup_IniciarFormulario</code>, após os <code>FindComponent</code>,
+  evitando chamadas repetidas por caso de teste.</li>
+<li>Se a tag <code>"cds"</code> for omitida em um item do array <code>"valor"</code>, o CDS padrão é <code>CDSCad</code>.</li>
+<li><code>Arredondar</code> é definido localmente para evitar dependência de units externas.</li>
+<li><code>GetOperacao</code> e as constantes <code>cOperacao*</code> são herdados do <code>TDD_ASSERTS</code> (namespace compartilhado).</li>
+</ul>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

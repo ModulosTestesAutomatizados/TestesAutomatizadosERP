@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>REFACTOR_TDD_FIN_FLUXO_COMPLETO - Base de Conhecimento - Delphi TDD</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "REFACTOR_TDD_FIN_FLUXO_COMPLETO";
+        var mkdocs_page_input_path = "docs/mapeamentoUses/REFACTOR_TDD_FIN_FLUXO_COMPLETO.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Base de Conhecimento - Delphi TDD
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../AGENTS/">Diretrizes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Documentação</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../MER/">MER</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Mapeamento Uses</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../P39_TDD_FIN_DUPLICATAS/">Duplicatas</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO/">Bordero</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../TDD_CARREGAR_CASO_TESTE/">Carregar Caso Teste</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Skills</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../skills/banco-dedicado/SKILL/">Banco Dedicado</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../skills/banco-erp-unidades/SKILL/">Banco ERP Unidades</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../skills/tdd-odbc/SKILL/">TDD ODBC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../skills/interpretador-delphi-erp/SKILL.md">Interpretador ERP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../skills/estrutura-testes-erp/SKILL/">Estrutura Testes</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../skills/entregas/SKILL.md">Entregas</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../skills/generate-report/SKILL.md">Generate Report</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../skills/context7/SKILL.md">Context7</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Base de Conhecimento - Delphi TDD</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">REFACTOR_TDD_FIN_FLUXO_COMPLETO</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="refactor_tdd_fin_fluxo_completo">REFACTOR_TDD_FIN_FLUXO_COMPLETO</h1>
+<p>Unit orquestradora do caso de teste único <strong>TDD_FINANCEIRO</strong> (módulo FINANCEIRO / área FINANCEIRO),
+cobrindo o fluxo completo dos 4 recursos:</p>
+<ol>
+<li>Cadastro de Duplicata a Receber (<code>FCadReceber</code>)</li>
+<li>Cadastro de Duplicata a Pagar (<code>FCadPagar</code>)</li>
+<li>Borderô de Recebimento (<code>FCadBorderoAcerto</code>) — baixa as duplicatas a receber</li>
+<li>Borderô de Pagamento (<code>FCadBorderoPagamento</code>) — baixa as duplicatas a pagar</li>
+</ol>
+<h2 id="mapeamento-de-uses">Mapeamento de uses</h2>
+<pre><code class="language-mermaid">graph TD
+    A[&quot;REFACTOR_TDD_FIN_FLUXO_COMPLETO&lt;br/&gt;(grupo 1367 - código 38)&quot;] --&gt; B[&quot;TDD_CARREGAR_CASO_TESTE&lt;br/&gt;(grupo 1371)&quot;]
+    A --&gt; C[&quot;TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO&lt;br/&gt;(grupo 1367)&quot;]
+    A --&gt; D[&quot;P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO&lt;br/&gt;(unit global/Tek Store)&quot;]
+    A --&gt; E[&quot;P39_TDD_FUNCOES_JSON&lt;br/&gt;(unit global/Tek Store)&quot;]
+
+    B --&gt; F[&quot;P39_TDD_REGISTRAR_CASO_TESTE&lt;br/&gt;(unit global/Tek Store)&quot;]
+    F --&gt; G[&quot;P39_TDD_ODBC&lt;br/&gt;TDD_ODBC (grupo 1371)&quot;]
+    F --&gt; H[&quot;cConexaoODBCPadrao&lt;br/&gt;(P39_TDD_CONSTANTES)&quot;]
+
+    C -.-&gt;|form| I[&quot;FCadBorderoAcerto / DMCadBorderoAcerto&lt;br/&gt;(tela nativa do ERP)&quot;]
+    D -.-&gt;|form| J[&quot;FCadBorderoPagamento / DMCadBorderoPagamento&lt;br/&gt;(tela nativa do ERP)&quot;]
+    A -.-&gt;|forms| K[&quot;FCadReceber / FCadPagar + DMCadDuplicata&lt;br/&gt;(tela nativa do ERP)&quot;]
+</code></pre>
+<h2 id="fluxo-de-execucao">Fluxo de execução</h2>
+<pre><code class="language-mermaid">sequenceDiagram
+    participant U as Usuário/Agenda
+    participant O as REFACTOR_TDD_FIN_FLUXO_COMPLETO
+    participant CT as CASO_TESTE (banco dedicado)
+    participant CFG as FINANCEIRO_CONFIGURACAO (banco dedicado)
+
+    U-&gt;&gt;O: ExecutarFluxoCompletoFinanceiro
+    O-&gt;&gt;O: Setup (CarregarCasoTeste + config financeira)
+    O-&gt;&gt;CT: CarregarCasoTeste('FINANCEIRO','FINANCEIRO','TDD_FINANCEIRO')
+    CT--&gt;&gt;O: JSON_CASO_TESTE (JSON genérico plano)
+    O-&gt;&gt;CFG: TDDReaderODBCP(SELECT * FROM FINANCEIRO_CONFIGURACAO)
+    Note over O: ValidarCasoTeste (EMPRESA_DUP, TIPODOC_DUP, JSON vazio)
+    O-&gt;&gt;O: 1) _IncluirDuplicata(Receber)
+    O-&gt;&gt;O: 2) _IncluirDuplicata(Pagar)
+    O-&gt;&gt;O: 3) _IncluirBorderoRecebimento (marca e baixa as receber)
+    O-&gt;&gt;O: 4) _IncluirBorderoPagamento (marca e baixa as pagar)
+    O-&gt;&gt;O: TearDown_DestruirObjetos
+</code></pre>
+<h2 id="contrato-do-json-generico-tdd_json_base_financeiro-grupo-1369-codigo-27">Contrato do JSON genérico (<code>TDD_JSON_BASE_FINANCEIRO</code>, grupo 1369, código 27)</h2>
+<p>JSON <strong>plano</strong> (sem objetos aninhados por recurso). Tags compartilhadas entre os recursos;
+quando o valor é <code>0</code>, cada recurso aplica o fallback da <code>FINANCEIRO_CONFIGURACAO</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Fallback (quando 0)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PESSOA_DUP</code></td>
+<td>Receber → <code>CLIENTE_FINCONFIG</code>; Pagar → <code>FORNECEDOR_FINCONFIG</code></td>
+</tr>
+<tr>
+<td><code>VALOR_DUP</code></td>
+<td>Receber → <code>VALOR_PADRAO_RECEBER_FINCONFIG</code>; Pagar → <code>VALOR_PADRAO_PAGAR_FINCONFIG</code></td>
+</tr>
+<tr>
+<td><code>GRUPORESULTADO_DUPGR</code></td>
+<td>Receber → <code>GR_CONTAS_RECEBER_FINCONFIG</code>; Pagar → <code>GR_CONTAS_PAGAR_FINCONFIG</code></td>
+</tr>
+<tr>
+<td><code>CONTA_BORD</code></td>
+<td>Ambos os borderôs → <code>CONTA_PRINCIPAL_FINCONFIG</code></td>
+</tr>
+<tr>
+<td><code>TIPODOC_DUP</code></td>
+<td>Obrigatória (validada); fallback → <code>TIPO_FINCONFIG</code> na inclusão</td>
+</tr>
+<tr>
+<td><code>QUALIFICACAO_DUP</code></td>
+<td>Opcional; aplicada somente se &gt; 0</td>
+</tr>
+</tbody>
+</table>
+<p>A seção <code>parametros</code> mantém as flags de configuração financeira (<code>*_CFS</code>) para futuras validações.</p>
+<h2 id="observacoes">Observações</h2>
+<ul>
+<li><strong>O JSON do caso de teste deve ser gravado em formato compacto</strong> (sem espaços após
+  <code>:</code> e <code>,</code>), ex.: <code>{"EMPRESA_DUP":1,...}</code>. O parser de tags de <code>P39_TDD_FUNCOES_JSON</code>
+  não tolera <em>pretty-print</em>; com espaçamento, <code>ValorInteiroTag</code> retorna o default (<code>0</code>)
+  e a validação acusa "Tag ausente ou zerada" (erro observado na primeira execução).</li>
+<li>A unit orquestradora foi renomeada pelo usuário para <strong><code>REFACTOR_TDD_FINANCEIRO</code></strong>
+  (código 38, grupo 1367).</li>
+<li>Os casos antigos da área BORDERÔ (AUTOINC 8, 26 e 27) foram <strong>inativados</strong> no banco dedicado;
+  o caso unificado é o AUTOINC <strong>28 – TDD_FINANCEIRO</strong>.</li>
+<li>O fluxo do borderô de pagamento depende da unit global
+  <code>P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO</code> (Tek Store), que expõe
+  <code>CriarObjetos</code>, <code>IniciarCDSCadastroBordero</code>, <code>fBorderoPagamento</code>, <code>CDSPagar</code>,
+  <code>CDSComplemento</code>, <code>SPessoa</code>, <code>rgPessoa</code>, <code>PageControl</code> e as abas (<code>cAbaContasPagar</code>,
+  <code>cAbaComplementos</code>).</li>
+<li>Pontos que exigem validação em execução real no ERP: seleção do fornecedor via
+  <code>SPessoa.Value</code> + <code>rgPessoa.ItemIndex := 1</code> e nomes dos campos <code>VLREMABERTO</code>/<code>MARQUE</code>
+  do <code>CDSPagar</code>.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

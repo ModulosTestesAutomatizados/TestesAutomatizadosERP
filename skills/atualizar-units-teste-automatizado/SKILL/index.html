@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>atualizarUnitsTesteAutomatizado - Base de Conhecimento - Delphi TDD</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "atualizarUnitsTesteAutomatizado";
+        var mkdocs_page_input_path = "skills/atualizar-units-teste-automatizado/SKILL.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Base de Conhecimento - Delphi TDD
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../AGENTS/">Diretrizes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Documentação</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../docs/MER/">MER</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Mapeamento Uses</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/P39_TDD_FIN_DUPLICATAS/">Duplicatas</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO/">Bordero</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/TDD_CARREGAR_CASO_TESTE/">Carregar Caso Teste</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Skills</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../banco-dedicado/SKILL/">Banco Dedicado</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../banco-erp-unidades/SKILL/">Banco ERP Unidades</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tdd-odbc/SKILL/">TDD ODBC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../interpretador-delphi-erp/SKILL.md">Interpretador ERP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../estrutura-testes-erp/SKILL/">Estrutura Testes</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../entregas/SKILL.md">Entregas</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../generate-report/SKILL.md">Generate Report</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../context7/SKILL.md">Context7</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Base de Conhecimento - Delphi TDD</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">atualizarUnitsTesteAutomatizado</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="atualizarunitstesteautomatizado">atualizarUnitsTesteAutomatizado</h1>
+<p>Sincroniza as units de teste automatizado (nome iniciado por <code>TDD</code>) da <strong>TekStore</strong>
+com um diretório local de <code>.pas</code>, definido conforme a seção <strong>1. Diretório de destino</strong>.</p>
+<p>Regras do processo:
+1. Baixa da API apenas as units cujo nome contém <code>TDD</code> (<code>filtro=nome=~TDD</code>).
+2. Compara cada unit com o arquivo <code>.pas</code> local e grava <strong>somente</strong> se estiver
+   diferente ou ausente (nunca sobrescreve conteúdo idêntico).
+3. Ao final, exibe relatório com novos / atualizados / inalterados / falhas.
+4. Após a sincronização, <strong>chama automaticamente a skill <code>mermaid-testes-automatizados</code></strong>
+   para regenerar o diagrama Mermaid das units em <code>D:\TestesAutomatizados\ERP\Mermaid</code>.</p>
+<hr />
+<h2 id="1-diretorio-de-destino">1. Diretório de destino</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>diretório</td>
+<td><code>D:\TestesAutomatizados\ERP\SourceTDD</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Regras obrigatórias para o diretório:</strong></p>
+<ul>
+<li><strong>Primeira chamada</strong> (campo em branco acima): <strong>solicite ao usuário</strong> o caminho
+  do diretório onde as units devem ser gravadas.</li>
+<li>Se o usuário <strong>não informar</strong> o diretório, <strong>ABORTE imediatamente</strong> o processo
+  inteiro — não autentique, não consulte a API e não grave nada.</li>
+<li>Após uma sincronização bem-sucedida com um diretório informado em tempo de
+  execução, <strong>registre-o no campo acima</strong>, substituindo o texto em parênteses,
+  para que as próximas chamadas não precisem perguntar novamente.</li>
+<li>Nas chamadas seguintes, use o diretório já registrado sem perguntar.
+  Perguntar apenas se o usuário pedir explicitamente para alterar o destino.</li>
+</ul>
+<hr />
+<h2 id="2-credenciais-preencher-antes-de-usar">2. Credenciais (PREENCHER ANTES DE USAR)</h2>
+<blockquote>
+<p><strong>NUNCA deixe credenciais fixas em códigos versionados nem exiba-as em logs.</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td><em>(em branco — informe aqui ou solicite ao usuário)</em></td>
+</tr>
+<tr>
+<td>senha</td>
+<td><em>(em branco — informe aqui ou solicite ao usuário)</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Regras de autenticação (obrigatórias):</strong>
+- Se os campos acima estiverem em branco ao executar o comando,
+  <strong>solicite login e senha ao usuário antes de iniciar</strong> e não prossiga sem eles.
+- Se a autenticação na API <strong>falhar</strong> (erro HTTP 4xx/5xx no <code>/auth</code>, token vazio
+  ou resposta sem <code>data.token</code>), <strong>ABORTE imediatamente</strong> o processo inteiro,
+  informe o usuário e não tente nenhuma outra chamada.
+- Não persistir as credenciais informadas em tempo de execução, a menos que o
+  usuário peça explicitamente para salvá-las nesta skill.</p>
+<hr />
+<h2 id="3-contrato-da-api">3. Contrato da API</h2>
+<p>Base: <code>https://api.tekstore.teksystem.com.br</code></p>
+<table>
+<thead>
+<tr>
+<th>Operação</th>
+<th>Método</th>
+<th>Rota</th>
+<th>Observação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Autenticação</td>
+<td>POST</td>
+<td><code>/auth</code></td>
+<td>Body JSON <code>{ "email": "...", "senha": "..." }</code></td>
+</tr>
+<tr>
+<td>Listar units</td>
+<td>GET</td>
+<td><code>/unidadecodificacao?filtro=nome=~TDD&amp;ordenacao=codigo</code></td>
+<td>QueryParam <code>filtro</code> por nome (<code>~</code> = contém) + <code>ordenacao</code></td>
+</tr>
+<tr>
+<td>Detalhe da unit</td>
+<td>GET</td>
+<td><code>/unidadecodificacao/:CODIGO_UNIT</code></td>
+<td>Retorna <code>codificacao</code> completa</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>O token vem em <code>response.data.token</code>.</li>
+<li>Nas chamadas seguintes enviar o header <strong><code>Authorization: &lt;token&gt;</code></strong> (token puro,
+  <strong>sem</strong> o prefixo <code>Bearer</code>).</li>
+</ul>
+<hr />
+<h2 id="4-script-powershell-executar-via-shell">4. Script PowerShell (executar via Shell)</h2>
+<p>Preencha <code>$Dir</code>, <code>$Email</code> e <code>$Senha</code> (ou colete do usuário se vazios) antes de rodar.</p>
+<pre><code class="language-powershell"># ================= CONFIGURACAO =================
+$Dir   = &quot;&quot;   # &lt;- diretorio de destino (solicitar ao usuario se vazio; abortar sem ele)
+$Email = &quot;&quot;   # &lt;- preencher (deixe vazio para solicitar ao usuario)
+$Senha = &quot;&quot;   # &lt;- preencher (deixe vazio para solicitar ao usuario)
+$Base  = &quot;https://api.tekstore.teksystem.com.br&quot;
+# ================================================
+
+if ([string]::IsNullOrWhiteSpace($Dir)) {
+    throw &quot;DIRETORIO DE DESTINO NAO INFORMADO: solicite o caminho ao usuario. PROCESSO ABORTADO.&quot;
+}
+
+if (-not (Test-Path -LiteralPath $Dir)) { New-Item -ItemType Directory -Path $Dir -Force | Out-Null }
+
+if ([string]::IsNullOrWhiteSpace($Email) -or [string]::IsNullOrWhiteSpace($Senha)) {
+    throw &quot;CREDENCIAIS NAO INFORMADAS: solicite login e senha ao usuario e execute novamente.&quot;
+}
+
+# --- 1. AUTENTICACAO (aborta tudo se falhar) ---
+try {
+    $body = @{ email = $Email; senha = $Senha } | ConvertTo-Json
+    $auth = Invoke-RestMethod -Uri &quot;$Base/auth&quot; -Method Post -Body $body -ContentType &quot;application/json&quot; -TimeoutSec 30
+} catch {
+    throw &quot;FALHA DE AUTENTICACAO NA API (/auth): &quot; + $_.Exception.Message + &quot; -&gt; PROCESSO ABORTADO.&quot;
+}
+if (-not $auth.data -or -not $auth.data.token) {
+    throw &quot;RESPOSTA DE /auth SEM TOKEN VALIDO -&gt; PROCESSO ABORTADO.&quot;
+}
+$headers = @{ Authorization = $auth.data.token }
+
+# --- 2. LISTAR UNITS TDD ---
+try {
+    $lista = Invoke-RestMethod -Uri &quot;$Base/unidadecodificacao?filtro=nome=~TDD&amp;ordenacao=codigo&quot; -Method Get -Headers $headers -TimeoutSec 60
+} catch {
+    throw &quot;FALHA AO CONSULTAR UNITS -&gt; PROCESSO ABORTADO: &quot; + $_.Exception.Message
+}
+
+$novos = 0; $atualizados = 0; $inalterados = 0; $falhas = @()
+$utf8Bom = New-Object System.Text.UTF8Encoding($true)
+
+# --- 3. COMPARAR E ATUALIZAR ---
+foreach ($u in $lista.data) {
+    try {
+        $det = Invoke-RestMethod -Uri (&quot;$Base/unidadecodificacao/&quot; + $u.codigo) -Method Get -Headers $headers -TimeoutSec 60
+        $conteudoApi = $det.data.codificacao
+        $arquivo = Join-Path $dir ($u.nome + &quot;.pas&quot;)
+
+        if (-not (Test-Path -LiteralPath $arquivo)) {
+            [IO.File]::WriteAllText($arquivo, $conteudoApi, $utf8Bom)
+            Write-Output (&quot;NOVO       &quot; + $u.codigo + &quot;  &quot; + $u.nome + &quot;.pas&quot;)
+            $novos++
+        }
+        else {
+            $conteudoLocal = [IO.File]::ReadAllText($arquivo)
+            if ($conteudoLocal -ne $conteudoApi) {
+                [IO.File]::WriteAllText($arquivo, $conteudoApi, $utf8Bom)
+                Write-Output (&quot;ATUALIZADO &quot; + $u.codigo + &quot;  &quot; + $u.nome + &quot;.pas&quot;)
+                $atualizados++
+            }
+            else {
+                Write-Output (&quot;INALTERADO &quot; + $u.codigo + &quot;  &quot; + $u.nome + &quot;.pas&quot;)
+                $inalterados++
+            }
+        }
+        Start-Sleep -Milliseconds 150
+    }
+    catch {
+        Write-Output (&quot;ERRO       &quot; + $u.codigo + &quot;  &quot; + $u.nome + &quot;: &quot; + $_.Exception.Message)
+        $falhas += $u.nome
+    }
+}
+
+Write-Output &quot;&quot;
+Write-Output (&quot;RESUMO: &quot; + @($lista.data).Count + &quot; unidades na API | &quot; + $novos + &quot; novas | &quot; +
+    $atualizados + &quot; atualizadas | &quot; + $inalterados + &quot; inalteradas | &quot; + @($falhas).Count + &quot; falhas&quot; +
+    $(if ($falhas.Count -gt 0) { &quot; -&gt; &quot; + ($falhas -join ', ') } else { &quot;&quot; }))
+</code></pre>
+<hr />
+<h2 id="5-regras-adicionais">5. Regras adicionais</h2>
+<ul>
+<li><strong>Abortar</strong> o processo se o diretório de destino não for informado (seção 1).</li>
+<li><strong>Abortar</strong> o processo caso qualquer etapa de autenticação falhe (seção 2).</li>
+<li>Nunca imprimir a senha nem o token completo na saída do comando.</li>
+<li>Units locais <code>.pas</code> que não existirem mais na API devem ser apenas <strong>reportadas</strong>
+  (não excluídas), salvo instrução contrária do usuário.</li>
+<li>Este fluxo é idempotente: rodar novamente não gera alterações se nada mudou na API.</li>
+</ul>
+<hr />
+<h2 id="6-atualizacao-do-mermaid">6. Atualização do Mermaid</h2>
+<p>Após a sincronização bem-sucedida, <strong>carregar e executar</strong> a skill
+<code>mermaid-testes-automatizados</code> para regenerar o diagrama das units:</p>
+<ul>
+<li>Diretório das units a analisar: <code>D:\TestesAutomatizados\ERP\SourceTDD</code></li>
+<li>Diretório de saída dos diagramas: <code>D:\TestesAutomatizados\ERP\Mermaid</code></li>
+<li>Os diagramas usam como fonte a última versão baixada das units.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Banco Dedicado - Base de Conhecimento - Delphi TDD</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Banco Dedicado";
+        var mkdocs_page_input_path = "skills/banco-dedicado/SKILL.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Base de Conhecimento - Delphi TDD
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../AGENTS/">Diretrizes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Documentação</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../docs/MER/">MER</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Mapeamento Uses</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/P39_TDD_FIN_DUPLICATAS/">Duplicatas</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO/">Bordero</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/TDD_CARREGAR_CASO_TESTE/">Carregar Caso Teste</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Skills</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Banco Dedicado</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#regra-de-inclusao-de-registros-critica">Regra de inclusão de registros (crítica)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#inclusao-de-units-regra-padrao">Inclusão de units (regra padrão)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#conexao-odbc">Conexão ODBC</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#metodos-disponiveis-p39_tdd_odbc">Métodos disponíveis (P39_TDD_ODBC)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#regras-para-montar-consultas">Regras para montar consultas</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#modelo-de-dados">Modelo de dados</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#operacoes-de-escrita-e-testes">Operações de escrita e testes</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../banco-erp-unidades/SKILL/">Banco ERP Unidades</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tdd-odbc/SKILL/">TDD ODBC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../interpretador-delphi-erp/SKILL.md">Interpretador ERP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../estrutura-testes-erp/SKILL/">Estrutura Testes</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../entregas/SKILL.md">Entregas</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../generate-report/SKILL.md">Generate Report</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../context7/SKILL.md">Context7</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Base de Conhecimento - Delphi TDD</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Skills</li>
+      <li class="breadcrumb-item active">Banco Dedicado</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="banco-de-dados-dedicado">Banco de dados dedicado</h1>
+<p>Os testes automatizados do ERP não operam diretamente no banco vinculado ao
+aplicativo. Eles utilizam um <strong>banco de dados dedicado</strong> de testes, hospedado
+em Firebird 5, que é acessado exclusivamente por conexão <strong>ODBC de 32 bits</strong>
+no cliente.</p>
+<blockquote>
+<p><strong>Nota:</strong> a referência central dos bancos (qual conectar para executar vs.
+para registrar, e <strong>como gerar o código ao inserir registros</strong>) está em
+<strong><a href="../databases/">databases.md</a></strong>. Sempre que a tarefa envolver "banco que
+executa os testes" ou "banco que registra os testes", ou a <strong>inclusão de
+registros</strong>, consultar <code>databases.md</code> antes de montar a conexão.</p>
+<ul>
+<li><strong>Executa</strong> os casos de teste → <code>DADOSMC.FDB</code></li>
+<li><strong>Registra</strong> os casos de teste (casos/config) → <code>TESTEAUTOMATIZADOMC.FDB</code></li>
+</ul>
+<h2 id="regra-de-inclusao-de-registros-critica">Regra de inclusão de registros (crítica)</h2>
+<p>Ao <strong>inserir registros em qualquer tabela dos bancos dedicados</strong>, o código da
+chave jamais deve ser gerado manualmente/aleatoriamente. A regra (detalhada em
+<code>databases.md</code>) é:</p>
+<ul>
+<li><strong>Banco que EXECUTA</strong> (<code>DADOSMC.FDB</code>): por tabela, usar <code>NEXT VALUE FOR
+  &lt;GEN_*&gt;</code> <strong>ou</strong> somar 1 ao <code>CODIGO_AUTOINC</code> da tabela <code>AUTOINCREMENTOS</code>.</li>
+<li><strong>Banco que REGISTRA</strong> (<code>TESTEAUTOMATIZADOMC.FDB</code>): usar <code>NEXT VALUE FOR
+  &lt;GEN_*&gt;</code>.</li>
+</ul>
+<h2 id="inclusao-de-units-regra-padrao">Inclusão de units (regra padrão)</h2>
+<p>A inclusão de units TDD de codificação (ex.: <code>TDD_*</code>) deve ser feita <strong>por padrão</strong>
+no banco que <strong>EXECUTA</strong> os casos de teste (<code>DADOSMC.FDB</code>), na tabela
+<strong><code>GR_UNIDADE_CODIFICACAO</code></strong>.</p>
+<p>Quando o usuário solicitar explicitamente a inclusão no banco que <strong>REGISTRA</strong>
+(<code>TESTEAUTOMATIZADOMC.FDB</code>), aí sim usar a tabela <code>UNIT</code> deste banco.</p>
+</blockquote>
+<h2 id="conexao-odbc">Conexão ODBC</h2>
+<p>A conexão é centralizada e padronizada. <strong>Nunca</strong> deve ser criada uma nova
+string de conexão na codificação de teste — sempre use a abstração existente:</p>
+<table>
+<thead>
+<tr>
+<th>Artefato</th>
+<th>Responsabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>P39_TDD_CONSTANTES</code></td>
+<td>Declara a constante <code>cConexaoODBCPadrao</code> com a string de conexão.</td>
+</tr>
+<tr>
+<td><code>P39_TDD_ODBC</code></td>
+<td>Centraliza os métodos ODBC e mantém a conexão em 32 bits (cliente).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="metodos-disponiveis-p39_tdd_odbc">Métodos disponíveis (P39_TDD_ODBC)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Finalidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TDDCommandODBC(pSql, pParametros)</code></td>
+<td>Operações de escrita, como INSERT e UPDATE.</td>
+</tr>
+<tr>
+<td><code>TDDReaderODBC(pSql, pParametros)</code></td>
+<td>Operações de leitura com retorno de múltiplos registros.</td>
+</tr>
+<tr>
+<td><code>TDDScalarODBC(pSql, pParametros)</code></td>
+<td>Operações de leitura com retorno de um único valor.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="regras-para-montar-consultas">Regras para montar consultas</h2>
+<ol>
+<li>Utilizar exclusivamente os métodos <code>TDD*ODBC</code> da unit <code>P39_TDD_ODBC</code>.</li>
+<li>Passar <code>pParametros := null</code> ao usar <code>Format(sql, [parâmetros])</code>.</li>
+<li>Não declarar strings de conexão locais; depender sempre de
+   <code>cConexaoODBCPadrao</code>.</li>
+<li>O banco dedicado é um Firebird 5; consultas devem respeitar a sintaxe
+   Firebird (ex.: <code>SELECT FIRST n</code>, <code>RDB$</code> apenas para metadados).</li>
+<li>Antes de escrever consultas sobre tabelas desconhecidas, consultar o
+   diagrama do modelo de dados em <code>docs/MER.md</code>.</li>
+</ol>
+<h2 id="modelo-de-dados">Modelo de dados</h2>
+<p>O esquema do banco dedicado (tabelas, colunas, PKs e relacionamentos) está
+documentado em <code>docs/MER.md</code>, no formato Mermaid ER.</p>
+<h2 id="operacoes-de-escrita-e-testes">Operações de escrita e testes</h2>
+<p>Toda manipulação de dados usada como massa de teste deve ser executada
+através dos métodos ODBC. Os testes devem operar apenas no banco dedicado,
+nunca no banco de produção/ERP.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../../docs/mapeamentoUses/TDD_CARREGAR_CASO_TESTE/" class="btn btn-neutral float-left" title="Carregar Caso Teste"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../banco-erp-unidades/SKILL/" class="btn btn-neutral float-right" title="Banco ERP Unidades">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../../docs/mapeamentoUses/TDD_CARREGAR_CASO_TESTE/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../banco-erp-unidades/SKILL/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

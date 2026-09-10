@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Estrutura Testes - Base de Conhecimento - Delphi TDD</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Estrutura Testes";
+        var mkdocs_page_input_path = "skills/estrutura-testes-erp/SKILL.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Base de Conhecimento - Delphi TDD
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../AGENTS/">Diretrizes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Documentação</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../docs/MER/">MER</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Mapeamento Uses</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/P39_TDD_FIN_DUPLICATAS/">Duplicatas</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO/">Bordero</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/TDD_CARREGAR_CASO_TESTE/">Carregar Caso Teste</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Skills</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../banco-dedicado/SKILL/">Banco Dedicado</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../banco-erp-unidades/SKILL/">Banco ERP Unidades</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tdd-odbc/SKILL/">TDD ODBC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../interpretador-delphi-erp/SKILL.md">Interpretador ERP</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Estrutura Testes</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#fluxo-de-execucao-de-um-caso-de-teste">Fluxo de execução de um caso de teste</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#etapas-do-padrao">Etapas do padrão</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#carregamento-do-caso-de-teste">Carregamento do caso de teste</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#validacao-do-json-do-caso-de-teste">Validação do JSON do caso de teste</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#leitura-de-tags-do-json">Leitura de tags do JSON</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mapeamento-de-componentes-de-tela">Mapeamento de componentes de tela</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#regras-gerais">Regras gerais</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../entregas/SKILL.md">Entregas</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../generate-report/SKILL.md">Generate Report</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../context7/SKILL.md">Context7</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Base de Conhecimento - Delphi TDD</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Skills</li>
+      <li class="breadcrumb-item active">Estrutura Testes</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="estrutura-de-testes-automatizados-do-erp">Estrutura de Testes Automatizados do ERP</h1>
+<p>Padrão de codificação usado para estruturar um caso de teste executado no
+interpretador do ERP (módulo BI / Pascal Script).</p>
+<h2 id="fluxo-de-execucao-de-um-caso-de-teste">Fluxo de execução de um caso de teste</h2>
+<p>A unit do caso de teste deve expor uma rotina pública de execução (ex.:
+<code>IncluirBorderoRecebimento</code>) que orquestra o ciclo de vida:</p>
+<pre><code class="language-pascal">procedure IncluirBorderoRecebimento;
+begin
+  Setup;
+  try
+    Teste;
+  finally
+    TearDown_DestruirObjetos;
+  end;
+end;
+</code></pre>
+<p>Quando o teste ainda não é o responsável final (uso em desenvolvimento), pode-se
+expor uma rotina mais simples:</p>
+<pre><code class="language-pascal">procedure ExecutarCasoTeste;
+begin
+  Setup;
+  Teste;
+end;
+</code></pre>
+<h2 id="etapas-do-padrao">Etapas do padrão</h2>
+<table>
+<thead>
+<tr>
+<th>Etapa</th>
+<th>Responsabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Setup</code></td>
+<td>Abre a tela via <code>CallBack_AbreTela(ClassOwner)</code>, chama <code>Setup_Inicializar</code> e fecha via <code>CallBack_FechaTela(ClassOwner)</code>.</td>
+</tr>
+<tr>
+<td><code>Setup_Inicializar</code></td>
+<td>Orquestra <code>Setup_InicializarObjetos</code> + <code>Setup_IniciarFormulario</code>.</td>
+</tr>
+<tr>
+<td><code>Setup_InicializarObjetos</code></td>
+<td>Cria os <code>TClientDataSet</code>, carrega o caso de teste e a configuração financeira, valida o JSON.</td>
+</tr>
+<tr>
+<td><code>Setup_IniciarFormulario</code></td>
+<td>Mapeia os componentes da tela (<code>MapearBordero</code>, por exemplo).</td>
+</tr>
+<tr>
+<td><code>Teste</code></td>
+<td>Abre a tela, executa <code>Teste_Executar</code> e fecha.</td>
+</tr>
+<tr>
+<td><code>Teste_Executar</code></td>
+<td>Valida o caso de teste e executa o fluxo de negócio em si.</td>
+</tr>
+<tr>
+<td><code>TearDown_DestruirObjetos</code></td>
+<td>Libera os objetos criados no setup (<code>Free</code>).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="carregamento-do-caso-de-teste">Carregamento do caso de teste</h2>
+<p>O caso de teste é lido do banco dedicado por <code>TDD_CARREGAR_CASO_TESTE</code>:</p>
+<pre><code class="language-pascal">{ TDD_CARREGAR_CASO_TESTE.}CarregarCasoTeste(pCDSCasoTeste, pModulo, pArea, pCasoTeste);
+</code></pre>
+<ul>
+<li>O <code>TClientDataSet</code> de destino é <strong>criado pela unit principal</strong> e passado por
+  referência; a rotina apenas popula os dados.</li>
+<li>Após o carregamento, o JSON do caso de teste fica em
+  <code>pCDSCasoTeste.FieldByName('JSON_CASO_TESTE').AsString</code>.</li>
+<li>A configuração financeira é carregada via
+  <code>FCDSConfig.Data := TDDReaderODBC(GetSQLSelectFinanceiroConfig, null);</code>
+  (unit <code>P39_TDD_FIN_CONFIG_FINANCEIRO</code>).</li>
+</ul>
+<h2 id="validacao-do-json-do-caso-de-teste">Validação do JSON do caso de teste</h2>
+<p>A unit deve expor <code>SetCasoTeste</code>, <code>ValidarCasoTeste</code> e flags de validação:</p>
+<pre><code class="language-pascal">procedure SetCasoTeste(pCasoTeste: String);
+begin
+  FJSONCasoTeste := pCasoTeste;
+  ValidarCasoTeste;
+end;
+
+procedure ValidarCasoTeste;
+begin
+  FMsgCasoTesteInvalido := '';
+
+  if Trim(FJSONCasoTeste) = '' then
+    FMsgCasoTesteInvalido := FMsgCasoTesteInvalido + #13 + 'JSON do caso de teste vazio! (JSON_CASO_TESTE)';
+
+  FCasoTesteInvalido := (FMsgCasoTesteInvalido &lt;&gt; '');
+end;
+</code></pre>
+<h2 id="leitura-de-tags-do-json">Leitura de tags do JSON</h2>
+<p>Usar os wrappers de <code>P39_TDD_FUNCOES_JSON</code> centralizados em funções próprias da
+unit:</p>
+<pre><code class="language-pascal">function ValorInteiroTagBordero(pTagName: String; pDefault: Integer): Integer;
+begin
+  Result := ValorInteiroTag(FJSONCasoTeste, pTagName, pDefault);
+end;
+</code></pre>
+<h2 id="mapeamento-de-componentes-de-tela">Mapeamento de componentes de tela</h2>
+<p>Criar uma unit de mapeamento por tela (ex.:
+<code>TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO</code>) que:</p>
+<ul>
+<li>Expõe <code>procedure MapearBordero</code> (nome semântico por tela) criando o form via
+  <code>FormCriadoPeloNome</code> com fallback <code>CriarFormPeloNome</code>, o data module via
+  <code>FindComponent</code> e os componentes/CDSs via <code>FindComponent</code>.</li>
+<li>Expõe ações da tela como <code>IncluirBordero</code>, <code>Filtrar</code>, <code>GravarBordero</code>
+  (usando <code>ExecutarMetodoDeObjeto</code>).</li>
+<li>Navega entre abas via <code>PageControl.ActivePage := TSReceber</code> (TabSheets
+  mapeados), evitando índices numéricos.</li>
+</ul>
+<h2 id="regras-gerais">Regras gerais</h2>
+<ul>
+<li><strong>Nunca assumir nomes de componentes/form</strong>: procurar a unit de mapeamento
+  real (ex.: borderô de recebimento é <code>FCadBorderoAcerto</code>, não
+  <code>FCadBorderoRecebimento</code>).</li>
+<li>Aplicar herança de <code>uses</code>: não declarar unit que já vem transitivamente.</li>
+<li>Registrar diagrama Mermaid dos <code>uses</code> em <code>docs/mapeamentoUses/&lt;UNIT&gt;.md</code>.</li>
+<li>Ao referenciar no <code>uses</code> uma unit global feita por outro desenvolvedor, apontar para a
+  variante remota (<code>P39_TDD_*</code>). A variante local sem o prefixo (ex.:
+  <code>TDD_REGISTRAR_CASO_TESTE</code>) pode não existir como unit global no ERP e causa erro de
+  resolução de <code>uses</code>.</li>
+<li>Os dados do JSON do caso de teste devem ser acertivos com o estado real do banco/ERP
+  (ex.: <code>PESSOA_DUP</code> precisa ser uma pessoa com duplicatas a receber em aberto). Valores
+  incoerentes caem em regras de negócio do ERP, como <em>"O valor do complemento deve ser
+  maior que zero"</em>.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../tdd-odbc/SKILL/" class="btn btn-neutral float-left" title="TDD ODBC"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../tdd-odbc/SKILL/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

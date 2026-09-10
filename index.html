@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Base de Conhecimento - Delphi TDD</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Home";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> Base de Conhecimento - Delphi TDD
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#estrutura-do-repositorio">📂 Estrutura do Repositório</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#como-adicionar-novas-skills-acoestopicos">🧩 Como Adicionar Novas Skills (Ações/Tópicos)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#como-criar-novas-skills-via-codigo-code-first">🛠️ Como Criar Novas Skills via Código (Code-First)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#passo-1-criar-o-diretorio-da-skill">Passo 1: Criar o Diretório da Skill</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#passo-2-criar-o-arquivo-de-metadados-botcomponentxml">Passo 2: Criar o Arquivo de Metadados (botcomponent.xml)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#passo-3-criar-o-arquivo-de-logica-data">Passo 3: Criar o Arquivo de Lógica (data)</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#cole-o-template-abaixo-e-construa-a-sua-logica">Cole o template abaixo e construa a sua lógica</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#passo-4-commit-e-deploy">Passo 4: Commit e Deploy</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#por-que-isso-funciona">🚀 Por que isso funciona?</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#agente-local-no-opencode">🤖 Agente Local no opencode</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#configuracao-na-maquina-do-desenvolvedor">Configuração na máquina do desenvolvedor</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pre-requisitos">Pré-requisitos</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#uso-avancado">Uso avançado</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#como-adicionar-novos-mcps-conectores">🔌 Como Adicionar Novos MCPs (Conectores)</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="AGENTS/">Diretrizes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Documentação</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="docs/MER/">MER</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Mapeamento Uses</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="docs/mapeamentoUses/P39_TDD_FIN_DUPLICATAS/">Duplicatas</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="docs/mapeamentoUses/P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO/">Bordero</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="docs/mapeamentoUses/TDD_CARREGAR_CASO_TESTE/">Carregar Caso Teste</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Skills</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="skills/banco-dedicado/SKILL/">Banco Dedicado</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="skills/banco-erp-unidades/SKILL/">Banco ERP Unidades</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="skills/tdd-odbc/SKILL/">TDD ODBC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="skills/interpretador-delphi-erp/SKILL.md">Interpretador ERP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="skills/estrutura-testes-erp/SKILL/">Estrutura Testes</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="skills/entregas/SKILL.md">Entregas</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="skills/generate-report/SKILL.md">Generate Report</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="skills/context7/SKILL.md">Context7</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">Base de Conhecimento - Delphi TDD</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Home</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="fonte-conhecimento-agente-delphi-tdd">fonte-conhecimento-agente-delphi-tdd</h1>
+<p>Repositório público com a fonte de conhecimento para o agente criado com a finalidade de auxiliar no desenvolvimento dos testes automatizados.</p>
+<h2 id="estrutura-do-repositorio">📂 Estrutura do Repositório</h2>
+<p>Nossa estrutura  dividida entre a documenta o/base de conhecimento e o c digo-fonte da solu o do Copilot Studio:</p>
+<pre><code class="language-text">├── .github/workflows/      # Pipelines de CI/CD (Deploy da Solu o e MkDocs)
+├── assets/                 # Arquivos auxiliares e scripts Delphi
+├── docs/                   # Documenta o t cnica (MER, Mapeamento de Uses)
+├── skills/                 # Base de Conhecimento do Agente (Arquivos .md)
+├── src/                    # C digo-fonte desempacotado da Solu o Power Platform
+│   ├── bots/               # Configura es principais do Agente
+│   ├── botcomponents/      # T picos e Skills (A es) nativas do Copilot
+│   ├── Connectors/         # Defini es de Conectores Customizados (MCPs)
+│   └── Other/              # Metadados da Solu o (Solution.xml, etc.)
+├── mkdocs.yml              # Configura o do portal de documenta o
+└── README.md               # Este arquivo
+</code></pre>
+<hr />
+<h2 id="como-adicionar-novas-skills-acoestopicos">🧩 Como Adicionar Novas Skills (Ações/Tópicos)</h2>
+<p>Para adicionar novas capacidades comportamentais ao agente, voc  tem duas op</p>
+<p><strong>Op o 1: Base de Conhecimento (RAG)</strong>
+Se a skill for apenas informacional (como as diretrizes de TDD), adicione um novo diret rio e um arquivo <code>SKILL.md</code> dentro da pasta <code>skills/</code>.</p>
+<p><strong>Op o 2: A es do Copilot (Power e Actions)</strong>
+Se a skill exigir integra o l gica:</p>
+<ol>
+<li>Crie o rascunho visualmente no Copilot Studio.</li>
+<li>Exporte a solu o e fa a o <code>unpack</code>.</li>
+<li>Os novos t picos/skills aparecer o em <code>src/botcomponents/</code>. Voc  pode editar o YAML diretamente nestes arquivos para ajustar l gica, prompts e vari veis.</li>
+</ol>
+<hr />
+<h2 id="como-criar-novas-skills-via-codigo-code-first">🛠️ Como Criar Novas Skills via Código (Code-First)</h2>
+<p>Para que qualquer desenvolvedor adicione uma nova skill ao agente sem precisar acessar o portal do Copilot Studio, basta seguir este template.</p>
+<p>O nosso agente principal tem o ID interno: <code>cr6d8_delphitdd_fmc1IK</code>. Todas as skills devem ser filhas dele.</p>
+<p>O arquivo pode ser chamado data (sem extensão) ou data.yml. Extensão .yml é recomendada por facilitar sintaxe e validação.</p>
+<h3 id="passo-1-criar-o-diretorio-da-skill">Passo 1: Criar o Diretório da Skill</h3>
+<p>Dentro da pasta <code>src/botcomponents/</code>, crie uma nova pasta seguindo esta exata nomenclatura:
+<code>cr6d8_delphitdd_fmc1IK.skill.[nome_da_skill]_[sufixo_aleatorio]</code></p>
+<ul>
+<li><strong>Exemplo:</strong> <code>cr6d8_delphitdd_fmc1IK.skill.gerar_relatorio_abc</code></li>
+<li><em>Nota:</em> O sufixo aleatório (ex: <code>abc</code>, <code>gLR</code>, <code>v1</code>) garante que o ID não conflite com outras skills no banco de dados.</li>
+</ul>
+<h3 id="passo-2-criar-o-arquivo-de-metadados-botcomponentxml">Passo 2: Criar o Arquivo de Metadados (<code>botcomponent.xml</code>)</h3>
+<p>Dentro da nova pasta, crie um arquivo chamado <code>botcomponent.xml</code> e cole o template abaixo.
+<strong>Atenção:</strong> Substitua os valores entre colchetes <code>[]</code> pelos dados da sua skill. O <code>schemaname</code> deve ser <strong>idêntico</strong> ao nome da pasta que você acabou de criar.</p>
+<pre><code class="language-xml">&lt;botcomponent schemaname=&quot;cr6d8_delphitdd_fmc1IK.skill.[nome_da_skill]_[sufixo_aleatorio]&quot;&gt;
+  &lt;componenttype&gt;9&lt;/componenttype&gt;
+  &lt;description&gt;[Escreva aqui para que serve essa skill, o agente usará isso para saber quando chamá-la]&lt;/description&gt;
+  &lt;iscustomizable&gt;0&lt;/iscustomizable&gt;
+  &lt;name&gt;[Nome Amigável da Skill]&lt;/name&gt;
+  &lt;parentbotid&gt;
+    &lt;schemaname&gt;cr6d8_delphitdd_fmc1IK&lt;/schemaname&gt;
+  &lt;/parentbotid&gt;
+  &lt;statecode&gt;0&lt;/statecode&gt;
+  &lt;statuscode&gt;1&lt;/statuscode&gt;
+&lt;/botcomponent&gt;
+</code></pre>
+<h3 id="passo-3-criar-o-arquivo-de-logica-data">Passo 3: Criar o Arquivo de Lógica (data)</h3>
+<ul>
+<li>Na mesma pasta, crie um arquivo chamado <em>data</em> ou <em>data.yml</em>. Este arquivo contém o Prompt ou fluxo em formato YAML.</li>
+<li>Este arquivo deve incluir:</li>
+<li>Bloco <code>&lt;skill&gt;</code> com <code>name</code>, <code>description</code> e <code>location</code>.</li>
+<li>Em seguida, a lógica da skill em formato YAML utilizando <code>content: |</code>.</li>
+</ul>
+<h4 id="cole-o-template-abaixo-e-construa-a-sua-logica">Cole o template abaixo e construa a sua lógica</h4>
+<pre><code class="language-yml">datakind: InlineAgentSkill
+- &lt;skill&gt;
+    &lt;name&gt;[nome_da_skill_sem_espacos]&lt;/name&gt;
+    &lt;description&gt;[Descrição amigável]&lt;/description&gt;
+    &lt;location&gt;custom&lt;/location&gt;
+  &lt;/skill&gt;
+content: |
+  ---
+  name: [nome_da_skill_sem_espacos]
+  description: [Descrição da funcionalidade e contexto para o agente]
+  ---
+  &lt;!-- bic:source=upload --&gt;
+  # Diretrizes da Skill
+
+  Escreva aqui as instruções que orientam o comportamento do agente.
+</code></pre>
+<h3 id="passo-4-commit-e-deploy">Passo 4: Commit e Deploy</h3>
+<p>Após criar a pasta e os dois arquivos, faça o commit e envie para a branch main. Nossa pipeline CI/CD fará o empacotamento automático e a nova skill aparecerá no Copilot Studio em poucos minutos!</p>
+<hr />
+<h3 id="por-que-isso-funciona">🚀 Por que isso funciona?</h3>
+<p>O Power Platform reconhece que qualquer subpasta dentro de <a href="#passo-1-criar-o-diretório-da-skill"><code>src/botcomponents/</code></a> que possua um <a href="#passo-1-criar-o-diretório-da-skill"><code>botcomponent.xml</code></a> válido e faça referência ao <code>parentbotid</code> (no nosso caso, o <a href="#passo-1-criar-o-diretório-da-skill"><code>cr6d8_delphitdd_fmc1IK</code></a>) é um componente que deve ser amarrado ao agente.</p>
+<p>Com esse manual no <a href="#passo-1-criar-o-diretório-da-skill"><code>README.md</code></a>, qualquer dev da sua equipe consegue fazer engenharia de prompt, criar ações e versionar tudo bonitinho via Pull Request!</p>
+<hr />
+<hr />
+<h2 id="agente-local-no-opencode">🤖 Agente Local no opencode</h2>
+<p>O mesmo conhecimento do <code>skills/</code> é consumido pelo agente <strong>opencode</strong> (CLI local) <strong>sem duplicação</strong>: o <code>.opencode/opencode.json</code> aponta para <code>skills/</code> e para o <code>AGENTS.md</code> deste repositório. Assim, qualquer alteração nas skills via PR vale tanto para o portal (MkDocs/RAG) quanto para o agente local.</p>
+<h3 id="configuracao-na-maquina-do-desenvolvedor">Configuração na máquina do desenvolvedor</h3>
+<ol>
+<li>Clone o repositório:
+   <code>bash
+   git clone git@github.com:ModulosTestesAutomatizados/fonte-conhecimento-agente-delphi-tdd.git</code></li>
+<li>Execute o <code>abrir-agente-delphi.bat</code> (duplo clique). Na <strong>primeira execução</strong>, ele cria automaticamente o atalho <strong>Agente Delphi TDD</strong> na Área de Trabalho (somente se ainda não existir) e já abre o agente — sem nenhum caminho fixo (a localização é resolvida em tempo de execução).</li>
+<li>Pronto. A cada clique no atalho (ou no próprio <code>.bat</code>), o <code>abrir-agente-delphi.bat</code>:</li>
+<li>garante o atalho no Desktop, instalando-o apenas se não existir;</li>
+<li>executa <code>git fetch --all --prune</code> + <code>git pull --ff-only</code> (recebe os PRs de skills dos outros devs);</li>
+<li>se a branch atual não tiver upstream definido, cai automaticamente na <code>main</code>;</li>
+<li>em caso de conflito ou alterações locais pendentes, abre o <strong>VS Code</strong> na pasta para resolução manual;</li>
+<li>abre o <strong>opencode</strong> no diretório do repositório, carregando automaticamente as skills e as diretrizes do <code>AGENTS.md</code>, mescladas com a configuração global.</li>
+</ol>
+<h3 id="pre-requisitos">Pré-requisitos</h3>
+<ul>
+<li>Git instalado e no <code>PATH</code>;</li>
+<li><a href="https://opencode.ai">opencode</a> instalado e no <code>PATH</code>;</li>
+<li>VS Code no <code>PATH</code> (<code>code</code>) para a resolução manual de conflitos (opcional);</li>
+<li>Acesso ao remote via <strong>SSH</strong> (chave configurada) — ou troque a URL do remote para HTTPS:
+  <code>bash
+  git remote set-url origin https://github.com/ModulosTestesAutomatizados/fonte-conhecimento-agente-delphi-tdd.git</code></li>
+</ul>
+<blockquote>
+<p><strong>Novo?</strong> Consulte o <a href="docs/tutorial-instalacao/">Tutorial completo de instalação e configuração</a> para um guia passo a passo.</p>
+</blockquote>
+<h3 id="uso-avancado">Uso avançado</h3>
+<p>O contexto do agente (skills + <code>AGENTS.md</code>) carrega quando o opencode é aberto <strong>dentro deste repositório</strong> (é o que o atalho faz). Isso acontece porque os caminhos relativos do <code>.opencode/opencode.json</code> (<code>./skills</code> e <code>./AGENTS.md</code>) são resolvidos a partir do <strong>diretório onde o opencode é aberto</strong> — e não do arquivo de configuração.</p>
+<p>Para usar o contexto Delphi enquanto trabalha em <strong>outro projeto</strong>, crie um <code>.opencode/opencode.json</code> nesse projeto apontando para o clone (com caminho absoluto ou <code>~</code>), por exemplo:</p>
+<pre><code class="language-json">{
+  &quot;$schema&quot;: &quot;https://opencode.ai/config.json&quot;,
+  &quot;instructions&quot;: [&quot;C:\\caminho\\do\\clone\\AGENTS.md&quot;],
+  &quot;skills&quot;: { &quot;paths&quot;: [&quot;C:\\caminho\\do\\clone\\skills&quot;] }
+}
+</code></pre>
+<blockquote>
+<p>⚠️ <code>OPENCODE_CONFIG=... opencode &lt;projeto&gt;</code> <strong>não</strong> injeta as skills de outro repositório: os caminhos relativos da config seriam resolvidos em relação ao <code>&lt;projeto&gt;</code>, não ao clone.</p>
+</blockquote>
+<hr />
+<h2 id="como-adicionar-novos-mcps-conectores">🔌 Como Adicionar Novos MCPs (Conectores)</h2>
+<p>Os Model Context Protocols (MCPs) e conectores personalizados ficam armazenados em <code>src/Connectors/</code>.</p>
+<p>Para adicionar um novo ou modificar um existente (como o <code>context7</code>):</p>
+<ol>
+<li><strong>Defini o da API:</strong> Altere o arquivo <code>[nome_do_conector]_openapidefinition.json</code> para adicionar novos endpoints e m todos HTTP.</li>
+<li><strong>Par metros:</strong> Ajuste as credenciais de autentica o no <code>[nome_do_conector]_connectionparameters.json</code>.</li>
+<li><strong>Sincroniza o:</strong> Fa a o commit e push para a <code>main</code>. A pipeline ir  empacotar a pasta <code>src/</code> e atualizar a solu o no ambiente. <em>Lembre-se de reautenticar a Refer ncia de Conex o (Connection Reference) no portal ap s o deploy, se as chaves mudarem.</em></li>
+</ol>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="AGENTS/" class="btn btn-neutral float-right" title="Diretrizes">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href="AGENTS/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2026-09-10 18:45:45.761059+00:00
+-->

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Banco ERP Unidades - Base de Conhecimento - Delphi TDD</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Banco ERP Unidades";
+        var mkdocs_page_input_path = "skills/banco-erp-unidades/SKILL.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Base de Conhecimento - Delphi TDD
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../AGENTS/">Diretrizes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Documentação</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../docs/MER/">MER</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Mapeamento Uses</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/P39_TDD_FIN_DUPLICATAS/">Duplicatas</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO/">Bordero</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/TDD_CARREGAR_CASO_TESTE/">Carregar Caso Teste</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Skills</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../banco-dedicado/SKILL/">Banco Dedicado</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Banco ERP Unidades</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#banco-de-dados">Banco de dados</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#conexao-isql">Conexão (isql)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#estrutura-de-gr_unidade_codificacao">Estrutura de GR_UNIDADE_CODIFICACAO</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#dominios-de-valores-observados">Domínios de valores observados</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#grupo_unit-grupos-funcionais">GRUPO_UNIT (grupos funcionais)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tipo_unit">TIPO_UNIT</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#origem_unit">ORIGEM_UNIT</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#padraoteksystem_unit">PADRAOTEKSYSTEM_UNIT</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#consultas-uteis">Consultas úteis</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#listar-todas-as-units">Listar todas as units</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ler-o-codigo-completo-de-uma-unit-via-isql">Ler o código completo de uma unit (via isql)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#listar-units-por-grupo-tdd">Listar units por grupo (TDD)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#units-com-string-de-conexao-odbc">Units com string de conexão ODBC</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#boas-praticas">Boas práticas</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tdd-odbc/SKILL/">TDD ODBC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../interpretador-delphi-erp/SKILL.md">Interpretador ERP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../estrutura-testes-erp/SKILL/">Estrutura Testes</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../entregas/SKILL.md">Entregas</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../generate-report/SKILL.md">Generate Report</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../context7/SKILL.md">Context7</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Base de Conhecimento - Delphi TDD</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Skills</li>
+      <li class="breadcrumb-item active">Banco ERP Unidades</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="banco-de-dados-do-erp-unidades-de-codificacao">Banco de dados do ERP - Unidades de Codificação</h1>
+<p>O módulo BI armazena as unidades de codificação (Pascal Script interpretado) na
+tabela <strong><code>GR_UNIDADE_CODIFICACAO</code></strong>, dentro do banco de dados do próprio ERP.
+Consultar essas codificações é a melhor forma de descobrir padrões reais,
+métodos nativos disponíveis e a estrutura das units de teste (ver skill
+<code>interpretador-delphi-erp</code>).</p>
+<blockquote>
+<p><strong>Importante</strong>: este banco é o <strong>banco do ERP</strong> (somente leitura para estudo).
+Os testes automatizados <strong>nunca</strong> operam neste banco; eles usam o banco
+dedicado via ODBC (skill <code>banco-dedicado</code>).</p>
+</blockquote>
+<h2 id="banco-de-dados">Banco de dados</h2>
+<table>
+<thead>
+<tr>
+<th>Propriedade</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Arquivo <code>.FDB</code></td>
+<td><code>F:\Databases\Firebird5\DADOSMC_1032-TESTES-ERP.FDB</code></td>
+</tr>
+<tr>
+<td>SGBD</td>
+<td>Firebird 5.x</td>
+</tr>
+<tr>
+<td>Charset</td>
+<td><code>WIN1252</code></td>
+</tr>
+<tr>
+<td>Credencial local</td>
+<td><code>SYSDBA</code> / <code>masterkey</code></td>
+</tr>
+<tr>
+<td>Tabela principal</td>
+<td><code>GR_UNIDADE_CODIFICACAO</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="conexao-isql">Conexão (isql)</h2>
+<pre><code class="language-powershell">&amp; &quot;C:\Program Files\Firebird\Firebird_5_0\isql.exe&quot; -user SYSDBA -password masterkey &quot;F:\Databases\Firebird5\DADOSMC_1032-TESTES-ERP.FDB&quot; -ch &quot;WIN1252&quot; -q
+</code></pre>
+<ul>
+<li>Enviar o SQL via pipeline, ou abrir interativo.</li>
+<li>Para leitura de BLOBs de texto, executar <strong><code>SET BLOB ALL;</code></strong> antes da consulta.</li>
+<li>Não usar <code>cast(CODIFICACAO_UNIT as varchar(...))</code>: o Firebird retorna
+  SQLSTATE 22003 / erro <code>-842 Short integer expected</code> para BLOBs textuais.
+  Usar <code>SET BLOB ALL</code> no isql.</li>
+</ul>
+<h2 id="estrutura-de-gr_unidade_codificacao">Estrutura de GR_UNIDADE_CODIFICACAO</h2>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo Firebird</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CODIGO_UNIT</code></td>
+<td>LONG (Integer)</td>
+<td>Código sequencial da unit.</td>
+</tr>
+<tr>
+<td><code>PADRAOTEKSYSTEM_UNIT</code></td>
+<td>TEXT (1)</td>
+<td>Marca a unit como padrão do sistema: <code>S</code> ou <code>N</code>.</td>
+</tr>
+<tr>
+<td><code>NOME_UNIT</code></td>
+<td>VARYING (60)</td>
+<td>Nome da unit (referenciado no <code>uses</code>).</td>
+</tr>
+<tr>
+<td><code>AUTOR_UNIT</code></td>
+<td>VARYING (40)</td>
+<td>Autor da unit.</td>
+</tr>
+<tr>
+<td><code>GRUPO_UNIT</code></td>
+<td>LONG (Integer)</td>
+<td>Grupo funcional da unit (ver domínios abaixo).</td>
+</tr>
+<tr>
+<td><code>TIPO_UNIT</code></td>
+<td>SHORT</td>
+<td>Tipo de conteúdo da unit (ver domínios abaixo).</td>
+</tr>
+<tr>
+<td><code>ARMAZENAMENTO_UNIT</code></td>
+<td>SHORT</td>
+<td>Forma de armazenamento (0 = no banco).</td>
+</tr>
+<tr>
+<td><code>URL_REPOSITORIO_PUBLICO_UNIT</code></td>
+<td>VARYING (255)</td>
+<td>URL do repositório público da unit (se houver).</td>
+</tr>
+<tr>
+<td><code>ORIGEM_UNIT</code></td>
+<td>SHORT</td>
+<td>Origem/canal de criação da unit (ver domínios abaixo).</td>
+</tr>
+<tr>
+<td><code>CODIFICACAO_UNIT</code></td>
+<td>BLOB</td>
+<td><strong>Código Pascal</strong> da unit (interpretador).</td>
+</tr>
+<tr>
+<td><code>STRINGCONEXAOODBC_UNIT</code></td>
+<td>BLOB</td>
+<td>String de conexão ODBC associada à unit (se houver).</td>
+</tr>
+<tr>
+<td><code>OBSERVACAO_UNIT</code></td>
+<td>BLOB</td>
+<td>Observações da unit.</td>
+</tr>
+<tr>
+<td><code>DATAHORAINCLUSAO_UNIT</code></td>
+<td>TIMESTAMP</td>
+<td>Data/hora de inclusão.</td>
+</tr>
+<tr>
+<td><code>DATAHORAALTERACAO_UNIT</code></td>
+<td>TIMESTAMP</td>
+<td>Data/hora de alteração.</td>
+</tr>
+<tr>
+<td><code>USUARIOINCLUSAO_UNIT</code></td>
+<td>VARYING (20)</td>
+<td>Usuário que incluiu.</td>
+</tr>
+<tr>
+<td><code>USUARIOALTERACAO_UNIT</code></td>
+<td>VARYING (20)</td>
+<td>Usuário que alterou.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dominios-de-valores-observados">Domínios de valores observados</h2>
+<h3 id="grupo_unit-grupos-funcionais">GRUPO_UNIT (grupos funcionais)</h3>
+<table>
+<thead>
+<tr>
+<th>Valor</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Sem grupo (units diversas/padrão do sistema).</td>
+</tr>
+<tr>
+<td><code>997</code></td>
+<td>Aniversários (<code>DATAANIVERSARIODIA</code>, <code>DATAANIVERSARIOMES</code>).</td>
+</tr>
+<tr>
+<td><code>1367</code></td>
+<td>TDD Financeiro (Config Financeiro, Duplicatas SQL, Bordero, Mapeamento de Componentes).</td>
+</tr>
+<tr>
+<td><code>1369</code></td>
+<td>TDD JSON base (<code>TDD_JSON_BASE_CADASTRO_DUPLICATAS_RECEBER</code>).</td>
+</tr>
+<tr>
+<td><code>1371</code></td>
+<td>Núcleo TDD (<code>TDD_ODBC</code>, <code>TDD_REGISTRAR_CASO_TESTE</code>, <code>TDD_CARREGAR_CASO_TESTE</code>, <code>TDD_CASOS_DE_TESTE</code>, <code>TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS</code>).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tipo_unit">TIPO_UNIT</h3>
+<table>
+<thead>
+<tr>
+<th>Valor</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Pascal Script (codificação do interpretador).</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td>CSS (estilos web, ex.: <code>TEK_CSS_INDICADORES_NUMERICOS_FORMATO_WEB</code>).</td>
+</tr>
+<tr>
+<td><code>4</code></td>
+<td>SQL puro (ex.: <code>TEK_SQL_MONITOR_*</code>, <code>TEK_SQL_CONFIG_FIREBIRD_4</code>).</td>
+</tr>
+<tr>
+<td><code>5</code></td>
+<td>JSON (ex.: <code>TDD_JSON_BASE_CADASTRO_DUPLICATAS_RECEBER</code>).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="origem_unit">ORIGEM_UNIT</h3>
+<table>
+<thead>
+<tr>
+<th>Valor</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Units padrão do sistema.</td>
+</tr>
+<tr>
+<td><code>9</code></td>
+<td>Importada de repositório público (ex.: <code>TEK_CONFERE_RESERVA_COMPOSICAO</code>).</td>
+</tr>
+<tr>
+<td><code>20</code></td>
+<td>Criada via módulo BI do ERP (maioria, incluindo TDD).</td>
+</tr>
+<tr>
+<td><code>23</code></td>
+<td>Configuração/integração (ex.: <code>MADEIRA_MADEIRA_CONFIGURACAO_TESTE</code>, <code>TEK_COMERCIO_INTEGRACAO</code>).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="padraoteksystem_unit">PADRAOTEKSYSTEM_UNIT</h3>
+<table>
+<thead>
+<tr>
+<th>Valor</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>S</code></td>
+<td>Unit padrão do sistema TEK.</td>
+</tr>
+<tr>
+<td><code>N</code></td>
+<td>Unit personalizada/criada no ERP.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="consultas-uteis">Consultas úteis</h2>
+<h3 id="listar-todas-as-units">Listar todas as units</h3>
+<pre><code class="language-sql">SELECT CODIGO_UNIT, NOME_UNIT, GRUPO_UNIT, TIPO_UNIT, ORIGEM_UNIT,
+       PADRAOTEKSYSTEM_UNIT, AUTOR_UNIT
+FROM GR_UNIDADE_CODIFICACAO
+ORDER BY NOME_UNIT;
+</code></pre>
+<h3 id="ler-o-codigo-completo-de-uma-unit-via-isql">Ler o código completo de uma unit (via isql)</h3>
+<pre><code class="language-powershell">$sql = &quot;SET BLOB ALL; SELECT CODIGO_UNIT FROM GR_UNIDADE_CODIFICACAO WHERE NOME_UNIT = 'TDD_ODBC';&quot;
+$sql | &amp; &quot;C:\Program Files\Firebird\Firebird_5_0\isql.exe&quot; -user SYSDBA -password masterkey &quot;F:\Databases\Firebird5\DADOSMC_1032-TESTES-ERP.FDB&quot; -ch &quot;WIN1252&quot; -q
+</code></pre>
+<blockquote>
+<p>Para salvar em arquivo e ler depois, adicionar <code>| Out-File -FilePath "$env:TEMP\unit.txt" -Encoding utf8</code>.</p>
+</blockquote>
+<h3 id="listar-units-por-grupo-tdd">Listar units por grupo (TDD)</h3>
+<pre><code class="language-sql">SELECT NOME_UNIT FROM GR_UNIDADE_CODIFICACAO
+WHERE GRUPO_UNIT IN (1367, 1369, 1371)
+ORDER BY GRUPO_UNIT, NOME_UNIT;
+</code></pre>
+<h3 id="units-com-string-de-conexao-odbc">Units com string de conexão ODBC</h3>
+<pre><code class="language-sql">SET BLOB ALL;
+SELECT NOME_UNIT, STRINGCONEXAOODBC_UNIT FROM GR_UNIDADE_CODIFICACAO
+WHERE STRINGCONEXAOODBC_UNIT IS NOT NULL;
+</code></pre>
+<h2 id="boas-praticas">Boas práticas</h2>
+<ol>
+<li><strong>Ler as codificações antes de escrever código novo</strong>: o código real em
+   <code>GR_UNIDADE_CODIFICACAO</code> é a fonte mais confiável de métodos nativos e padrões
+   (skill <code>interpretador-delphi-erp</code>).</li>
+<li>Units globais do ERP têm prefixo <code>P39_TDD_*</code>; units locais em desenvolvimento
+   usam <code>TDD_*</code> — ao referenciar no <code>uses</code>, usar o nome exato.</li>
+<li>Consultas neste banco são <strong>somente leitura</strong> para estudo. Dados de teste vão
+   para o banco dedicado via ODBC (<code>P39_TDD_ODBC</code>).</li>
+<li>Metadados de tabelas do ERP podem ser consultados via <code>RDB$RELATIONS</code>,
+   <code>RDB$RELATION_FIELDS</code> e <code>RDB$FIELDS</code> (Firebird), quando necessário.</li>
+</ol>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../banco-dedicado/SKILL/" class="btn btn-neutral float-left" title="Banco Dedicado"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../tdd-odbc/SKILL/" class="btn btn-neutral float-right" title="TDD ODBC">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../banco-dedicado/SKILL/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../tdd-odbc/SKILL/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

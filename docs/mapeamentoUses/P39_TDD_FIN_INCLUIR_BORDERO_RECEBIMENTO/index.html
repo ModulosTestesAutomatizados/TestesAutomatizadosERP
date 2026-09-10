@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Bordero - Base de Conhecimento - Delphi TDD</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Bordero";
+        var mkdocs_page_input_path = "docs/mapeamentoUses/P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Base de Conhecimento - Delphi TDD
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../AGENTS/">Diretrizes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Documentação</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../MER/">MER</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Mapeamento Uses</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../P39_TDD_FIN_DUPLICATAS/">Duplicatas</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">Bordero</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#diagrama">Diagrama</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#dependencias-diretas">Dependências diretas</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#herancas-transitivas-de-uses">Heranças transitivas de uses</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#notas">Notas</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#padrao-motor-setuptesteteardown">Padrão motor (Setup/Teste/TearDown)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#leitura-da-configuracao-financeira">Leitura da configuração financeira</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#form-real-do-bordero">Form real do borderô</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#regra-de-negocio-valor-do-complemento">Regra de negócio: valor do complemento</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../TDD_CARREGAR_CASO_TESTE/">Carregar Caso Teste</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Skills</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../skills/banco-dedicado/SKILL/">Banco Dedicado</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../skills/banco-erp-unidades/SKILL/">Banco ERP Unidades</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../skills/tdd-odbc/SKILL/">TDD ODBC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../skills/interpretador-delphi-erp/SKILL.md">Interpretador ERP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../skills/estrutura-testes-erp/SKILL/">Estrutura Testes</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../skills/entregas/SKILL.md">Entregas</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../skills/generate-report/SKILL.md">Generate Report</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../skills/context7/SKILL.md">Context7</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Base de Conhecimento - Delphi TDD</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Documentação</li>
+          <li class="breadcrumb-item">Mapeamento Uses</li>
+      <li class="breadcrumb-item active">Bordero</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="mapeamento-de-uses-p39_tdd_fin_incluir_bordero_recebimento">Mapeamento de Uses - P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO</h1>
+<p>Diagrama de dependências (<code>uses</code>) do caso de teste <strong>Incluir Borderô de
+Recebimento</strong>, incluindo a herança transitiva entre as units.</p>
+<h2 id="diagrama">Diagrama</h2>
+<pre><code class="language-mermaid">flowchart LR
+    subgraph CASO[&quot;Caso de Teste (casosTestesFinanceiro)&quot;]
+        INCLUIR[&quot;P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO&quot;]
+    end
+
+    subgraph REMOTO[&quot;Remoto (P39_*)&quot;]
+        CARREGAR[&quot;P39_TDD_CARREGAR_CASO_TESTE&quot;]
+        MAP_RECEB[&quot;P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO&quot;]
+        REGISTRAR[&quot;P39_TDD_REGISTRAR_CASO_TESTE&quot;]
+        FUNCOES_JSON[&quot;P39_TDD_FUNCOES_JSON&quot;]
+        ODBC[&quot;P39_TDD_ODBC&quot;]
+        CONSTANTES[&quot;P39_TDD_CONSTANTES&quot;]
+    end
+
+    INCLUIR --&gt; CARREGAR
+    INCLUIR --&gt; MAP_RECEB
+    INCLUIR --&gt; FUNCOES_JSON
+
+    CARREGAR --&gt; REGISTRAR
+    REGISTRAR --&gt; ODBC
+    ODBC --&gt; CONSTANTES
+</code></pre>
+<h2 id="dependencias-diretas">Dependências diretas</h2>
+<table>
+<thead>
+<tr>
+<th>Unit</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>P39_TDD_CARREGAR_CASO_TESTE</code></td>
+<td>Carrega o caso de teste do banco e popula o CDS por referência.</td>
+</tr>
+<tr>
+<td><code>P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO</code></td>
+<td>Mapeia o form <code>FCadBorderoAcerto</code> e os CDSs do borderô.</td>
+</tr>
+<tr>
+<td><code>P39_TDD_FUNCOES_JSON</code></td>
+<td>Leitura de tags do JSON do caso de teste (<code>ValorInteiroTag</code>, etc.).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="herancas-transitivas-de-uses">Heranças transitivas de uses</h2>
+<ul>
+<li><code>P39_TDD_CARREGAR_CASO_TESTE</code> → <code>P39_TDD_REGISTRAR_CASO_TESTE</code> → <code>P39_TDD_ODBC</code> → <code>P39_TDD_CONSTANTES</code></li>
+<li>Por isso <strong>não</strong> é necessário declarar <code>P39_TDD_ODBC</code> no <code>uses</code> da unit principal.</li>
+<li><code>TDDReaderODBC</code> e <code>MensagemPersonalizada</code> ficam disponíveis transitivamente.</li>
+</ul>
+<h2 id="notas">Notas</h2>
+<h3 id="padrao-motor-setuptesteteardown">Padrão motor (Setup/Teste/TearDown)</h3>
+<ul>
+<li>A unit foi promovida ao padrão motor (antes localizada em <code>emDesenvolvimento</code>).</li>
+<li><code>IncluirBorderoRecebimento</code> executa o fluxo completo: <code>Setup</code>, <code>Teste</code> e
+  <code>TearDown_DestruirObjetos</code>.</li>
+<li>No <code>uses</code> são usadas as variantes remotas <code>P39_TDD_*</code> (a unit de desenvolvimento
+  local <code>TDD_*</code> foi descontinuada após a promoção).</li>
+</ul>
+<h3 id="leitura-da-configuracao-financeira">Leitura da configuração financeira</h3>
+<ul>
+<li>A unit não depende de <code>P39_TDD_FIN_CONFIG_FINANCEIRO</code>. O SQL
+  <code>GetSQLSelectFinanceiroConfig</code> é função local, lendo <code>FINANCEIRO_CONFIGURACAO</code> via
+  <code>TDDReaderODBC</code> (herdado transitivamente) e os campos
+  <code>CLIENTE_FINCONFIG</code>/<code>CONTA_PRINCIPAL_FINCONFIG</code>.</li>
+</ul>
+<h3 id="form-real-do-bordero">Form real do borderô</h3>
+<p>O mapeamento <code>P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO</code> aponta para o
+form <strong><code>FCadBorderoAcerto</code></strong> / <strong><code>DMCadBorderoAcerto</code></strong> (Bordero de Acerto).</p>
+<h3 id="regra-de-negocio-valor-do-complemento">Regra de negócio: valor do complemento</h3>
+<ul>
+<li><code>_IncluiBorderoRecebimento</code> calcula <code>VALOR_COMPLBORD</code> somando <code>VLREMABERTO</code> das
+  duplicatas a receber em aberto da pessoa (<code>PESSOA_DUP</code> do JSON, com fallback
+  <code>CLIENTE_FINCONFIG</code>).</li>
+<li>Se não houver duplicata em aberto (ou valor zero), o ERP rejeita o gravamento com
+  <strong>"O valor do complemento deve ser maior que zero"</strong>.</li>
+<li>O JSON do caso de teste deve apontar (<code>PESSOA_DUP</code>) para uma pessoa que possua
+  duplicatas a receber em aberto no ERP — normalmente as duplicatas criadas pelo caso
+  de teste <strong>CADASTRAR DUPLICATA A RECEBER</strong> executado antes na suíte.</li>
+<li>A unit valida <code>VlrPagar = 0</code> e aborta com mensagem acionável antes de chegar à
+  regra de negócio do ERP.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../P39_TDD_FIN_DUPLICATAS/" class="btn btn-neutral float-left" title="Duplicatas"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../TDD_CARREGAR_CASO_TESTE/" class="btn btn-neutral float-right" title="Carregar Caso Teste">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../P39_TDD_FIN_DUPLICATAS/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../TDD_CARREGAR_CASO_TESTE/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Framework de Testes DUnitX (Delphi) - Base de Conhecimento - Delphi TDD</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Framework de Testes DUnitX (Delphi)";
+        var mkdocs_page_input_path = "skills/dunitx-framework/SKILL.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Base de Conhecimento - Delphi TDD
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../AGENTS/">Diretrizes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Documentação</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../docs/MER/">MER</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Mapeamento Uses</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/P39_TDD_FIN_DUPLICATAS/">Duplicatas</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO/">Bordero</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/TDD_CARREGAR_CASO_TESTE/">Carregar Caso Teste</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Skills</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../banco-dedicado/SKILL/">Banco Dedicado</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../banco-erp-unidades/SKILL/">Banco ERP Unidades</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tdd-odbc/SKILL/">TDD ODBC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../interpretador-delphi-erp/SKILL.md">Interpretador ERP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../estrutura-testes-erp/SKILL/">Estrutura Testes</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../entregas/SKILL.md">Entregas</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../generate-report/SKILL.md">Generate Report</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../context7/SKILL.md">Context7</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Base de Conhecimento - Delphi TDD</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Framework de Testes DUnitX (Delphi)</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="framework-de-testes-dunitx-delphi">Framework de Testes DUnitX (Delphi)</h1>
+<p>Conhecimento sobre o framework de testes <strong>DUnitX</strong> (VSoftTechnologies/DUnitX), clonado em
+<code>D:\TestesAutomatizados\ERP\DUnitx</code>. Baseado na análise dos arquivos <code>.pas</code> da pasta
+<code>Source</code> e dos exemplos de <code>Examples</code>.</p>
+<p>O DUnitX é um framework de testes para Delphi XE2 ou superior, que herda ideias do DUnit e
+NUnit, usando <strong>atributos</strong> e <strong>RTTI</strong> para descobrir e executar testes. Reconhece o arquivo
+<code>DUnitX.inc</code> (inclui defines condicionais de versão do compilador) e pode ser agrupado em
+namespaces (<code>USE_NS</code>).</p>
+<blockquote>
+<p>Importante: Este framework é <strong>nativo Delphi compilado</strong>, diferente das units TDD que o
+agente normalmente escreve e que rodam no interpretador do ERP (JvInterpreter). Esta
+skill serve para quando o trabalho envolver o framework DUnitX real.</p>
+</blockquote>
+<h2 id="estrutura-da-pasta-source">Estrutura da pasta Source</h2>
+<p>Todos os arquivos <code>.pas</code> estão na raiz de <code>Source</code> (não há subpastas). Os principais:</p>
+<table>
+<thead>
+<tr>
+<th>Arquivo</th>
+<th>Responsabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DUnitX.TestFramework.pas</code></td>
+<td>Fachada principal. Expõe <code>TDUnitX</code>, <code>ITestRunner</code>, atributos, <code>Assert</code>.</td>
+</tr>
+<tr>
+<td><code>DUnitX.Assert.pas</code></td>
+<td>Classe <code>Assert</code> (neutra, reutilizável por outros frameworks).</td>
+</tr>
+<tr>
+<td><code>DUnitX.Assert.Ex.pas</code></td>
+<td>Extensão DUnitX-específica da classe <code>Assert</code> (string com comparador).</td>
+</tr>
+<tr>
+<td><code>DUnitX.Attributes.pas</code></td>
+<td>Atributos de teste (<code>[Test]</code>, <code>[TestFixture]</code>, <code>[Setup]</code>, etc.).</td>
+</tr>
+<tr>
+<td><code>DUnitX.TestFixture.pas</code></td>
+<td>Implementação de fixture e ciclo de vida dos testes.</td>
+</tr>
+<tr>
+<td><code>DUnitX.TestRunner.pas</code></td>
+<td>Runner que constrói e executa as fixtures.</td>
+</tr>
+<tr>
+<td><code>DUnitX.Types.pas</code></td>
+<td>Tipos básicos (<code>TValueArray</code>, <code>TExceptionInheritance</code>).</td>
+</tr>
+<tr>
+<td><code>DUnitX.Exceptions.pas</code></td>
+<td>Exceções de teste (<code>ETestFailure</code>, <code>ETestPass</code>, etc.).</td>
+</tr>
+<tr>
+<td><code>DUnitX.Test.pas</code></td>
+<td>Classes que representam um teste em tempo de execução.</td>
+</tr>
+<tr>
+<td><code>DUnitX.TestResult.pas</code></td>
+<td>Resultados de teste.</td>
+</tr>
+<tr>
+<td><code>DUnitX.Autodetect.Console.pas</code></td>
+<td>Conserta o aro do console automaticamente.</td>
+</tr>
+<tr>
+<td><code>DUnitX.Loggers.*</code></td>
+<td>Loggers (console, texto, XML NUnit/JUnit/xUnit, null, GUI).</td>
+</tr>
+<tr>
+<td><code>DUnitX.Init.pas</code></td>
+<td>Workaround para Delphi XE3 (bug #117).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="como-escrever-um-teste">Como escrever um teste</h2>
+<p>A instrução-chave é <code>DUnitX.TestFramework</code>, que já reexporta <code>Assert</code>, os atributos e
+<code>TDUnitX</code>.</p>
+<p>Use <code>{$M+}</code> no tipo (ou herde de <code>TTestCase</code>) para habilitar RTTI. Há duas formas de expor
+métodos como testes:</p>
+<ol>
+<li><strong>Atributo <code>[Test]</code></strong> em métodos <code>public</code>.</li>
+<li><strong>Métodos <code>published</code></strong> — sem precisar de <code>[Test]</code>.</li>
+</ol>
+<h3 id="exemplo-minimo">Exemplo mínimo</h3>
+<pre><code class="language-pascal">unit MyTests;
+
+interface
+
+uses
+  DUnitX.TestFramework;
+
+type
+  [TestFixture]
+  TMyTests = class
+  public
+    [Setup]
+    procedure Setup;
+    [TearDown]
+    procedure TearDown;
+    [Test]
+    procedure TestSum;
+  end;
+
+implementation
+
+{ TMyTests }
+
+procedure TMyTests.Setup;
+begin
+  // executa antes de CADA teste
+end;
+
+procedure TMyTests.TearDown;
+begin
+  // executa depois de CADA teste
+end;
+
+procedure TMyTests.TestSum;
+begin
+  Assert.AreEqual(4, 2 + 2);
+end;
+
+initialization
+  // registra manualmente (necessário se não usar UseRTTI)
+  TDUnitX.RegisterTestFixture(TMyTests);
+end.
+</code></pre>
+<h3 id="ciclo-de-vida-atributos-de-fixture">Ciclo de vida / atributos de fixture</h3>
+<table>
+<thead>
+<tr>
+<th>Atributo</th>
+<th>Quando roda</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[TestFixture]</code></td>
+<td>Marca a classe como fixture de teste.</td>
+</tr>
+<tr>
+<td><code>[SetupFixture]</code></td>
+<td>Método/construtor: roda <strong>uma vez</strong> antes de todos os testes da fixture.</td>
+</tr>
+<tr>
+<td><code>[TearDownFixture]</code></td>
+<td>Método/destrutor: roda <strong>uma vez</strong> depois de todos os testes.</td>
+</tr>
+<tr>
+<td><code>[Setup]</code></td>
+<td>Roda antes de <strong>cada</strong> teste.</td>
+</tr>
+<tr>
+<td><code>[TearDown]</code></td>
+<td>Roda depois de <strong>cada</strong> teste.</td>
+</tr>
+<tr>
+<td><code>[Test]</code></td>
+<td>Marca um método como teste. <code>[Test(false)]</code> desabilita.</td>
+</tr>
+<tr>
+<td><code>[TestInOwnThread]</code></td>
+<td>Planejado, porém <strong>não implementado</strong> (não usar).</td>
+</tr>
+<tr>
+<td><code>[Ignore('razão')]</code></td>
+<td>Impede a execução; conta como ignorado.</td>
+</tr>
+<tr>
+<td><code>[Category('nome')]</code></td>
+<td>Categoria p/ filtro de linha de comando.</td>
+</tr>
+<tr>
+<td><code>[RepeatTest(n)]</code></td>
+<td>Repete o teste n vezes (<code>0</code> = comporta como Ignore).</td>
+</tr>
+<tr>
+<td><code>[MaxTime(ms)]</code></td>
+<td>Falha se exceder o tempo (apenas Win32/Win64).</td>
+</tr>
+<tr>
+<td><code>[WillRaise(ExClass)]</code></td>
+<td>Espera que o método levante a exceção informada.</td>
+</tr>
+<tr>
+<td><code>[IgnoreMemoryLeaks]</code></td>
+<td>Não reporta vazamento de memória no teste.</td>
+</tr>
+</tbody>
+</table>
+<p>Detalhes de comportamento (da análise da <code>DUnitX.TestFixture.pas</code>):</p>
+<ul>
+<li>Se o construtor <strong>sem parâmetros</strong> existir, ele é usado como <code>SetupFixture</code> (a menos que
+  exista um <code>[SetupFixture]</code>); se um <code>[Setup]</code> existir junto, os dois podem coexistir.</li>
+<li>Se o módulo tiver fixture com herança (<code>[TestFixture]</code> numa classe base), as classes
+  descendentes também são descobertas via RTTI.</li>
+<li>Se houver mais de um método com o mesmo atributo de ciclo de vida, apenas o <strong>primeiro</strong>
+  encontrado é executado.</li>
+</ul>
+<h3 id="testes-parametrizados-test-cases">Testes parametrizados (Test Cases)</h3>
+<p>Atributo <code>[TestCase]</code> recebe os valores como texto separado por vírgula (ou separador
+customizado) — o compilador Delphi não aceita arrays de <code>TValue</code> como parâmetros de
+atributo:</p>
+<pre><code class="language-pascal">[Test]
+[TestCase('Caso 1', '1,2')]
+[TestCase('Caso 2', '3,4')]
+procedure TestSum(const a, b : integer);
+
+[Test]
+[AutoNameTestCase('5,7')]   // nome gerado automaticamente
+[Category('auto')]
+procedure TestAuto(const a, b : integer);
+</code></pre>
+<h3 id="data-providers-testcaseprovider">Data Providers (TestCaseProvider)</h3>
+<p>Permite injetar dados dinâmicos em testes. Subclasse de <code>TTestDataProvider</code>:</p>
+<pre><code class="language-pascal">TSampleProvider = class(TTestDataProvider)
+public
+  function GetCaseCount(const methodName : string) : Integer; override;
+  function GetCaseName(const methodName : string; const caseNumber : integer) : string; override;
+  function GetCaseParams(const methodName : string; const caseNumber : integer) : TValuearray; override;
+end;
+</code></pre>
+<p>Uso no teste:</p>
+<pre><code class="language-pascal">[Test]
+[TestCaseProvider(TSampleProvider)]
+procedure AddTest(const v1, v2 : integer; const expected : integer);
+</code></pre>
+<p>Registro do provider:</p>
+<pre><code class="language-pascal">initialization
+  TestDataProviderManager.RegisterProvider('nomeDoProvider', TSampleProvider);
+  TDUnitX.RegisterTestFixture(TProviderExample);
+end.
+</code></pre>
+<h2 id="assertivas-disponiveis">Assertivas disponíveis</h2>
+<p>A classe <code>Assert</code> (exposta pelo <code>DUnitX.TestFramework</code>) herda todas as assertivas de
+<code>DUnitX.Assert.Assert</code> + <code>DUnitX.Assert.Ex.Assert</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Família</th>
+<th>Exemplos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Igualdade</td>
+<td><code>AreEqual(expected, actual)</code>, <code>AreEqual(expected, actual, msg)</code>, genérica <code>AreEqual&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td>Desigualdade</td>
+<td><code>AreNotEqual(...)</code>, <code>AreNotEqualMemory(...)</code>, genérica <code>AreNotEqual&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td>Tolerância</td>
+<td><code>AreEqual(expected, actual, tolerance)</code> para <code>Double</code>/<code>Extended</code></td>
+</tr>
+<tr>
+<td>Mesma instância</td>
+<td><code>AreSame(a, b)</code>, <code>AreNotSame(a, b)</code></td>
+</tr>
+<tr>
+<td>String</td>
+<td><code>AreEqual</code> (string), <code>Contains</code>, <code>DoesNotContain</code>, <code>StartsWith</code>, <code>EndsWith</code>, <code>NoDiff</code>, <code>IsMatch</code> (regex)</td>
+</tr>
+<tr>
+<td>Booleano</td>
+<td><code>IsTrue(cond)</code>, <code>IsFalse(cond)</code></td>
+</tr>
+<tr>
+<td>Nulo</td>
+<td><code>IsNull(...)</code>, <code>IsNotNull(...)</code> (TObject, Pointer, IInterface, Variant)</td>
+</tr>
+<tr>
+<td>Coleções</td>
+<td><code>IsEmpty</code>, <code>IsNotEmpty</code>, <code>Contains&lt;T&gt;</code>, <code>DoesNotContain&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td>Classes</td>
+<td><code>InheritsFrom(desc, parent)</code>, <code>AreEqual(expected, actual: TClass)</code></td>
+</tr>
+<tr>
+<td>Guarda</td>
+<td><code>WillRaise(proc, ExClass)</code>, <code>WillRaiseDescendant</code>, <code>WillRaiseAny</code>, <code>WillNotRaise</code>, <code>WillNotRaiseAny</code>, <code>WillRaiseWithMessage</code>, <code>WillRaiseWithMessageRegex</code></td>
+</tr>
+<tr>
+<td>Tipos/Data</td>
+<td><code>IsSameDate</code>, <code>IsSameTime</code>, <code>IsSameDateTime</code>, <code>Pass</code>, <code>Fail</code>, <code>FailFmt</code></td>
+</tr>
+<tr>
+<td>Outros</td>
+<td><code>AreEqualMemory</code>, <code>AreEqual(expected, actual: TStream)</code>, <code>AreEqual(TStrings)</code>, <code>AreEqual(TGUID)</code>, <code>AreEqual(Currency)</code></td>
+</tr>
+</tbody>
+</table>
+<p>Detalhes:</p>
+<ul>
+<li><code>Assert.AreEqual</code> para <code>Currency</code> compara exatamente (sem tolerância).</li>
+<li><code>Assert.AreEqual</code> para <code>TClass</code> compara a referência da classe (não <code>ClassOf</code>).</li>
+<li><code>NoDiff(expected, actual)</code> falha mostrando a posição da primeira diferença entre strings.</li>
+<li><code>WillRaise</code> verifica <strong>exatamente</strong> a classe da exceção; <code>WillRaiseDescendant</code> aceita
+  subclasses.</li>
+<li><code>Assert.AreEqual(expected, actual: string; compFormat: TDUnitXComparableFormatClass)</code> usa
+  formatos comparáveis (CSV, XML) e lança <code>ETestFailureStrCompare</code>.</li>
+</ul>
+<h2 id="execucao-do-runner">Execução do runner</h2>
+<h3 id="em-codigo-programa-de-teste">Em código (programa de teste)</h3>
+<pre><code class="language-pascal">var
+  runner : ITestRunner;
+  results : IRunResults;
+  logger : ITestLogger;
+begin
+  runner := TDUnitX.CreateRunner;
+  runner.UseRTTI := True;               // descobre fixtures via RTTI
+  logger := TDUnitXConsoleLogger.Create(TDUnitX.Options.ConsoleMode = TDunitXConsoleMode.Quiet);
+  runner.AddLogger(logger);
+  // runner.AddLogger(TDUnitXXMLNUnitFileLogger.Create(TDUnitX.Options.XMLOutputFile));
+  results := runner.Execute;
+end;
+</code></pre>
+<blockquote>
+<p>Se <code>UseRTTI = False</code>, é necessário registrar cada fixture com
+<code>TDUnitX.RegisterTestFixture(TClasse)</code> (tipicamente na <code>initialization</code>). Com RTTI, use
+<code>{$STRONGLINKTYPES ON}</code> para garantir que as classes sejam vinculadas ao executável.</p>
+</blockquote>
+<h3 id="linha-de-comando-console">Linha de comando (console)</h3>
+<p>O parser aceita prefixo <code>-</code> ou <code>/</code> e separador <code>:</code> entre chave e valor.</p>
+<table>
+<thead>
+<tr>
+<th>Opção</th>
+<th>Forma</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Saída XML (NUnit)</td>
+<td><code>-xmlfile:&lt;caminho&gt;</code></td>
+<td>Caminho do arquivo XML de resultado.</td>
+</tr>
+<tr>
+<td>Rodar testes</td>
+<td><code>-run:&lt;a,b&gt;</code></td>
+<td>Nome dos testes a executar (separados por <code>,</code>).</td>
+</tr>
+<tr>
+<td>Rodar lista</td>
+<td><code>-runlist:&lt;arquivo&gt;</code></td>
+<td>Arquivo com lista de testes a executar.</td>
+</tr>
+<tr>
+<td>Incluir categoria</td>
+<td><code>-include:&lt;cat&gt;</code></td>
+<td>Categorias a incluir.</td>
+</tr>
+<tr>
+<td>Excluir categoria</td>
+<td><code>-exclude:&lt;cat&gt;</code></td>
+<td>Categorias a excluir.</td>
+</tr>
+<tr>
+<td>Não mostrar ignorados</td>
+<td><code>-dontshowignored</code></td>
+<td>Não exibe testes ignorados.</td>
+</tr>
+<tr>
+<td>Nível de log</td>
+<td><code>-loglevel:&lt;Info/Warning/Error&gt;</code></td>
+<td>Nível de log.</td>
+</tr>
+<tr>
+<td>Comportamento de saída</td>
+<td><code>-exitbehavior:&lt;Continue/Pause&gt;</code></td>
+<td>Pausa ou não ao final.</td>
+</tr>
+<tr>
+<td>Modo do console</td>
+<td><code>-consolemode:&lt;Off/Quiet/Verbose&gt;</code></td>
+<td>Modo do console.</td>
+</tr>
+<tr>
+<td>Ocultar banner</td>
+<td><code>-hidebanner</code></td>
+<td>Esconde o banner de licença.</td>
+</tr>
+<tr>
+<td>Ajuda</td>
+<td><code>-h</code></td>
+<td>Mostra uso.</td>
+</tr>
+<tr>
+<td>Arquivo de opções</td>
+<td><code>-options:&lt;arquivo&gt;</code></td>
+<td>Arquivo contendo opções.</td>
+</tr>
+</tbody>
+</table>
+<p>Exemplo:</p>
+<pre><code class="language-text">MyTests.exe -xmlfile:resultados.xml -include:Regressao -exclude:Lento
+</code></pre>
+<h2 id="tiposestruturas-chave">Tipos/estruturas-chave</h2>
+<ul>
+<li><code>TTestMethod = procedure of object;</code> — assinatura padrão de um método de teste.</li>
+<li><code>TLogLevel = (Information, Warning, Error)</code> — nível de log (escopado).</li>
+<li><code>TTestResultType = (Pass, Failure, Error, Ignored, MemoryLeak, Warning)</code>.</li>
+<li><code>ITestRunner</code> — executa os testes, aceita loggers via <code>AddLogger</code>.</li>
+<li><code>IRunResults</code> — agrega contadores (<code>TestCount</code>, <code>FailureCount</code>, <code>SuccessRate</code>, <code>AllPassed</code>).</li>
+<li><code>TDUnitX.CurrentRunner</code> — acesso ao runner atual dentro de um teste (para <code>Log</code>, <code>Status</code>,
+  <code>WriteLn</code>). O helper <code>TTestFixtureHelper</code> permite <code>Log(...)</code>, <code>Status(...)</code> e <code>WriteLn(...)</code>
+  diretamente em qualquer objeto dentro do teste.</li>
+<li>Códigos de saída: <code>EXIT_OK = 0</code>, <code>EXIT_ERRORS = 1</code>, <code>EXIT_OPTIONS_ERROR = 100</code>.</li>
+</ul>
+<h2 id="compatibilidade-com-dunit">Compatibilidade com DUnit</h2>
+<p><code>DUnitX.DUnitCompatibility.pas</code> provê compatibilidade limitada com classes de teste do
+DUnit (por exemplo, <code>TTestCase</code>), permitindo migrar testes existentes.</p>
+<h2 id="observacoes-de-compilador">Observações de compilador</h2>
+<ul>
+<li>Delphi 2010/XE: alguns overloads genéricos de <code>Assert</code> são IFDEF'd (<code>DELPHI_XE_UP</code>,
+  <code>DELPHI_XE2_UP</code>) devido a bugs de compilador. Não usar <code>Assert.AreEqual&lt;T&gt;</code> em compilador
+  mais antigo que XE2.</li>
+<li>XE3: adicionar <code>DUnitX.Init</code> ao projeto de teste (workaround do bug #117).</li>
+<li>Plataformas: Win32, Win64 e OSX. Para FMX/mobile (sem console), usar
+  <code>DUnitX.Loggers.Console.FMX</code>.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

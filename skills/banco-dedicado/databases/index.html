@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Banco de dados — Referência de conexão - Base de Conhecimento - Delphi TDD</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Banco de dados \u2014 Refer\u00eancia de conex\u00e3o";
+        var mkdocs_page_input_path = "skills/banco-dedicado/databases.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Base de Conhecimento - Delphi TDD
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../AGENTS/">Diretrizes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Documentação</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../docs/MER/">MER</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Mapeamento Uses</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/P39_TDD_FIN_DUPLICATAS/">Duplicatas</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/P39_TDD_FIN_INCLUIR_BORDERO_RECEBIMENTO/">Bordero</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../docs/mapeamentoUses/TDD_CARREGAR_CASO_TESTE/">Carregar Caso Teste</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Skills</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../SKILL/">Banco Dedicado</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../banco-erp-unidades/SKILL/">Banco ERP Unidades</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tdd-odbc/SKILL/">TDD ODBC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../interpretador-delphi-erp/SKILL.md">Interpretador ERP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../estrutura-testes-erp/SKILL/">Estrutura Testes</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../entregas/SKILL.md">Entregas</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../generate-report/SKILL.md">Generate Report</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../context7/SKILL.md">Context7</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Base de Conhecimento - Delphi TDD</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Banco de dados — Referência de conexão</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="banco-de-dados-referencia-de-conexao">Banco de dados — Referência de conexão</h1>
+<p>Este arquivo define, de forma centralizada, <strong>quais bancos de dados</strong> usar conforme
+o propósito do teste. Use-o para saber sempre a qual banco conectar, evitando
+ambiguidade entre "banco que executa os testes" e "banco que registra os testes".</p>
+<blockquote>
+<p>Regra de ouro: os testes automatizados <strong>nunca</strong> operam diretamente no banco do
+ERP/produção. Eles usam os bancos dedicados abaixo, conforme o papel de cada um.</p>
+</blockquote>
+<hr />
+<h2 id="1-banco-que-executa-os-casos-de-teste">1. Banco que EXECUTA os casos de teste</h2>
+<table>
+<thead>
+<tr>
+<th>Propriedade</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Papel</td>
+<td>Banco onde os testes são <strong>executados</strong> (dados/datas-base de processamento).</td>
+</tr>
+<tr>
+<td>Arquivo <code>.FDB</code></td>
+<td><code>DADOSMC.FDB</code></td>
+</tr>
+<tr>
+<td>Conexão</td>
+<td><code>192.168.254.167/3055:D:\DataBases\TesteAutomatizado\DADOSMC.FDB</code></td>
+</tr>
+<tr>
+<td>SGBD</td>
+<td>Firebird</td>
+</tr>
+<tr>
+<td>Observação</td>
+<td>É o "banco padrão que executa os casos de teste".</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Sempre que a tarefa falar em <strong>executar</strong> casos de teste / processamento, conectar
+neste banco.</p>
+</blockquote>
+<h3 id="11-como-gerar-o-codigo-ao-inserir-registros-banco-que-executa">1.1. Como gerar o código ao inserir registros (banco que EXECUTA)</h3>
+<p>Ao <strong>incluir um registro</strong> em qualquer tabela deste banco (<code>DADOSMC.FDB</code>), a regra
+para gerar o código da chave é: <strong>verificar, por tabela</strong>, se ela usa <strong>Generator</strong>
+ou se está contida na tabela de <strong><code>AUTOINCREMENTOS</code></strong>.</p>
+<ol>
+<li>
+<p><strong>Se a tabela possui Generator</strong> (<code>GEN_*</code> — existem vários, ex.: <code>GEN_ACAO</code>,
+   <code>GEN_BORDERO</code>, <code>GEN_MOVIMENTO_ESTOQUE</code>, <code>GEN_PCP_ORDEMPRODUCAO_ITEM</code>, etc.):
+   usar <code>NEXT VALUE FOR &lt;GEN_...&gt;</code> para gerar o código.</p>
+</li>
+<li>
+<p>Para descobrir os generators deste banco:</p>
+<p><code>sql
+ SELECT RDB$GENERATOR_NAME
+   FROM RDB$GENERATORS
+  WHERE RDB$SYSTEM_FLAG = 0
+  ORDER BY RDB$GENERATOR_NAME;</code></p>
+</li>
+<li>
+<p><strong>Se a tabela está contida na tabela <code>AUTOINCREMENTOS</code></strong> (colunas
+   <code>TABELA_AUTOINC</code>, <code>QUEBRA_AUTOINC</code>, <code>CODIGO_AUTOINC</code>): ler o valor atual de
+   <code>CODIGO_AUTOINC</code> para a tabela e <strong>somar 1</strong> para obter o próximo código
+   (assim como o próprio ERP faz).</p>
+</li>
+</ol>
+<p><code>sql
+   -- Ler o último código usado para a tabela
+   SELECT TABELA_AUTOINC, QUEBRA_AUTOINC, CODIGO_AUTOINC
+     FROM AUTOINCREMENTOS
+    WHERE TABELA_AUTOINC = '&lt;NOME_DA_TABELA&gt;';</code></p>
+<p>Exemplo de padrão já populado: <code>PCP_ENTSAI_ESTOQUE</code> → <code>CODIGO_AUTOINC</code> 5310.</p>
+<blockquote>
+<p><strong>Resumo:</strong> há tabelas com <code>GEN_*</code> e tabelas na <code>AUTOINCREMENTOS</code>. Antes de
+inserir, verifique qual dos dois mecanismos a tabela usa.</p>
+<p>⚠️ Em qualquer banco, ao incluir registro, <strong>nunca</strong> gerar o código manualmente
+de forma arbitrária/aleatória — o próximo código deve vir do Generator ou da
+<code>AUTOINCREMENTOS</code> + 1, exatamente como o ERP faz.</p>
+</blockquote>
+<hr />
+<h2 id="2-banco-que-registra-os-casos-de-teste">2. Banco que REGISTRA os casos de teste</h2>
+<table>
+<thead>
+<tr>
+<th>Propriedade</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Papel</td>
+<td>Banco onde ficam os <strong>registros dos casos de teste</strong> (tabelas <code>CASO_TESTE</code>, etc.) e a configuração de unidades de codificação.</td>
+</tr>
+<tr>
+<td>Arquivo <code>.FDB</code></td>
+<td><code>TESTEAUTOMATIZADOMC.FDB</code></td>
+</tr>
+<tr>
+<td>Conexão</td>
+<td><code>192.168.254.167/3055:D:\DataBases\TesteAutomatizado\TESTEAUTOMATIZADOMC.FDB</code></td>
+</tr>
+<tr>
+<td>SGBD</td>
+<td>Firebird 5</td>
+</tr>
+<tr>
+<td>Observação</td>
+<td>É o "banco padrão que registra os casos de teste".</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Sempre que a tarefa envolver <strong>registrar casos de teste</strong>, <strong>inserir/atualizar
+a configuração</strong> dos testes ou <strong>ler a configuração</strong> dos testes, conectar neste
+banco.</p>
+</blockquote>
+<h3 id="21-como-gerar-o-codigo-ao-inserir-registros-banco-que-registra">2.1. Como gerar o código ao inserir registros (banco que REGISTRA)</h3>
+<p>Este banco usa <strong>generators</strong> para gerar códigos. Ao incluir um registro em tabelas
+como <code>UNIT</code>, <code>CASO_TESTE</code>, <code>VERSAO</code>, <code>MODULO</code>, etc., usar <code>NEXT VALUE FOR &lt;GEN_...&gt;</code>.</p>
+<p>Generators existentes neste banco (exemplo): <code>GEN_AREA</code>, <code>GEN_CAM_EXECUTAVEIS</code>,
+<code>GEN_CASO_TESTE</code>, <code>GEN_CASO_TESTE_EXECUCAO_ID</code>, <code>GEN_MODULO</code>, <code>GEN_UNIT</code>,
+<code>GEN_VERSAO</code>.</p>
+<p>Exemplo para gerar o próximo código da tabela <code>UNIT</code>:</p>
+<pre><code class="language-sql">SELECT NEXT VALUE FOR GEN_UNIT FROM RDB$DATABASE;
+</code></pre>
+<blockquote>
+<p>Para descobrir todos os generators deste banco, use a mesma consulta da
+seção 1.1 (item 1) sobre <code>RDB$GENERATORS</code>.</p>
+</blockquote>
+<hr />
+<h2 id="3-resumo-de-decisao-rapida">3. Resumo de decisão rápida</h2>
+<table>
+<thead>
+<tr>
+<th>Pergunta / cenário</th>
+<th>Banco a conectar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Executar caso de teste / processamento</td>
+<td><code>DADOSMC.FDB</code></td>
+</tr>
+<tr>
+<td>Inserir dados/massa de teste no banco que executa</td>
+<td><code>DADOSMC.FDB</code> (regra de generator/AUTOINCREMENTOS §1.1)</td>
+</tr>
+<tr>
+<td>Registrar / buscar casos de teste, config</td>
+<td><code>TESTEAUTOMATIZADOMC.FDB</code></td>
+</tr>
+<tr>
+<td>Operar banco do ERP para estudo de codificações</td>
+<td>ver skill <code>banco-erp-unidades</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Geração de código ao inserir:</strong> banco que executa → <code>GEN_*</code> ou <code>AUTOINCREMENTOS</code>
++ 1; banco que registra → <code>GEN_*</code> (<code>NEXT VALUE FOR</code>). Nunca gerar código manual/aleatório.</p>
+</blockquote>
+<hr />
+<h2 id="4-inclusao-de-units-regra-padrao">4. Inclusão de units — regra padrão</h2>
+<blockquote>
+<p>⚠️ <strong>Regra atualizada:</strong> a inclusão de units TDD de codificação (ex.: <code>TDD_*</code>)
+deve ser feita <strong>por padrão</strong> no banco que <strong>EXECUTA</strong> os casos de teste
+(<code>DADOSMC.FDB</code>), na tabela <strong><code>GR_UNIDADE_CODIFICACAO</code></strong>.</p>
+<p>Quando o usuário solicitar <strong>explicitamente</strong> a inclusão no banco que <strong>REGISTRA</strong>
+(<code>TESTEAUTOMATIZADOMC.FDB</code>), aí sim usar a tabela <code>UNIT</code> deste banco.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Banco</th>
+<th>Tabela para units</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DADOSMC.FDB</code> (executa)</td>
+<td><code>GR_UNIDADE_CODIFICACAO</code></td>
+</tr>
+<tr>
+<td><code>TESTEAUTOMATIZADOMC.FDB</code> (registra)</td>
+<td><code>UNIT</code></td>
+</tr>
+</tbody>
+</table>
+<p>Histórico: a prática anterior de incluir units no banco que REGISTRA foi
+considerada incorreta. A regra agora é: units vão para o banco que EXECUTA
+(tabela <code>GR_UNIDADE_CODIFICACAO</code>), a menos que o usuário instrua o contrário.</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
