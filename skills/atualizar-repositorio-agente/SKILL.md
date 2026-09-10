@@ -54,8 +54,57 @@ git branch --set-upstream-to=origin/main main
 ```
 
 Se houver divergências: interromper aqui e aguardar decisão do usuário.
+Se o usuário optar por **preservar** as alterações locais, seguir o fluxo da seção 4.
 
-## 4. Validação final
+## 4. Preservar alterações locais (fluxo com merge)
+
+Quando houver divergências e o usuário optar por **preservar as alterações locais**
+(em vez de descartar), executar:
+
+1. Restaurar o índice (se `git read-tree` foi usado na comparação) e criar branch de preservação:
+
+```powershell
+git reset
+git checkout -b preservar-alteracoes-locais
+```
+
+2. Commitar TODAS as alterações locais (modificados, deletados e arquivos novos) na branch:
+
+```powershell
+git add -A
+git commit -m "Preserva alterações locais antes de sincronizar com origin/main"
+```
+
+3. Voltar para `main` e sincronizar com o remoto (descartando as alterações da main):
+
+```powershell
+git checkout main
+git reset --hard origin/main
+```
+
+4. Mesclar a branch de preservação na `main` para trazer de volta as alterações locais:
+
+```powershell
+git merge preservar-alteracoes-locais
+```
+
+- Se houver conflitos, resolvê-los antes de prosseguir.
+
+5. Enviar as alterações para o remoto e remover a branch de preservação:
+
+```powershell
+git push origin main
+git branch -d preservar-alteracoes-locais
+```
+
+6. Validar o resultado final:
+
+```powershell
+git status
+git log --oneline -3
+```
+
+## 5. Validação final
 
 ```powershell
 git log --oneline -3
@@ -66,7 +115,9 @@ Critérios de sucesso:
 - Último commit de `main` igual ao HEAD de `origin/main` (conferir com `git ls-remote origin main` se necessário).
 - `git status`: "working tree clean" e "up to date with 'origin/main'".
 
-## 5. Observações
+## 6. Observações
 
-- Nunca executar `git reset --hard` ou `checkout -f` sem confirmação explícita do usuário após o relatório de diferenças.
+- Nunca executar `git reset --hard`, `checkout -f` ou `push` sem confirmação explícita do usuário após o relatório de diferenças.
+- `git reset --hard` não remove arquivos untracked; ao commitar os arquivos novos na branch de preservação e executar `checkout main`, eles saem do working tree e são recuperados no merge.
+- O fluxo da seção 4 é o recomendado quando o usuário deseja manter as alterações locais: nada é perdido, pois tudo é commitado na branch de preservação antes de sincronizar a `main`.
 - O fluxo é idempotente: rodar novamente em repositório já sincronizado apenas executa fetch + validação.
