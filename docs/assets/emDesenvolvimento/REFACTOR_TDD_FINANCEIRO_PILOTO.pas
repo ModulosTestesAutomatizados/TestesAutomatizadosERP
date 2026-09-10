@@ -266,67 +266,87 @@ procedure _IncluirBorderoRecebimento;
 var
   VlrPagar: Double;
   lPessoa: Integer;
+  lEtapa: String;
 begin
-  {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}MapearBordero;
-  lCDSCadastroRecebimento := TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.CDSCadastro;
-  lCDSReceberRecebimento := TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.CDSReceber;
-  lCDSProrrogacoesRecebimento := TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.CDSProrrogacoes;
-  lCDSComplementosRecebimento := TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.CDSComplementos;
-  {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}IncluirBordero;
+  lEtapa := 'mapear componentes';
+  try
+    {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}MapearBordero;
 
-  lPessoa := ValorInteiroTagLocal(FJSONCasoTeste, 'PESSOA_DUP', 0);
-  if lPessoa = 0 then lPessoa := FCDSConfig.FieldByName('CLIENTE_FINCONFIG').AsInteger;
+    lEtapa := 'obter datasets';
+    lCDSCadastroRecebimento := TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.CDSCadastro;
+    lCDSReceberRecebimento := TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.CDSReceber;
+    lCDSProrrogacoesRecebimento := TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.CDSProrrogacoes;
+    lCDSComplementosRecebimento := TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.CDSComplementos;
 
-  try if lCDSCadastroRecebimento.State <> 1 then lCDSCadastroRecebimento.Cancel; except end;
-  if lCDSCadastroRecebimento.State < 2 then
+    lEtapa := 'incluir bordero';
     {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}IncluirBordero;
 
-  edtCliente.SetFocus;
-  lCDSCadastroRecebimento.FieldByName('PESSOA_BORDERO').AsInteger := lPessoa;
-  edtNovoBanco.SetFocus;
+    lEtapa := 'obter pessoa';
+    lPessoa := ValorInteiroTagLocal(FJSONCasoTeste, 'PESSOA_DUP', 0);
+    if lPessoa = 0 then lPessoa := FCDSConfig.FieldByName('CLIENTE_FINCONFIG').AsInteger;
 
-  {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}Filtrar;
-  PageControl1.ActivePage := TSReceber;
+    lEtapa := 'preparar cadastro';
+    try if lCDSCadastroRecebimento.State <> 1 then lCDSCadastroRecebimento.Cancel; except end;
+    if lCDSCadastroRecebimento.State < 2 then
+      {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}IncluirBordero;
 
-  if not lCDSReceberRecebimento.IsEmpty then
-  begin
-    lCDSReceberRecebimento.First;
-    while not lCDSReceberRecebimento.Eof do
+    lEtapa := 'definir cliente';
+    edtCliente.SetFocus;
+    lCDSCadastroRecebimento.FieldByName('PESSOA_BORDERO').AsInteger := lPessoa;
+    edtNovoBanco.SetFocus;
+
+    lEtapa := 'filtrar titulos';
+    {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}Filtrar;
+    PageControl1.ActivePage := TSReceber;
+
+    lEtapa := 'marcar contas a receber';
+    if not lCDSReceberRecebimento.IsEmpty then
     begin
-      lCDSReceberRecebimento.Edit;
-      VlrPagar := VlrPagar + lCDSReceberRecebimento.FieldByName('VLREMABERTO').AsCurrency;
-      lCDSReceberRecebimento.FieldByName('MARQUE').AsInteger := 1;
-      lCDSReceberRecebimento.Post;
-      lCDSReceberRecebimento.Next;
+      lCDSReceberRecebimento.First;
+      while not lCDSReceberRecebimento.Eof do
+      begin
+        lCDSReceberRecebimento.Edit;
+        VlrPagar := VlrPagar + lCDSReceberRecebimento.FieldByName('VLREMABERTO').AsCurrency;
+        lCDSReceberRecebimento.FieldByName('MARQUE').AsInteger := 1;
+        lCDSReceberRecebimento.Post;
+        lCDSReceberRecebimento.Next;
+      end;
     end;
-  end;
 
-  if not lCDSProrrogacoesRecebimento.IsEmpty then
-  begin
-    lCDSProrrogacoesRecebimento.First;
-    while not lCDSProrrogacoesRecebimento.Eof do
+    lEtapa := 'marcar prorrogacoes';
+    if not lCDSProrrogacoesRecebimento.IsEmpty then
     begin
-      lCDSProrrogacoesRecebimento.Edit;
-      lCDSProrrogacoesRecebimento.FieldByName('MARQUE').AsInteger := 1;
-      VlrPagar := VlrPagar + lCDSProrrogacoesRecebimento.FieldByName('VALORCOBRADO_PRORROGACAO').AsCurrency;
-      lCDSProrrogacoesRecebimento.Post;
-      lCDSProrrogacoesRecebimento.Next;
+      lCDSProrrogacoesRecebimento.First;
+      while not lCDSProrrogacoesRecebimento.Eof do
+      begin
+        lCDSProrrogacoesRecebimento.Edit;
+        lCDSProrrogacoesRecebimento.FieldByName('MARQUE').AsInteger := 1;
+        VlrPagar := VlrPagar + lCDSProrrogacoesRecebimento.FieldByName('VALORCOBRADO_PRORROGACAO').AsCurrency;
+        lCDSProrrogacoesRecebimento.Post;
+        lCDSProrrogacoesRecebimento.Next;
+      end;
     end;
+
+    lEtapa := 'validar valor';
+    if VlrPagar = 0 then
+      raise Exception.Create(MensagemPersonalizada + 'Nao ha duplicatas a receber em aberto para a pessoa ' + IntToStr(lPessoa) + '.');
+
+    lEtapa := 'incluir complemento';
+    PageControl1.ActivePage := TSComplementos;
+    lCDSComplementosRecebimento.Insert;
+    lCDSComplementosRecebimento.FieldByName('CONTA_COMPLBORD').AsCurrency := ContaBorderoPadrao;
+    lCDSComplementosRecebimento.FieldByName('VALOR_COMPLBORD').AsCurrency := VlrPagar;
+    lCDSComplementosRecebimento.Post;
+
+    lEtapa := 'gravar bordero';
+    {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}GravarBordero;
+
+    lEtapa := 'fechar bordero';
+    try {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}Fechar; except end;
+  except
+    on E: Exception do
+      raise Exception.Create(MensagemPersonalizada + 'Bordero receber - ' + lEtapa + ': ' + E.Message);
   end;
-
-  if VlrPagar = 0 then
-    raise Exception.Create(MensagemPersonalizada + 'Nao ha duplicatas a receber em aberto para a pessoa ' + IntToStr(lPessoa) + '.');
-
-  PageControl1.ActivePage := TSComplementos;
-
-  lCDSComplementosRecebimento.Insert;
-  lCDSComplementosRecebimento.FieldByName('CONTA_COMPLBORD').AsCurrency := ContaBorderoPadrao;
-  lCDSComplementosRecebimento.FieldByName('VALOR_COMPLBORD').AsCurrency := VlrPagar;
-  lCDSComplementosRecebimento.Post;
-
-  {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}GravarBordero;
-
-  try {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}Fechar; except end;
 end;
 
 procedure _IncluirBorderoPagamento;

@@ -65,7 +65,7 @@ var
   CDSReceber,
   CDSAdiantamento,
   CDSGrupoResultado,
-  CDSCadastro: TClientDataSet;
+  CDSCadastroPagamento: TClientDataSet;
   
   // CDS Temporarios para obter as informações do borderô
   CDSCadastroTemp,
@@ -109,7 +109,7 @@ begin
   try
     CriarObjetos;
     IniciarCDSCadastroBordero; 
-    ObterDadosCDSBorderoPagamento;
+    //ObterDadosCDSBorderoPagamento;
   finally  
     //DestruirObjetos;
   end;
@@ -206,16 +206,16 @@ var
 begin
   DMBordero := DMCriadoPeloNome('DMCadBorderoPagamento');
 
-  CDSPagar          := DMBordero.FindComponent('CDSPagar');
-  CDSProrrogacao    := DMBordero.FindComponent('CDSProrrogacoes');
-  CDSChqDevolvido   := DMBordero.FindComponent('CDSChequeDev');
-  CDSChqTerceiro    := DMBordero.FindComponent('CDSChequeTer');
-  CDSChqProprio     := DMBordero.FindComponent('CDSChequeEmit');
-  CDSComplemento    := DMBordero.FindComponent('CDSComplementos');
-  CDSReceber        := DMBordero.FindComponent('CDSReceber');
-  CDSAdiantamento   := DMBordero.FindComponent('CDSAdiantamentos');
-  CDSGrupoResultado := DMBordero.FindComponent('CDSGrupoResultado');
-  CDSCadastro       := DMBordero.FindComponent('CDSCadastro');
+  CDSPagar             := DMBordero.FindComponent('CDSPagar');
+  CDSProrrogacao       := DMBordero.FindComponent('CDSProrrogacoes');
+  CDSChqDevolvido      := DMBordero.FindComponent('CDSChequeDev');
+  CDSChqTerceiro       := DMBordero.FindComponent('CDSChequeTer');
+  CDSChqProprio        := DMBordero.FindComponent('CDSChequeEmit');
+  CDSComplemento       := DMBordero.FindComponent('CDSComplementos');
+  CDSReceber           := DMBordero.FindComponent('CDSReceber');
+  CDSAdiantamento      := DMBordero.FindComponent('CDSAdiantamentos');
+  CDSGrupoResultado    := DMBordero.FindComponent('CDSGrupoResultado');
+  CDSCadastroPagamento := DMBordero.FindComponent('CDSCadastro');
 end;
 
 procedure DestruirObjetos;
@@ -233,4 +233,4 @@ begin
   CDSGrupoResultadoTemp.Free;
 end;
 
-end.   
+end.
