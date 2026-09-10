@@ -59,45 +59,59 @@ Se o usuário optar por **preservar** as alterações locais, seguir o fluxo da 
 ## 4. Preservar alterações locais (fluxo com merge)
 
 Quando houver divergências e o usuário optar por **preservar as alterações locais**
-(em vez de descartar), executar:
+(em vez de descartar), executar o fluxo abaixo **nessa ordem**:
 
-1. Restaurar o índice (se `git read-tree` foi usado na comparação) e criar branch de preservação:
+1. Restaurar o índice (se `git read-tree` foi usado na comparação) e criar a branch
+   **"Registro de alterações"** para guardar as alterações locais:
 
 ```powershell
 git reset
-git checkout -b preservar-alteracoes-locais
+git checkout -b "Registro de alterações"
 ```
 
-2. Commitar TODAS as alterações locais (modificados, deletados e arquivos novos) na branch:
+2. Commitar TODAS as alterações locais (modificados, deletados e arquivos novos) nessa branch:
 
 ```powershell
 git add -A
-git commit -m "Preserva alterações locais antes de sincronizar com origin/main"
+git commit -m "Registro de alterações locais"
 ```
 
-3. Voltar para `main` e sincronizar com o remoto (descartando as alterações da main):
+3. Voltar para a branch `main` e **somente pegar as alterações do repositório** (pull),
+   sem levar nenhuma alteração local — a `main` deve ficar igual ao remoto:
 
 ```powershell
 git checkout main
-git reset --hard origin/main
+git pull origin main
 ```
 
-4. Mesclar a branch de preservação na `main` para trazer de volta as alterações locais:
+> ⚠️ O `git reset --hard origin/main` NÃO deve ser usado neste fluxo: o objetivo
+> é apenas receber as novidades do remoto na `main` local, preservando o histórico.
+
+4. Fazer o merge da branch **"Registro de alterações"** na `main`, de modo que **as
+   alterações locais prevaleçam**:
 
 ```powershell
-git merge preservar-alteracoes-locais
+git merge "Registro de alterações"
 ```
 
-- Se houver conflitos, resolvê-los antes de prosseguir.
+- Se o merge for automático (sem conflito), prosseguir normalmente.
+- **Se houver CONFLITO: PARAR e perguntar ao usuário como resolver** — nunca resolver
+  automaticamente e nunca sobrescrever sem confirmação.
 
-5. Enviar as alterações para o remoto e remover a branch de preservação:
+5. Após o merge OK (main atualizada com as alterações locais), publicar no remoto
+   (push) as alterações:
 
 ```powershell
 git push origin main
-git branch -d preservar-alteracoes-locais
 ```
 
-6. Validar o resultado final:
+6. Somente após o push ser realizado com sucesso, excluir a branch de registro:
+
+```powershell
+git branch -d "Registro de alterações"
+```
+
+7. Validar o resultado final:
 
 ```powershell
 git status
@@ -118,6 +132,8 @@ Critérios de sucesso:
 ## 6. Observações
 
 - Nunca executar `git reset --hard`, `checkout -f` ou `push` sem confirmação explícita do usuário após o relatório de diferenças.
-- `git reset --hard` não remove arquivos untracked; ao commitar os arquivos novos na branch de preservação e executar `checkout main`, eles saem do working tree e são recuperados no merge.
-- O fluxo da seção 4 é o recomendado quando o usuário deseja manter as alterações locais: nada é perdido, pois tudo é commitado na branch de preservação antes de sincronizar a `main`.
+- `git pull origin main` na etapa 3 recebe **somente** as alterações do remoto; a branch "Registro de alterações" é quem guarda o conteúdo local.
+- No fluxo da seção 4, as alterações locais **prevalecem** no merge. Havendo conflito, o processo é interrompido e o usuário é consultado.
+- `git reset --hard` não remove arquivos untracked; ao commitar os arquivos novos na branch de registro e executar `checkout main`, eles saem do working tree e são recuperados no merge.
+- A branch "Registro de alterações" só **deve ser excluída após o push** da `main` ter sido concluído com sucesso.
 - O fluxo é idempotente: rodar novamente em repositório já sincronizado apenas executa fetch + validação.
