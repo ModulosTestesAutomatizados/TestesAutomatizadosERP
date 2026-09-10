@@ -59,19 +59,7 @@ begin
 
     lEsperado := ObterResultadoEsperado;
     lAtual := ObterResultadoAtual;
-
-    if Trim(lEsperado) = '' then
-      MostrarLogTextoEmModoDebug('[Validacao] Resultado esperado vazio - validacao ignorada')
-    else
-    begin
-      AssertsZerar;
-      AssertIgual(lEsperado, lAtual, 'Validacao Resultado Completo');
-
-      if not AssertsOk then
-        raise Exception.Create(MensagemPersonalizada + 'Validacao falhou: ' + AssertsResumo);
-
-      MostrarLogTextoEmModoDebug('[Asserts] ' + AssertsResumo);
-    end;
+    {TDD_STARTED.}ValidarResultadoDaExecucao(lEsperado, lAtual);
   finally
     TearDown_DestruirObjetos;
   end;

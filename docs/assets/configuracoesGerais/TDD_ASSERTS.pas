@@ -112,6 +112,14 @@ begin
       pDescricao + ': esperado "' + pEsperado + '", obtido "' + pObtido + '".');
 end;
 
+function ValidarResultadoEsperado(pEsperado, pObtido, pDescricao: String): Boolean;
+begin
+  if (Trim(pEsperado) = '') or (Trim(pEsperado) = '{}') then
+    Result := AssertsPassou(pDescricao + ' - resultado esperado vazio')
+  else
+    Result := AssertIgual(pEsperado, pObtido, pDescricao);
+end;
+
 function AssertIgualInteiro(pEsperado, pObtido: Integer; pDescricao: String): Boolean;
 begin
   InicializarAcumulo;

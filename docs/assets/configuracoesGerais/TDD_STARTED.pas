@@ -8,7 +8,7 @@
   - P39_TDD_CACHE (CDSModulos, CDSAreas, AreaPeloNome, ModuloPeloNome)
   - P39_TDD_PARAMETRO (Setup_Inicializar_Parametros, SetParametro, etc.)
   ================================================================ }
-uses P39_TDD_CASOS_DE_TESTE;
+uses P39_TDD_CASOS_DE_TESTE, TDD_ASSERTS;
 
 var
   // Controle de fluxo
@@ -41,6 +41,17 @@ procedure MostrarLogTextoEmModoDebug(pTexto: String);
 begin
   if FModoDebug then
     MostrarLogTexto(pTexto, '[DEBUG]');
+end;
+
+procedure ValidarResultadoDaExecucao(pEsperado, pObtido: String);
+begin
+  AssertsZerar;
+  ValidarResultadoEsperado(pEsperado, pObtido, 'Validacao Resultado Completo');
+
+  if not AssertsOk then
+    raise Exception.Create(MensagemPersonalizada + 'Validacao falhou: ' + AssertsResumo);
+
+  MostrarLogTextoEmModoDebug('[Asserts] ' + AssertsResumo);
 end;
 
 { ================================================================
