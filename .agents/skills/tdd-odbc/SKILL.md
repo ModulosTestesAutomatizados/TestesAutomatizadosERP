@@ -26,6 +26,12 @@ Nosso ERP tem uma diferença fundamental em sua arquitetura, é uma aplicação 
 
 Por tanto, nos testes, decidimos adotar os métodos de conexão ODBC de 32 bits, a justificativa para isso foi justamente que as codificações dos testes interagem diretamente com as telas nativas no cliente, que como já foi dito anteriormente, é 32 bits.
 
+## Separação de SQL
+
+- SQL temporário, de descoberta ou de validação local deve ser salvo em `sql/temp-local/`.
+- O diretório `sql/` é reservado a scripts aprovados para o banco de produção.
+- Um script só pode ser promovido para `sql/` após validação no banco dedicado e aprovação explícita do usuário.
+
 ## Centralização em TDD_ODBC
 
 Essa unit foi criada justamente para disponibilizar métodos com a configuração centralizada, ela possui um uses na unit de CONSTANTES, a qual tem a declaração da String de conexão ODBC que é utilizada. Dessa forma, todas as codificações vão usar os métodos implementados na abstração de TDD_ODBC!

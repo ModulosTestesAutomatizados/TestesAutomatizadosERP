@@ -127,6 +127,12 @@ Criar uma unit de mapeamento por tela (ex.:
   incoerentes caem em regras de negócio do ERP, como *"O valor do complemento deve ser
   maior que zero"*.
 
+## Planejamento local e backlog
+
+- Planejamentos técnicos de uma feature em desenvolvimento devem ser salvos em `docs/planejamentos-local/`.
+- Planejamentos de sprint, backlog, milestones e prioridades pertencem ao GitHub Projects e às issues, não a arquivos locais.
+- Migrations e SQLs de validação local devem ficar em `sql/temp-local/`; `sql/` é reservado a scripts aprovados para produção.
+
 ## Contrato do JSON do caso de teste
 
 - **O JSON é a fonte da verdade do cenário de teste**: os valores explícitos nele devem

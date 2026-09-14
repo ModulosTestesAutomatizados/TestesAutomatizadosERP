@@ -8,31 +8,31 @@ type
     RequisitoVersao  :string;
     StatusExecucao   :string;
     EtapaFalha       :integer;
-    MensagemErro:    :string;
+    MensagemErro     :string;
     LogsFalhas       :string;
-    DataHoraExecucao :string;
   end;
 
 type
-  TMetricasTickDiff  = record
-    AutoIncHistorico :integer; // FK
-    NomeMetodo       :integer;
-    EtapaCasoTeste   :integer;
-    TempoInicio      :Cardinal;
-    TempoFim         :Cardinal;
-    TempoTotal       :Cardinal;
+  TMetricasTickDiff     = record
+    //AutoIncHistorico    :integer; // FK
+    NomeMetodo          :string;
+    EtapaCasoTeste      :integer;
+    TempoInicio         :Cardinal;
+    TempoFim            :Cardinal;
+    TempoTotal          :Cardinal;
+    TempoTotalFormatado :string;
   end;
 
 type
-  TMetricasAsserts     = record
-    AutoIncHistorico   :integer; // FK
-    EtapaCasoTeste     :integer;
-    TempoTotal         :Cardinal;
-    AssertsTotal       :integer;
-    AssertsAprovados   :integer;
-    AssertsFalhos      :integer;
-    ResultadoEsperado  :string;
-    ResultadoObtido    :string;
+  TMetricasAsserts    = record
+    //AutoIncHistorico  :integer; // FK
+    EtapaCasoTeste    :integer;
+    TempoTotal        :Cardinal;
+    AssertsTotal      :integer;
+    AssertsAprovados  :integer;
+    AssertsFalhos     :integer;
+    ResultadoEsperado :string;
+    ResultadoObtido   :string;
   end;
 
 var
@@ -40,27 +40,112 @@ var
   FHistoricoExecucao :THistoricoExecucao;
   // Para as métricas
   FMetricasAsserts   :TMetricasAsserts;
-  FMetricasTickDiff  :TMetricasTickDiff;
-  // Para o cronômetro
-  FInicio, FFim      :Cardinal;
-  FTickDiffs         :Cardinal;
+  FMetricasTickDiff  :array of TMetricasTickDiff;
+  FNomeMetodoAtual   :string;
+  FEtapaAtual        :integer;
 
 procedure Main;
 begin
 
 end;
 
-function Run();
+function ProximoSegmentoVersao(pVersao: String; var pPosicao: Integer): Integer;
 var
-  Results := Olevariant;
+  lInicio: Integer;
 begin
-  CronometrarExecucao(Etapas, Results);
+  while (pPosicao <= Length(pVersao)) and (Copy(pVersao, pPosicao, 1) = '.') do
+    pPosicao := pPosicao + 1;
+
+  lInicio := pPosicao;
+  while (pPosicao <= Length(pVersao)) and (Copy(pVersao, pPosicao, 1) <> '.') do
+    pPosicao := pPosicao + 1;
+
+  Result := StrToIntDef(Copy(pVersao, lInicio, pPosicao - lInicio), 0);
 end;
 
-function Etapas(const Results := Olevariant);
+function RequisitoVersaoAtendido(pRequisitoVersao, pVersaoExecucao: String): Boolean;
+var
+  lPosicaoRequisito, lPosicaoExecucao: Integer;
+  lSegmentoRequisito, lSegmentoExecucao: Integer;
 begin
-  CronometrarExecucao(SetupTeste, Results);
-  CronometrarExecucao(ExecutarTeste, Results);
+  if Trim(pRequisitoVersao) = '' then
+  begin
+    Result := True;
+    Exit;
+  end;
+
+  // A versao 0 representa o ambiente de desenvolvimento e nao possui restricao.
+  if Trim(pVersaoExecucao) = '0' then
+  begin
+    Result := True;
+    Exit;
+  end;
+
+  lPosicaoRequisito := 1;
+  lPosicaoExecucao := 1;
+  while (lPosicaoRequisito <= Length(pRequisitoVersao)) or
+        (lPosicaoExecucao <= Length(pVersaoExecucao)) do
+  begin
+    lSegmentoRequisito := ProximoSegmentoVersao(pRequisitoVersao, lPosicaoRequisito);
+    lSegmentoExecucao := ProximoSegmentoVersao(pVersaoExecucao, lPosicaoExecucao);
+
+    if lSegmentoExecucao > lSegmentoRequisito then
+    begin
+      Result := True;
+      Exit;
+    end;
+
+    if lSegmentoExecucao < lSegmentoRequisito then
+    begin
+      Result := False;
+      Exit;
+    end;
+  end;
+
+  Result := True;
+end;
+
+procedure Run(pSetupImp, pTesteImp: OleVariant);
+begin
+  FHistoricoExecucao.VersaoExecucao := VersaoSistemaCodigo;
+  SetLength(FMetricasTickDiff, 0);
+
+  try
+    if not RequisitoVersaoAtendido(
+      FHistoricoExecucao.RequisitoVersao,
+      FHistoricoExecucao.VersaoExecucao
+    ) then
+    begin
+      FHistoricoExecucao.StatusExecucao := 'INCOMPATIVEL_VERSAO';
+      FHistoricoExecucao.EtapaFalha := 0;
+      raise Exception.Create('Requisito de versao nao atendido.');
+    end;
+
+    FNomeMetodoAtual := 'SetupTeste';
+    FEtapaAtual := 1;
+    CronometrarExecucao(SetupTeste(pSetupImp));
+
+    FNomeMetodoAtual := 'ExecutarTeste';
+    FEtapaAtual := 2;
+    CronometrarExecucao(ExecutarTeste(pTesteImp));
+
+    FHistoricoExecucao.StatusExecucao := 'SUCESSO';
+  except
+    on Ex: Exception do
+    begin
+      FHistoricoExecucao.MensagemErro := Ex.Message;
+      if FHistoricoExecucao.StatusExecucao <> 'INCOMPATIVEL_VERSAO' then
+        FHistoricoExecucao.StatusExecucao := 'FALHA';
+      raise;
+    end;
+  finally
+    try
+      RegistrarMetricas;
+    except
+      on Ex: Exception do
+        MostrarLogTexto('Falha ao persistir metricas: ' + Ex.Message, 'TDD_RUNNER');
+    end;
+  end;
 end;
 
 procedure SetupTeste(pMetodoSetupImplementacao :TProc);
@@ -96,55 +181,122 @@ begin
 end;
 
 {$region 'Cronômetro'}
-function CronometrarExecucao(pMetodoExecutar :TProc; const pResultMetodo :Olevariant) :Cardinal;
+function FormatarTickDiff(pTempoMs: Cardinal): String;
+var
+  lHoras, lMinutos, lSegundos, lMilissegundos: Cardinal;
 begin
-  FInicio := GetTickCount;
-  
+  lHoras         := pTempoMs div 3600000;
+  pTempoMs       := pTempoMs mod 3600000;
+  lMinutos       := pTempoMs div 60000;
+  pTempoMs       := pTempoMs mod 60000;
+  lSegundos      := pTempoMs div 1000;
+  lMilissegundos := pTempoMs mod 1000;
+
+  Result := Format('%.2d:%.2d:%.2d:%.3d', [lHoras, lMinutos, lSegundos, lMilissegundos]);
+end;
+
+function RegistrarTickDiff(pTempoInicio, pTempoFim: Cardinal): OleVariant;
+var
+  lIndice: Integer;
+begin
+  lIndice := Length(FMetricasTickDiff);
+  SetLength(FMetricasTickDiff, lIndice + 1);
+
+  FMetricasTickDiff[lIndice].NomeMetodo           := FNomeMetodoAtual;
+  FMetricasTickDiff[lIndice].EtapaCasoTeste       := FEtapaAtual;
+  FMetricasTickDiff[lIndice].TempoInicio          := pTempoInicio;
+  FMetricasTickDiff[lIndice].TempoFim             := pTempoFim;
+  FMetricasTickDiff[lIndice].TempoTotal           := TickDiff(pTempoInicio, pTempoFim);
+  FMetricasTickDiff[lIndice].TempoTotalFormatado  := FormatarTickDiff(FMetricasTickDiff[lIndice].TempoTotal);
+
+  Result := FMetricasTickDiff[lIndice].TempoTotalFormatado;
+end;
+
+function CronometrarExecucao(pMetodoExecutar: TProc): OleVariant;
+var
+  lInicio, lFim: Cardinal;
+begin
+  lInicio := GetTickCount;
   try
-    pResultMetodo := pMetodoExecutar;
-  except
-  
-  FFim := GetTickCount;
-  
-  Result := TickDiff(FInicio, FFim);  
+    if Assigned(pMetodoExecutar) then
+      pMetodoExecutar;
+  finally
+    lFim := GetTickCount;
+    Result := RegistrarTickDiff(lInicio, lFim);
+  end;
+end;
+
+function CronometrarExecucaoRetorno(pMetodoExecutar: TProc; var pResult: OleVariant): OleVariant;
+var
+  lInicio, lFim: Cardinal;
+begin
+  lInicio := GetTickCount;
+  try
+    if Assigned(pMetodoExecutar) then
+      pResult := pMetodoExecutar;
+  finally
+    lFim := GetTickCount;
+    Result := RegistrarTickDiff(lInicio, lFim);
+  end;
 end;
 {$endregion}
 
 {$region 'Persistência'}
 procedure RegistrarMetricas;
 var
-  lSQL                 :string;
-  lCodigoAutoIncGerado :integer;
+  lSQL    :string;
+  lIndice :integer;
 begin
-  lSQL                                := '';
-  FHistoricoExecucao.AutoIncCasoTeste := 0;
-  FHistoricoExecucao.AutoIncHistorico := 0;
+  lSQL := 'INSERT INTO HISTORICO_EXECUCAO_TESTE ('                + #13 +
+    '  AUTOINC_CASO_TESTE,'                                       + #13 +
+    '  VERSAO_EXECUCAO,'                                          + #13 +
+    '  REQUISITO_VERSAO,'                                         + #13 +
+    '  STATUS_EXECUCAO,'                                          + #13 +
+    '  ETAPA_FALHA,'                                              + #13 +
+    '  MENSAGEM_ERRO,'                                            + #13 +
+    '  LOGS_FALHAS'                                               + #13 +
+    ') VALUES ('                                                  + #13 +
+    '  :AutoIncCasoTeste,'                                        + #13 +
+    '  :VersaoExecucao,'                                          + #13 +
+    '  :RequisitoVersao,'                                         + #13 +
+    '  :StatusExecucao,'                                          + #13 +
+    '  :EtapaFalha,'                                              + #13 +
+    '  :MensagemErro,'                                            + #13 +
+    '  :LogsFalhas'                                               + #13 +
+    ') RETURNING AUTOINC_HISTORICO';
 
-  // Insert do histórico
-  lSQL := '';
-  TDDCommandODBCP(lSQL, [
+  FHistoricoExecucao.AutoIncHistorico := TDDScalarODBCP(lSQL, [
     FHistoricoExecucao.AutoIncCasoTeste,
     FHistoricoExecucao.VersaoExecucao,
     FHistoricoExecucao.RequisitoVersao,
     FHistoricoExecucao.StatusExecucao,
     FHistoricoExecucao.EtapaFalha,
     FHistoricoExecucao.MensagemErro,
-    FHistoricoExecucao.LogsFalhas,
-    FHistoricoExecucao.DataHoraExecucao
+    FHistoricoExecucao.LogsFalhas
   ]);
 
-  lSQL := '';
-  FHistoricoExecucao.AutoIncHistorico := TDDScalarODBCP(lSQL, [
+  lSQL := 'INSERT INTO METRICAS_ASSERTS ('  + #13 +
+    '  AUTOINC_HISTORICO,'                  + #13 +
+    '  ETAPA_CASO_TESTE,'                   + #13 +
+    '  TEMPO_TOTAL,'                        + #13 +
+    '  ASSERTS_TOTAL,'                      + #13 +
+    '  ASSERTS_APROVADOS,'                  + #13 +
+    '  ASSERTS_FALHOS,'                     + #13 +
+    '  RESULTADO_ESPERADO,'                 + #13 +
+    '  RESULTADO_OBTIDO'                    + #13 +
+    ') VALUES ('                            + #13 +
+    '  :AutoIncHistorico,'                  + #13 +
+    '  :EtapaCasoTeste,'                    + #13 +
+    '  :TempoTotal,'                        + #13 +
+    '  :AssertsTotal,'                      + #13 +
+    '  :AssertsAprovados,'                  + #13 +
+    '  :AssertsFalhos,'                     + #13 +
+    '  :ResultadoEsperado,'                 + #13 +
+    '  :ResultadoObtido'                    + #13 +
+    ')';
 
-  ]);
-
-  // Atribuindo o ID gerado em caso de precisar de novas manipulações futuramente.
-  FMetricasAsserts.AutoIncHistorico := FHistoricoExecucao.AutoIncHistorico;
-  FMetricasTickDiff.AutoIncHistorico := FHistoricoExecucao.AutoIncHistorico;
-
-  lSQL := '';
   TDDCommandODBCP(lSQL, [
-    FMetricasAsserts.AutoIncHistorico,
+    FHistoricoExecucao.AutoIncHistorico,
     FMetricasAsserts.EtapaCasoTeste,
     FMetricasAsserts.TempoTotal,
     FMetricasAsserts.AssertsTotal,
@@ -154,14 +306,38 @@ begin
     FMetricasAsserts.ResultadoObtido
   ]);
 
-  lSQL := '';
-  TDDCommandODBCP(lSQL, [
-    FMetricasTickDiff.AutoIncHistorico,
-    FMetricasTickDiff.NomeMetodo,
-    FMetricasTickDiff.EtapaCasoTeste,
-    FMetricasTickDiff.TempoInicio,
-    FMetricasTickDiff.TempoFim,
-    FMetricasTickDiff.TempoTotal
-  ]);
+  lSQL := 'INSERT INTO METRICAS_TICK_DIFF ('  + #13 +
+    '  AUTOINC_HISTORICO,'                    + #13 +
+    '  NOME_METODO,'                          + #13 +
+    '  ETAPA_CASO_TESTE,'                     + #13 +
+    '  TEMPO_INICIO,'                         + #13 +
+    '  TEMPO_FIM,'                            + #13 +
+    '  TEMPO_TOTAL,'                          + #13 +
+    '  TEMPO_TOTAL_FORMATADO'                 + #13 +
+    ') VALUES ('                              + #13 +
+    '  :AutoIncHistorico,'                    + #13 +
+    '  :NomeMetodo,'                          + #13 +
+    '  :EtapaCasoTeste,'                      + #13 +
+    '  :TempoInicio,'                         + #13 +
+    '  :TempoFim,'                            + #13 +
+    '  :TempoTotal,'                          + #13 +
+    '  :TempoTotalFormatado'                  + #13 +
+    ')';
+
+  lIndice := 0;
+  while lIndice < Length(FMetricasTickDiff) do
+  begin
+    TDDCommandODBCP(lSQL, [
+      FHistoricoExecucao.AutoIncHistorico,
+      FMetricasTickDiff[lIndice].NomeMetodo,
+      FMetricasTickDiff[lIndice].EtapaCasoTeste,
+      FMetricasTickDiff[lIndice].TempoInicio,
+      FMetricasTickDiff[lIndice].TempoFim,
+      FMetricasTickDiff[lIndice].TempoTotal,
+      FMetricasTickDiff[lIndice].TempoTotalFormatado
+    ]);
+
+    lIndice := lIndice + 1;
+  end;
 end;
 {$endregion}

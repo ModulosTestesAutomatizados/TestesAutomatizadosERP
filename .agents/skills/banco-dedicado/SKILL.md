@@ -49,3 +49,10 @@ documentado em `docs/MER.md`, no formato Mermaid ER.
 Toda manipulação de dados usada como massa de teste deve ser executada
 através dos métodos ODBC. Os testes devem operar apenas no banco dedicado,
 nunca no banco de produção/ERP.
+
+## Separação de migrations e scripts
+
+- Experimentos, migrations em validação local e SQLs gerados durante a tarefa devem ficar em `sql/temp-local/`.
+- O diretório `sql/` contém somente scripts aprovados para execução no banco de produção.
+- Nunca promover um script de `sql/temp-local/` para `sql/` sem validação e aprovação explícita do usuário.
+- Ao criar ou alterar tabelas do banco dedicado, atualizar `docs/MER.md` na mesma tarefa.
