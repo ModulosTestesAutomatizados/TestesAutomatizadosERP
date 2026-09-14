@@ -26,6 +26,15 @@ Delphi XE2+), inspirado em DUnit/NUnit/xUnit. Cópia de referência local:
 | exemplos avulsos | `D:\TestesAutomatizados\ERP\DUnitx\Examples\` (`General`, `EqualityAsserts`, `AssertFailureCompare`, `UITest`, `Console.FMX`) |
 | pacotes por versão da IDE | `D:\TestesAutomatizados\ERP\DUnitx\packages\` (`RAD Studio XE2` … `13.0`; inclui o IDE expert/wizard) |
 | docs extras | `TestCaseProvider.md` (casos parametrizados via provider), `Docs/FMX-Pseudo-Console.md` |
+| repositório oficial | `https://github.com/VSoftTechnologies/DUnitX.git` (fallback — ver observação abaixo) |
+
+> **Observação — projeto ausente na máquina:** os caminhos acima apontam para a
+> cópia local do autor. Se o diretório raiz não existir na máquina em uso, seguir
+> nesta ordem: (1) solicitar ao usuário o caminho local do DUnitX e usá-lo como
+> raiz (ajustando os caminhos desta seção); (2) se o usuário não informar nenhum
+> diretório, clonar a referência oficial `https://github.com/VSoftTechnologies/DUnitX.git`
+> e usar o clone como raiz do projeto (subpasta `Source` como search path).
+> Não prossiga sem uma das duas fontes.
 
 ## 2. Mapa das units centrais (`Source/`)
 
