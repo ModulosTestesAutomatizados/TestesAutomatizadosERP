@@ -23,41 +23,41 @@ erDiagram
         blob CASO_TESTE_CT "JSON"
         blob CAMPOS_DISPONIVEIS_CT "JSON"
         blob RESULTADO_ESPERADO_CT "JSON"
-        varchar(40) REQUISITO_VERSAO "Versao minima opcional"
+        varchar(10) REQUISITO_VERSAO_CT "Versao minima opcional"
         char(1) ATIVO_CT "DEFAULT 'S' CHECK (S/N)"
         blob JSON_CASO_TESTE
     }
-    HISTORICO_EXECUCAO_TESTE {
-        integer AUTOINC_HISTORICO PK "NOT NULL"
-        bigint AUTOINC_CASO_TESTE FK "NOT NULL"
-        varchar(40) VERSAO_EXECUCAO
-        varchar(40) REQUISITO_VERSAO
-        varchar(20) STATUS_EXECUCAO
-        integer ETAPA_FALHA
-        blob MENSAGEM_ERRO "TEXT UTF8"
-        blob LOGS_FALHAS "TEXT UTF8"
-        timestamp DATA_HORA_EXECUCAO "DEFAULT CURRENT_TIMESTAMP"
+    HISTORICO_EXECUCAO {
+        integer AUTOINC_HISTORICO_HE PK "IDENTITY NOT NULL"
+        bigint AUTOINC_CASO_TESTE_HE FK "NOT NULL"
+        varchar(10) VERSAO_EXECUCAO_HE
+        varchar(10) REQUISITO_VERSAO_HE
+        varchar(20) STATUS_EXECUCAO_HE "SUCESSO/FALHA/ERROS/INCOMPATIVEL_VERSAO"
+        integer ETAPA_FALHA_HE
+        blob MENSAGEM_ERRO_HE "TEXT UTF8"
+        blob LOGS_FALHAS_HE "TEXT UTF8"
+        timestamp DATA_HORA_EXECUCAO_HE "DEFAULT CURRENT_TIMESTAMP"
     }
     METRICAS_TICK_DIFF {
-        integer AUTOINC_METRICA_TICK_DIFF PK "NOT NULL"
-        integer AUTOINC_HISTORICO FK "NOT NULL"
-        varchar(120) NOME_METODO "UTF8"
-        integer ETAPA_CASO_TESTE
-        integer TEMPO_INICIO "ms"
-        integer TEMPO_FIM "ms"
-        integer TEMPO_TOTAL "ms"
-        varchar(20) TEMPO_TOTAL_FORMATADO "UTF8 - HH:MM:SS:MS"
+        integer AUTOINC_METRICA_TICK_DIFF_TD PK "IDENTITY NOT NULL"
+        integer AUTOINC_HISTORICO_HE FK "NOT NULL"
+        varchar(120) NOME_METODO_TD "UTF8"
+        integer ETAPA_CASO_TESTE_TD
+        integer TEMPO_INICIO_TD "ms"
+        integer TEMPO_FIM_TD "ms"
+        integer TEMPO_TOTAL_TD "ms"
+        varchar(20) TEMPO_TOTAL_FORMATADO_TD "UTF8 - HH:MM:SS:MS"
     }
     METRICAS_ASSERTS {
-        integer AUTOINC_METRICA_ASSERTS PK "NOT NULL"
-        integer AUTOINC_HISTORICO FK "NOT NULL"
-        integer ETAPA_CASO_TESTE
-        integer TEMPO_TOTAL "ms"
-        integer ASSERTS_TOTAL
-        integer ASSERTS_APROVADOS
-        integer ASSERTS_FALHOS
-        blob RESULTADO_ESPERADO "TEXT UTF8"
-        blob RESULTADO_OBTIDO "TEXT UTF8"
+        integer AUTOINC_METRICA_ASSERTS_AT PK "IDENTITY NOT NULL"
+        integer AUTOINC_HISTORICO_HE FK "NOT NULL"
+        integer ETAPA_CASO_TESTE_AT
+        integer TEMPO_TOTAL_AT "ms"
+        integer ASSERTS_TOTAL_AT
+        integer ASSERTS_APROVADOS_AT
+        integer ASSERTS_FALHOS_AT
+        blob RESULTADO_ESPERADO_AT "TEXT UTF8"
+        blob RESULTADO_OBTIDO_AT "TEXT UTF8"
     }
     UNIT {
         bigint CODIGO_UNIT PK "NOT NULL"
@@ -102,9 +102,9 @@ erDiagram
     MODULO ||--o{ AREA : "possui"
     MODULO ||--o{ CASO_TESTE : "possui"
     AREA ||--o{ CASO_TESTE : "possui"
-    CASO_TESTE ||--o{ HISTORICO_EXECUCAO_TESTE : "gera"
-    HISTORICO_EXECUCAO_TESTE ||--o{ METRICAS_TICK_DIFF : "mede"
-    HISTORICO_EXECUCAO_TESTE ||--o{ METRICAS_ASSERTS : "consolida"
+    CASO_TESTE ||--o{ HISTORICO_EXECUCAO : "gera"
+    HISTORICO_EXECUCAO ||--o{ METRICAS_TICK_DIFF : "mede"
+    HISTORICO_EXECUCAO ||--o{ METRICAS_ASSERTS : "consolida"
     MODULO ||--o{ UNIT : "possui"
     MODULO ||--o{ PROCESSAMENTO : "possui (FK implícita)"
     MODULO ||--o{ SCRIPT : "possui (FK implícita)"
