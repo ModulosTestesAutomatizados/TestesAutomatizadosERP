@@ -1,379 +1,239 @@
-﻿uses P39_GERAR_FAT_CONFIG_TESTE, P39_FAT_DADOS_TESTE;
-
-const  
-  FCDSCadastro = 'CDSCadastro';
-  FCDSItem = 'CDSItem';
-  FCDSFiscal = 'CDSFiscal';
-  FRGradeamento = 'FRGradeamento';  
-  FGradeItens = 'grdItem';
-
-  FBotaoIncluir = 'BotaoIncluir';
-  FBotaoGravar = 'BotaoGravar';
-  
-  idCB = 'GERA_DOCUMENTOS_FATURA';
-  cMaxDetalhamento = 2;
-
-var
-  FItemMenu, FCadastro,
-   FDM: string;
-
-  FTagCli    : Integer;
-  FTagProduto: Integer;
-  FTransacao : Integer;
-
-  FCDSClientes: TClientDataSet;
-  FCDSProdutos: TClientDataSet;
-
-  grdItem : TComponent;
-  Frame          : TComponent;
-  FormCadastro   : TForm;
-  DM             : TComponent;
-  BotaoIncluir   : TComponent;
-  BotaoGravar    : TComponent;  
-  
-  CDSCad, CDSItem,
-  CDSFiscal: TClientDataSet;
+﻿uses P39_TDD_FAT_DOCUMENTO_FATURA, P39_TDD_DOCUMENTO_FATURA_SQL;
 
 procedure Main;
 begin
-  if ExecutandoNoServidor then
-    raise exception.Create(MensagemPersonalizada + #13 + 'Processamento nÃ£o disponÃ­vel para execuÃ§Ã£o pelo servidor!');
 
-  if CodigoComoClienteTekSystem <> 1000 then
-    raise exception.Create(MensagemPersonalizada + #13 + 'Processamento exclusivo para uso de testes dentro da TekSystem!');
+end;
+
+procedure _CriarEstruturaItens(pCDS: TClientDataSet);
+begin
+  pCDS.Close;
+  pCDS.FieldDefs.Clear;
+  pCDS.FieldDefs.Add('ITEM', ftInteger, 0, False);
+  pCDS.FieldDefs.Add('VAR', ftInteger, 0, False);
+  pCDS.FieldDefs.Add('COR', ftInteger, 0, False);
+  pCDS.FieldDefs.Add('ACAB', ftInteger, 0, False);
+  pCDS.FieldDefs.Add('QTD', ftCurrency, 0, False);
+  pCDS.FieldDefs.Add('VALOR', ftCurrency, 0, False);
+  pCDS.FieldDefs.Add('DESCONTO', ftString, 50, False);
+  pCDS.CreateDataSet;
+  pCDS.IndexFieldNames := 'ITEM;VAR;COR;ACAB';
+end;
+
+// ValidaÃ§Ãµes de Item para ser IncluÃ­das aqui.
+function ItemValido(pItem, pVar, pCor, pAcab: Integer):Boolean;
+begin
+  Result := False;
   
-  P39_GERAR_FAT_CONFIG_TESTE.Main;
+  if (pItem <= 0) then
+    Exit;
+  
+  //Fat Por Unidade Fabril.  
+    
+end;
 
-  CarregarUnitDinamicamente('FAT_CONFIG_TESTE');
-    
-  if not ConfirmarFiltros then
-     Exit;
-     
-  CallBack_AbreTela(idCB);
+procedure Itens_Incluir;
+var 
+  lArrayItens: TJSONArray;
+  lItemConfig, lItemEspec, lDesconto: String;
+  lQuantidade, lValor: Currency;
+  I, lItem, lVar, lCor, lAcab, iTagProd: Integer;
+  lJSONItem: TJSONObject;
+  CDS: TClientDataSet;
+begin
+  iTagProd := StrToInt(GetValueJsonDef(FJSONITEMCONF, 'tag_prodcomum', '0'));  
+
+  lArrayItens := TJSONArray(TryParseJSONValue(GetArrayJsonOrEmpty(FJSONITEMCONF, 'itens')));
+  
   try
-    CallBack_Mensagem(idCB, 'Pedido de Venda');
-    if Filtro(1) = QuotedStr('S') then
-      IncluiPedidoVenda;
-    
-    CallBack_Mensagem(idCB, 'Pedido de Venda para NFCe');   
-    if Filtro(2) = QuotedStr('S') then
-      IncluiPedidoVendaNFCe;
-      
-    CallBack_Mensagem(idCB, 'AssistÃªncia Tecnica');   
-    if Filtro(3) = QuotedStr('S') then
-      IncluiAssistencia;
-    
-    CallBack_Mensagem(idCB, 'Pedido de ConsignaÃ§Ã£o');   
-    if Filtro(4) = QuotedStr('S') then
-      IncluiConsignacao;
-    
-    CallBack_Mensagem(idCB, 'ConferÃªncia e LiberaÃ§Ã£o de Pedidos');   
-    if Filtro(5) = QuotedStr('S') then
-      ConfereLiberaDocumentos;
+    if (lArrayItens.Count > 0) then // Possui Itens EspecÃ­ficos
+    begin
+      CDS := TClientDataSet.Create;
+      try
+        _CriarEstruturaItens(CDS);
+          
+        for I := 0 to lArrayItens.Count -1 do
+        begin
+          lJSONItem := GetObjectJson(lArrayItens.Items(I).ToJson, '');
+          
+          lItem := StrToInt(GetValueJsonDef(lJSONItem, 'item', '0'));
+          
+          if (lItem = 0) then
+            Continue;
+          
+          lVar  := StrToInt(GetValueJsonDef(lJSONItem, 'variacao', '0'));
+          lCor  := StrToInt(GetValueJsonDef(lJSONItem, 'cor', '0'));
+          lAcab := StrToInt(GetValueJsonDef(lJSONItem, 'acabamento', '0'));
+          
+          // Valor
+          lValor := StrToCurr(Troca(GetValueJsonDef(lJSONItem ,'valor', '0'), '.', ','));  
+          
+          if (lValor = 0) then
+            lValor := StrToCurr(Troca(GetValueJsonDef(FJSONITEMCONF ,'valor', '0'), '.', ','));
+          
+          if lValor = 0 then
+            lValor := _GetVlrItem; // Atribui Randomicamente      
+          // Fim AtribuiÃ§Ã£o de Valor
+          
+          // Quantidade
+          lQuantidade := StrToCurr(Troca(GetValueJsonDef(lJSONItem ,'quantidade', '0'), '.', ','));
+          
+          if lQuantidade = 0 then
+            lQuantidade := StrToCurr(Troca(GetValueJsonDef(FJSONITEMCONF ,'quantidade', '0'), '.', ','));
+            
+          if lQuantidade = 0 then
+            lQuantidade := _GetQuantidadeItem; // Pega quantidade Randomicamente  
+          // Fim Atribuicao Quantidade
+          
+          lDesconto := GetValueJsonDef(lJSONItem ,'desconto', '0');
+          
+          CDS.InsertRecord([lItem, lVar, lCor, lAcab, lQuantidade, lValor, lDesconto]);
+          //_IncluiItemEspecifico(lItem, lVar, lCor, lAcab, lQuantidade, lValor, lDesconto);
+        end;
+        
+        _IncluirItensDocumento(CDS);     
+      finally
+        CDS.Free;
+      end;
+ 
+    end
+    else if (iTagProd > 0) then // vai tentar via Tag Item Global
+      _IncluiItensPorTag(iTagProd)
+    else
+      AssertsFalhou('Itens InvÃ¡lidos', 'Itens nÃ£o existentes!')  
+       
   finally
-    CallBack_FechaTela(idCB);
+    if Assigned(lArrayItens) then
+      lArrayItens.Free;
   end;
 end;
 
-function ConfirmarFiltros: Boolean;
-var
+procedure _IncluiItensPorTag(const pTagProduto: Integer);
+var 
+  lQuantidade, lValor: Currency;
+  lDesconto: String;
+  lQuantidadeTotalItens: Integer;
   CDS: TClientDataSet;
 begin
-  CDS := TClientDataSet.Create; 
-  try     
-    CDS.Data := EstruturaDeFiltrosDinamicos;      
-   
-    {01} IncluirFiltroDinamico(CDS, 'Pedidos de Venda', cTipoFiltro_Logico, 'S', '', '', '');               
-    {02} IncluirFiltroDinamico(CDS, 'Pedidos de Venda para NFCe', cTipoFiltro_Logico, 'N', '', '', '');
-    {03} IncluirFiltroDinamico(CDS, 'AssistÃªncia TÃ©cnica', cTipoFiltro_Logico, 'S', '', '', '');
-    {04} IncluirFiltroDinamico(CDS, 'Pedido de ConsignaÃ§Ã£o', cTipoFiltro_Logico, 'S', '', '', '');
-    {05} IncluirFiltroDinamico(CDS, 'Conferir e Liberar Bloqueios do Dia', cTipoFiltro_Logico, 'S', '', '', '');
-    CDS.Data := ExecutarFiltroDinamico(CDS.Data, 'Selecione os documentos e processos a serem executados');
+  lQuantidadeTotalItens := 0;
+
+  FCDSProdutos.Data := BuscaDadosProdutos(pTagProduto, lQuantidadeTotalItens);
+
+  if FCDSProdutos.IsEmpty then
+    Exit;
+
+  CDS := TClientDataSet.Create;
+  try
+    _CriarEstruturaItens(CDS);
     
-    Result := (not CDS.IsEmpty);
+    lQuantidade := StrToCurr(Troca(GetValueJsonDef(FJSONITEMCONF ,'quantidade', '0'), '.', ','));
+    lValor      := StrToCurr(Troca(GetValueJsonDef(FJSONITEMCONF ,'valor', '0'), '.', ','));
+    lDesconto   := GetValueJsonDef(FJSONITEMCONF ,'desconto', '0');
+  
+    if lQuantidade = 0 then
+      lQuantidade := _GetQuantidadeItem;
+      
+    if lValor = 0 then
+      lValor := _GetVlrItem;  
+  
+    FCDSProdutos.First;
+  
+    while not FCDSProdutos.Eof do
+    begin
+    
+      CDS.InsertRecord([
+        FCDSProdutos.FieldByName('CODIGO_ITEM').AsInteger,
+        FCDSProdutos.FieldByName('VARIACAO_ITEM_DETALHE').AsInteger,
+        FCDSProdutos.FieldByName('COR_ITEM_DETALHE').AsInteger,
+        FCDSProdutos.FieldByName('ACABAMENTO_ITEM_DETALHE').AsInteger,
+        lQuantidade,
+        lValor,
+        lDesconto]);
+    
+      FCDSProdutos.Next;
+    end;
+    
+    _IncluirItensDocumento(CDS);   
   finally
     CDS.Free;
   end;
 end;
 
-
-procedure IncluiPedidoVenda;
-begin
-  _Inicializar;
-  try
-    _DefinirCadastro(1);
-    _CarregaCadastros;
-    _IncluiDocumento;
-  finally
-    _Finalizar;
-  end;
-end;
-
-procedure IncluiPedidoVendaNFCe;
-begin
-  _Inicializar;
-  try
-    _DefinirCadastro(1);
-    
-    FTagCli := TagPessoaConsumidorNFCe;
-    FTagProduto := TagProdComum;
-    FTransacao  := TransacaoPedidoNF_NFCe;
-    _CarregaCadastros;
-    _IncluiDocumento;
-  finally
-    _Finalizar;
-  end;
-end;
-
-procedure IncluiAssistencia;
-begin
-  _Inicializar;
-  try
-    _DefinirCadastro(2);
-    _CarregaCadastros;
-    _IncluiDocumento;
-  finally
-    _Finalizar;
-  end;
-end;
-
-procedure IncluiConsignacao;
-begin
-  _Inicializar;
-  try
-    _DefinirCadastro(3);
-    _CarregaCadastros;
-    _IncluiDocumento;
-  finally
-    _Finalizar;
-  end;
-end;
-
-procedure ConfereLiberaDocumentos;
+procedure _IncluirItensDocumento(pCDS: TClientDataSet);
 var
-  sSQL: string;
+  lItem, lVar, lCor, lAcab: Integer;
+  lValor, lQuantidade: Currency;
+  lDesconto, Log: String;
 begin
-  sSQL := 'update DOCUMENTO_FATURA set DOCUMENTO_FATURA.DATACONFERENCIA_DOCFAT = current_date ' + #13 +
-    ' where DOCUMENTO_FATURA.DTEMISSAO_DOCFAT between ' + DataSQL(HOJE, 1) + ' and ' + DataSQL(HOJE, 2) + #13 +
-    '  and  DOCUMENTO_FATURA.ENTREGA_DOCFAT = ' + QuotedStr('N');
-  ExecuteCommand(sSQL); 
+  if pCDS.IsEmpty then
+  begin
+    // Registrar erro no Log pois nÃ£o hÃ¡ itens para incluir.
+    Exit;
+  end;  
   
-  sSQL := 	'update DOCUMENTO_BLOQUEIO ' + #13 +
-	'set DOCUMENTO_BLOQUEIO.DTLIBERACAO_DOCBLOQ = current_timestamp(0), ' + #13 +
-	'    DOCUMENTO_BLOQUEIO.USUARIOLIBERACAO_DOCBLOQ = ' + QuotedStr(Nome_Usuario_Atual) + #13 +
-	'where DOCUMENTO_BLOQUEIO.DTBLOQUEIO_DOCBLOQ >= current_date ' + #13 +
-	'      and DOCUMENTO_BLOQUEIO.DTLIBERACAO_DOCBLOQ is null ' + #13 +
-	'      and exists(select DOCUMENTO_FATURA.CODIGO_DOCFAT ' + #13 +
-	'                 from DOCUMENTO_FATURA ' + #13 +
-	'                 where DOCUMENTO_FATURA.DTEMISSAO_DOCFAT between ' + DataSQL(HOJE, 1) + ' and ' + DataSQL(HOJE, 2) + #13 +
-	'                       and DOCUMENTO_FATURA.ENTREGA_DOCFAT = ' + QuotedStr('N') + #13 +
-	'                       and DOCUMENTO_FATURA.CODIGO_DOCFAT = DOCUMENTO_BLOQUEIO.CODIGO_DOCBLOQ)'; 
-  ExecuteCommand(sSQL); 
-end;
-
-procedure _Inicializar;
-begin
-  FCDSClientes := TClientDataSet.Create;
-  FCDSProdutos := TClientDataSet.Create;
+  ExecutarMetodoDeObjeto(grdItem, 'SetFocus');
+  
+  lItem := 0;
+  
   ScriptDeTestesEmExecucao := True;
-end;
-
-procedure _Finalizar;
-begin
-  FCDSClientes.Free;
-  FCDSProdutos.Free;
-  ScriptDeTestesEmExecucao := False;
-end;
-
-procedure _CarregaCadastros;
-begin
-  FCDSClientes.Data := P39_FAT_DADOS_TESTE.BuscaDadosClientes(FTagCli);
-  FCDSProdutos.Data := P39_FAT_DADOS_TESTE.BuscaDadosProdutos(FTagProduto);   
-
-  MostrarCDS(FCDSClientes);
-  Exit;
+  pCDS.First;
+  while not pCDS.Eof do
+  begin
+    lItem := pCDS.FieldByName('ITEM').AsInteger;
+    lVar := pCDS.FieldByName('VAR').AsInteger;
+    lCor := pCDS.FieldByName('COR').AsInteger;
+    lAcab := pCDS.FieldByName('ACAB').AsInteger;
+    lValor := pCDS.FieldByName('VALOR').AsCurrency;
+    lQuantidade := pCDS.FieldByName('QTD').AsCurrency;
+    lDesconto := pCDS.FieldByName('DESCONTO').AsString;
   
-  if FCDSClientes.IsEmpty then
-    raise Exception.Create('Lista de Clientes para InclusÃ£o no documento vazia!');
-    
-  if FCDSProdutos.IsEmpty then
-    raise Exception.Create('Lista de Produtos para InclusÃ£o no pedido Vazia!');
-end;
-
-procedure _DefinirCadastro(tpDoc: Integer);
-begin
-  FTagCli := 0;
-  FTagProduto := 0;
-  //Pedido
-  if tpDoc = 1 then
-  begin
-    FItemMenu := 'Emisso1';
-    FCadastro := 'FCadPedidoVenda';
-    FDM       := 'DMCadPedidoVenda';
-    FTransacao  := TransacaoPedido;
-  end //Assistencia
-  else if tpDoc = 2 then
-  begin
-    FItemMenu := 'Emisso2';
-    FCadastro := 'FCadAssistencia';
-    FDM       := 'DMCadAssistencia';
-    FTagProduto := TagItemAssistencia;   
-    FTransacao  := TransacaoAssistencia;
-  end //ConsignaÃ§Ã£o
-  else if tpDoc = 3 then
-  begin
-    FItemMenu := 'Emisso5';
-    FCadastro := 'FCadPedidoConsignacao';
-    FDM       := 'DMCadPedidoConsignacao';   
-    FTransacao  := TransacaoConsignacao;
-  end; 
-  
-end;
-
-procedure _IncluiDocumento;  
-begin  
-  FormCadastro := CriarFormPeloNome(FCadastro); 
-  if FormCadastro = nil then
-    raise exception.Create('NÃ£o encontrado Form ' + FormCadastro);
-  try  
-  FormCadastro.Show;
-  
-  DM   := DMCriadoPeloNome(FDM);
-
-  if DM = nil then
-    raise exception.Create('NÃ£o encontrado DM ' + FDM);
-
-  Frame          := FormCadastro.FindComponent(FRGradeamento);  
-  grdItem        := FormCadastro.FindComponent(FGradeItens);
-
-  CDSCad    := DM.FindComponent(FCDSCadastro);
-  CDSItem   := DM.FindComponent(FCDSItem);
-  CDSFiscal := DM.FindComponent(FCDSFiscal);
-
-  if CDSCad = nil then
-    raise exception.Create('NÃ£o encontrado CDSCadastro');
-
-  BotaoIncluir := FormCadastro.FindComponent(FBotaoIncluir);
-  BotaoGravar  := FormCadastro.FindComponent(FBotaoGravar);
-
-  FCDSClientes.First;
-  while not FCDSClientes.Eof do
-  begin   
- 
-    ExecutarMetodoDeObjeto(BotaoIncluir, 'Click');   
-
-    CDSCad.FieldByName('CLIENTE_DOCFAT').AsInteger   := FCDSClientes.FieldByName('CODIGO_PESSOA').AsInteger;
-    
-    if FTransacao > 0 then
-      CDSCad.FieldByName('TRANSACAO_DOCFAT').AsInteger := FTransacao;
-      
-    CDSCad.FieldByName('OBSERVACAO_DOCFAT').AsString := 'Documento gerado por Unidade de CodificaÃ§Ã£o.' + #13 +
-     'Tag Cliente: ' + FCDSClientes.FieldByName('DESCRICAO_CARACT').AsString;
-     
-    if not ((CDSFiscal.State = dsInsert) or (CDSFiscal.State = dsEdit)) then
-       CDSFiscal.Edit;
-     
-    if FTagCli = TagPessoaConsumidorNFCe then
-    begin
-      CDSCad.FieldByName('PARTICIONAVEL_DOCFAT').AsString := 'N';
-      CDSCad.FieldByName('INDICADORPRESENCA_DOCFAT').AsInteger := 1;//NFCe - OperaÃ§Ã£o presencial.  
-
-      if ClassificacaoPedidoNF_NFCe > 0 then
-        CDSCad.FieldByName('CLASSIFICACAO_DOCFAT').AsInteger := ClassificacaoPedidoNF_NFCe;    
-          
-      CDSFiscal.FieldByName('TIPOFRETE_DOCFISCAL').AsInteger := 9;
-      CDSFiscal.FieldByName('TIPOFRETECT_DOCFISCAL').AsInteger := 9;
-    end;
-    
-    if CDSFiscal.FieldByName('TIPOFRETE_DOCFISCAL').AsInteger = 9 then
-       CDSFiscal.FieldByName('PERCFRETEAUTONOMO_DOCFISCAL').AsCurrency := 0;
-       
-    if CDSFiscal.FieldByName('TIPOFRETECT_DOCFISCAL').AsInteger = 9 then
-       CDSFiscal.FieldByName('PERCFRETECT_DOCFISCAL').AsCurrency := 0;
-
-    _IncluiItens;
-
-    ExecutarMetodoDeObjeto(BotaoGravar, 'Click');
-
-    FCDSClientes.Next;
-  end;
-  finally
-    FormCadastro.Free;
-  end;
-end;
-
-procedure _IncluiItens;
-var
-  ItemAnt: Integer;  
-  iCont: Integer;
-  iQtdeMax: Integer;
-begin
-
-  FCDSProdutos.IndexFieldNames := 'CODIGO_ITEM;VARIACAO_ITEM_DETALHE;COR_ITEM_DETALHE;ACABAMENTO_ITEM_DETALHE';
-  FCDSProdutos.First;
-  ItemAnt := 0;
-  iCont := 0;
-  while not FCDSProdutos.Eof do
-  begin
-    if (ItemAnt <> FCDSProdutos.FieldByName('CODIGO_ITEM').AsInteger) then
-       iCont := 0;
-
-    if cMaxDetalhamento = 0 then
-      iQtdeMax := 1 + Random(5)
-    else
-      iQtdeMax := cMaxDetalhamento;
-    
-    if iCont < iQtdeMax then
-    begin
-      ExecutarMetodoDeObjeto(grdItem, 'setFocus');
-      if (ItemAnt = 0) or (ItemAnt <> FCDSProdutos.FieldByName('CODIGO_ITEM').AsInteger) then
+    try
+      if lItem <> CDSItem.FieldByName('ITEM_DOCITEM').AsInteger then
       begin
         CDSItem.Insert;
-        CDSItem.FieldByName('ITEM_DOCITEM').AsInteger := FCDSProdutos.FieldByName('CODIGO_ITEM').AsInteger;
-        iCont := 0;
-      end
-      else
-        CDSItem.Edit;
-
-      if _LancaDetalhamento(FCDSProdutos) then
+        CDSItem.FieldByName('ITEM_DOCITEM').AsInteger := lItem;
+      end;
+        
+      if (lVar > 0) or
+         (lCor > 0) or
+         (lAcab > 0) then
       begin
-        {IncluiDetalhamentoItem(AVariacao, ACor, AAcabamento: Integer; AQuantidade, AValorUnitario: Currency; ASubstituir: Boolean);}
-        ExecutarMetodoDeObjeto(Frame, 'IncluiDetalhamentoItem', 
-          [FCDSProdutos.FieldByName('VARIACAO_ITEM_DETALHE').AsInteger,
-           FCDSProdutos.FieldByName('COR_ITEM_DETALHE').AsInteger,
-           FCDSProdutos.FieldByName('ACABAMENTO_ITEM_DETALHE').AsInteger,
-           _GetQuantidadeItem,
-           _GetVlrItem, False]);                          
+        ExecutarMetodoDeObjeto(Frame,'IncluiDetalhamentoItem',[lVar, lCor, lAcab, lQuantidade, lValor, False]);
       end
       else
       begin
-        CDSItem.FieldByName('QTDECHAPAS_DOCITEM').AsCurrency := _GetQuantidadeItem;
-        
-        if CDSItem.FieldByName('VLRUNITARIOBRUTO_DOCITEM').AsCurrency = 0 then
-          CDSItem.FieldByName('VLRUNITARIOBRUTO_DOCITEM').AsCurrency := _GetVlrItem;
-        
-      end;    
-      CDSItem.Post;
+        CDSItem.FieldByName('QTDECHAPAS_DOCITEM').AsCurrency := lQuantidade;
+        CDSItem.FieldByName('VLRUNITARIOBRUTO_DOCITEM').AsCurrency := lValor;
+      end;  
+    
+      if lItem <> CDSItem.FieldByName('ITEM_DOCITEM').AsInteger then
+        CDSItem.Post;
+    
+    except
+      on Ex: Exception do
+      begin
+        CDSItem.Cancel;
+        AssertsFalhou('Erro ao Incluir Item: ' + IntToStr(lItem), Ex.Message);
+      end;
     end;
-    ItemAnt := FCDSProdutos.FieldByName('CODIGO_ITEM').AsInteger;
-    iCont := iCont + 1;
-    FCDSProdutos.Next;
+    
+    pCDS.Next;
   end;
-
+  //ScriptDeTestesEmExecucao := False;
 end;
 
 function _GetQuantidadeItem: Currency;
 begin
-  Result := QtdeFixaItem;
+  Result := FCDSConfigFaturamentoCasoTeste.FieldByName('QTD_FIXA_ITEM_FATCONFIG').AsCurrency;
   if Result = 0 then
-    Result := Max(1, Random(QtdeMaximaItem));
+    Result := Max(1, Random(FCDSConfigFaturamentoCasoTeste.FieldByName('QTD_MAX_ITEM_FATCONFIG').AsCurrency));
 end;
 
 function _GetVlrItem: Currency;
 begin
-  Result := VlrFixoItem;
+  Result := FCDSConfigFaturamentoCasoTeste.FieldByName('VALOR_ITEM_FIXO_FATCONFIG').AsCurrency;
   if Result = 0 then
-    Result := Max(10, Random(VlrMaximoItem));
+    Result := Max(10, Random(FCDSConfigFaturamentoCasoTeste.FieldByName('VLR_MAX_ITEM_FATCONFIG').AsCurrency));
 end;
 
 function _LancaDetalhamento(CDSPro: TClientDataSet): Boolean;

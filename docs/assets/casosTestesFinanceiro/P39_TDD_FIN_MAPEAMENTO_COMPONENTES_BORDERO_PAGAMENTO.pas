@@ -1,4 +1,4 @@
-﻿{MAPEAMENTO DOS COMPONENTES DO BORDERÔ DE PAGAMENTO}
+﻿{MAPEAMENTO DOS COMPONENTES DO BORDERÃ DE PAGAMENTO}
 
 const
   cAbaPrincipal     = 0;
@@ -21,7 +21,7 @@ var
   PageControl2: TPageControl;
   
   cbTipoBordero: TJvDBComboBox;
-  cbQualificacaoPagamento: TJvDBComboBox;
+  cbQualificacao: TJvDBComboBox;
   cbCalculoJuros: TJvDBComboBox;
 
   ceCodBordero: TJvDBCalcEdit;
@@ -55,19 +55,19 @@ var
   dtEditDupReceberEntreIni,
   dtEditDupReceberEntreFim: TJvDateEdit;
 
-  // CDSs Vinculados ao Formulario borderô
-  CDSPagarPagamento,
-  CDSProrrogacaoPagamento,
+  // CDSs Vinculados ao Formulario borderÃ´
+  CDSPagar,
+  CDSProrrogacao,
   CDSChqDevolvido,
   CDSChqTerceiro,
   CDSChqProprio,
-  CDSComplementoPagamento,
-  CDSReceberPagamento,
+  CDSComplemento,
+  CDSReceber,
   CDSAdiantamento,
-  CDSGrupoResultadoPagamento,
-  CDSCadastroPagamento: TClientDataSet;
+  CDSGrupoResultado,
+  CDSCadastro: TClientDataSet;
   
-  // CDS Temporarios para obter as informações do borderô
+  // CDS Temporarios para obter as informaÃ§Ãµes do borderÃ´
   CDSCadastroTemp,
   CDSProrrogacaoTemp,
   CDSChqDevolvidoTemp,
@@ -79,7 +79,7 @@ var
   CDSGrupoResultadoTemp,
   CDSPagarTemp: TClientDataSet;
 
-  // Label de Totalizações
+  // Label de TotalizaÃ§Ãµes
   LabelPMC,
   LabelPMD,
   LabelPMG,
@@ -109,7 +109,7 @@ begin
   try
     CriarObjetos;
     IniciarCDSCadastroBordero; 
-    //ObterDadosCDSBorderoPagamento;
+    ObterDadosCDSBorderoPagamento;
   finally  
     //DestruirObjetos;
   end;
@@ -144,7 +144,7 @@ begin
   PageControl2 := fBorderoPagamento.FindComponent('PageControl2');
                 
   cbTipoBordero  := fBorderoPagamento.FindComponent('CBSubTipo');
-  cbQualificacaoPagamento := fBorderoPagamento.FindComponent('CBQualificacao');
+  cbQualificacao := fBorderoPagamento.FindComponent('CBQualificacao');
   cbCalculoJuros := fBorderoPagamento.FindComponent('JvDBComboBox2');
   
   ceConta      := fBorderoPagamento.FindComponent('JvDBCalcEdit1');        
@@ -177,7 +177,7 @@ begin
   dtEditDupReceberEntreIni := fBorderoPagamento.FindComponent('DataIniReceber');
   dtEditDupReceberEntreFim := fBorderoPagamento.FindComponent('DataFimReceber'); 
 
-  // Label de Totalizações 
+  // Label de TotalizaÃ§Ãµes 
   LabelPMC                 := fBorderoPagamento.FindComponent('LabelPMC');
   LabelPMD                 := fBorderoPagamento.FindComponent('LabelPMD');
   LabelPMG                 := fBorderoPagamento.FindComponent('LabelPMG');
@@ -199,23 +199,23 @@ begin
   rgPessoa   := SPessoa.FindComponent('RadioGroup1');
 end;
  
-// Procedure para Validar as informações de pagamento, complemento, cheque
+// Procedure para Validar as informaÃ§Ãµes de pagamento, complemento, cheque
 procedure IniciarCDSCadastroBordero;
 var
   DMBordero: TDataModule;
 begin
   DMBordero := DMCriadoPeloNome('DMCadBorderoPagamento');
 
-  CDSPagarPagamento          := DMBordero.FindComponent('CDSPagar');
-  CDSProrrogacaoPagamento    := DMBordero.FindComponent('CDSProrrogacoes');
-  CDSChqDevolvido      := DMBordero.FindComponent('CDSChequeDev');
-  CDSChqTerceiro       := DMBordero.FindComponent('CDSChequeTer');
-  CDSChqProprio        := DMBordero.FindComponent('CDSChequeEmit');
-  CDSComplementoPagamento    := DMBordero.FindComponent('CDSComplementos');
-  CDSReceberPagamento         := DMBordero.FindComponent('CDSReceber');
-  CDSAdiantamento      := DMBordero.FindComponent('CDSAdiantamentos');
-  CDSGrupoResultadoPagamento := DMBordero.FindComponent('CDSGrupoResultado');
-  CDSCadastroPagamento := DMBordero.FindComponent('CDSCadastro');
+  CDSPagar          := DMBordero.FindComponent('CDSPagar');
+  CDSProrrogacao    := DMBordero.FindComponent('CDSProrrogacoes');
+  CDSChqDevolvido   := DMBordero.FindComponent('CDSChequeDev');
+  CDSChqTerceiro    := DMBordero.FindComponent('CDSChequeTer');
+  CDSChqProprio     := DMBordero.FindComponent('CDSChequeEmit');
+  CDSComplemento    := DMBordero.FindComponent('CDSComplementos');
+  CDSReceber        := DMBordero.FindComponent('CDSReceber');
+  CDSAdiantamento   := DMBordero.FindComponent('CDSAdiantamentos');
+  CDSGrupoResultado := DMBordero.FindComponent('CDSGrupoResultado');
+  CDSCadastro       := DMBordero.FindComponent('CDSCadastro');
 end;
 
 procedure DestruirObjetos;
@@ -233,4 +233,4 @@ begin
   CDSGrupoResultadoTemp.Free;
 end;
 
-end.
+end.   

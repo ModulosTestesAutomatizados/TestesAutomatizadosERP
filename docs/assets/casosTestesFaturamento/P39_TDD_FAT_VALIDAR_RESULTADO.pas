@@ -1,384 +1,341 @@
-﻿uses P39_GERAR_FAT_CONFIG_TESTE, P39_FAT_DADOS_TESTE;
+﻿uses P39_TDD_CASOS_DE_TESTE, P39_TDD_FUNCOES_JSON, P39_TDD_ASSERTS;
 
-const  
-  FCDSCadastro = 'CDSCadastro';
-  FCDSItem = 'CDSItem';
-  FCDSFiscal = 'CDSFiscal';
-  FRGradeamento = 'FRGradeamento';  
-  FGradeItens = 'grdItem';
+{$Region 'Constantes'}
+const
+  cMSecsPorDia = 86400000; // 24h * 60m * 60s * 1000ms: converte TDateTime p/ ms
+  cCDSDefault  = 'CDSCad'; // CDS padrao quando tag "cds" nao informada
 
-  FBotaoIncluir = 'BotaoIncluir';
-  FBotaoGravar = 'BotaoGravar';
-  
-  idCB = 'GERA_DOCUMENTOS_FATURA';
-  cMaxDetalhamento = 2;
+  cOperacaoIgual = 0;
+  cOperacaoMaior = 1;
+  cOperacaoMenor = 2;
+{$endRegion}
 
+{$Region 'Variaveis'}
 var
-  FItemMenu, FCadastro,
-   FDM: string;
-
-  FTagCli    : Integer;
-  FTagProduto: Integer;
-  FTransacao : Integer;
-
-  FCDSClientes: TClientDataSet;
-  FCDSProdutos: TClientDataSet;
-
-  grdItem : TComponent;
-  Frame          : TComponent;
-  FormCadastro   : TForm;
-  DM             : TComponent;
-  BotaoIncluir   : TComponent;
-  BotaoGravar    : TComponent;  
+  FCDSMap: TStringList;          // Mapa nome -> TClientDataSet
+  FDTInicioCronometro: TDateTime;
+  FTempoExecucaoMs: Double;
+  FErrosReais: Integer;
   
-  CDSCad, CDSItem,
-  CDSFiscal: TClientDataSet;
+  {$Region 'VariÃ¡veis de ValidaÃ§Ã£o'}
+    lResultadoString: String;
+    lResultadoInteger: Integer;
+    lResultadoCurrency: Currency;
+    lResultadoData: TDateTime;
+    lResultadoBoolean: Boolean;
+  {$endRegion}
+  
+{$endRegion}
 
 procedure Main;
 begin
-  if ExecutandoNoServidor then
-    raise exception.Create(MensagemPersonalizada + #13 + 'Processamento nÃ£o disponÃ­vel para execuÃ§Ã£o pelo servidor!');
-
-  if CodigoComoClienteTekSystem <> 1000 then
-    raise exception.Create(MensagemPersonalizada + #13 + 'Processamento exclusivo para uso de testes dentro da TekSystem!');
-  
-  P39_GERAR_FAT_CONFIG_TESTE.Main;
-
-  CarregarUnitDinamicamente('FAT_CONFIG_TESTE');
-    
-  if not ConfirmarFiltros then
-     Exit;
-     
-  CallBack_AbreTela(idCB);
-  try
-    CallBack_Mensagem(idCB, 'Pedido de Venda');
-    if Filtro(1) = QuotedStr('S') then
-      IncluiPedidoVenda;
-    
-    CallBack_Mensagem(idCB, 'Pedido de Venda para NFCe');   
-    if Filtro(2) = QuotedStr('S') then
-      IncluiPedidoVendaNFCe;
-      
-    CallBack_Mensagem(idCB, 'AssistÃªncia Tecnica');   
-    if Filtro(3) = QuotedStr('S') then
-      IncluiAssistencia;
-    
-    CallBack_Mensagem(idCB, 'Pedido de ConsignaÃ§Ã£o');   
-    if Filtro(4) = QuotedStr('S') then
-      IncluiConsignacao;
-    
-    CallBack_Mensagem(idCB, 'ConferÃªncia e LiberaÃ§Ã£o de Pedidos');   
-    if Filtro(5) = QuotedStr('S') then
-      ConfereLiberaDocumentos;
-  finally
-    CallBack_FechaTela(idCB);
-  end;
-end;
-
-function ConfirmarFiltros: Boolean;
-var
-  CDS: TClientDataSet;
-begin
-  CDS := TClientDataSet.Create; 
-  try     
-    CDS.Data := EstruturaDeFiltrosDinamicos;      
-   
-    {01} IncluirFiltroDinamico(CDS, 'Pedidos de Venda', cTipoFiltro_Logico, 'S', '', '', '');               
-    {02} IncluirFiltroDinamico(CDS, 'Pedidos de Venda para NFCe', cTipoFiltro_Logico, 'N', '', '', '');
-    {03} IncluirFiltroDinamico(CDS, 'AssistÃªncia TÃ©cnica', cTipoFiltro_Logico, 'S', '', '', '');
-    {04} IncluirFiltroDinamico(CDS, 'Pedido de ConsignaÃ§Ã£o', cTipoFiltro_Logico, 'S', '', '', '');
-    {05} IncluirFiltroDinamico(CDS, 'Conferir e Liberar Bloqueios do Dia', cTipoFiltro_Logico, 'S', '', '', '');
-    CDS.Data := ExecutarFiltroDinamico(CDS.Data, 'Selecione os documentos e processos a serem executados');
-    
-    Result := (not CDS.IsEmpty);
-  finally
-    CDS.Free;
-  end;
-end;
-
-
-procedure IncluiPedidoVenda;
-begin
-  _Inicializar;
-  try
-    _DefinirCadastro(1);
-    _CarregaCadastros;
-    _IncluiDocumento;
-  finally
-    _Finalizar;
-  end;
-end;
-
-procedure IncluiPedidoVendaNFCe;
-begin
-  _Inicializar;
-  try
-    _DefinirCadastro(1);
-    
-    FTagCli := TagPessoaConsumidorNFCe;
-    FTagProduto := TagProdComum;
-    FTransacao  := TransacaoPedidoNF_NFCe;
-    _CarregaCadastros;
-    _IncluiDocumento;
-  finally
-    _Finalizar;
-  end;
-end;
-
-procedure IncluiAssistencia;
-begin
-  _Inicializar;
-  try
-    _DefinirCadastro(2);
-    _CarregaCadastros;
-    _IncluiDocumento;
-  finally
-    _Finalizar;
-  end;
-end;
-
-procedure IncluiConsignacao;
-begin
-  _Inicializar;
-  try
-    _DefinirCadastro(3);
-    _CarregaCadastros;
-    _IncluiDocumento;
-  finally
-    _Finalizar;
-  end;
-end;
-
-procedure ConfereLiberaDocumentos;
-var
-  sSQL: string;
-begin
-  sSQL := 'update DOCUMENTO_FATURA set DOCUMENTO_FATURA.DATACONFERENCIA_DOCFAT = current_date ' + #13 +
-    ' where DOCUMENTO_FATURA.DTEMISSAO_DOCFAT between ' + DataSQL(HOJE, 1) + ' and ' + DataSQL(HOJE, 2) + #13 +
-    '  and  DOCUMENTO_FATURA.ENTREGA_DOCFAT = ' + QuotedStr('N');
-  ExecuteCommand(sSQL); 
-  
-  sSQL := 	'update DOCUMENTO_BLOQUEIO ' + #13 +
-	'set DOCUMENTO_BLOQUEIO.DTLIBERACAO_DOCBLOQ = current_timestamp(0), ' + #13 +
-	'    DOCUMENTO_BLOQUEIO.USUARIOLIBERACAO_DOCBLOQ = ' + QuotedStr(Nome_Usuario_Atual) + #13 +
-	'where DOCUMENTO_BLOQUEIO.DTBLOQUEIO_DOCBLOQ >= current_date ' + #13 +
-	'      and DOCUMENTO_BLOQUEIO.DTLIBERACAO_DOCBLOQ is null ' + #13 +
-	'      and exists(select DOCUMENTO_FATURA.CODIGO_DOCFAT ' + #13 +
-	'                 from DOCUMENTO_FATURA ' + #13 +
-	'                 where DOCUMENTO_FATURA.DTEMISSAO_DOCFAT between ' + DataSQL(HOJE, 1) + ' and ' + DataSQL(HOJE, 2) + #13 +
-	'                       and DOCUMENTO_FATURA.ENTREGA_DOCFAT = ' + QuotedStr('N') + #13 +
-	'                       and DOCUMENTO_FATURA.CODIGO_DOCFAT = DOCUMENTO_BLOQUEIO.CODIGO_DOCBLOQ)'; 
-  ExecuteCommand(sSQL); 
-end;
-
-procedure _Inicializar;
-begin
-  FCDSClientes := TClientDataSet.Create;
-  FCDSProdutos := TClientDataSet.Create;
-  ScriptDeTestesEmExecucao := True;
-end;
-
-procedure _Finalizar;
-begin
-  FCDSClientes.Free;
-  FCDSProdutos.Free;
-  ScriptDeTestesEmExecucao := False;
-end;
-
-procedure _CarregaCadastros;
-begin
-  FCDSClientes.Data := P39_FAT_DADOS_TESTE.BuscaDadosClientes(FTagCli);
-  FCDSProdutos.Data := P39_FAT_DADOS_TESTE.BuscaDadosProdutos(FTagProduto);   
-
-  MostrarCDS(FCDSClientes);
-  Exit;
-  
-  if FCDSClientes.IsEmpty then
-    raise Exception.Create('Lista de Clientes para InclusÃ£o no documento vazia!');
-    
-  if FCDSProdutos.IsEmpty then
-    raise Exception.Create('Lista de Produtos para InclusÃ£o no pedido Vazia!');
-end;
-
-procedure _DefinirCadastro(tpDoc: Integer);
-begin
-  FTagCli := 0;
-  FTagProduto := 0;
-  //Pedido
-  if tpDoc = 1 then
-  begin
-    FItemMenu := 'Emisso1';
-    FCadastro := 'FCadPedidoVenda';
-    FDM       := 'DMCadPedidoVenda';
-    FTransacao  := TransacaoPedido;
-  end //Assistencia
-  else if tpDoc = 2 then
-  begin
-    FItemMenu := 'Emisso2';
-    FCadastro := 'FCadAssistencia';
-    FDM       := 'DMCadAssistencia';
-    FTagProduto := TagItemAssistencia;   
-    FTransacao  := TransacaoAssistencia;
-  end //ConsignaÃ§Ã£o
-  else if tpDoc = 3 then
-  begin
-    FItemMenu := 'Emisso5';
-    FCadastro := 'FCadPedidoConsignacao';
-    FDM       := 'DMCadPedidoConsignacao';   
-    FTransacao  := TransacaoConsignacao;
-  end; 
-  
-end;
-
-procedure _IncluiDocumento;  
-begin  
-  FormCadastro := CriarFormPeloNome(FCadastro); 
-  if FormCadastro = nil then
-    raise exception.Create('NÃ£o encontrado Form ' + FormCadastro);
-  try  
-  FormCadastro.Show;
-  
-  DM   := DMCriadoPeloNome(FDM);
-
-  if DM = nil then
-    raise exception.Create('NÃ£o encontrado DM ' + FDM);
-
-  Frame          := FormCadastro.FindComponent(FRGradeamento);  
-  grdItem        := FormCadastro.FindComponent(FGradeItens);
-
-  CDSCad    := DM.FindComponent(FCDSCadastro);
-  CDSItem   := DM.FindComponent(FCDSItem);
-  CDSFiscal := DM.FindComponent(FCDSFiscal);
-
-  if CDSCad = nil then
-    raise exception.Create('NÃ£o encontrado CDSCadastro');
-
-  BotaoIncluir := FormCadastro.FindComponent(FBotaoIncluir);
-  BotaoGravar  := FormCadastro.FindComponent(FBotaoGravar);
-
-  FCDSClientes.First;
-  while not FCDSClientes.Eof do
-  begin   
  
-    ExecutarMetodoDeObjeto(BotaoIncluir, 'Click');   
-
-    CDSCad.FieldByName('CLIENTE_DOCFAT').AsInteger   := FCDSClientes.FieldByName('CODIGO_PESSOA').AsInteger;
-    
-    if FTransacao > 0 then
-      CDSCad.FieldByName('TRANSACAO_DOCFAT').AsInteger := FTransacao;
-      
-    CDSCad.FieldByName('OBSERVACAO_DOCFAT').AsString := 'Documento gerado por Unidade de CodificaÃ§Ã£o.' + #13 +
-     'Tag Cliente: ' + FCDSClientes.FieldByName('DESCRICAO_CARACT').AsString;
-     
-    if not ((CDSFiscal.State = dsInsert) or (CDSFiscal.State = dsEdit)) then
-       CDSFiscal.Edit;
-     
-    if FTagCli = TagPessoaConsumidorNFCe then
-    begin
-      CDSCad.FieldByName('PARTICIONAVEL_DOCFAT').AsString := 'N';
-      CDSCad.FieldByName('INDICADORPRESENCA_DOCFAT').AsInteger := 1;//NFCe - OperaÃ§Ã£o presencial.  
-
-      if ClassificacaoPedidoNF_NFCe > 0 then
-        CDSCad.FieldByName('CLASSIFICACAO_DOCFAT').AsInteger := ClassificacaoPedidoNF_NFCe;    
-          
-      CDSFiscal.FieldByName('TIPOFRETE_DOCFISCAL').AsInteger := 9;
-      CDSFiscal.FieldByName('TIPOFRETECT_DOCFISCAL').AsInteger := 9;
-    end;
-    
-    if CDSFiscal.FieldByName('TIPOFRETE_DOCFISCAL').AsInteger = 9 then
-       CDSFiscal.FieldByName('PERCFRETEAUTONOMO_DOCFISCAL').AsCurrency := 0;
-       
-    if CDSFiscal.FieldByName('TIPOFRETECT_DOCFISCAL').AsInteger = 9 then
-       CDSFiscal.FieldByName('PERCFRETECT_DOCFISCAL').AsCurrency := 0;
-
-    _IncluiItens;
-
-    ExecutarMetodoDeObjeto(BotaoGravar, 'Click');
-
-    FCDSClientes.Next;
-  end;
-  finally
-    FormCadastro.Free;
-  end;
 end;
 
-procedure _IncluiItens;
+{$Region 'Cronometro'}
+
+procedure Cronometro_Iniciar;
+begin
+  FDTInicioCronometro := Now;
+  FTempoExecucaoMs    := 0;
+  FErrosReais         := 0;
+  AssertsZerar;
+end;
+
+procedure Cronometro_Finalizar;
+begin
+  if FDTInicioCronometro = 0 then
+    Exit;
+
+  FTempoExecucaoMs := (Now - FDTInicioCronometro) * cMSecsPorDia;
+end;
+
+procedure RegistrarErroReal(pDescricao: String);
+begin
+  FErrosReais := FErrosReais + 1;
+  LogDoProcessamentoAdd('Erro real registrado ("erro.quantidade"): ' + pDescricao);
+end;
+{$endRegion}
+
+{$Region 'Comparacoes internas'}
+
+function GetOperacao(pOperacao: String): Integer;
+begin
+  if pOperacao = 'Igual' then
+    Result := cOperacaoIgual
+  else if pOperacao = 'Maior' then
+    Result := cOperacaoMaior
+  else if pOperacao = 'Menor' then
+    Result := cOperacaoMenor
+  else
+    Result := -1;
+end;
+
+function AplicarOperacaoNumerica(pOperacao: Integer; pValorReal, pValorEsperado: Currency): Boolean;
+begin
+  Result := False;
+
+  if pOperacao = cOperacaoIgual then
+    Result := (pValorReal = pValorEsperado)
+  else if pOperacao = cOperacaoMaior then
+    Result := (pValorReal > pValorEsperado)
+  else if pOperacao = cOperacaoMenor then
+    Result := (pValorReal < pValorEsperado);
+end;
+
+function OperacaoDescricao(pOperacao: Integer): String;
+begin
+  if pOperacao = cOperacaoIgual then
+    Result := 'igual a'
+  else if pOperacao = cOperacaoMaior then
+    Result := 'maior que'
+  else if pOperacao = cOperacaoMenor then
+    Result := 'menor que'
+  else
+    Result := '(operacao invalida)';
+end;
+{$endRegion}
+
+{$Region 'Comparacao por secao do JSON'}
+
+procedure CompararQuantidadeErros(pJSON: String);
 var
-  ItemAnt: Integer;  
-  iCont: Integer;
-  iQtdeMax: Integer;
+  lSecaoErro: String;
+  lQtdEsperada: Integer;
+  lOperacao: Integer;
+  lMensagem: String;
 begin
+  lQtdEsperada := StrToIntDef(GetValueJsonDef(lSecaoErro, 'quantidade', '-1'), -1);
+  lOperacao    := GetOperacao(GetValueJson(lSecaoErro, 'operacao'));
 
-  FCDSProdutos.IndexFieldNames := 'CODIGO_ITEM;VARIACAO_ITEM_DETALHE;COR_ITEM_DETALHE;ACABAMENTO_ITEM_DETALHE';
-  FCDSProdutos.First;
-  ItemAnt := 0;
-  iCont := 0;
-  while not FCDSProdutos.Eof do
+  if lQtdEsperada < 0 then
+    Exit;
+
+  lMensagem := 'erro.quantidade: esperado ' + OperacaoDescricao(lOperacao) + ' ' +
+    IntToStr(lQtdEsperada) + ', obtido ' + IntToStr(FErrosReais) + '.';
+
+  if lOperacao = cOperacaoIgual then
+    AssertIgualInteiro(lQtdEsperada, FErrosReais, 'erro.quantidade')
+  else
+    AssertVerdadeiro(AplicarOperacaoNumerica(lOperacao, FErrosReais, lQtdEsperada), lMensagem);
+end;
+
+procedure LimparVariaveis;
+begin
+  lResultadoString := '';
+  lResultadoInteger := 0;
+  lResultadoCurrency := 0;
+  lResultadoData := 0;
+  lResultadoBoolean := False;
+end;
+
+procedure CompararValor(pJSONItem: String);
+var
+  lCDSNome, lCampo, lDataSetName, lDMNome: String;
+  lOperacao, I: Integer;
+  lResultado, lTipoCampo: String;
+  lCDS: TClientDataSet;
+  lReal: Currency;
+  lMensagem: String;
+  lDM: TDataModule;
+begin
+  LogDoProcessamentoAdd('Comparando Item'); 
+  LimparVariaveis;
+  
+  lCampo     := GetValueJsonDef(pJSONItem, 'campo', '');
+  lOperacao  := GetOperacao(GetValueJsonDef(pJSONItem, 'operacao', '-1'));
+  lTipoCampo := GetValueJsonDef(pJSONItem, 'tipo_campo', 'ftString');
+  lResultadoString := {P39_TDD_FUNCOES_JSON}ValorStringTag(pJSONItem, 'resultado');
+  
+  if lCampo = '' then
   begin
-    if (ItemAnt <> FCDSProdutos.FieldByName('CODIGO_ITEM').AsInteger) then
-       iCont := 0;
-
-    if cMaxDetalhamento = 0 then
-      iQtdeMax := 1 + Random(5)
-    else
-      iQtdeMax := cMaxDetalhamento;
-    
-    if iCont < iQtdeMax then
-    begin
-      ExecutarMetodoDeObjeto(grdItem, 'setFocus');
-      if (ItemAnt = 0) or (ItemAnt <> FCDSProdutos.FieldByName('CODIGO_ITEM').AsInteger) then
-      begin
-        CDSItem.Insert;
-        CDSItem.FieldByName('ITEM_DOCITEM').AsInteger := FCDSProdutos.FieldByName('CODIGO_ITEM').AsInteger;
-        iCont := 0;
-      end
-      else
-        CDSItem.Edit;
-
-      if _LancaDetalhamento(FCDSProdutos) then
-      begin
-        {IncluiDetalhamentoItem(AVariacao, ACor, AAcabamento: Integer; AQuantidade, AValorUnitario: Currency; ASubstituir: Boolean);}
-        ExecutarMetodoDeObjeto(Frame, 'IncluiDetalhamentoItem', 
-          [FCDSProdutos.FieldByName('VARIACAO_ITEM_DETALHE').AsInteger,
-           FCDSProdutos.FieldByName('COR_ITEM_DETALHE').AsInteger,
-           FCDSProdutos.FieldByName('ACABAMENTO_ITEM_DETALHE').AsInteger,
-           _GetQuantidadeItem,
-           _GetVlrItem, False]);                          
-      end
-      else
-      begin
-        CDSItem.FieldByName('QTDECHAPAS_DOCITEM').AsCurrency := _GetQuantidadeItem;
-        
-        if CDSItem.FieldByName('VLRUNITARIOBRUTO_DOCITEM').AsCurrency = 0 then
-          CDSItem.FieldByName('VLRUNITARIOBRUTO_DOCITEM').AsCurrency := _GetVlrItem;
-        
-      end;    
-      CDSItem.Post;
-    end;
-    ItemAnt := FCDSProdutos.FieldByName('CODIGO_ITEM').AsInteger;
-    iCont := iCont + 1;
-    FCDSProdutos.Next;
+    AssertFalhou('Valor', '(campo nao informado).');
+    Exit;
   end;
 
+  if lTipoCampo = '' then
+  begin
+    AssertFalhou('Tipo Campo', '(tipo do campo nao informado).');
+    Exit;
+  end;
+  
+  if (lTipoCampo = 'ftString') and (lOperacao <> cOperacaoIgual) then
+  begin
+    AssertFalhou('tipo Campo', 'Campo String a operaÃ§Ã£o deve ser Igual');
+    Exit;
+  end;
+
+  if lOperacao = -1 then
+  begin
+    AssertFalhou('Valor', '(OperaÃ§Ã£o -1 InvÃ¡lida).');
+    Exit;
+  end;  
+
+  for I := 0 to FDataSets.Count -1 do
+  begin
+    lDataSetName := FDataSets[I];
+    lDMNome := CorteApos(lDataSetName, '|');
+    lCDSNome := CorteAte(lDataSetName, '|');
+    
+    if lDMNome <> '' then
+      lDM := DMCriadoPeloNome(lDMNome);
+      
+    if Assigned(lDM) then
+      lCDS := lDM.FindComponent(lCDSNome)
+    else
+      lCDS := FonteDeDados(lCDS);
+      
+    if Assigned(lCDS) then
+    begin
+      // Campo nÃ£o estÃ¡ neste CDS
+      if lCDS.FindField(lCampo) = Nil then
+        Continue;
+      
+      if lOperacao = cOperacaoIgual then
+        AssertIgual(lResultadoString, 
+                    lCDS.FieldByName(lCampo).AsString, 
+                    lCDS.FieldByName(lCampo).FieldName + '(' +  lCDS.FieldByName(lCampo).AsString + ' = (' + lResultado + ')')
+      else
+        CompararCampoPorTipo(lTipoCampo, 
+                             lCDS.FieldByName(lCampo).AsString,
+                             lResultadoString,
+                             lOperacao,
+                             lCampo);                   
+       
+    end;      
+   
+  end;
 end;
 
-function _GetQuantidadeItem: Currency;
-begin
-  Result := QtdeFixaItem;
-  if Result = 0 then
-    Result := Max(1, Random(QtdeMaximaItem));
+procedure CompararValores(pJSON: String);
+var
+  lArrayValor: TJSONArray;
+  I: Integer;
+  lItemJSON: String;
+begin  
+  lArrayValor := TJSONArray(TryParseJSONValue(GetArrayJsonOrEmpty(pJSON, '')));
+  if lArrayValor.Count = 0 then
+  begin
+    AssertFalhou('Valor','Valores de Resultado esperÃ¡do nÃ£o informados.');  
+    Exit;
+  end;
+  
+  for I := 0 to lArrayValor.Count -1 do
+    CompararValor(lArrayValor.Items(I).ToJson); 
 end;
 
-function _GetVlrItem: Currency;
+procedure CompararTempo(pJSON: String);
+var
+  lSecaoTempo: String;
+  lLimite: Integer;
+  lTipoRegistro: String;
+  lFatorMs: currency;
+  S: String;
 begin
-  Result := VlrFixoItem;
-  if Result = 0 then
-    Result := Max(10, Random(VlrMaximoItem));
+  if FDTInicioCronometro = 0 then
+    Exit;
+
+  lSecaoTempo := GetObjectJson(pJSON, 'tempo');
+  if lSecaoTempo = '' then
+    Exit;
+
+  lLimite       := StrToIntDef(GetValueJsonDef(lSecaoTempo, 'tempo_total', '-1'), -1);
+  lTipoRegistro := GetValueJson(lSecaoTempo, 'tipo_registo');
+
+  if (lLimite <= 0) or (FTempoExecucaoMs <= 0) then
+    Exit;
+
+  lFatorMs := 1;
+  S := LowerCase(Trim(lTipoRegistro));
+
+  if Pos('milisegundo', S) > 0 then
+    lFatorMs := 1
+  else if Pos('minuto', S) > 0 then
+    lFatorMs := 60000
+  else if Pos('segundo', S) > 0 then
+    lFatorMs := 1000;
+
+  AssertVerdadeiro(FTempoExecucaoMs <= (lLimite * lFatorMs),
+    'tempo: limite de ' + CurrToStr(lLimite * lFatorMs) + ' ms, obtido ' +
+    CurrToStr(FTempoExecucaoMs) + ' ms.');
+end;
+{$endRegion}
+
+{$Region 'Orquestracao principal'}
+
+procedure FinalizarComparacao(pValidado: Boolean);
+begin
+  LogDoProcessamentoAdd('==================================================');
+
+  if pValidado then
+    LogDoProcessamentoAdd('Caso de Teste [' + CDSCasosTestes.FieldByName('ID').AsString +
+      ']: resultado esperado VALIDADO sem divergencias.')
+  else
+  begin
+    LogDoProcessamentoAdd('Caso de Teste [' + CDSCasosTestes.FieldByName('ID').AsString +
+      ']: DIVERGENCIAS ENCONTRADAS');
+    LogDoProcessamentoAdd(AssertsResumo);
+
+    //EnviarMensagemInterna(Nome_Usuario_Atual,
+    //  'Teste Automatizado - Divergencias!',
+    //  'Caso de Teste [' + CDSCasosTestes.FieldByName('CASOTESTE').AsString + ']:' + #13 + AssertsResumo);
+  end;
+
+  LogDoProcessamentoAdd('==================================================');
+  MostrarLogTexto(LogDoProcessamento);
 end;
 
-function _LancaDetalhamento(CDSPro: TClientDataSet): Boolean;
+procedure CompararComJSON(pJSON: String);
+var 
+  LObj: TJSONObject;
+  LErro, LValor, LTempo: String;
+  LAsserts: Boolean;
 begin
-  Result := (CDSPro.FieldByName('DIFERENCIAVARIACAO_ITEM').AsString = 'S') or
-   (CDSPro.FieldByName('DIFERENCIACOR_ITEM').AsString = 'S') or
-   (CDSPro.FieldByName('DIFERENCIAACABAMENTO_ITEM').AsString = 'S');
+  AssertsZerar;
+
+  LAsserts := AssertsOk;
+  
+  if Trim(pJSON) = '' then
+  begin
+    AssertFalhou('JSON', 'de resultado esperado vazio para o caso de teste [' +
+      CDSCasosTestes.FieldByName('ID').AsString + '].');
+    FinalizarComparacao(AssertsOk);
+    Exit;
+  end;
+
+  //MostrarLogTexto(pJSON);
+
+  if TagExiste(pJSON, 'erro') then
+  begin
+    LErro := GetObjectJson(pJSON, 'erro');
+    MostrarLogTexto(LErro);
+    CompararQuantidadeErros(LErro);
+  end;
+           
+  LValor := GetArrayJsonOrEmpty(pJSON, 'valor');
+  
+  //MostrarLogTexto(LValor);
+  if LValor <> '[]' then
+    CompararValores(LValor);
+  
+  
+  if TagExiste(pJSON, 'tempo') then
+  begin
+    LTempo := GetObjectJson(pJSON, 'erro');
+    MostrarLogTexto(LTempo);
+  //CompararTempo(LTempo);
+
+  end;  
+  FinalizarComparacao(AssertsOk);
 end;
+
+Procedure CompararResultadoEsperado;
+var lJSON: String;
+begin
+  lJSON := '';
+  if CDSResultadoEsperado.FindKey([CDSCasosTestes.FieldByName('ID').AsInteger]) then
+    lJSON := CDSResultadoEsperado.FieldByName('RESULTADO_ESPERADO').AsString;
+
+  CompararComJSON(lJSON);
+end;
+{$endRegion}

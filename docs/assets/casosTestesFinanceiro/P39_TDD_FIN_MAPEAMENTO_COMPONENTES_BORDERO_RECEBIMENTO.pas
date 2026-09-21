@@ -1,7 +1,4 @@
-﻿//uses
-//  MOVIMENTO_CAIXA;  
-
-const 
+﻿const 
   cFCadBorderoAcerto  = 'FCadBorderoAcerto';
   cDMCadBorderoAcerto = 'DMCadBorderoAcerto';
 
@@ -12,21 +9,21 @@ var
   EditCodigo:         TJvCalcEdit;
   edtCliente:         TJvDBCalcEdit;
   
-  PageControl1:           TPageControl;
-  CDSCadastroRecebimento:      TClientDataSet;
-  CDSReceberRecebimento:       TClientDataSet;
-  CDSProrrogacoesRecebimento:  TClientDataSet;
-  CDSPagarRecebimento:         TClientDataSet;
-  CDSOrdemPagto:          TClientDataSet;
-  CDSGrupoResultadoRecebimento: TClientDataSet;
-  CDSComplementosRecebimento:   TClientDataSet;
-  CDSChequeSaida:         TClientDataSet;
-  CDSCheques:             TClientDataSet;
-  CDSMovCartao:           TClientDataSet;
+  PageControl1: TPageControl;
+  CDSCadastro: TClientDataSet;
+  CDSReceber: TClientDataSet;
+  CDSProrrogacoes: TClientDataSet;
+  CDSPagar: TClientDataSet;
+  CDSOrdemPagto:     TClientDataSet;
+  CDSGrupoResultado: TClientDataSet;
+  CDSComplementos:   TClientDataSet;
+  CDSChequeSaida:    TClientDataSet;
+  CDSCheques:        TClientDataSet;
+  CDSMovCartao:      TClientDataSet;
   
   {$Region 'Principal'}
     cbSubTipo:          TJvDBComboBox; 
-    cbQualificacaoRecebimento: TJvDBComboBox;
+    cbQualificacao:     TJvDBComboBox;
     cbCalcJuroDesconto: TJvDBComboBox;
     edtDiasDescarga:    TJvDBCalcEdit;
     edtNovoBanco:       TJvDBCalcEdit;
@@ -38,7 +35,7 @@ var
     mmObs:              TDBMemo;
   {$endRegion}
   
-  {$Region 'Totalização'}
+  {$Region 'TotalizaÃ§Ã£o'}
     TotalCredito:            TLabel;
     GRManuais:               TLabel;
     Prorrogacoes:            TLabel;
@@ -95,11 +92,6 @@ var
     TSPagar: TTabSheet;
   {$endRegion}
   
-procedure Main;
-begin
-  MapearBordero;
-end;  
-  
 procedure MapearBordero;
 begin
   FCadBorderoAcerto := FormCriadoPeloNome(cFCadBorderoAcerto);
@@ -111,18 +103,18 @@ begin
   
   try
     FCadBorderoAcerto.Show;
-    CDSCadastroRecebimento  := DMCadBorderoAcerto.FindComponent('CDSCadastro');
-    CDSReceberRecebimento       := DMCadBorderoAcerto.FindComponent('CDSReceber');
-    CDSProrrogacoesRecebimento  := DMCadBorderoAcerto.FindComponent('CDSProrrogacoes');
-    CDSPagarRecebimento          := DMCadBorderoAcerto.FindComponent('CDSPagar');
-    CDSOrdemPagto           := DMCadBorderoAcerto.FindComponent('CDSOrdemPagto');
-    CDSGrupoResultadoRecebimento := DMCadBorderoAcerto.FindComponent('CDSGrupoResultado');
-    CDSComplementosRecebimento   := DMCadBorderoAcerto.FindComponent('CDSComplementos');
-    CDSChequeSaida          := DMCadBorderoAcerto.FindComponent('CDSChequeSaida'); // DEVOLVIDO
-    CDSCheques              := DMCadBorderoAcerto.FindComponent('CDSCheques');
-    CDSMovCartao            := DMCadBorderoAcerto.FindComponent('CDSMovCartao');
-    EditCodigo              := FCadBorderoAcerto.FindComponent('EditCodigo');
-    edtCliente              := FCadBorderoAcerto.FindComponent('EditCliente');
+    CDSCadastro       := DMCadBorderoAcerto.FindComponent('CDSCadastro');
+    CDSReceber        := DMCadBorderoAcerto.FindComponent('CDSReceber');
+    CDSProrrogacoes   := DMCadBorderoAcerto.FindComponent('CDSProrrogacoes');
+    CDSPagar          := DMCadBorderoAcerto.FindComponent('CDSPagar');
+    CDSOrdemPagto     := DMCadBorderoAcerto.FindComponent('CDSOrdemPagto');
+    CDSGrupoResultado := DMCadBorderoAcerto.FindComponent('CDSGrupoResultado');
+    CDSComplementos   := DMCadBorderoAcerto.FindComponent('CDSComplementos');
+    CDSChequeSaida    := DMCadBorderoAcerto.FindComponent('CDSChequeSaida'); // DEVOLVIDO
+    CDSCheques        := DMCadBorderoAcerto.FindComponent('CDSCheques');
+    CDSMovCartao      := DMCadBorderoAcerto.FindComponent('CDSMovCartao');
+    EditCodigo        := FCadBorderoAcerto.FindComponent('EditCodigo');
+    edtCliente        := FCadBorderoAcerto.FindComponent('EditCliente');
     MapearPrincipal;
     MapearTSFiltros;
     MapearTotalizacao;
@@ -141,9 +133,9 @@ end;
 
 procedure AbrirBordero(Codigo: Integer; AbreMovCx: Boolean);
 begin
-  CDSCadastroRecebimento.Close;
+  CDSCadastro.Close;
   AtribuirValorPropriedadeDeObjeto(DMCadBorderoAcerto, 'CodigoAtual', Codigo);                   
-  CDSCadastroRecebimento.Open;
+  CDSCadastro.Open;
   AtribuirValorPropriedadeDeObjeto(EditCodigo, 'Value', Codigo);
   Calcular;
   
@@ -247,7 +239,7 @@ begin
   EditCodigo         := FCadBorderoAcerto.FindComponent('EditCodigo');
   PageControl1       := FCadBorderoAcerto.FindComponent('PageControl1');
   cbSubTipo          := FCadBorderoAcerto.FindComponent('CBSubTipo');
-  cbQualificacaoRecebimento := FCadBorderoAcerto.FindComponent('CBQualificacao');
+  cbQualificacao     := FCadBorderoAcerto.FindComponent('CBQualificacao');
   edtCliente         := FCadBorderoAcerto.FindComponent('EditCliente');
   DataAcerto         := FCadBorderoAcerto.FindComponent('JvDBDateEdit2');
   edtDiasDescarga    := FCadBorderoAcerto.FindComponent('JvDBCalcEdit4');
