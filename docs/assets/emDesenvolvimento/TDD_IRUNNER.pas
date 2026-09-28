@@ -1,71 +1,75 @@
 var
   FQuantidadeTotalEtapas :integer;
-  FUnit                  :string;
-  FMetodosExecutar       :TStringList;
+  FUsesUnits, FMetodos, FUnitInterpretar :TStringList;
   
-procedure Add(pMetodo :string);
+procedure AddMetodo(pMetodo :string);
 begin
-  if not Assigned(Metodos)then
+  if not Assigned(FMetodos)then
   begin
-    Metodos := TStringList.Create;
-    Metodos.Clear;  
+    FMetodos := TStringList.Create;
+    FMetodos.Clear;  
   end;
   
-  Metodos.Add(pMetodo);
+  FMetodos.Add(pMetodo);
 end;
 
-procedure AddUnit(pUnit :string);
+procedure AddUsesUnit(pUnit :string);
 begin
-  FUnit := pUnit;
+  if not Assigned(FUsesUnits)then
+  begin
+    FUsesUnits := TStringList.Create;
+    FUsesUnits.Clear;  
+  end;
+  
+  FUsesUnits.Add(pUnit);
 end;  
 
 procedure Executar;
 var 
-  I: Integer;
-  LS: TStringList;
-  Linha: String;
+  lIndice :integer;
+  lLS     :TStringList;
+  lLinha  :string;
 begin
-  if Trim(FUnit) = '' then
-    raise Exception.Create(MensagemPersonalizada + 'Unit Não Informada!');
+  if Trim(FUsesUnits.Text) = '' then
+    raise Exception.Create('Nenhuma Unit para uses informada! Impossível executar o teste.');
 
-  if Trim(Metodos.Text) = '' then
-    raise Exception.Create(MensagemPersonalizada + 'Metodos para Executar Não incluídos!');
+  if Trim(FMetodos.Text) = '' then
+    raise Exception.Create('Não existem métodos para serem executados! Impossível executar o teste.');
 
-  LS := TStringList.Create; 
+  lLS              := TStringList.Create;
+  FUnitInterpretar := TStringList.Create;  
   try
-    LS.Clear;
-    LS.Add('unit EXECUCAO_TDD;');
-    LS.Add('uses ' + FUnit + ';');
-    LS.Add('procedure main;'#13'begin');
-    for I := 0 to Metodos.Count -1 do
+    FUnitInterpretar.Clear;
+    FUnitInterpretar.Add(CodificacaoUnit('TDD_BASE_UNIT_IRUNNER'));
+        
+    lLS.Clear;
+    for lIndice := 0 to FMetodos.Count -1 do
     begin
       //
-      Linha := Metodos[I];
+      lLinha := FMetodos[lIndice];
       
-      if Pos('Setup', Linha) > 0 then
+      if Pos('Setup', lLinha) > 0 then
       begin
         //
-        LS.Add(Linha + ';');
+        lLS.Add(lLinha + ';');
         //  
       end
-      else if Pos('Teste', Linha) > 0 then
+      else if Pos('Teste', lLinha) > 0 then
       begin
         //
-        LS.Add(Linha + ';');
+        lLS.Add(lLinha + ';');
         //
       end;    
       //  
     end;
-    
-    LS.Add('end;');
-    LS.Add('end.');
-    
-    MostrarLogTexto(LS.Text);
-    
-    Interpretar(LS.Text);
+
+    {TDD_LOGS.}MostrarLogTextoEmModoDebugT(FUnitInterpretar.Text, 'Resultado de FUnitInterpretar.Text em TDD_IRUNNER.Executar');
+    Interpretar(FUnitInterpretar.Text);
   finally
-    Metodos.Free;
-    LS.Free;
+    FUsesUnits.Free;
+    FMetodos.Free;
+    lLS.Free;
+    FUnitInterpretar.Free;
   end;
   
 end;
