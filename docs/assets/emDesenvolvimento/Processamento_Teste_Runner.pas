@@ -10,16 +10,16 @@ end;
 
 procedure TesteRunner;
 begin
-  {TDD_IRUNNER.}AddUnit('REFACTOR_TDD_FINANCEIRO_PILOTO');
-  {TDD_IRUNNER.}Add('ExecutarFluxoCompletoFinanceiro');
+  {TDD_IRUNNER.}AddUsesUnit('REFACTOR_TDD_FINANCEIRO_PILOTO');
+  {TDD_IRUNNER.}AddMetodo('ExecutarFluxoCompletoFinanceiro');
   {TDD_RUNNER.}Run('FINANCEIRO', 'FINANCEIRO', 'TDD_FINANCEIRO');  
 end;
 
 procedure TesteIRunner;
 begin
-  AddUnit('TDD_TESTE_RUNNER');
-  Add('_Setup');
-  Add('_Teste');
+  AddUsesUnit('TDD_TESTE_RUNNER');
+  AddMetodo('_Setup');
+  AddMetodo('_Teste');
   Executar;
 end;
 
