@@ -63,8 +63,8 @@ begin
       //  
     end;
 
-    Troca(FUnitInterpretar.Text, '__USES_UNITS__', FUsesUnits.Text);
-    Troca(FUnitInterpretar.Text, '__CHAMADAS_METODOS__', lLS.Text);
+    FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__USES_UNITS__', FUsesUnits.Text);
+    FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__CHAMADAS_METODOS__', lLS.Text);
 
     {TDD_LOGS.}MostrarLogTextoEmModoDebugT(FUnitInterpretar.Text, 'Resultado de FUnitInterpretar.Text em TDD_IRUNNER.Executar');
 
