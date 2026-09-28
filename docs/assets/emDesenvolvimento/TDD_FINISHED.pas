@@ -28,7 +28,8 @@ begin
       '  :LogsFalhas'                                             + #13 +
       ') RETURNING AUTOINC_HISTORICO_HE';
 
-    FHistoricoExecucao.AutoIncHistorico := TDDScalarODBCP(lSQL, [
+    {TDD_RUNNER.}FHistoricoExecucao.AutoIncHistorico := {TDD_ODBC.}TDDScalarODBCP(lSQL, [
+      // Parâmetros vem de {TDD_RUNNER}
       FHistoricoExecucao.AutoIncCasoTeste,
       FHistoricoExecucao.VersaoExecucao,
       FHistoricoExecucao.RequisitoVersao,
@@ -58,7 +59,8 @@ begin
       '  :ResultadoObtido'                         + #13 +
       ')';
 
-    TDDCommandODBCP(lSQL, [
+    {TDD_ODBC.}TDDCommandODBCP(lSQL, [
+      // Parâmetros vem de {TDD_RUNNER}
       FHistoricoExecucao.AutoIncHistorico,
       FMetricasAsserts.EtapaCasoTeste,
       FMetricasAsserts.TempoTotal,
@@ -87,12 +89,13 @@ begin
       '  :TempoTotalFormatado'                     + #13 +
       ')';
 
-    if Assigned(FCDSMetricasTickDiff) then
+    if Assigned({TDD_RUNNER.}FCDSMetricasTickDiff) then
     begin
       FCDSMetricasTickDiff.First;
       while not FCDSMetricasTickDiff.Eof do
       begin
-        TDDCommandODBCP(lSQL, [
+        {TDD_ODBC}TDDCommandODBCP(lSQL, [
+          // Parâmetros vem de TDD_RUNNER
           FHistoricoExecucao.AutoIncHistorico,
           FCDSMetricasTickDiff.FieldByName('NOME_METODO').AsString,
           FCDSMetricasTickDiff.FieldByName('ETAPA_CASO_TESTE').AsInteger,
@@ -108,7 +111,7 @@ begin
   except
     on Ex: Exception do
     begin
-      MostrarLogTextoEmModoDebug('Falha ao persistir metricas: ' + Ex.Message);
+      {TDD_LOGS.}MostrarLogTextoEmModoDebug('Falha ao persistir metricas: ' + Ex.Message);
       raise;
     end;
   end;

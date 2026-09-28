@@ -1,6 +1,4 @@
-uses TDD_ODBC, TDD_LOGS, TDD_STARTED, TDD_FINISHED;
-
-const FQuantidadeTotalEtapas = 3;
+uses TDD_IRUNNER, TDD_ODBC, TDD_LOGS, TDD_STARTED, TDD_FINISHED;
 
 type
   THistoricoExecucao = record
@@ -38,10 +36,10 @@ type
   end;
 
 type
-  TContextoCasoTeste = record
-    Modulo        :string;
-    Area          :string;
-    CasoTesteDesc :string;
+  TContextoCasoTeste   = record
+    DescricaoModulo    :string;
+    DescricaoArea      :string;
+    DescricaoCasoTeste :string;
   end;
 
 var
@@ -55,24 +53,27 @@ var
   FContextoCasoTeste   :TContextoCasoTeste;
 
 procedure Main;
+var lInstrucoes :string;
 begin
-end;
-
-procedure ConfigurarCasoTeste(pModulo, pArea, pCasoTesteDesc: string);
-begin
-  FContextoCasoTeste.Modulo        := pModulo;
-  FContextoCasoTeste.Area          := pArea;
-  FContextoCasoTeste.CasoTesteDesc := pCasoTesteDesc;
+  lInstrucoes := '';
+  {TDD_LOGS.}MostrarInstrucoesUnit('TDD_RUNNER', lInstrucoes);
 end;
 
 { ================================================================
   INICIALIZAÇÃO DE CDS PARA ARMAZENAR TICKS DE EXECUÇÕES
   Responsabilidade mantida no RUNNER para cronometrar o STARTED
   ================================================================ }
-procedure InicializarMetricasTickDiff;
+{$region CDS Métricas}
+procedure LiberarMetricasTickDiff;
 begin
   if Assigned(FCDSMetricasTickDiff) then
     FCDSMetricasTickDiff.Free;
+end;
+
+procedure InicializarMetricasTickDiff;
+begin
+  LiberarMetricasTickDiff;
+  FEtapaAtual := 0;
 
   FCDSMetricasTickDiff := TClientDataSet.Create;
   FCDSMetricasTickDiff.FieldDefs.Add('NOME_METODO', ftString, 120, False);
@@ -82,39 +83,146 @@ begin
   FCDSMetricasTickDiff.FieldDefs.Add('TEMPO_TOTAL', ftInteger, 0, False);
   FCDSMetricasTickDiff.FieldDefs.Add('TEMPO_TOTAL_FORMATADO', ftString, 20, False);
   FCDSMetricasTickDiff.CreateDataSet;
-  FCDSMetricasTickDiff.LogChanges := False;
+  FCDSMetricasTickDiff.LogChanges      := False;
+  FCDSMetricasTickDiff.IndexFieldNames := 'ETAPA_CASO_TESTE';
+end;
+{$endregion}
+
+{$region 'Cronômetro'}
+{ ================================================================
+  CRONÔMETRO PARA MÉTRICAS DE TEMPO DAS EXECUÇÕES NOS TESTES
+  Formatação e registro de marcadores Início e Fim por execução
+  ================================================================ }
+function PreencherComZeros(pValor :Cardinal; pTamanho :Integer) :string;
+begin
+  Result := IntToStr(pValor);
+  while Length(Result) < pTamanho do
+    Result := '0' + Result;
 end;
 
-procedure LiberarMetricasTickDiff;
+function FormatarTickDiff(pTempoMs :Cardinal) :string;
+var lHoras, lMinutos, lSegundos, lMilissegundos :Cardinal;
 begin
-  MostrarCDSEmModoDebug(FCDSMetricasTickDiff);
-  if Assigned(FCDSMetricasTickDiff) then
-  begin
-    FCDSMetricasTickDiff.Free;
-    FCDSMetricasTickDiff := nil;
-  end;
+  lHoras         := pTempoMs div 3600000;
+  pTempoMs       := pTempoMs mod 3600000;
+  lMinutos       := pTempoMs div 60000;
+  pTempoMs       := pTempoMs mod 60000;
+  lSegundos      := pTempoMs div 1000;
+  lMilissegundos := pTempoMs mod 1000;
+
+  Result := PreencherComZeros(lHoras, 2) + ':' +
+    PreencherComZeros(lMinutos, 2)       + ':' +
+    PreencherComZeros(lSegundos, 2)      + ':' +
+    PreencherComZeros(lMilissegundos, 3);
 end;
 
-procedure Run(pSetupImp, pTesteImp: TProc);
+procedure RegistrarTick(pPontoTick :integer; pNomeMetodo :string);
+var
+  lTempoTick, lTempoTotal :Cardinal;
+  lPontoTick              :string;
 begin
-  // Inicializa para registrar todas as métricas até o FINISHED
+  // O registro de início e fim, não aplica formatação para permitir o uso de TickDiff.
+  lTempoTick := GetTickCount;
+
+  // Usa FindKey ao invés de Filter para ganho em desempenho
+  if FCDSMetricasTickDiff.FindKey([FEtapaAtual]) then
+    // Camada de decisão entre registrar início ou fim, "0" = Início, "1" = Fim.
+    case pPontoTick of
+      0:
+        begin
+          lPontoTick  := 'Início';
+          
+          // Incrementa a etapa atual
+          FEtapaAtual := FEtapaAtual + 1;
+  
+          // Validação se já não existe um registro de início registrado.
+          if not FCDSMetricasTickDiff.IsEmpty then
+            raise Exception.Create('A etapa atual já possui registro de início, impossível registrar Tick da execução para: Etapa ' + IntToStr(FEtapaAtual));
+  
+          // Registrar o Ponto de Início
+          FCDSMetricasTickDiff.Append;
+          FCDSMetricasTickDiff.FieldByName('NOME_METODO').AsString       := pNomeMetodo;
+          FCDSMetricasTickDiff.FieldByName('ETAPA_CASO_TESTE').AsInteger := FEtapaAtual;
+          FCDSMetricasTickDiff.FieldByName('TEMPO_INICIO').AsInteger     := lTempoTick;
+          FCDSMetricasTickDiff.FieldByName('TEMPO_FIM').AsInteger        := 0; // Registra como zero para identificar que ainda precisa desse registro no Fim da execução.
+          FCDSMetricasTickDiff.Post;              
+        end;
+      1:
+        begin
+          lPontoTick := 'Fim';
+          
+          // Procura pelo Nome do Método, mas APENAS os que o TEMPO_FIM ainda é 0 (Em aberto).
+          if FCDSMetricasTickDiff.Locate('NOME_METODO;TEMPO_FIM', VarArrayOf([pNomeMetodo, 0]), []) then
+          begin
+            FCDSMetricasTickDiff.First;
+            FCDSMetricasTickDiff.Edit;
+            FCDSMetricasTickDiff.FieldByName('TEMPO_FIM').AsInteger := lTempoTick;
+  
+            // Registra o tempo total da execução.
+            lTempoTotal := TickDiff(FCDSMetricasTickDiff.FieldByName('TEMPO_INICIO').AsInteger, lTempoTick);
+            FCDSMetricasTickDiff.FieldByName('TEMPO_TOTAL').AsInteger          := lTempoTotal;
+            FCDSMetricasTickDiff.FieldByName('TEMPO_TOTAL_FORMATADO').AsString := FormatarTickDiff(lTempoTotal);
+            FCDSMetricasTickDiff.Post;
+          end
+          else
+            raise Exception.Create('Não foi encontrado o registro de INÍCIO aberto para: ' + pNomeMetodo);
+        end;
+    else
+      raise Exception.Create('Não é possível registrar métrica Tick para: ' + IntToStr(pPontoTick));
+    end;
+
+  {TDD_LOGS.}MostrarLogTextoEmModoDebug('Tick Registrado. Ponto: "' + IntToStr(pPontoTick) + '" = ' + lPontoTick + ' | Método: ' + pNomeMetodo);
+end;
+{$endregion}
+
+{ ================================================================
+  MÉTODO COM PAPEL DE SETTER PARA O CASO DE TESTE
+  Responsabilidade mantida no RUNNER para cronometrar o STARTED
+  ================================================================ }
+procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste :string);
+begin
+  FContextoCasoTeste.DescricaoModulo    := pDescricaoModulo;
+  FContextoCasoTeste.DescricaoArea      := pDescricaoArea;
+  FContextoCasoTeste.DescricaoCasoTeste := pDescricaoCasoTeste;
+end;
+
+{$region Execução}
+procedure Run(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste :string);
+var lMensagemFeedback :string;
+begin
+  // Ponto de entrada deve sempre ser o run, assim o cronometro é capaz rastrear o tempo total corretamente.
+  RegistrarTick(0, 'Total');
+  // Inicializa para registrar todas as métricas até o FINISHED.
   InicializarMetricasTickDiff;
 
+  CallBack_AbreTela('Run');
   CallBack_AbreTela(ClassOwner);
   try
     try
+      SetarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste);
+
       FNomeMetodoAtual := 'STARTED';
-      FEtapaAtual      := 1;
-      CronometrarExecucao(Started);
+      RegistrarTick(0, FNomeMetodoAtual);
+      LogDoProcessamentoAdd('INICIOU STARTED');
+      {TDD_STARTED.}Started;
+      LogDoProcessamentoAdd('ENCERROU STARTED');
+      RegistrarTick(1, FNomeMetodoAtual);
+      
+      FNomeMetodoAtual := 'IRUNNER';
+      RegistrarTick(0, FNomeMetodoAtual);
+      LogDoProcessamentoAdd('INICIOU IRUNNER');
+      {TDD_IRUNNER.}Executar;
+      LogDoProcessamentoAdd('ENCERROU IRUNNER');
+      RegistrarTick(1, FNomeMetodoAtual);      
 
-      FNomeMetodoAtual := 'SETUP';
-      FEtapaAtual      := 2;
-      CronometrarExecucao(pSetupImp);
+      FNomeMetodoAtual := 'FINISHED';
+      RegistrarTick(0, FNomeMetodoAtual);
+      LogDoProcessamentoAdd('INICIOU FINISHED');
+      {TDD_FINISHED.}RegistrarMetricas;
+      LogDoProcessamentoAdd('ENCERROU FINISHED');
+      RegistrarTick(1, FNomeMetodoAtual);
 
-      FNomeMetodoAtual := 'EXECUÇÃO';
-      FEtapaAtual      := 3;
-      CronometrarExecucao(pTesteImp);
-
+      // Marca que o teste foi finalizado com sucesso.
       FHistoricoExecucao.StatusExecucao := 'SUCESSO';
     except
       on Ex: Exception do
@@ -130,98 +238,13 @@ begin
       {TDD_FINISHED.}RegistrarMetricas;
     except
       on Ex: Exception do
-        MostrarLogTextoEmModoDebug('Falha ao persistir metricas: ' + Ex.Message);
+        {TDD_LOGS.}MostrarLogTextoEmModoDebug('Falha ao persistir metricas: ' + Ex.Message);
     end;
     LiberarMetricasTickDiff;
     CallBack_FechaTela(ClassOwner);
+    CallBack_AbreTela('Run');
+    // Encerra o cronometro de tempo total.
+    RegistrarTick(1, 'Total');
   end;
 end;
-
-{$region 'Cronômetro'}
-function PreencherComZeros(pValor: Cardinal; pTamanho: Integer): String;
-begin
-  Result := IntToStr(pValor);
-  while Length(Result) < pTamanho do
-    Result := '0' + Result;
-end;
-
-function FormatarTickDiff(pTempoMs: Cardinal): String;
-var lHoras, lMinutos, lSegundos, lMilissegundos: Cardinal;
-begin
-  lHoras         := pTempoMs div 3600000;
-  pTempoMs       := pTempoMs mod 3600000;
-  lMinutos       := pTempoMs div 60000;
-  pTempoMs       := pTempoMs mod 60000;
-  lSegundos      := pTempoMs div 1000;
-  lMilissegundos := pTempoMs mod 1000;
-
-  Result := PreencherComZeros(lHoras, 2) + ':' +
-    PreencherComZeros(lMinutos, 2)       + ':' +
-    PreencherComZeros(lSegundos, 2)      + ':' +
-    PreencherComZeros(lMilissegundos, 3);
-end;
-
-function RegistrarTickDiff(pTempoInicio, pTempoFim: Cardinal): OleVariant;
-var lTempoTotal: Cardinal;
-begin
-  lTempoTotal := TickDiff(pTempoInicio, pTempoFim);
-
-  FCDSMetricasTickDiff.Insert;
-  FCDSMetricasTickDiff.FieldByName('NOME_METODO').AsString := FNomeMetodoAtual;
-  FCDSMetricasTickDiff.FieldByName('ETAPA_CASO_TESTE').AsInteger := FEtapaAtual;
-  FCDSMetricasTickDiff.FieldByName('TEMPO_INICIO').AsInteger := pTempoInicio;
-  FCDSMetricasTickDiff.FieldByName('TEMPO_FIM').AsInteger := pTempoFim;
-  FCDSMetricasTickDiff.FieldByName('TEMPO_TOTAL').AsInteger := lTempoTotal;
-  FCDSMetricasTickDiff.FieldByName('TEMPO_TOTAL_FORMATADO').AsString := FormatarTickDiff(lTempoTotal);
-  FCDSMetricasTickDiff.Post;
-
-  Result := FormatarTickDiff(lTempoTotal);
-end;
-
-procedure FeedBackExecucao(pClassCallBackTela, pMensagem :string);
-begin
-  CallBack_Incremento(pClassCallBackTela, FEtapaAtual, FQuantidadeTotalEtapas, pMensagem);
-  LogDoProcessamentoAdd(pMensagem);
-end;
-
-function CronometrarExecucao(pMetodoExecutar: TProc) :OleVariant;
-var
-  lInicio, lFim                     :Cardinal;
-  lClassCallBackTela, lMensagemTemp :string;
-begin
-  lInicio            := GetTickCount;
-  lClassCallBackTela := 'Cronômetro';
-  lMensagemTemp      := '';
-
-  CallBack_AbreTela(lClassCallBackTela);
-  try
-    lMensagemTemp := 'Iniciando processo ' + FNomeMetodoAtual + ' - ' + IntToStr(FEtapaAtual) + '.';
-    FeedBackExecucao(lClassCallBackTela, lMensagemTemp);
-
-    try
-      if Assigned(pMetodoExecutar) then
-      begin
-        try
-          lMensagemTemp := 'Executando processo ' + FNomeMetodoAtual + ' - ' + IntToStr(FEtapaAtual) + '.';
-          FeedBackExecucao(lClassCallBackTela, lMensagemTemp);
-          pMetodoExecutar;
-        except on ex: Exception do
-          begin
-            lMensagemTemp := 'Falha ao executar o processo ' + FNomeMetodoAtual + ' - ' + IntToStr(FEtapaAtual) + '.';
-            FHistoricoExecucao.EtapaFalha     := FEtapaAtual;
-            FHistoricoExecucao.StatusExecucao := 'FALHA';
-            FeedBackExecucao(lClassCallBackTela, lMensagemTemp);
-            raise Exception.Create(lMensagemTemp + ' ' + ex.Message);
-          end;
-        end;
-      end;
-    finally
-      lFim   := GetTickCount;
-      Result := RegistrarTickDiff(lInicio, lFim);
-    end;
-  finally
-    CallBack_FechaTela(lClassCallBackTela);
-  end;
-end;
-
 {$endregion}
