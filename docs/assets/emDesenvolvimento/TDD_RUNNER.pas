@@ -84,7 +84,7 @@ begin
   FCDSMetricasTickDiff.FieldDefs.Add('TEMPO_TOTAL_FORMATADO', ftString, 20, False);
   FCDSMetricasTickDiff.CreateDataSet;
   FCDSMetricasTickDiff.LogChanges      := False;
-  FCDSMetricasTickDiff.IndexFieldNames := 'ETAPA_CASO_TESTE';
+  FCDSMetricasTickDiff.IndexFieldNames := 'NOME_METODO; ETAPA_CASO_TESTE';
 end;
 {$endregion}
 
@@ -120,44 +120,60 @@ procedure RegistrarTick(pPontoTick :integer; pNomeMetodo :string);
 var
   lTempoTick, lTempoTotal :Cardinal;
   lPontoTick              :string;
+  lVerificaFindKey        :Boolean;
 begin
   // O registro de início e fim, não aplica formatação para permitir o uso de TickDiff.
   lTempoTick := GetTickCount;
 
-  // Usa FindKey ao invés de Filter para ganho em desempenho
-  if FCDSMetricasTickDiff.FindKey([FEtapaAtual]) then
-    // Camada de decisão entre registrar início ou fim, "0" = Início, "1" = Fim.
-    case pPontoTick of
-      0:
-        begin
-          lPontoTick  := 'Início';
-          
-          // Incrementa a etapa atual
-          FEtapaAtual := FEtapaAtual + 1;
+  {TDD_LOGS.}MostrarLogTextoEmModoDebugT(Assigned(FCDSMetricasTickDiff), 'CDS Métricas já está assinado?');
+  {TDD_LOGS.}MostrarCDSEmModoDebug(FCDSMetricasTickDiff);
   
-          // Validação se já não existe um registro de início registrado.
-          if not FCDSMetricasTickDiff.IsEmpty then
-            raise Exception.Create('A etapa atual já possui registro de início, impossível registrar Tick da execução para: Etapa ' + IntToStr(FEtapaAtual));
-  
-          // Registrar o Ponto de Início
-          FCDSMetricasTickDiff.Append;
-          FCDSMetricasTickDiff.FieldByName('NOME_METODO').AsString       := pNomeMetodo;
-          FCDSMetricasTickDiff.FieldByName('ETAPA_CASO_TESTE').AsInteger := FEtapaAtual;
-          FCDSMetricasTickDiff.FieldByName('TEMPO_INICIO').AsInteger     := lTempoTick;
-          FCDSMetricasTickDiff.FieldByName('TEMPO_FIM').AsInteger        := 0; // Registra como zero para identificar que ainda precisa desse registro no Fim da execução.
-          FCDSMetricasTickDiff.Post;              
-        end;
-      1:
+  // Camada de decisão entre registrar início ou fim, "0" = Início, "1" = Fim.
+  case pPontoTick of
+    0:
+      begin
+        lPontoTick  := 'Início';
+
+        // Validação correta: Se o FindKey achou, é porque a etapa já existe!
+        if lVerificaFindKey then
+          raise Exception.Create('A etapa atual já possui registro de início, impossível registrar Tick da execução para: Etapa ' + IntToStr(FEtapaAtual));
+
+        // Incrementa a etapa atual APENAS depois de validar que pode inserir.
+        FEtapaAtual := FEtapaAtual + 1;
+
+        // Registrar o Ponto de Início
+        FCDSMetricasTickDiff.Insert;
+        FCDSMetricasTickDiff.FieldByName('NOME_METODO').AsString       := pNomeMetodo;
+        FCDSMetricasTickDiff.FieldByName('ETAPA_CASO_TESTE').AsInteger := FEtapaAtual;
+        FCDSMetricasTickDiff.FieldByName('TEMPO_INICIO').AsInteger     := lTempoTick;
+        FCDSMetricasTickDiff.FieldByName('TEMPO_FIM').AsInteger        := 0; // Registra como zero para identificar que ainda precisa desse registro no Fim da execução.
+        FCDSMetricasTickDiff.Post;
+      end;
+
+    1:
+      begin
+        // Usa FindKey ao invés de Filter para ganho em desempenho.
+        lVerificaFindKey := FCDSMetricasTickDiff.FindKey([pNomeMetodo, FEtapaAtual]);
+
+        {TDD_LOGS.}MostrarLogTextoEmModoDebugT(
+          Format('Valores utilizados no FindKey: Método "%s", Etapa: "%s".', [pNomeMetodo, IntToStr(FEtapaAtual)]),
+          'Valor da verificação do FindKey das métricas Tick'
+        );
+      
+        {TDD_LOGS.}MostrarLogTextoEmModoDebugT(lVerificaFindKey, 'Valor de "lVerificaFindKey" para o método: ' + pNomeMetodo);
+      
+        // Só tenta finalizar se encontrou algo ou tem certeza que existe.
+        if lVerificaFindKey then
         begin
           lPontoTick := 'Fim';
-          
+
           // Procura pelo Nome do Método, mas APENAS os que o TEMPO_FIM ainda é 0 (Em aberto).
           if FCDSMetricasTickDiff.Locate('NOME_METODO;TEMPO_FIM', VarArrayOf([pNomeMetodo, 0]), []) then
           begin
-            FCDSMetricasTickDiff.First;
+            // REMOVIDO: FCDSMetricasTickDiff.First; -> Isso estragava o Locate!
             FCDSMetricasTickDiff.Edit;
             FCDSMetricasTickDiff.FieldByName('TEMPO_FIM').AsInteger := lTempoTick;
-  
+
             // Registra o tempo total da execução.
             lTempoTotal := TickDiff(FCDSMetricasTickDiff.FieldByName('TEMPO_INICIO').AsInteger, lTempoTick);
             FCDSMetricasTickDiff.FieldByName('TEMPO_TOTAL').AsInteger          := lTempoTotal;
@@ -166,10 +182,13 @@ begin
           end
           else
             raise Exception.Create('Não foi encontrado o registro de INÍCIO aberto para: ' + pNomeMetodo);
-        end;
-    else
-      raise Exception.Create('Não é possível registrar métrica Tick para: ' + IntToStr(pPontoTick));
-    end;
+        end
+        else
+          raise Exception.Create('Método não encontrado para finalizar: ' + pNomeMetodo);
+      end; // <-- Fim do bloco 1:
+  else
+    raise Exception.Create('Não é possível registrar métrica Tick para: ' + IntToStr(pPontoTick));
+  end; // <-- Fim do Case
 
   {TDD_LOGS.}MostrarLogTextoEmModoDebug('Tick Registrado. Ponto: "' + IntToStr(pPontoTick) + '" = ' + lPontoTick + ' | Método: ' + pNomeMetodo);
 end;
@@ -190,10 +209,11 @@ end;
 procedure Run(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste :string);
 var lMensagemFeedback :string;
 begin
-  // Ponto de entrada deve sempre ser o run, assim o cronometro é capaz rastrear o tempo total corretamente.
-  RegistrarTick(0, 'Total');
   // Inicializa para registrar todas as métricas até o FINISHED.
   InicializarMetricasTickDiff;
+
+  // Ponto de entrada deve sempre ser o run, assim o cronometro é capaz rastrear o tempo total corretamente.
+  RegistrarTick(0, 'Total');
 
   CallBack_AbreTela('Run');
   CallBack_AbreTela(ClassOwner);
@@ -242,7 +262,7 @@ begin
     end;
     LiberarMetricasTickDiff;
     CallBack_FechaTela(ClassOwner);
-    CallBack_AbreTela('Run');
+    CallBack_FechaTela('Run');
     // Encerra o cronometro de tempo total.
     RegistrarTick(1, 'Total');
   end;
