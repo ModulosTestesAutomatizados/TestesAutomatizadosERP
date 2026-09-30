@@ -63,7 +63,6 @@ begin
   );
 
   try
-    {P39_TDD_CASOS_DE_TESTE.}Setup_Inicializar_CasosTeste;
     {P39_TDD_CASOS_DE_TESTE.}SetModulo(pDescricaoModulo);
     {P39_TDD_CASOS_DE_TESTE.}SetArea(pDescricaoArea);
     {P39_TDD_CASOS_DE_TESTE.}CarregarCasosTeste;
@@ -86,7 +85,7 @@ begin
         lCasoTesteJson    := CDSCasosTestes.FieldByName('CASOTESTE').AsString;
         FCasoTesteAtualId := CDSCasosTestes.FieldByName('ID').AsInteger;
         lEncontrou        := True;
-        Break;
+        Break; // Encerra prematuramente o Loop.
       end;
       CDSCasosTestes.Next;
     end;
@@ -95,7 +94,7 @@ begin
 
     FCasoTesteAtualJson := lCasoTesteJson;
     {P39_TDD_RUNNER}FHistoricoExecucao.AutoIncCasoTeste := FCasoTesteAtualId;
-    {P39_TDD_CASOS_DE_TESTE.}CarregarConfiguracoes;
+    //{P39_TDD_CASOS_DE_TESTE.}CarregarConfiguracoes;
 
     {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug(
       'Caso de teste encontrado: ' + pDescricaoCasoTeste + ' (ID ' + IntToStr(FCasoTesteAtualId) + ')' + #13 +
@@ -132,26 +131,25 @@ var
   lParametrosJson: string;
   lObj: TJSONObject;
 begin
-  if not Trim(FCasoTesteAtualJson) = '' then
+  if (Trim(FCasoTesteAtualJson) <> '') and (Trim(FCasoTesteAtualJson) <> '{}') then
   begin
     lParametrosJson := GetObjectJson(FCasoTesteAtualJson, 'parametros');
-    if not (Trim(lParametrosJson) = '') or (Trim(lParametrosJson) = '{}') then
+    if (Trim(lParametrosJson) <> '') and (Trim(lParametrosJson) <> '{}') then
     begin
       try
-        {P39_TDD_LOGS.}FModoDebug := True;
         lObj := TJSONObject.ParseJSONValue(lParametrosJson);
         if not Assigned(lObj) then
           raise Exception.Create('JSON de parâmetros inválido.');
-    
+
         {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug(
           'Aplicando parâmetros do caso de teste no sistema.' + #13 +
           lObj.ToJSON
         );
-    
+
         {P39_TDD_PARAMETRO.}VerificarParametros(lObj.ToJSON);
+        {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug('Parâmetros verificados.');
       finally
         lObj.Free;
-        {P39_TDD_LOGS.}FModoDebug := False;
       end;
     end;
   end;
@@ -168,31 +166,25 @@ var lVersaoRequisito :string;
 begin
   {P39_TDD_RUNNER.}FHistoricoExecucao.VersaoExecucao := Troca(IntToStr(NumeroVersao), ',', '.');
   try
-    lVersaoRequisito := GetValueJson(FCasoTesteAtualJson, 'REQUISITO_VERSAO_CT');
-    if VersaoSistemaIgualOuSuperior(lVersaoRequisito) then
-      Result := True
-    else
+    if (Trim(CDSCasosTestes.FieldByName('REQUISITOVERSAO').AsString) <> '') then
     begin
-      FHistoricoExecucao.StatusExecucao := 'INCOMPATIVEL_VERSAO';
-      {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug(
-        Format('Versão atual não atende o requisito mínimo.' + #13 + 'Versão atual: %s | Versão requisito: %s', [
-          FHistoricoExecucao.VersaoExecucao,
-          lVersaoRequisito
-        ])
-      );      
-      raise Exception.Create(
-        Format('Versão atual não atende o requisito mínimo.' + #13 + 'Versão atual: %s | Versão requisito: %s', [
-          FHistoricoExecucao.VersaoExecucao,
-          lVersaoRequisito
-        ])
-      );
+      lVersaoRequisito := Troca(CDSCasosTestes.FieldByName('REQUISITOVERSAO').AsString, ',', '.');
+      if VersaoSistemaIgualOuSuperior(lVersaoRequisito) then
+        Result := True
+      else
+      begin
+        FHistoricoExecucao.StatusExecucao := 'INCOMPATIVEL_VERSAO';
+        raise Exception.Create(
+          Format('Versão atual não atende o requisito mínimo.' + #13 + 'Versão atual: %s | Versão requisito: %s', [
+            FHistoricoExecucao.VersaoExecucao,
+            lVersaoRequisito
+          ])
+        );
+      end;      
     end;
   except
     on ex: Exception do
-    begin    
-      {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug('Falha ao verificar a versão: ' + E.Message);
       raise Exception.Create('Falha ao verificar a versão: ' + ex.Message);
-    end;
   end;
 end;
 {$endregion}

@@ -38,7 +38,7 @@ var
   CDS: TClientDataSet;
 begin
   if pJSONParametros = '' then
-    Exit;    
+    Exit;
 
   LObj := TJSONObject.ParseJSONValue(pJSONParametros);
   CDS  := TClientDataSet.Create;
@@ -47,7 +47,6 @@ begin
     for I := 0 to LObj.Count -1 do
     begin
       LPair := ExecutarMetodoDeObjeto(LObj, 'GetPair', [I]);
-      
       if Assigned(LPair) then
       begin
         LPairName := GetPairName(LPair);
@@ -61,21 +60,23 @@ begin
 
     if not CDS.IsEmpty then
       AtualizarParametros(CDS);
-    
-    {P39_TDD_LOGS.}MostrarCDSEmModoDebugT(CDS, 'CDS - VerificarParametros');
   finally
     LObj.Free;
     CDS.Free;
   end;
 end;
 
-function NecessarioModificarParam(pCampo, pValor: String):Boolean;
+function NecessarioModificarParam(pCampo, pValor: String) :Boolean;
 begin
   Result := False;
   if (pCampo = '')  then
       Exit;
-
-  Result := not (GetValueJson(SecaoParametroJson, pCampo) = pValor);
+  try
+    Result := not (GetValueJson(SecaoParametroJson, pCampo) = pValor);
+  except
+    on e: Exception do
+      raise Exception.Create('Falha ao tentar encontrar campos nos parâmetros do sistema.' + #13 + e.Message);
+  end;
 end;
 
 procedure AtualizarParametros(pCDS: TClientDataSet);
@@ -116,9 +117,7 @@ begin
         ExecuteCommand(LS.Text);
       except
         on e: Exception do
-        begin
-          //{P39_TDD_LOGS.}MostrarLogTextoEmModoDebug('Falha ao Atualizar parametro' + LS.Text);
-        end;
+          raise Exception.Create(e.Message);
       end;
 
       pCDS.Next;    
@@ -179,20 +178,14 @@ end;
 
 procedure Setup_Inicializar_Parametros;
 begin
-  MapearParametros;
+  {P39_TDD_PARAMETRO_MAPEAMENTO.}MapearParametros;
 
   CDSParametro := TClientDataSet.Create;
   CDSParametro.Data := ExecuteReader(GetSQLParametro);
-  
+
   ExecutarMetodoDeClasse('ClassConfigSistema','TClassConfigSistema' ,'ConfigurarPropriedadesDosCampos', [CDSParametro, true]);
   ExecutarMetodoDeClasse('ClassConfigSistemaEmp','TClassConfigSistemaEmp' ,'ConfigurarPropriedadesDosCampos', [CDSParametro, true]);
   ExecutarMetodoDeClasse('ClassPCP_Config','TClassPCP_Config' ,'ConfigurarPropriedadesDosCampos', [CDSParametro, true]);
-
-  // Trecho de debug ignorado.
-//  {P39_TDD_LOGS.}FModoDebug := False;/
-//  {P39_TDD_LOGS.}MostrarCDSEmModoDebug(CDSParametro);
-//  {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug(GetSQLParametro);
-//  {P39_TDD_LOGS.}FModoDebug := True;
 end;
 
 procedure TearDown_FinalizarParametros;

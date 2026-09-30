@@ -9,7 +9,7 @@ procedure Cache_Setup_CarregarInformacoes;
 begin
   if not Assigned(CDSModulos) then
     CDSModulos := TClientDataSet.Create;
-  
+
   if not Assigned(CDSAreas) then
     CDSAreas := TClientDataSet.Create;
 
