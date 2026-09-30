@@ -173,7 +173,7 @@ begin
         Result := True
       else
       begin
-        FHistoricoExecucao.StatusExecucao := 'INCOMPATIVEL_VERSAO';
+        FHistoricoExecucao.StatusExecucao := 'VERSAO_INCOMPATIVEL';
         raise Exception.Create(
           Format('Versão atual não atende o requisito mínimo.' + #13 + 'Versão atual: %s | Versão requisito: %s', [
             FHistoricoExecucao.VersaoExecucao,
