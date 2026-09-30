@@ -62,7 +62,7 @@ begin
       end;    
       //  
     end;
-
+    
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__USES_UNITS__', FUsesUnits.CommaText);
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__CHAMADAS_METODOS__', lLS.Text);
 

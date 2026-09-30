@@ -15,12 +15,4 @@ begin
   {TDD_RUNNER.}Run('FINANCEIRO', 'FINANCEIRO', 'TDD_FINANCEIRO');  
 end;
 
-procedure TesteIRunner;
-begin
-  AddUsesUnit('TDD_TESTE_RUNNER');
-  AddMetodo('_Setup');
-  AddMetodo('_Teste');
-  Executar;
-end;
-
 end.

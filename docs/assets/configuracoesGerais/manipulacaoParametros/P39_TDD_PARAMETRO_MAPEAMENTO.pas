@@ -1,4 +1,4 @@
-type
+﻿type
   TMapeamentoParametro = record
     CampoJSON: String;
     CampoDB: String;
@@ -15,7 +15,7 @@ const
 
 var
  FParametroMapeado: boolean;
- FMapeamentoParam: array [0..8] of TMapeamentoParametro;
+ FMapeamentoParam: array [0..8] of TMapeamentoParametro; 
 
 procedure Main;
 begin
@@ -31,7 +31,7 @@ end;
 
 function GetCampoJsonParametro(pCampoDB: String): String;
 begin
-  Result := GetCampo(cTipoCampoJSON, pCampoDB);
+  Result := GetCampo(cTipoCampoJSON, pCampoDB);    
 end;
 
 function GetCampoDBParametro(pCampoJson: String):String;
@@ -48,7 +48,7 @@ begin
     Exit;
 
   for I := Low(FMapeamentoParam) to High(FMapeamentoParam) do
-  begin
+  begin              
     if (pTipo = cTipoCampoJSON) and (pCampo = FMapeamentoParam[I].CampoDB) then
     begin 
       Result := FMapeamentoParam[I].CampoJSON;
@@ -56,7 +56,7 @@ begin
     end;
 
     if (pTipo = cTipoCampoDB) and (pCampo = FMapeamentoParam[I].CampoJSON) then
-    begin
+    begin 
       Result := FMapeamentoParam[I].CampoDB;
       Break;
     end;
@@ -85,8 +85,8 @@ begin
     Add(6, 'OcultarDuplicataPagarSalario', 'OCULTARDUPLSALARIO_CFS', cTabelaConfigSistema);
     Add(7, 'BloquearLancamentoBorderoQualificacao0Todas', 'BLOQLANCQUALIFTODAS_CFS', cTabelaConfigSistema);
     Add(8, 'BorderoExigirPreenchimentoRegraIntegracaoContabil', 'EXIGIRREGRAINTEGRACAOCTB_CFS', cTabelaConfigSistema);
-
-    FParametroMapeado := True;
+    
+    FParametroMapeado := True;  
   end;
 end;
 

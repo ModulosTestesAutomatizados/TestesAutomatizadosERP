@@ -1,8 +1,9 @@
-uses TDD_ODBC, TDD_LOGS;
-
 procedure Main;
+var lInstrucoes :string;
 begin
-
+  lInstrucoes := '';
+  
+  {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_FINISHED', lInstrucoes);
 end;
 
 {$region 'Persistência'}
@@ -28,8 +29,10 @@ begin
       '  :LogsFalhas'                                             + #13 +
       ') RETURNING AUTOINC_HISTORICO_HE';
 
-    {TDD_RUNNER.}FHistoricoExecucao.AutoIncHistorico := {TDD_ODBC.}TDDScalarODBCP(lSQL, [
-      // Parâmetros vem de {TDD_RUNNER}
+    {P39_TDD_LOGS.}MostrarLogTextoEmModoDebugT(lSQL, 'SQL - HISTÓRICO DA EXECUÇÃO');
+
+    {P39_TDD_RUNNER.}FHistoricoExecucao.AutoIncHistorico := {P39_TDD_ODBC.}TDDScalarODBCP(lSQL, [
+      // Parâmetros vem de {P39_TDD_RUNNER}
       FHistoricoExecucao.AutoIncCasoTeste,
       FHistoricoExecucao.VersaoExecucao,
       FHistoricoExecucao.RequisitoVersao,
@@ -39,6 +42,9 @@ begin
       FHistoricoExecucao.LogsFalhas
     ]);
 
+    {P39_TDD_LOGS.}MostrarLogTextoEmModoDebugT(FHistoricoExecucao.AutoIncHistorico, 'ID do Histórico');
+
+(*  === VALUES PARA AS MÉTRICAS DE ASSERTS PENDENTES DE CORREÇÃO ===
     lSQL := 'INSERT INTO METRICAS_ASSERTS ('       + #13 +
       '  AUTOINC_HISTORICO_HE,'                    + #13 +
       '  ETAPA_CASO_TESTE_AT,'                     + #13 +
@@ -59,8 +65,10 @@ begin
       '  :ResultadoObtido'                         + #13 +
       ')';
 
-    {TDD_ODBC.}TDDCommandODBCP(lSQL, [
-      // Parâmetros vem de {TDD_RUNNER}
+    {P39_TDD_LOGS.}MostrarLogTextoEmModoDebugT(lSQL, 'SQL - MÉTRICAS ASSERTS');
+
+    {P39_TDD_ODBC.}TDDCommandODBCP(lSQL, [
+      // Parâmetros vem de {P39_TDD_RUNNER}
       FHistoricoExecucao.AutoIncHistorico,
       FMetricasAsserts.EtapaCasoTeste,
       FMetricasAsserts.TempoTotal,
@@ -70,6 +78,7 @@ begin
       FMetricasAsserts.ResultadoEsperado,
       FMetricasAsserts.ResultadoObtido
     ]);
+*)
 
     lSQL := 'INSERT INTO METRICAS_TICK_DIFF ('     + #13 +
       '  AUTOINC_HISTORICO_HE,'                    + #13 +
@@ -89,13 +98,16 @@ begin
       '  :TempoTotalFormatado'                     + #13 +
       ')';
 
-    if Assigned({TDD_RUNNER.}FCDSMetricasTickDiff) then
+    {P39_TDD_LOGS.}MostrarLogTextoEmModoDebugT(lSQL, 'SQL - Métricas Tick Diff');
+    {P39_TDD_LOGS.}MostrarCDSEmModoDebugT(FCDSMetricasTickDiff, 'CDS Tick Diff');
+
+    if Assigned({P39_TDD_RUNNER.}FCDSMetricasTickDiff) then
     begin
       FCDSMetricasTickDiff.First;
       while not FCDSMetricasTickDiff.Eof do
       begin
-        {TDD_ODBC}TDDCommandODBCP(lSQL, [
-          // Parâmetros vem de TDD_RUNNER
+        {P39_TDD_ODBC}TDDCommandODBCP(lSQL, [
+          // Parâmetros vem de P39_TDD_RUNNER
           FHistoricoExecucao.AutoIncHistorico,
           FCDSMetricasTickDiff.FieldByName('NOME_METODO').AsString,
           FCDSMetricasTickDiff.FieldByName('ETAPA_CASO_TESTE').AsInteger,
@@ -111,7 +123,7 @@ begin
   except
     on Ex: Exception do
     begin
-      {TDD_LOGS.}MostrarLogTextoEmModoDebug('Falha ao persistir metricas: ' + Ex.Message);
+      {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug('Falha ao persistir metricas: ' + Ex.Message);
       raise;
     end;
   end;

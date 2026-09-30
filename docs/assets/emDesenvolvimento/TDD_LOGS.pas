@@ -42,12 +42,12 @@ begin
   if FModoDebug then MostrarLogTexto(pTexto, iif(Trim(pTitulo) <> '', pTitulo, '[DEBUG]'));
 end;
 
-procedure MostrarCDSEmModoDebug(CDSDebug: TClientDataSet);
+procedure MostrarCDSEmModoDebug(CDSDebug :TClientDataSet);
 begin
   if FModoDebug then MostrarCDS(CDSDebug);
 end;
 
-procedure MostrarCDSEmModoDebugT(pCDSDebug: TClientDataSet, pTitulo :string);
+procedure MostrarCDSEmModoDebugT(pCDSDebug :TClientDataSet; pTitulo :string);
 begin
   if FModoDebug then MostrarCDS(pCDSDebug, True, iif(Trim(pTitulo) <> '', pTitulo, '[DEBUG]'));
 end;

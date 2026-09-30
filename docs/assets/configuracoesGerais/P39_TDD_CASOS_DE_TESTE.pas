@@ -1,17 +1,17 @@
 uses P39_TDD_CONSTANTES, P39_TDD_PARAMETRO, P39_TDD_CACHE;
 
-var
+var 
   CDSCasosTestes: TClientDataSet;
   CDSResultadoEsperado: TClientDataSet;
   CDSCamposDisponiveis: TClientDataSet;
   CDSConfiguracao: TClientDataSet;
-
+  
   FModulo, FArea: Integer;
   FDescModulo, FDescArea: String;
 
 procedure Main;
 begin
-  MostrarCDS(CDSCasosTestes);
+  // Add instruções;
 end;
 
 procedure CarregarConfiguracoes;
@@ -21,9 +21,9 @@ begin
   if UpperCase(FDescModulo) = 'FATURAMENTO' then
     SQL := GetSQLConfigFaturamento
   else if UpperCase(FDescModulo) = 'FINANCEIRO' then
-    SQL := GetSQLConfigFinanceiro;
-
-  CDSConfiguracao.Data := TDDReaderODBC( SQL);
+    SQL := GetSQLConfigFinanceiro;    
+  
+  CDSConfiguracao.Data := TDDReaderODBC(SQL);      
 end;
 
 procedure SetModulo(Value: String);
@@ -42,66 +42,72 @@ procedure CarregarCasosTeste;
 begin
   ValidarModulo;
   ValidarArea;
+  {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug(IntToStr(FModulo) + ' | ' + IntToStr(FArea));
   CarregarCasosTestes(FModulo, FArea);
 end;
 
 procedure CarregarCasosTestes(Modulo, Area: Integer);
-var
+var 
   iMod, iArea: Integer;
   SL: TStringList;
   CDS: TClientDataSet;
 begin
+  {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug(IntToStr(Modulo) + ' | ' + IntToStr(Area));
   CallBack_AbreTela(ClassOwner);
   try
-    CallBack_Mensagem(ClassOwner, 'Carregando InformaÃ§Ãµes de Casos de Testes...');
-
+    CallBack_Mensagem(ClassOwner, 'Carregando Informações de Casos de Testes...');
+    
     if (Trim(Modulo) = '') then
-      raise Exception.Create(MensagemPersonalizada + 'Modulo nÃ£o Informado.');
-
+      raise Exception.Create(MensagemPersonalizada + 'Modulo não Informado.');
+    
     iMod := GetModulo(Modulo);
-
 
     iArea := Area;
     if iArea > 0 then
       iArea := GetArea(Area);
 
-    CDS := TClientDataSet.Create;
-    SL  := TStringList.Create;
+    {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug(IntToStr(iMod) + ' | ' + IntToStr(iArea));
+
+    CDS := TClientDataSet.Create;  
+    SL  := TStringList.Create; 
     try
       SL.Clear;
       SL.Text := SQLCasosTestes;
       SL.Add('where ATIVO_CT = ' + QuotedStr('S'));
       SL.Add('  and MODULO_CT = ' + IntToStr(iMod));
-
+      
       if iArea > 0 then
         SL.Add('  and AREA_CT = ' + IntToStr(iArea));
 
-      CDS.Data := ExecuteReaderODBCServ(cDataBase,SL.Text);
-
+      {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug(SL.Text);
+      CDS.Data := TDDReaderODBC(SL.Text);
+      {P39_TDD_LOGS.}MostrarCDSEmModoDebugT(CDS, 'CDS - CarregarCasosTeste');
+      
       if CDS.IsEmpty then
         raise Exception.Create(MensagemPersonalizada + 'Falha ao carregar Casos de Testes.');
-
+        
       PreencheInformacoesDataSets(CDS, iMod, iArea);
+      {P39_TDD_LOGS.}MostrarCDSEmModoDebugT(CDS, 'CDS - CarregarCasosTeste pos PreencheInformacoesDataSets');
     finally
       SL.Free;
       CDS.Free;
-    end;
+    end;   
   finally
     CallBack_FechaTela(ClassOwner);
   end;
-
+   
 end;
 
 procedure PreencheInformacoesDataSets(CDSTemp: TClientDataSet; Modulo, Area: Integer);
 begin
   CallBack_Mensagem(ClassOwner, 'Preenchendo DataSets de Casos de Testes...');
-
   CDSTemp.DisableControls;
   CDSTemp.LogChanges := False;
-
+  
   CDSTemp.First;
   while not CDSTemp.Eof do
   begin
+    {P39_TDD_LOGS.}MostrarCDSEmModoDebugT(CDSTemp, 'CDSTemp - PreencheInformacoesDataSets');
     if not CDSCasosTestes.FindKey([CDSTemp.FieldByName('AUTOINC_CT').AsInteger]) then
     begin
       CDSCasosTestes.Insert;
@@ -113,8 +119,8 @@ begin
       CDSCasosTestes.FieldByName('EXECUTADO').AsString := 'N';
       CDSCasosTestes.FieldByName('COMPARADO').AsString := 'N';
       CDSCasosTestes.Post;
-    end;
-
+    end;  
+    {P39_TDD_LOGS.}MostrarCDSEmModoDebugT(CDSCasosTestes, 'CDSCasosTestes - PreencheInformacoesDataSets');
     if not CDSResultadoEsperado.FindKey([CDSTemp.FieldByName('AUTOINC_CT').AsInteger]) then
     begin
       CDSResultadoEsperado.Insert;
@@ -123,10 +129,9 @@ begin
       CDSResultadoEsperado.Post;
     end;
     // Fazer para os Demais DataSets
-
+  
     CDSTemp.Next;
   end;
-
 end;
 
 procedure ConfigurarDataSets;
@@ -139,17 +144,17 @@ begin
   CDSCasosTestes.FieldDefs.Add('CASOTESTE', ftBlob, 0, False);
   CDSCasosTestes.FieldDefs.Add('EXECUTADO', ftString, 1, False);
   CDSCasosTestes.FieldDefs.Add('COMPARADO', ftString, 1, False);
-
+  
   CDSCasosTestes.CreateDataSet;
   CDSCasosTestes.LogChanges := False;
   CDSCasosTestes.IndexFieldNames := 'ID';
-
+  
   CDSResultadoEsperado.FieldDefs.Clear;
   CDSResultadoEsperado.FieldDefs.Add('ID', ftInteger, 0, False); //CODIGO DO CASO DE TESTE
   CDSResultadoEsperado.FieldDefs.Add('RESULTADO_ESPERADO', ftBlob, 0, False); // JSON REsultado Esperado.
   CDSResultadoEsperado.CreateDataSet;
   CDSResultadoEsperado.LogChanges := False;
-  CDSResultadoEsperado.IndexFieldNames := 'ID';
+  CDSResultadoEsperado.IndexFieldNames := 'ID';  
 
   // Fazer com os Demais DataSets
 end;
@@ -157,7 +162,7 @@ end;
 function GetConfiguracao: OleVariant;
 begin
   Result := null;
-
+  
   if Assigned(CDSConfiguracao) then
     Result := CDSConfiguracao.Data;
 end;
@@ -166,7 +171,7 @@ function GetCasosTeste: OleVariant;
 begin
   Result := null;
 
-  if not Assigned(CDSCasosTestes) or
+  if not Assigned(CDSCasosTestes) or 
      not CDSCasosTestes.Active or
      CDSCasosTestes.IsEmpty then
     Exit;
