@@ -1,10 +1,10 @@
-unit ProcessamentoEspecifico;
+unit P39_PROCESSAMENTO_TDD_FINANCEIRO;
 
-uses TDD_RUNNER;
+uses P39_TDD_RUNNER;
 
 procedure Main();
 begin
-  {TDD_LOGS.}FModoDebug := False;
+  {P39_TDD_LOGS.}FModoDebug := False;
   TesteRunner;
 end;
 

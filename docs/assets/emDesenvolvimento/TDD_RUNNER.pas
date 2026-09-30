@@ -76,13 +76,14 @@ begin
   FEtapaAtual := 0;
 
   FCDSMetricasTickDiff := TClientDataSet.Create;
-  FCDSMetricasTickDiff.FieldDefs.Add('NOME_METODO', ftString, 120, False);
   FCDSMetricasTickDiff.FieldDefs.Add('ETAPA_CASO_TESTE', ftInteger, 0, False);
+  FCDSMetricasTickDiff.FieldDefs.Add('NOME_METODO', ftString, 120, False);
   FCDSMetricasTickDiff.FieldDefs.Add('TEMPO_INICIO', ftInteger, 0, False);
   FCDSMetricasTickDiff.FieldDefs.Add('TEMPO_FIM', ftInteger, 0, False);
   FCDSMetricasTickDiff.FieldDefs.Add('TEMPO_TOTAL', ftInteger, 0, False);
   FCDSMetricasTickDiff.FieldDefs.Add('TEMPO_TOTAL_FORMATADO', ftString, 20, False);
   FCDSMetricasTickDiff.CreateDataSet;
+  FCDSMetricasTickDiff.DisableControls;
   FCDSMetricasTickDiff.LogChanges      := False;
   FCDSMetricasTickDiff.IndexFieldNames := 'NOME_METODO';
 end;
@@ -125,6 +126,11 @@ begin
   // O registro de início e fim, não aplica formatação para permitir o uso de TickDiff.
   lTempoTick := GetTickCount;
 
+  pNomeMetodo := UpperCase(pNomeMetodo);
+
+  // Usa FindKey ao invés de Filter para ganho em desempenho.
+  lVerificaFindKey := FCDSMetricasTickDiff.FindKey([pNomeMetodo]);
+
   // Camada de decisão entre registrar início ou fim, "0" = Início, "1" = Fim.
   case pPontoTick of
     0:
@@ -148,19 +154,13 @@ begin
       end;
     1:
       begin
-        // Usa FindKey ao invés de Filter para ganho em desempenho.
-        lVerificaFindKey := FCDSMetricasTickDiff.FindKey([pNomeMetodo]);
-
-        {P39_TDD_LOGS.}MostrarCDSEmModoDebugT(FCDSMetricasTickDiff, 'CDS - Métricas Tick Diff');
-        {P39_TDD_LOGS.}MostrarLogTextoEmModoDebugT(lVerificaFindKey, 'Valor de "lVerificaFindKey" para o método: ' + pNomeMetodo);
-
         // Só tenta finalizar se encontrou algo ou tem certeza que existe.
         if lVerificaFindKey then
         begin
           lPontoTick := 'Fim';
 
           // Procura pelo Nome do Método, mas APENAS os que o TEMPO_FIM ainda é 0 (Em aberto).
-          if FCDSMetricasTickDiff.Locate('NOME_METODO;TEMPO_FIM', VarArrayOf([pNomeMetodo, 0]), []) then
+          if FCDSMetricasTickDiff.Locate('NOME_METODO;TEMPO_FIM', VarArrayOf([pNomeMetodo, 0]), 0) then
           begin
             // REMOVIDO: FCDSMetricasTickDiff.First; -> Isso estragava o Locate!
             FCDSMetricasTickDiff.Edit;
@@ -179,10 +179,11 @@ begin
           raise Exception.Create('Método não encontrado para finalizar: ' + pNomeMetodo);
       end; // <-- Fim do bloco 1:
   else
-    raise Exception.Create('Não é possível registrar métrica Tick para: ' + IntToStr(pPontoTick));
+    raise Exception.Create('Não é possível registrar métrica Tick para ponto: ' + IntToStr(pPontoTick));
   end; // <-- Fim do Case
 
-  {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug('Tick Registrado. Ponto: "' + IntToStr(pPontoTick) + '" = ' + lPontoTick + ' | Método: ' + pNomeMetodo);  
+  {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug('Tick Registrado. Ponto: "' + IntToStr(pPontoTick) + '" = ' + lPontoTick + ' | Método: ' + pNomeMetodo);
+  {P39_TDD_LOGS.}MostrarCDSEmModoDebugT(FCDSMetricasTickDiff, 'CDS - Métricas Tick Diff');
 end;
 {$endregion}
 
@@ -201,15 +202,16 @@ end;
 procedure Run(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste :string);
 begin
   try
-    // Inicializa para registrar todas as métricas até o FINISHED.
-    InicializarMetricasTickDiff;
-
-    // Ponto de entrada deve sempre ser o run, assim o cronometro é capaz rastrear o tempo total corretamente.
-    RegistrarTick(0, 'TOTAL');
-
-    CallBack_AbreTela('Run');
-    CallBack_AbreTela(ClassOwner);
     try
+      // Inicializa para registrar todas as métricas até o ASSERTS.
+      InicializarMetricasTickDiff;
+
+      // Ponto de entrada deve sempre ser o run, assim o cronometro é capaz rastrear o tempo total corretamente.
+      RegistrarTick(0, 'TOTAL');
+
+      CallBack_AbreTela('Run');
+      CallBack_AbreTela(ClassOwner);
+
       try
         SetarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste);
 
@@ -220,12 +222,14 @@ begin
         LogDoProcessamentoAdd('ENCERROU STARTED');
         RegistrarTick(1, FNomeMetodoAtual);
 
+        {P39_TDD_LOGS.}FModoDebug := True;
         FNomeMetodoAtual := 'IRUNNER';
         RegistrarTick(0, FNomeMetodoAtual);
         LogDoProcessamentoAdd('INICIOU IRUNNER');
         {TDD_IRUNNER.}Executar;
         LogDoProcessamentoAdd('ENCERROU IRUNNER');
         RegistrarTick(1, FNomeMetodoAtual);
+        {P39_TDD_LOGS.}FModoDebug := False;
 
         FNomeMetodoAtual := 'ASSERTS';
         RegistrarTick(0, FNomeMetodoAtual);
@@ -234,14 +238,6 @@ begin
         LogDoProcessamentoAdd('ENCERROU ASSERTS');
         RegistrarTick(1, FNomeMetodoAtual);
 
-        FNomeMetodoAtual := 'FINISHED';
-        RegistrarTick(0, FNomeMetodoAtual);
-        LogDoProcessamentoAdd('INICIOU FINISHED');
-        {TDD_FINISHED.}RegistrarMetricas;
-        LogDoProcessamentoAdd('ENCERROU FINISHED');
-        RegistrarTick(1, FNomeMetodoAtual);
-
-        // Marca que o teste foi finalizado com sucesso.
         FHistoricoExecucao.StatusExecucao := 'SUCESSO';
       except
         on Ex: Exception do
@@ -249,7 +245,7 @@ begin
           FHistoricoExecucao.MensagemErro := Ex.Message;
           FHistoricoExecucao.EtapaFalha   := FEtapaAtual;
 
-          if FHistoricoExecucao.StatusExecucao <> 'INCOMPATIVEL_VERSAO' then
+          if FHistoricoExecucao.StatusExecucao <> 'VERSAO_INCOMPATIVEL' then
             FHistoricoExecucao.StatusExecucao := 'FALHA';
 
           raise exception.Create(MensagemPersonalizada + Ex.Message);
