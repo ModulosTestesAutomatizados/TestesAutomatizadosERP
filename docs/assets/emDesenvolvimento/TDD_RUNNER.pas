@@ -1,4 +1,4 @@
-uses TDD_IRUNNER, P39_TDD_ODBC, P39_TDD_LOGS, TDD_STARTED, TDD_FINISHED;
+uses P39_TDD_ODBC, TDD_IRUNNER, TDD_LOGS, TDD_STARTED, TDD_FINISHED;
 
 type
   THistoricoExecucao = record
@@ -68,6 +68,7 @@ procedure LiberarMetricasTickDiff;
 begin
   if Assigned(FCDSMetricasTickDiff) then
     FCDSMetricasTickDiff.Free;
+  {P39_TDD_LOGS}LogDoProcessamentoAddEmModoDebug('Memória liberada para o CDS de Métricas Tick.');
 end;
 
 procedure InicializarMetricasTickDiff;
@@ -86,6 +87,7 @@ begin
   FCDSMetricasTickDiff.DisableControls;
   FCDSMetricasTickDiff.LogChanges      := False;
   FCDSMetricasTickDiff.IndexFieldNames := 'NOME_METODO';
+  {P39_TDD_LOGS}LogDoProcessamentoAddEmModoDebug('Criado o DataSet para o CDS de Métricas Tick.');
 end;
 {$endregion}
 
@@ -151,6 +153,7 @@ begin
         FCDSMetricasTickDiff.FieldByName('TEMPO_INICIO').AsInteger     := lTempoTick;
         FCDSMetricasTickDiff.FieldByName('TEMPO_FIM').AsInteger        := 0; // Registra como zero para identificar que ainda precisa desse registro no Fim da execução.
         FCDSMetricasTickDiff.Post;
+        {P39_TDD_LOGS}LogDoProcessamentoAddEmModoDebug('INICIOU ' + pNomeMetodo);
       end;
     1:
       begin
@@ -171,6 +174,7 @@ begin
             FCDSMetricasTickDiff.FieldByName('TEMPO_TOTAL').AsInteger          := lTempoTotal;
             FCDSMetricasTickDiff.FieldByName('TEMPO_TOTAL_FORMATADO').AsString := FormatarTickDiff(lTempoTotal);
             FCDSMetricasTickDiff.Post;
+           {P39_TDD_LOGS}LogDoProcessamentoAddEmModoDebug('ENCERROU ' + pNomeMetodo);
           end
           else
             raise Exception.Create('Não foi encontrado o registro de INÍCIO aberto para: ' + pNomeMetodo);
@@ -197,77 +201,3 @@ begin
   FContextoCasoTeste.DescricaoArea      := pDescricaoArea;
   FContextoCasoTeste.DescricaoCasoTeste := pDescricaoCasoTeste;
 end;
-
-{$region Execução}
-procedure Run(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste :string);
-begin
-  try
-    try
-      // Inicializa para registrar todas as métricas até o ASSERTS.
-      InicializarMetricasTickDiff;
-
-      // Ponto de entrada deve sempre ser o run, assim o cronometro é capaz rastrear o tempo total corretamente.
-      RegistrarTick(0, 'TOTAL');
-
-      CallBack_AbreTela('Run');
-      CallBack_AbreTela(ClassOwner);
-
-      try
-        SetarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste);
-
-        FNomeMetodoAtual := 'STARTED';
-        RegistrarTick(0, FNomeMetodoAtual);
-        LogDoProcessamentoAdd('INICIOU STARTED');
-        {TDD_STARTED.}Started;
-        LogDoProcessamentoAdd('ENCERROU STARTED');
-        RegistrarTick(1, FNomeMetodoAtual);
-
-        {P39_TDD_LOGS.}FModoDebug := True;
-        FNomeMetodoAtual := 'IRUNNER';
-        RegistrarTick(0, FNomeMetodoAtual);
-        LogDoProcessamentoAdd('INICIOU IRUNNER');
-        {TDD_IRUNNER.}Executar;
-        LogDoProcessamentoAdd('ENCERROU IRUNNER');
-        RegistrarTick(1, FNomeMetodoAtual);
-        {P39_TDD_LOGS.}FModoDebug := False;
-
-        FNomeMetodoAtual := 'ASSERTS';
-        RegistrarTick(0, FNomeMetodoAtual);
-        LogDoProcessamentoAdd('INICIOU ASSERTS');
-        //{TDD_ASSERTS.} //ASSERTS;
-        LogDoProcessamentoAdd('ENCERROU ASSERTS');
-        RegistrarTick(1, FNomeMetodoAtual);
-
-        FHistoricoExecucao.StatusExecucao := 'SUCESSO';
-      except
-        on Ex: Exception do
-        begin
-          FHistoricoExecucao.MensagemErro := Ex.Message;
-          FHistoricoExecucao.EtapaFalha   := FEtapaAtual;
-
-          if FHistoricoExecucao.StatusExecucao <> 'VERSAO_INCOMPATIVEL' then
-            FHistoricoExecucao.StatusExecucao := 'FALHA';
-
-          raise exception.Create(MensagemPersonalizada + Ex.Message);
-        end;
-      end;
-    finally
-      // Encerra o cronometro de tempo total.
-      RegistrarTick(1, 'TOTAL');
-      FHistoricoExecucao.LogsFalhas := LogDoProcessamento;
-      try
-        {P39_TDD_FINISHED.}RegistrarMetricas;
-      except
-        on Ex: Exception do
-          raise Exception.Create('Falha ao persistir metricas: ' + Ex.Message);
-      end;
-      CallBack_FechaTela(ClassOwner);
-      CallBack_FechaTela('Run');
-      LiberarMetricasTickDiff;
-    end;
-  except
-    on ex: Exception do
-      raise Exception.Create(MensagemPersonalizada + #13 + ex.Message);
-  end;
-end;
-{$endregion}
