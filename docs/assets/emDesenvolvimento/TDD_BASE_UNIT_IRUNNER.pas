@@ -1,6 +1,5 @@
 
 
-// Em toda a unit, sem espaços após as vírgulas propositalmente!
 uses TDD_RUNNER,__USES_UNITS__;
 
 procedure Main;
@@ -27,17 +26,23 @@ begin
 
         {P39_TDD_RUNNER.}FNomeMetodoAtual := 'STARTED';
         {P39_TDD_RUNNER.}RegistrarTick(0,FNomeMetodoAtual);
+        LogDoProcessamentoAdd('INICIOU STARTED');
         {P39_TDD_STARTED.}Started;
+        LogDoProcessamentoAdd('ENCERROU STARTED');
         {P39_TDD_RUNNER.}RegistrarTick(1,FNomeMetodoAtual);
 
         FNomeMetodoAtual := 'IRUNNER';
         RegistrarTick(0,FNomeMetodoAtual);
+        LogDoProcessamentoAdd('INICIOU IRUNNER');
 __CHAMADAS_METODOS__ // Identação incorreta propositalmente!
+        LogDoProcessamentoAdd('ENCERROU IRUNNER');
         RegistrarTick(1,FNomeMetodoAtual);
 
         FNomeMetodoAtual := 'ASSERTS';
         RegistrarTick(0,FNomeMetodoAtual);
+        LogDoProcessamentoAdd('INICIOU ASSERTS');
         //{P39_TDD_ASSERTS.} //PENDENTE O USE CASE DE ASSERTS;
+        LogDoProcessamentoAdd('ENCERROU ASSERTS');
         RegistrarTick(1,FNomeMetodoAtual);
 
         {P39_TDD_RUNNER.}FHistoricoExecucao.StatusExecucao := 'SUCESSO';

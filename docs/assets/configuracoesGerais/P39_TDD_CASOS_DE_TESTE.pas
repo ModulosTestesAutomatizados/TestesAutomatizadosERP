@@ -1,4 +1,4 @@
-uses P39_TDD_CONSTANTES, P39_TDD_PARAMETRO, P39_TDD_CACHE;
+﻿uses P39_TDD_CONSTANTES, P39_TDD_PARAMETRO, P39_TDD_CACHE;
 
 var 
   CDSCasosTestes: TClientDataSet;
@@ -100,7 +100,7 @@ end;
 
 procedure PreencheInformacoesDataSets(CDSTemp: TClientDataSet; Modulo, Area: Integer);
 begin
-  {P39_TDD_LOGS.}MostrarCDSEmModoDebugT(CDSTemp, 'CDSTemp - PreencheInformacoesDataSets');
+  //{P39_TDD_LOGS.}MostrarCDSEmModoDebugT(CDSTemp, 'CDSTemp - PreencheInformacoesDataSets');
   CallBack_Mensagem(ClassOwner, 'Preenchendo DataSets de Casos de Testes...');
   CDSTemp.DisableControls;
   CDSTemp.LogChanges := False;
@@ -193,10 +193,18 @@ begin
 end;
 
 procedure TearDown_Finalizar_CasosTeste;
+var lErros: String;
 begin
-  CDSCasosTestes.Free;
-  CDSResultadoEsperado.Free;
-  CDSCamposDisponiveis.Free;
-  CDSConfiguracao.Free;
+  lErros := '';
+  try CDSCasosTestes.Free;
+  except on Ex: Exception do lErros := lErros + 'CDSCasosTestes: ' + Ex.Message + #13; end;
+  try CDSResultadoEsperado.Free;
+  except on Ex: Exception do lErros := lErros + 'CDSResultadoEsperado: ' + Ex.Message + #13; end;
+  try CDSCamposDisponiveis.Free;
+  except on Ex: Exception do lErros := lErros + 'CDSCamposDisponiveis: ' + Ex.Message + #13; end;
+  try CDSConfiguracao.Free;
+  except on Ex: Exception do lErros := lErros + 'CDSConfiguracao: ' + Ex.Message + #13; end;
   FEstruturaCasoTesteIniciada := False;
+  if lErros <> '' then
+    raise Exception.Create(lErros);
 end;
