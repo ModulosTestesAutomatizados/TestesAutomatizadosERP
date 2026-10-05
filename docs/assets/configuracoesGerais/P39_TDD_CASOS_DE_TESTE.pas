@@ -11,8 +11,10 @@ var
   FEstruturaCasoTesteIniciada: Boolean;
 
 procedure Main;
+var lInstrucoes :string;
 begin
-  // Add instruções;
+  lInstrucoes := '';
+  {P39_TDD_CONSTANTES -> P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_CASOS_DE_TESTE', lInstrucoes);
 end;
 
 procedure CarregarConfiguracoes;
@@ -100,7 +102,6 @@ end;
 
 procedure PreencheInformacoesDataSets(CDSTemp: TClientDataSet; Modulo, Area: Integer);
 begin
-  //{P39_TDD_LOGS.}MostrarCDSEmModoDebugT(CDSTemp, 'CDSTemp - PreencheInformacoesDataSets');
   CallBack_Mensagem(ClassOwner, 'Preenchendo DataSets de Casos de Testes...');
   CDSTemp.DisableControls;
   CDSTemp.LogChanges := False;

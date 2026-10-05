@@ -18,6 +18,8 @@ begin
     '  - Outra variant, porém destinada à exibição de um CDS.'                                                                                                                                              + #13 +
     'procedure MostrarCDSEmModoDebugT(pCDSDebug: TClientDataSet, pTitulo :string)'                                                                                                                          + #13 +
     '  - Variante da exibição de CDS com titulo personalizado.'                                                                                                                                             + #13 +
+    'procedure LogDoProcessamentoAddEmModoDebug(pLog :string)'                                                                                                                                              + #13 +
+    '  - Ao executar um fluxo na thread do método "interpreta", LogTexto não é exibido, então é melhor registrar os logs do processamento.'                                                                 + #13 +
     '=====================================================================================================================================================================================================' + #13 +
     'O comportamento descrito de todas as units depende de FModoDebug ser "True"!'                                                                                                                          + #13 +
     'As variantes "T" fazem uma validação se o parâmetro título não é vazio e todas as units adotam "[DEBUG]" como título padrão quando aplicável!'                                                         + #13 +
@@ -52,6 +54,13 @@ begin
   if FModoDebug then MostrarCDS(pCDSDebug, True, iif(Trim(pTitulo) <> '', pTitulo, '[DEBUG]'));
 end;
 
+procedure LogDoProcessamentoAddEmModoDebug(pLog :string);
+begin
+  if FModoDebug then LogDoProcessamentoAdd(pLog);
+end;
+{$endregion}
+
+{$region Mostrar Instruções}
 procedure MostrarInstrucoesUnit(pNomeUnitInstrucao, pInstrucoes :string);
 begin
   if Trim(pNomeUnitInstrucao) = '' then raise Exception.Create('Nome da unit não informado para exibir as instruções.');

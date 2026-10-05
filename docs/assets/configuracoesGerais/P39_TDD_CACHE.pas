@@ -1,9 +1,16 @@
-// Herdado: P39_TDD_ODBC -> P39_TDD_CONSTANTES;
+// Herdado: P39_TDD_ODBC -> P39_TDD_CONSTANTES -> P39_TDD_LOGS;
 uses P39_TDD_ODBC;
 
 var
   CDSModulos, CDSAreas: TClientDataSet;
-  FCacheCarregado: Boolean; 
+  FCacheCarregado: Boolean;
+
+procedure Main;
+var lInstrucoes :string;
+begin
+  lInstrucoes := '';
+  {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_CACHE', lInstrucoes);
+end;
 
 procedure Cache_Setup_CarregarInformacoes;
 begin

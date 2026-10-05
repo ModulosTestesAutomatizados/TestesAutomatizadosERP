@@ -9,6 +9,13 @@ const
 var 
  CDSParametro: TClientDataSet;
 
+procedure Main;
+var lInstrucoes :string;
+begin
+  lInstrucoes := '';
+  {P39_TDD_PARAMETRO_MAPEAMENTO -> P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_PARAMETRO', lInstrucoes);
+end;
+
 function GetSQLParametro:String;
 var LS: TStringList;
 begin

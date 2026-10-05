@@ -1,4 +1,6 @@
-﻿type
+﻿uses P39_TDD_LOGS;
+
+type
   TVersao = record
     Versao: Currency;
     Codigo: Integer;
@@ -14,6 +16,13 @@ const
 var
   CDSModulos, CDSAreas: TClientDataSet;
   FCacheCarregado: Boolean; 
+
+procedure Main;
+var lInstrucoes :string;
+begin
+  lInstrucoes := '';
+  {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_CONSTANTES', lInstrucoes);
+end;
 
 function GetVersao:TVersao;
 var 

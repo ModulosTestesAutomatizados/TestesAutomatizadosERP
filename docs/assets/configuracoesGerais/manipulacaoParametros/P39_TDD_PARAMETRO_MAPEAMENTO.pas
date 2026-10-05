@@ -1,4 +1,6 @@
-﻿type
+﻿uses P39_TDD_LOGS;
+
+type
   TMapeamentoParametro = record
     CampoJSON: String;
     CampoDB: String;
@@ -18,10 +20,10 @@ var
  FMapeamentoParam: array [0..8] of TMapeamentoParametro; 
 
 procedure Main;
+var lInstrucoes :string;
 begin
-  MapearParametros;
-  ShowMessage(GetCampoDBParametro('OrdemImpressaoItemNF'));
-  
+  lInstrucoes := '';
+  {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_PARAMETRO_MAPEAMENTO', lInstrucoes);
 end;
 
 function GetTabela(pCampo: String): String;

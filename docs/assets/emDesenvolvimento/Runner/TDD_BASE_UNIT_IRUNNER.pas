@@ -26,23 +26,17 @@ begin
 
         {P39_TDD_RUNNER.}FNomeMetodoAtual := 'STARTED';
         {P39_TDD_RUNNER.}RegistrarTick(0,FNomeMetodoAtual);
-        LogDoProcessamentoAdd('INICIOU STARTED');
         {P39_TDD_STARTED.}Started;
-        LogDoProcessamentoAdd('ENCERROU STARTED');
         {P39_TDD_RUNNER.}RegistrarTick(1,FNomeMetodoAtual);
 
         FNomeMetodoAtual := 'IRUNNER';
         RegistrarTick(0,FNomeMetodoAtual);
-        LogDoProcessamentoAdd('INICIOU IRUNNER');
 __CHAMADAS_METODOS__ // Identação incorreta propositalmente!
-        LogDoProcessamentoAdd('ENCERROU IRUNNER');
         RegistrarTick(1,FNomeMetodoAtual);
 
         FNomeMetodoAtual := 'ASSERTS';
         RegistrarTick(0,FNomeMetodoAtual);
-        LogDoProcessamentoAdd('INICIOU ASSERTS');
         //{P39_TDD_ASSERTS.} //PENDENTE O USE CASE DE ASSERTS;
-        LogDoProcessamentoAdd('ENCERROU ASSERTS');
         RegistrarTick(1,FNomeMetodoAtual);
 
         {P39_TDD_RUNNER.}FHistoricoExecucao.StatusExecucao := 'SUCESSO';
@@ -59,10 +53,9 @@ __CHAMADAS_METODOS__ // Identação incorreta propositalmente!
         end;
       end;
     finally
-      // Encerra o cronometro de tempo total.
-      RegistrarTick(1,'TOTAL');
-      FHistoricoExecucao.LogsFalhas := LogDoProcessamento;
       try
+        RegistrarTick(1,'TOTAL');
+        FHistoricoExecucao.LogsFalhas := LogDoProcessamento;
         {P39_TDD_FINISHED.}RegistrarMetricas;
       except
         on Ex: Exception do
