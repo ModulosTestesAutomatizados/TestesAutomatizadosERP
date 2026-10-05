@@ -103,6 +103,7 @@ begin
     LS.Add('SELECT');
     LS.Add('    AUTOINC_CT,');
     LS.Add('    DESCRICAO_CASO_TESTE_CT,');
+    LS.Add('    REQUISITO_VERSAO_CT,');
     LS.Add('    CASO_TESTE_CT,');
     LS.Add('    CAMPOS_DISPONIVEIS_CT,');
     LS.Add('    RESULTADO_ESPERADO_CT');

@@ -3,27 +3,33 @@
 const
   cArea = 'PEDIDO DE VENDA';
 
+procedure main;
+begin
+  Setup;
+  Teste;  
+end;
+
 Procedure Setup;
 begin
-  CallBack_AbreTela(ClassOwner);
+  //CallBack_AbreTela(ClassOwner);
   try
-    CallBack_Mensagem(ClassOwner, '[SETUP] Inicializando....');
+  //  CallBack_Mensagem(ClassOwner, '[SETUP] Inicializando....');
     FCadastro := 'FCadPedidoVenda';
     FDM       := 'DMCadPedidoVenda';
     SetArea(cArea);
     Setup_Inicializar;
   Finally
-    CallBack_FechaTela(ClassOwner);  
+  //  CallBack_FechaTela(ClassOwner);  
   end;  
 end;
 
 procedure Teste;
 begin
-  CallBack_AbreTela(ClassOwner);
+//  CallBack_AbreTela(ClassOwner);
   try
-    CallBack_Mensagem(ClassOwner, 'Executando Teste.....');
+ //   CallBack_Mensagem(ClassOwner, 'Executando Teste.....');
     Teste_Executar;       
   finally
-    CallBack_FechaTela(ClassOwner);
+ //   CallBack_FechaTela(ClassOwner);
   end;
 end;

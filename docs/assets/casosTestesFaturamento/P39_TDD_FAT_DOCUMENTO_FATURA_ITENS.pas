@@ -1,9 +1,4 @@
-﻿uses P39_TDD_FAT_DOCUMENTO_FATURA, P39_TDD_DOCUMENTO_FATURA_SQL;
-
-procedure Main;
-begin
-
-end;
+﻿uses P39_TDD_FAT_DOCUMENTO_FATURA_DADOS_PRINCIPAIS;
 
 procedure _CriarEstruturaItens(pCDS: TClientDataSet);
 begin
@@ -41,9 +36,9 @@ var
   lJSONItem: TJSONObject;
   CDS: TClientDataSet;
 begin
-  iTagProd := StrToInt(GetValueJsonDef(FJSONITEMCONF, 'tag_prodcomum', '0'));  
+  iTagProd := ValorInteiroTagItemConfig('tag_prodcomum');  
 
-  lArrayItens := TJSONArray(TryParseJSONValue(GetArrayJsonOrEmpty(FJSONITEMCONF, 'itens')));
+  lArrayItens := TJSONArray(TryParseJSONValue({P39_TDD_FAT_DOCUMENTO_FATURA_JSON}GetArrayItens));
   
   try
     if (lArrayItens.Count > 0) then // Possui Itens EspecÃ­ficos
@@ -69,7 +64,7 @@ begin
           lValor := StrToCurr(Troca(GetValueJsonDef(lJSONItem ,'valor', '0'), '.', ','));  
           
           if (lValor = 0) then
-            lValor := StrToCurr(Troca(GetValueJsonDef(FJSONITEMCONF ,'valor', '0'), '.', ','));
+            lValor := ValorCurrencyTagItemConfig('valor');
           
           if lValor = 0 then
             lValor := _GetVlrItem; // Atribui Randomicamente      
@@ -79,7 +74,7 @@ begin
           lQuantidade := StrToCurr(Troca(GetValueJsonDef(lJSONItem ,'quantidade', '0'), '.', ','));
           
           if lQuantidade = 0 then
-            lQuantidade := StrToCurr(Troca(GetValueJsonDef(FJSONITEMCONF ,'quantidade', '0'), '.', ','));
+            lQuantidade := ValorCurrencyTagItemConfig('quantidade');
             
           if lQuantidade = 0 then
             lQuantidade := _GetQuantidadeItem; // Pega quantidade Randomicamente  
@@ -126,9 +121,9 @@ begin
   try
     _CriarEstruturaItens(CDS);
     
-    lQuantidade := StrToCurr(Troca(GetValueJsonDef(FJSONITEMCONF ,'quantidade', '0'), '.', ','));
-    lValor      := StrToCurr(Troca(GetValueJsonDef(FJSONITEMCONF ,'valor', '0'), '.', ','));
-    lDesconto   := GetValueJsonDef(FJSONITEMCONF ,'desconto', '0');
+    lQuantidade := ValorCurrencyTagItemConfig('quantidade');
+    lValor      := ValorCurrencyTagItemConfig('valor');
+    lDesconto   := ValorStringTagItemConfig('desconto');
   
     if lQuantidade = 0 then
       lQuantidade := _GetQuantidadeItem;
@@ -213,7 +208,7 @@ begin
       on Ex: Exception do
       begin
         CDSItem.Cancel;
-        AssertsFalhou('Erro ao Incluir Item: ' + IntToStr(lItem), Ex.Message);
+        {TDD_ASSERTS}AssertsFalhou('Erro ao Incluir Item: ' + IntToStr(lItem), Ex.Message);
       end;
     end;
     

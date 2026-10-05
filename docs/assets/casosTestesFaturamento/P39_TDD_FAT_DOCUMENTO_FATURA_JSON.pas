@@ -13,13 +13,14 @@ var
 
 procedure SetJSON_Caso_Teste(pJSONDoc, pJSONItem, pItens: String);
 begin
-    if FJSONCarregado then
-        Exit;
-
-    FJSON.Doc := pJSONDoc;
-    FJSON.Item := pJSONItem;    
-    FJSON.Itens := pItens;
-    FJSONCarregado := True;
+  if FJSONCarregado then
+    Exit;
+    
+  FJSON.Doc := pJSONDoc;
+  FJSON.Item := pJSONItem;    
+  FJSON.Itens := pItens;
+  FJSONCarregado := True;
+  ValidarCasoTeste;
 end;
 
 procedure LimparRegistrosCasoTeste;
@@ -36,6 +37,8 @@ begin
         raise Exception.Create(MensagemPersonalizada + 'Carregue o JSON chamando o Metodo"SetJSON_Caso_Teste(pJSONDoc, pJSONItem, pItens: String);"' + #13 + 
                                'de caso de teste para Continuar.');   
 end;
+
+{$Region 'DOCUMENTO'}
 
 function ValorLogicoTagDoc(pTagName: String): Boolean;
 begin
@@ -57,11 +60,6 @@ begin
   Result := ValorCurrencyTag(FJSON.Doc, pTagName, 0);         
 end;
 
-function TagItemConfigExiste(pTagName: String):Boolean;
-begin
-  Result := TagExiste(FJSON.Item, pTagName);
-end;
-
 function TagDocumentoExiste(pTagName: string): Boolean;
 begin
   Result := TagExiste(FJSON.Doc, pTagName);
@@ -70,6 +68,48 @@ end;
 function ValorStringTagDoc(pTagName: String): String;
 begin
   Result := ValorStringTag(FJSON.Doc, pTagName);
+end;
+
+{$endRegion}
+
+{$Region 'ItemConfig'}
+
+function TagItemConfigExiste(pTagName: string): Boolean;
+begin
+  Result := TagExiste(FJSON.Item, pTagName);
+end;
+
+function ValorLogicoTagItemConfig(pTagName: String): Boolean;
+begin
+  Result := ValorLogicoTag(FJSON.Item, pTagName, False); 
+end;
+
+function ValorInteiroTagItemConfig(pTagName: String): Integer;
+begin
+  Result := ValorInteiroTag(FJSON.Item, pTagName, 0);   
+end;
+
+function ValorDataTagItemConfig(pTagName: String): TDateTime;
+begin
+  Result := ValorDataTag(FJSON.Item, pTagName);   
+end;
+
+function ValorCurrencyTagItemConfig(pTagName: String):Currency;
+begin
+  Result := ValorCurrencyTag(FJSON.Item, pTagName, 0);         
+end;
+
+function ValorStringTagItemConfig(pTagName: String): String;
+begin
+  Result := ValorStringTag(FJSON.Item, pTagName);
+end;
+
+{$endRegion}
+
+
+function GetArrayItens:String;
+begin
+  Result := FJSON.Itens;
 end;
 
 procedure ValidarCasoTeste;

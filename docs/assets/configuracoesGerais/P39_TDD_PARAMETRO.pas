@@ -38,7 +38,7 @@ var
   CDS: TClientDataSet;
 begin
   if pJSONParametros = '' then
-    Exit;    
+    Exit;
 
   LObj := TJSONObject.ParseJSONValue(pJSONParametros);
   CDS  := TClientDataSet.Create;
@@ -47,7 +47,6 @@ begin
     for I := 0 to LObj.Count -1 do
     begin
       LPair := ExecutarMetodoDeObjeto(LObj, 'GetPair', [I]);
-      
       if Assigned(LPair) then
       begin
         LPairName := GetPairName(LPair);
@@ -55,26 +54,29 @@ begin
 
         if NecessarioModificarParam(LPairName, LPairValue) then
           if not CDS.FindKey([LPairName]) then
-            CDS.InsertRecord([LPairName, LPairValue]);       
-      end;  
-   
+            CDS.InsertRecord([LPairName, LPairValue]);
+      end;
     end;
 
     if not CDS.IsEmpty then
-        AtualizarParametros(CDS);
+      AtualizarParametros(CDS);
   finally
-      LObj.Free;
-      CDS.Free;    
+    LObj.Free;
+    CDS.Free;
   end;
 end;
 
-function NecessarioModificarParam(pCampo, pValor: String):Boolean;
+function NecessarioModificarParam(pCampo, pValor: String) :Boolean;
 begin
-    Result := False;
-    if (pCampo = '')  then
-        Exit;
-
+  Result := False;
+  if (pCampo = '')  then
+      Exit;
+  try
     Result := not (GetValueJson(SecaoParametroJson, pCampo) = pValor);
+  except
+    on e: Exception do
+      raise Exception.Create('Falha ao tentar encontrar campos nos parÃ¢metros do sistema.' + #13 + e.Message);
+  end;
 end;
 
 procedure AtualizarParametros(pCDS: TClientDataSet);
@@ -89,44 +91,42 @@ begin
     pCDS.First;
     while not pCDS.Eof do
     begin
-        LS.Clear;
-        lChave := pCDS.FieldByName('CHAVE').AsString;
-        lTabela := GetTabela(lChave);
-        lCampo := GetCampoDBParametro(lChave);
-        lValor := pCDS.FieldByName('VALOR').AsString;
-        
-        case PegarTipoCampo(lValor) of
-            cTipoString: lValueUpdated := QuotedStr(Troca(lValor, '"', ''));
-            cTipoInteiro, 
-            cTipoCurrency: lValueUpdated := lValor;
-            cTipoboolean: lValueUpdated := QuotedStr(iif(LowerCase(lValor) = 'true', 'S', 'N'));
-        end;
+      LS.Clear;
+      lChave := pCDS.FieldByName('CHAVE').AsString;
+      lTabela := GetTabela(lChave);
+      lCampo := GetCampoDBParametro(lChave);
+      lValor := pCDS.FieldByName('VALOR').AsString;
+      
+      case PegarTipoCampo(lValor) of
+        cTipoString: lValueUpdated := QuotedStr(Troca(lValor, '"', ''));
+        cTipoInteiro,
+        cTipoCurrency: lValueUpdated := lValor;
+        cTipoboolean: lValueUpdated := QuotedStr(iif(LowerCase(lValor) = 'true', 'S', 'N'));
+      end;
 
-        LS.Add('update ' + lTabela);
-        LS.Add('set ' + lCampo + ' = ' + lValueUpdated);
+      LS.Add('update ' + lTabela);
+      LS.Add('set ' + lCampo + ' = ' + lValueUpdated);
 
-        if lTabela = cTabelaConfigSistemaEmpresa then
-           LS.Add('where EMPRESA_CFSEMP = ' + IntToStr(Codigo_Empresa_Atual))
-        else
-        if lTabela = ctabelaConfigPCP then
-          LS.Add('where CODIGO_CONFIG = ' + IntToStr(Codigo_Empresa_Atual));
+      if lTabela = cTabelaConfigSistemaEmpresa then
+        LS.Add('where EMPRESA_CFSEMP = ' + IntToStr(Codigo_Empresa_Atual))
+      else
+      if lTabela = ctabelaConfigPCP then
+        LS.Add('where CODIGO_CONFIG = ' + IntToStr(Codigo_Empresa_Atual));
 
-        try
-            ExecuteCommand(LS.Text);   
-        except
-            on e: Exception do
-            begin
-                MostrarLogTexto('Falha ao Atualizar parametro' + LS.Text);
-            end;
-        end;   
+      try
+        ExecuteCommand(LS.Text);
+      except
+        on e: Exception do
+          raise Exception.Create(e.Message);
+      end;
 
-        pCDS.Next;    
+      pCDS.Next;    
     end;
 
     Relogar;
   finally
-    LS.Free;  
-  end;  
+    LS.Free;
+  end;
 end;
 
 procedure Relogar;
@@ -140,57 +140,55 @@ begin
      
 //  ExecuteCommand('update CONFIG_SISTEMA_EMPRESA set BLOQ_PEDIDO_CFSEMP = ' + QuotedStr(iif(BloqueiaPedidoAutomaticamente,'N', 'S')) + 'where CONFIG_SISTEMA_EMPRESA.EMPRESA_CFSEMP = ' + IntToStr(Codigo_Empresa_Atual));
   ExecutarMetodoDeObjeto(DM, 'ConectaServidorAplicacao', [sUser, sSenha, iQuebra]);
-  Sleep(1000);
+  //Sleep(1000);
   ExecutarMetodoDeObjeto(DM, 'CarregaSecaoAtual');
-  Sleep(2000);
+ // Sleep(2000);
 end;
 
 
 function PegarTipoCampo(pValue: String): Integer;
 begin
-    Result := -1;
-    if pValue = '' then
-        Exit;
+  Result := -1;
+  if pValue = '' then
+    Exit;
 
-    if (Pos('"', pValue) > 0) then
-      Result := cTipoString
-    else 
-    if ((LowerCase(pValue) = 'true') or            
-        (LowerCase(pValue) = 'false')) then
-      Result := cTipoboolean
-    else
-    if (Pos('.', pValue) > 0) then
-      Result :=  cTipoCurrency
-    else
-      Result := cTipoInteiro;              
+  if (Pos('"', pValue) > 0) then
+    Result := cTipoString
+  else 
+  if ((LowerCase(pValue) = 'true') or            
+      (LowerCase(pValue) = 'false')) then
+    Result := cTipoboolean
+  else
+  if (Pos('.', pValue) > 0) then
+    Result :=  cTipoCurrency
+  else
+    Result := cTipoInteiro;              
 end;
 
 procedure CriarEstruturaParametrosAtualizar(pCDS: TClientDataSet);
 begin
-    pCDS.Close;
-    pCDS.FieldDefs.Clear;
-    pCDS.FieldDefs.Add('CHAVE', ftString, 60, false);
-    pCDS.FieldDefs.Add('VALOR', ftString, 200, false);
-    pCDS.CreateDataSet;
-    pCDS.IndexFieldNames := 'CHAVE';
-    pCDS.LogChanges := False;
+  pCDS.Close;
+  pCDS.FieldDefs.Clear;
+  pCDS.FieldDefs.Add('CHAVE', ftString, 60, false);
+  pCDS.FieldDefs.Add('VALOR', ftString, 200, false);
+  pCDS.CreateDataSet;
+  pCDS.IndexFieldNames := 'CHAVE';
+  pCDS.LogChanges := False;
 end;
 
 procedure Setup_Inicializar_Parametros;
 begin
-    MapearParametros;
+  {P39_TDD_PARAMETRO_MAPEAMENTO.}MapearParametros;
 
-    CDSParametro := TClientDataSet.Create;
-    CDSParametro.Data := ExecuteReader(GetSQLParametro);
-    
-    ExecutarMetodoDeClasse('ClassConfigSistema','TClassConfigSistema' ,'ConfigurarPropriedadesDosCampos', [CDSParametro, true]);
-    ExecutarMetodoDeClasse('ClassConfigSistemaEmp','TClassConfigSistemaEmp' ,'ConfigurarPropriedadesDosCampos', [CDSParametro, true]);
-    ExecutarMetodoDeClasse('ClassPCP_Config','TClassPCP_Config' ,'ConfigurarPropriedadesDosCampos', [CDSParametro, true]);
-    //MostrarCDS(CDSParametro);
-    //MostrarLogTexto(GetSQLParametro);
+  CDSParametro := TClientDataSet.Create;
+  CDSParametro.Data := ExecuteReader(GetSQLParametro);
+
+  ExecutarMetodoDeClasse('ClassConfigSistema','TClassConfigSistema' ,'ConfigurarPropriedadesDosCampos', [CDSParametro, true]);
+  ExecutarMetodoDeClasse('ClassConfigSistemaEmp','TClassConfigSistemaEmp' ,'ConfigurarPropriedadesDosCampos', [CDSParametro, true]);
+  ExecutarMetodoDeClasse('ClassPCP_Config','TClassPCP_Config' ,'ConfigurarPropriedadesDosCampos', [CDSParametro, true]);
 end;
 
 procedure TearDown_FinalizarParametros;
 begin
-    CDSParametro.Free;    
+  CDSParametro.Free;    
 end;

@@ -19,9 +19,7 @@ var
 
 procedure Main;
 begin
-  MapearParametros;
-  ShowMessage(GetCampoDBParametro('OrdemImpressaoItemNF'));
-  
+  // utilize para realizar testes;
 end;
 
 function GetTabela(pCampo: String): String;
@@ -76,21 +74,21 @@ begin
   // Incluir Mapeamentos necessÃ¡rios aqui.
   if not FParametroMapeado then
   begin
-    Add(0, 'Fat_PorUnidadeFabril', 'FAT_PORUNIDADEFABRIL_CFS', cTabelaConfigSistema);
-    Add(1, 'OrdemImpressaoItemNF', 'FAT_ORDEMIMPRESSAONF_CFSEMP', cTabelaConfigSistemaEmpresa);
-    Add(2, 'ConsideraDiasParaEntregaDupFrete', 'CONS_DIASENT_DUP_FRETE_CFSEMP', cTabelaConfigSistemaEmpresa);
-    Add(3, 'NecessarioAutorizarPagamentos', 'NECESSARIOAUTORIZARPAGTO_CFS', cTabelaConfigSistema);
-    Add(4, 'NecessarioAutorizarAdiantamentos', 'NECESSARIOAUTORIZARDIANT_CFS', cTabelaConfigSistema);
-    Add(5, 'ObrigatorioGrupoResultadoDiferenteDeZeroNaDuplicata', 'GR_OBRIGATORIO_DUPL_CFS', cTabelaConfigSistema);
-    Add(6, 'OcultarDuplicataPagarSalario', 'OCULTARDUPLSALARIO_CFS', cTabelaConfigSistema);
-    Add(7, 'BloquearLancamentoBorderoQualificacao0Todas', 'BLOQLANCQUALIFTODAS_CFS', cTabelaConfigSistema);
-    Add(8, 'BorderoExigirPreenchimentoRegraIntegracaoContabil', 'EXIGIRREGRAINTEGRACAOCTB_CFS', cTabelaConfigSistema);
+    AddParamMapped(0, 'Fat_PorUnidadeFabril', 'FAT_PORUNIDADEFABRIL_CFS', cTabelaConfigSistema);
+    AddParamMapped(1, 'OrdemImpressaoItemNF', 'FAT_ORDEMIMPRESSAONF_CFSEMP', cTabelaConfigSistemaEmpresa);
+    AddParamMapped(2, 'ConsideraDiasParaEntregaDupFrete', 'CONS_DIASENT_DUP_FRETE_CFSEMP', cTabelaConfigSistemaEmpresa);
+    AddParamMapped(3, 'NecessarioAutorizarPagamentos', 'NECESSARIOAUTORIZARPAGTO_CFS', cTabelaConfigSistema);
+    AddParamMapped(4, 'NecessarioAutorizarAdiantamentos', 'NECESSARIOAUTORIZARDIANT_CFS', cTabelaConfigSistema);
+    AddParamMapped(5, 'ObrigatorioGrupoResultadoDiferenteDeZeroNaDuplicata', 'GR_OBRIGATORIO_DUPL_CFS', cTabelaConfigSistema);
+    AddParamMapped(6, 'OcultarDuplicataPagarSalario', 'OCULTARDUPLSALARIO_CFS', cTabelaConfigSistema);
+    AddParamMapped(7, 'BloquearLancamentoBorderoQualificacao0Todas', 'BLOQLANCQUALIFTODAS_CFS', cTabelaConfigSistema);
+    AddParamMapped(8, 'BorderoExigirPreenchimentoRegraIntegracaoContabil', 'EXIGIRREGRAINTEGRACAOCTB_CFS', cTabelaConfigSistema);
     
     FParametroMapeado := True;  
   end;
 end;
 
-procedure Add(pIdx: Integer; const pChaveJson, pCampoDB, pTabela: string);
+procedure AddParamMapped(pIdx: Integer; const pChaveJson, pCampoDB, pTabela: string);
 begin
   FMapeamentoParam[pIdx].CampoJSON := pChaveJson;
   FMapeamentoParam[pIdx].CampoDB   := pCampoDB;

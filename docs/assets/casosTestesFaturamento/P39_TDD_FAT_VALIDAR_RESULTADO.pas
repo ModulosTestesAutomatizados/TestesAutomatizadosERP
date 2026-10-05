@@ -1,4 +1,4 @@
-﻿uses P39_TDD_CASOS_DE_TESTE, P39_TDD_FUNCOES_JSON, P39_TDD_ASSERTS;
+﻿uses P39_TDD_FAT_DOCUMENTO_FATURA, P39_TDD_ASSERTS;
 
 {$Region 'Constantes'}
 const
@@ -295,38 +295,40 @@ begin
 
   LAsserts := AssertsOk;
   
-  if Trim(pJSON) = '' then
-  begin
-    AssertFalhou('JSON', 'de resultado esperado vazio para o caso de teste [' +
-      CDSCasosTestes.FieldByName('ID').AsString + '].');
-    FinalizarComparacao(AssertsOk);
-    Exit;
-  end;
+  try
+      if Trim(pJSON) = '' then
+    begin
+      AssertFalhou('JSON', 'de resultado esperado vazio para o caso de teste [' +
+        CDSCasosTestes.FieldByName('ID').AsString + '].');
+      Exit;
+    end;
 
-  //MostrarLogTexto(pJSON);
+    //MostrarLogTexto(pJSON);
 
-  if TagExiste(pJSON, 'erro') then
-  begin
-    LErro := GetObjectJson(pJSON, 'erro');
-    MostrarLogTexto(LErro);
-    CompararQuantidadeErros(LErro);
-  end;
+    if TagExiste(pJSON, 'erro') then
+    begin
+      LErro := GetObjectJson(pJSON, 'erro');
+      MostrarLogTexto(LErro);
+      CompararQuantidadeErros(LErro);
+    end;
            
-  LValor := GetArrayJsonOrEmpty(pJSON, 'valor');
+    LValor := GetArrayJsonOrEmpty(pJSON, 'valor');
   
-  //MostrarLogTexto(LValor);
-  if LValor <> '[]' then
-    CompararValores(LValor);
+    //MostrarLogTexto(LValor);
+    if LValor <> '[]' then
+      CompararValores(LValor);
   
   
-  if TagExiste(pJSON, 'tempo') then
-  begin
-    LTempo := GetObjectJson(pJSON, 'erro');
-    MostrarLogTexto(LTempo);
-  //CompararTempo(LTempo);
-
-  end;  
-  FinalizarComparacao(AssertsOk);
+    if TagExiste(pJSON, 'tempo') then
+    begin
+      LTempo := GetObjectJson(pJSON, 'erro');
+      MostrarLogTexto(LTempo);
+      //CompararTempo(LTempo);
+    end;  
+  
+  finally
+    FinalizarComparacao(AssertsOk);
+  end;
 end;
 
 Procedure CompararResultadoEsperado;
@@ -336,6 +338,8 @@ begin
   if CDSResultadoEsperado.FindKey([CDSCasosTestes.FieldByName('ID').AsInteger]) then
     lJSON := CDSResultadoEsperado.FieldByName('RESULTADO_ESPERADO').AsString;
 
+  ShowMessage('Passou Aqui!');
+  MostrarCDS(CDSResultadoEsperado);
   CompararComJSON(lJSON);
 end;
 {$endRegion}

@@ -1,0 +1,154 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="fat-pedido-venda" name="P39_TDD_FAT_PEDIDO_VENDA">
+    <mxGraphModel dx="1400" dy="900" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="titulo" value="AST de Uses - P39_TDD_FAT_PEDIDO_VENDA (Documento de Fatura / Pedido de Venda)" style="text;html=1;align=center;fontSize=16;fontStyle=1;fontColor=#1f3864;" vertex="1" parent="1">
+          <mxGeometry x="0" y="10" width="1280" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="lane_caso" value="Caso de Teste (casosTestesFaturamento)" style="swimlane;horizontal=0;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1280" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="pv" value="P39_TDD_FAT_PEDIDO_VENDA&lt;br&gt;main / Setup / Teste" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2e7d32;fontColor=#fff;" vertex="1" parent="lane_caso">
+          <mxGeometry x="50" y="45" width="300" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="core" value="P39_TDD_FAT_DOCUMENTO_FATURA&lt;br&gt;orquestrador - 293 linhas (era 774)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1565c0;fontColor=#fff;" vertex="1" parent="lane_caso">
+          <mxGeometry x="400" y="45" width="460" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="lane_foco" value="Controle de tela e foco (resolve a perda de foco)" style="swimlane;horizontal=0;startSize=30;fillColor=#e1d5e7;strokeColor=#9673a6;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="170" width="1280" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="mod" value="P39_TDD_MODULO&lt;br&gt;SetModulo | AbrirTela | FocarModulo | TrazerParaFrente" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6a1b9a;fontColor=#fff;" vertex="1" parent="lane_foco">
+          <mxGeometry x="50" y="45" width="520" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="lane_camadas" value="Camadas de gravacao (issue #12)" style="swimlane;horizontal=0;startSize=30;fillColor=#d5f5e3;strokeColor=#82b366;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="280" width="1280" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="dp" value="..._DADOS_PRINCIPAIS&lt;br&gt;_DadosPrincipais | TabelaPreco | Condicao | Prazos | Descontos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;" vertex="1" parent="lane_camadas">
+          <mxGeometry x="50" y="45" width="350" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="it" value="..._ITENS&lt;br&gt;Itens_Incluir | _IncluiItensDocumento | _IncluiItensPorTag" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;" vertex="1" parent="lane_camadas">
+          <mxGeometry x="430" y="45" width="350" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="fin" value="..._FINANCEIRO&lt;br&gt;_Financeiro" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;" vertex="1" parent="lane_camadas">
+          <mxGeometry x="810" y="45" width="250" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="ent" value="..._DADOS_ENTREGA&lt;br&gt;_DadosParaEntrega" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;" vertex="1" parent="lane_camadas">
+          <mxGeometry x="50" y="100" width="350" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="fat" value="..._DADOS_FATURAMENTO&lt;br&gt;_DadosFaturamento" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;" vertex="1" parent="lane_camadas">
+          <mxGeometry x="430" y="100" width="350" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="fr" value="..._INFORMACOES_FRETE&lt;br&gt;_InformacoesFrete | _InformacoesFreteFiscal" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;" vertex="1" parent="lane_camadas">
+          <mxGeometry x="810" y="100" width="250" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="lane_apoio" value="Apoio ao caso" style="swimlane;horizontal=0;startSize=30;fillColor=#fff2cc;strokeColor=#d6b656;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="440" width="1280" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="js" value="P39_TDD_FAT_DOCUMENTO_FATURA_JSON&lt;br&gt;record TEstrutura | SetJSON_Caso_Teste | wrappers Valor*TagDoc" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" vertex="1" parent="lane_apoio">
+          <mxGeometry x="50" y="45" width="380" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="sq" value="P39_TDD_DOCUMENTO_FATURA_SQL&lt;br&gt;_BuscaDadosClientes | BuscaDadosProdutos | GetPessoaPeloCod" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" vertex="1" parent="lane_apoio">
+          <mxGeometry x="450" y="45" width="380" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="vr" value="P39_TDD_FAT_VALIDAR_RESULTADO&lt;br&gt;CompararResultadoEsperado (COMENTADO no fluxo)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;dashed=1;" vertex="1" parent="lane_apoio">
+          <mxGeometry x="850" y="45" width="380" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="lane_infra" value="Infra de casos de teste (transitiva)" style="swimlane;horizontal=0;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="550" width="1280" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="ct" value="P39_TDD_CASOS_DE_TESTE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#666666;" vertex="1" parent="lane_infra">
+          <mxGeometry x="50" y="45" width="260" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="pa" value="P39_TDD_PARAMETRO&lt;br&gt;VerificarParametros | Relogar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#666666;" vertex="1" parent="lane_infra">
+          <mxGeometry x="330" y="45" width="260" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="ca" value="P39_TDD_CACHE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#666666;" vertex="1" parent="lane_infra">
+          <mxGeometry x="610" y="45" width="240" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="od" value="P39_TDD_ODBC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#666666;" vertex="1" parent="lane_infra">
+          <mxGeometry x="870" y="45" width="240" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="co" value="P39_TDD_CONSTANTES" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;" vertex="1" parent="lane_infra">
+          <mxGeometry x="50" y="100" width="260" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="pm" value="P39_TDD_PARAMETRO_MAPEAMENTO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;" vertex="1" parent="lane_infra">
+          <mxGeometry x="330" y="100" width="260" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="fj" value="P39_TDD_FUNCOES_JSON" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;" vertex="1" parent="lane_infra">
+          <mxGeometry x="610" y="100" width="240" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="as" value="P39_TDD_ASSERTS&lt;br&gt;(uses comentado - AssertsFalhou ATIVO em ..._ITENS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;dashed=1;" vertex="1" parent="lane_infra">
+          <mxGeometry x="870" y="100" width="240" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_pv_core" edge="1" parent="1" source="pv" target="core" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_core_mod" value="SetModulo / AbrirTela" edge="1" parent="1" source="core" target="mod" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9673a6;fontSize=10;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_core_dp" edge="1" parent="1" source="core" target="dp" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#82b366;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_core_it" edge="1" parent="1" source="core" target="it" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#82b366;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_core_fin" edge="1" parent="1" source="core" target="fin" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#82b366;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_core_ent" edge="1" parent="1" source="core" target="ent" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#82b366;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_core_fat" edge="1" parent="1" source="core" target="fat" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#82b366;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_core_fr" edge="1" parent="1" source="core" target="fr" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#82b366;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_dp_it" edge="1" parent="lane_camadas" source="dp" target="it" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#82b366;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_it_dp" value="ciclo" edge="1" parent="1" source="it" target="dp" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;strokeColor=#c0392b;fontSize=10;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_core_js" edge="1" parent="1" source="core" target="js" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#d6b656;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_core_sq" edge="1" parent="1" source="core" target="sq" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#d6b656;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_core_vr" edge="1" parent="1" source="core" target="vr" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;strokeColor=#d6b656;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_vr_as" value="uses" edge="1" parent="1" source="vr" target="as" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;strokeColor=#999999;fontSize=10;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_mod_ct" edge="1" parent="1" source="mod" target="ct" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#9673a6;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_ct_pa" edge="1" parent="1" source="ct" target="pa" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_ct_ca" edge="1" parent="1" source="ct" target="ca" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_ct_co" edge="1" parent="1" source="ct" target="co" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_pa_pm" edge="1" parent="1" source="pa" target="pm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_pa_fj" edge="1" parent="1" source="pa" target="fj" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_ca_od" edge="1" parent="1" source="ca" target="od" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg" value="&lt;b&gt;Legenda&lt;/b&gt;&lt;br&gt;verde escuro = unit do caso | azul = nucleo | roxo = P39_TDD_MODULO (foco)&lt;br&gt;verde claro = camadas da issue #12 | ambar = apoio | cinza = infra transitiva&lt;br&gt;tracejado = commented / ciclo / uses opcional" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="720" width="700" height="80" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

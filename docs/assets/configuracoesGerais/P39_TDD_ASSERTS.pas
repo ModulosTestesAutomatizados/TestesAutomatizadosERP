@@ -1,4 +1,4 @@
-﻿uses P39_TDD_CASOS_DE_TESTE;
+﻿//uses P39_TDD_CASOS_DE_TESTE;
 
 {$Region 'Constantes'}
 const
