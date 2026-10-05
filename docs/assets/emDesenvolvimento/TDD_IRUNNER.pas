@@ -1,5 +1,12 @@
 var FUsesUnits, FMetodos, FParamsCasosTeste, FUnitInterpretar :TStringList;
 
+procedure Main();
+var lInstrucoes :string;
+begin
+  lInstrucoes := '';
+  {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_IRUNNER', lInstrucoes);
+end;
+
 procedure AddItemToList(var pList: TStringList; const pValue: string);
 begin
   if not Assigned(pList) then
@@ -30,24 +37,15 @@ var
   lMetodo :string;
 begin
   try
+    if ((Trim(FUsesUnits.Text) = '') or (Trim(FUsesUnits[0]) = '')) then
+      raise Exception.Create('Nenhuma Unit para uses informada! Impossível executar o teste.');
+
+    if ((Trim(FMetodos.Text) = '') or (Trim(FMetodos[0]) = '')) then
+      raise Exception.Create('Não existem métodos para serem executados! Impossível executar o teste.');
+
+    lLS              := TStringList.Create;
+    FUnitInterpretar := TStringList.Create;
     try
-      if not Assigned(FUsesUnits) then
-        raise Exception.Create('Nenhuma Unit para uses informada!');
-
-      if not Assigned(FMetodos) then
-        raise Exception.Create('Nenhum metodo para executar informado!');
-
-      if not Assigned(FParamsCasosTeste) then
-        raise Exception.Create('Parametros do caso de teste nao informados!');
-
-      if ((Trim(FUsesUnits.Text) = '') or (Trim(FUsesUnits[0]) = '')) then
-        raise Exception.Create('Nenhuma Unit para uses informada! Impossível executar o teste.');
-
-      if ((Trim(FMetodos.Text) = '') or (Trim(FMetodos[0]) = '')) then
-        raise Exception.Create('Não existem métodos para serem executados! Impossível executar o teste.');
-
-      lLS              := TStringList.Create;
-      FUnitInterpretar := TStringList.Create;
       FUnitInterpretar.Clear;
       FUnitInterpretar.Add(CodificacaoUnit('TDD_BASE_UNIT_IRUNNER'));
 
@@ -66,17 +64,8 @@ begin
           lLS.Add('        LogDoProcessamentoAdd(''ENCERROU '    + lMetodo + ''');');
           lLS.Add('        {P39_TDD_RUNNER.}RegistrarTick(1, ''' + lMetodo + ''');');
         end
-        else
-        begin
-          lLS.Add('        CallBack_Mensagem(ClassOwner, '''     + lMetodo + ''');');
-          lLS.Add('        {P39_TDD_RUNNER.}RegistrarTick(0, ''' + lMetodo + ''');');
-          lLS.Add('        LogDoProcessamentoAdd(''INICIOU '     + lMetodo + ''');');
-          lLS.Add('        '                                     + lMetodo +    ';');
-          lLS.Add('        LogDoProcessamentoAdd(''ENCERROU '    + lMetodo + ''');');
-          lLS.Add('        {P39_TDD_RUNNER.}RegistrarTick(1, ''' + lMetodo + ''');');
-        end;
-//        else // Restringe apenas a Setup e Teste.
-//          raise Exception.Create('Apenas os métodos de "Setup" e "Teste" são aceitos!');
+        else // Restringe apenas a Setup e Teste.
+          raise Exception.Create('Apenas os métodos de "Setup" e "Teste" são aceitos!');
       end;
 
       FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__USES_UNITS__', FUsesUnits.CommaText);
@@ -90,7 +79,6 @@ begin
     finally
       FUsesUnits.Free;
       FMetodos.Free;
-      FParamsCasosTeste.Free;
       lLS.Free;
       FUnitInterpretar.Free;
     end;
