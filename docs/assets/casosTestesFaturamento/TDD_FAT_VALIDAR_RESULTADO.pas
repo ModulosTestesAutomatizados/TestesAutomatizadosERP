@@ -1,28 +1,30 @@
 uses P39_TDD_CASOS_DE_TESTE, P39_TDD_FUNCOES_JSON;
 
 {
-  Unit de validacao do resultado esperado dos casos de teste de faturamento.
-  
-  Orquestra toda a logica de comparacao entre o resultado esperado (JSON)
-  e os dados reais obtidos durante a execucao do caso de teste.
-  
-  Secoes do JSON de resultado esperado:
-    - "erro":    quantidade de erros esperados e operacao de comparacao
+  Unit de validacao do resultado esperado dos casos de teste do fluxo PEDIDO DE VENDA
+  (modulo FATURAMENTO / area PEDIDO DE VENDA).
+
+  Faz a ponte entre o nucleo TDD_DOCUMENTO_FATURA e os CDSComponents do formulario,
+  orquestrando toda a logica de comparacao entre o resultado esperado (JSON) e os
+  dados reais obtidos durante a execucao do caso de teste.
+
+  Secoes do JSON de resultado esperado (RESULTADO_ESPERADO_CT -> CDSResultadoEsperado):
+    - "erro":    quantidade de erros reais esperada e operacao de comparacao
     - "valor":   array de campos a validar nos CDS do formulario
-    - "tempo":   limite de tempo de execucao
-  
+    - "tempo":   limite de tempo de execucao (opcional)
+
   Cada item do array "valor" deve conter:
     - "cds":      nome do TClientDataSet (opcional, padrao "CDSCad")
     - "campo":    nome do campo no CDS
     - "operacao": "Igual" | "Maior" | "Menor"
-    - "resultado": valor esperado (numerico)
-  
+    - "resultado": valor esperado (numerico/currency)
+
   Exemplo de JSON resultado esperado:
   {
     "erro":    {"quantidade":0, "operacao":"Igual"},
     "valor": [
       {"cds":"CDSCad",  "campo":"VALOR_BRUTO_DOCFAT", "operacao":"Maior", "resultado":155.015},
-      {"cds":"CDSPedido","campo":"TABELA_DOCPED",     "operacao":"Igual", "resultado":0}
+      {"cds":"CDSPedido","campo":"TABELA_DOCPED",      "operacao":"Igual", "resultado":0}
     ],
     "tempo":   {"tempo_total":10000, "tipo_registo":"milisegundo"}
   }
@@ -32,7 +34,7 @@ uses P39_TDD_CASOS_DE_TESTE, P39_TDD_FUNCOES_JSON;
 const
   cMSecsPorDia = 86400000; // 24h * 60m * 60s * 1000ms: converte TDateTime p/ ms
   cCDSDefault  = 'CDSCad'; // CDS padrao quando tag "cds" nao informada
-  
+
   cOperacaoIgual = 0;
   cOperacaoMaior = 1;
   cOperacaoMenor = 2;
@@ -50,6 +52,8 @@ var
 procedure Main;
 var lInstrucoes: String;
 begin
+  P39_TDD_CASOS_DE_TESTE.Main; // Documentacao das units do uses
+
   lInstrucoes :=
     'Unit de validacao do resultado esperado dos casos de teste de faturamento.' + #13 +
     'Faz a ponte entre o nucleo do fluxo e os CDSComponents' + #13 +
