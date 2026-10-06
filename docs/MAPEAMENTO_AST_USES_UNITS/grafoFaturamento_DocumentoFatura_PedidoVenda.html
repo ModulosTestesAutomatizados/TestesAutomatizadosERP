@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mermaid - PEDIDO DE VENDA (Documento de Fatura)</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f9;
+      color: #2b2b2b;
+    }
+    header {
+      background: linear-gradient(90deg, #23445d 0%, #3a6a8f 100%);
+      color: #fff;
+      padding: 18px 24px;
+    }
+    header h1 { margin: 0; font-size: 22px; font-weight: 600; }
+    header p { margin: 4px 0 0; font-size: 13px; opacity: .85; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 20px 24px 48px; }
+    .card {
+      background: #fff;
+      border: 1px solid #d9dee5;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 18px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    }
+    .card h2 { margin: 0 0 12px; font-size: 16px; color: #23445d; }
+    #graph { overflow: auto; max-height: 80vh; }
+    .mermaid { display: flex; justify-content: center; padding: 8px 0; }
+    table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    th, td { border: 1px solid #d9dee5; padding: 6px 10px; text-align: left; vertical-align: top; }
+    th { background: #eef2f6; }
+    code { background: #f0f2f5; border-radius: 3px; padding: 1px 5px; font-size: 12px; }
+    .dot { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+    .danger { color: #8a1c1c; }
+    .ok { color: #1e6b34; }
+    .legend-note { font-size: 13px; margin-top: 10px; color: #555; }
+    .meta { font-size: 12px; color: #666; margin: 0 0 10px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mermaid - PEDIDO DE VENDA (Documento de Fatura)</h1>
+    <p>Grafo de depend&ecirc;ncias, fluxo de execu&ccedil;&atilde;o e cadeia de valida&ccedil;&atilde;o de resultado esperado &middot; Fonte: <code style="background:rgba(255,255,255,.15);color:#fff">D:\TestesAutomatizados\ERP\SourceTDD</code> &middot; TekStore: 46 units <code style="background:rgba(255,255,255,.15);color:#fff">TDD</code></p>
+  </header>
+
+  <div class="container">
+
+    <div class="card">
+      <h2>1. Grafo de depend&ecirc;ncias (<code>uses</code>)</h2>
+      <p class="meta">Arestas s&oacute;lidas = <code>uses</code> direto. Arestas tracejadas = ciclo intencional entre o n&uacute;cleo e as camadas (o interpretador resolve <code>uses</code> por nome, sem ordem topol&oacute;gica).</p>
+      <div id="graph">
+        <div class="mermaid">
+flowchart LR
+  subgraph CASO["Caso de Teste - casosTestesFaturamento"]
+    PV["P39_TDD_FAT_PEDIDO_VENDA&lt;br/&gt;&lt;i&gt;35L - main / Setup / Teste&lt;/i&gt;"]
+    CORE["P39_TDD_FAT_DOCUMENTO_FATURA&lt;br/&gt;&lt;i&gt;292L - nucleo orquestrador&lt;br/&gt;(era 774L - issue #12)&lt;/i&gt;"]
+  end
+
+  subgraph FOCO["Controle de tela e foco"]
+    MOD["P39_TDD_MODULO&lt;br/&gt;&lt;i&gt;43L - SetModulo | AbrirTela&lt;br/&gt;FocarModulo | TrazerParaFrente&lt;/i&gt;"]
+  end
+
+  subgraph CAMADAS["Camadas de gravacao (issue #12)"]
+    DP["..._DADOS_PRINCIPAIS&lt;br/&gt;&lt;i&gt;264L&lt;/i&gt;"]
+    IT["..._ITENS&lt;br/&gt;&lt;i&gt;239L&lt;/i&gt;"]
+    FIN["..._FINANCEIRO&lt;br/&gt;&lt;i&gt;35L&lt;/i&gt;"]
+    ENT["..._DADOS_ENTREGA&lt;br/&gt;&lt;i&gt;50L&lt;/i&gt;"]
+    FAT["..._DADOS_FATURAMENTO&lt;br/&gt;&lt;i&gt;17L&lt;/i&gt;"]
+    FR["..._INFORMACOES_FRETE&lt;br/&gt;&lt;i&gt;58L&lt;/i&gt;"]
+  end
+
+  subgraph APOIO["Apoio ao caso"]
+    JS["P39_TDD_FAT_DOCUMENTO_FATURA_JSON&lt;br/&gt;&lt;i&gt;122L - record TEstrutura&lt;/i&gt;"]
+    SQ["P39_TDD_DOCUMENTO_FATURA_SQL&lt;br/&gt;&lt;i&gt;SQL de clientes e produtos&lt;/i&gt;"]
+  end
+
+  subgraph VAL["Validacao e asserts"]
+    VR["P39_TDD_VALIDAR_RESULTADO&lt;br/&gt;&lt;i&gt;484L - substitui&lt;br/&gt;P39_TDD_FAT_VALIDAR_RESULTADO&lt;/i&gt;"]
+    AS["P39_TDD_ASSERTS&lt;br/&gt;&lt;i&gt;217L - modelo DUnitX&lt;/i&gt;"]
+  end
+
+  subgraph INFRA["Infra de casos de teste"]
+    CT["P39_TDD_CASOS_DE_TESTE&lt;br/&gt;&lt;i&gt;211L&lt;/i&gt;"]
+    PA["P39_TDD_PARAMETRO&lt;br/&gt;&lt;i&gt;201L - Relogar&lt;/i&gt;"]
+  end
+
+  subgraph BASE["Units base"]
+    CO["P39_TDD_CONSTANTES&lt;br/&gt;&lt;i&gt;147L&lt;/i&gt;"]
+    PM["P39_TDD_PARAMETRO_MAPEAMENTO&lt;br/&gt;&lt;i&gt;102L&lt;/i&gt;"]
+    FJ["P39_TDD_FUNCOES_JSON&lt;br/&gt;&lt;i&gt;117L&lt;/i&gt;"]
+    CA["P39_TDD_CACHE&lt;br/&gt;&lt;i&gt;102L&lt;/i&gt;"]
+    OD["P39_TDD_ODBC&lt;br/&gt;&lt;i&gt;49L&lt;/i&gt;"]
+    LG["P39_TDD_LOGS&lt;br/&gt;&lt;i&gt;hub de log&lt;/i&gt;"]
+  end
+
+  PV --&gt; CORE
+  CORE --&gt; MOD
+  CORE --&gt; SQ
+  CORE --&gt; JS
+  CORE --&gt; DP
+  CORE --&gt; FIN
+  CORE --&gt; IT
+  CORE --&gt; ENT
+  CORE --&gt; FAT
+  CORE --&gt; FR
+
+  DP -.-&gt; CORE
+  DP --&gt; IT
+  IT -.-&gt; DP
+  FIN -.-&gt; CORE
+  ENT -.-&gt; CORE
+  FAT -.-&gt; CORE
+  FR -.-&gt; CORE
+
+  JS --&gt; FJ
+  MOD --&gt; CT
+  MOD --&gt; VR
+  VR --&gt; AS
+  AS --&gt; CT
+  CT --&gt; CO
+  CT --&gt; PA
+  CT --&gt; CA
+  PA --&gt; PM
+  PA --&gt; FJ
+  CA --&gt; OD
+  OD --&gt; CO
+  CO --&gt; LG
+  FJ --&gt; LG
+  PM --&gt; LG
+
+  classDef caso fill:#f4b183,stroke:#c55a11,stroke-width:2px,color:#5b2c06
+  classDef nucleo fill:#1565c0,stroke:#0d3b66,stroke-width:2px,color:#fff
+  classDef foco fill:#6a1b9a,stroke:#4a126b,stroke-width:2px,color:#fff
+  classDef camada fill:#e8f5e9,stroke:#229954,stroke-width:2px,color:#145a32
+  classDef apoio fill:#fff8e1,stroke:#d6b656,color:#6b5200
+  classDef valida fill:#d5f5e3,stroke:#1e8449,stroke-width:2px,color:#0e4429
+  classDef infra fill:#dae8fc,stroke:#6c8ebf,color:#1b4f72
+  classDef base fill:#f0f0f0,stroke:#666666,color:#222
+
+  class PV caso
+  class CORE nucleo
+  class MOD foco
+  class DP,IT,FIN,ENT,FAT,FR camada
+  class JS,SQ apoio
+  class VR,AS valida
+  class CT,PA infra
+  class CO,PM,FJ,CA,OD,LG base
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>2. Fluxo de execu&ccedil;&atilde;o (PEDIDO DE VENDA)</h2>
+      <p class="meta">Caminho completo da <code>main</code> at&eacute; <code>BotaoGravar.Click</code>, com o <code>Relogar</code> por caso de teste e a valida&ccedil;&atilde;o do resultado esperado.</p>
+      <div id="graph2">
+        <div class="mermaid">
+flowchart TD
+  MAIN["main&lt;br/&gt;Setup + Teste"]
+  SETUP["Setup&lt;br/&gt;FCadPedidoVenda | DMCadPedidoVenda&lt;br/&gt;SetArea('PEDIDO DE VENDA')"]
+  SIO["Setup_InicializarObjetos&lt;br/&gt;SetModulo(FATURAMENTO)"]
+  SIF["Setup_IniciarFormulario&lt;br/&gt;AbrirTela('Emisso1Click')&lt;br/&gt;mapeia 10 DataSets e controles"]
+  REG["RegistrarDataSet x10&lt;br/&gt;&lt;b&gt;ATIVO&lt;/b&gt;"]
+  LOOP["Teste_Executar&lt;br/&gt;loop CDSCasosTestes"]
+  SCT["SetCasoTeste&lt;br/&gt;GetObjectJson + ParseJSONValue"]
+  AJP["_AjustarParametros"]
+  FIN["FinalizarFormulario&lt;br/&gt;FormCadastro.Free&lt;br/&gt;FocarModulo + TrazerParaFrente"]
+  INC["_IncluiDocumento&lt;br/&gt;loop FCDSClientes"]
+  CLI["BotaoIncluirClick"]
+  GRAV["BotaoGravar.Click"]
+  MARK["EXECUTADO := 'S'"]
+  CMP["CompararResultadoEsperado&lt;br/&gt;&lt;b&gt;ATIVO&lt;/b&gt;"]
+  REL["P39_TDD_PARAMETRO.Relogar&lt;br/&gt;ConectaServidorAplicacao&lt;br/&gt;+ CarregaSecaoAtual"]
+
+  MAIN --&gt; SETUP --&gt; SIO --&gt; SIF --&gt; REG --&gt; LOOP
+  LOOP --&gt; SCT --&gt; AJP
+  AJP --&gt; FIN
+  AJP --&gt; REL
+  REL --&gt; SIF
+  LOOP --&gt; INC --&gt; CLI --&gt; GRAV --&gt; MARK --&gt; CMP
+  CMP --&gt; SCT
+  FIN --&gt; SCT
+
+  CAM["Camadas de gravacao&lt;br/&gt;DADOS_PRINCIPAIS &rarr; ITENS &rarr; FINANCEIRO&lt;br/&gt;DADOS_ENTREGA &rarr; DADOS_FATURAMENTO &rarr; INFORMACOES_FRETE"]
+  CLI --&gt; CAM --&gt; GRAV
+
+  classDef entrada fill:#f4b183,stroke:#c55a11,stroke-width:2px,color:#5b2c06
+  classDef passo fill:#dae8fc,stroke:#6c8ebf,color:#1b4f72
+  classDef ativo fill:#d5f5e3,stroke:#1e8449,stroke-width:2px,color:#0e4429
+  classDef foco fill:#e4dfec,stroke:#8064a2,stroke-width:2px,color:#3b2a55
+  classDef camada fill:#e8f5e9,stroke:#229954,stroke-width:2px,color:#145a32
+
+  class MAIN,SETUP entrada
+  class SIO,SIF,LOOP,SCT,AJP,INC,CLI,GRAV,MARK passo
+  class REG,CMP,REL ativo
+  class FIN foco
+  class CAM camada
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>3. Cadeia de valida&ccedil;&atilde;o do resultado esperado</h2>
+      <p class="meta"><code>P39_TDD_FAT_DOCUMENTO_FATURA.Teste_Executar</code> chama <code>CompararResultadoEsperado</code> (n&atilde;o qualificado, resolvido via <code>P39_TDD_MODULO</code> &rarr; <code>P39_TDD_VALIDAR_RESULTADO</code>).</p>
+      <div id="graph3">
+        <div class="mermaid">
+flowchart TD
+  A["CompararResultadoEsperado&lt;br/&gt;&lt;i&gt;CDSResultadoEsperado.FindKey(ID do caso)&lt;/i&gt;"]
+  B["CompararComJSON&lt;br/&gt;&lt;i&gt;AssertsZerar + Cronometro_Iniciar&lt;/i&gt;"]
+  C["CompararQuantidadeErros&lt;br/&gt;&lt;i&gt;tag 'erro' &rarr; RegistrarErroReal&lt;/i&gt;"]
+  D["CompararValores&lt;br/&gt;&lt;i&gt;array 'valor' por DataSet&lt;br/&gt;cCDSDefault = CDSCad&lt;/i&gt;"]
+  E["CompararValor&lt;br/&gt;&lt;i&gt;tag 'cds' + FCDSMap&lt;/i&gt;"]
+  F["CompararCampoPorTipo&lt;br/&gt;&lt;i&gt;cOperacaoIgual | Maior | Menor&lt;br/&gt;String | Integer | Currency | TDateTime | Boolean&lt;/i&gt;"]
+  G["ConverterParaCurrency&lt;br/&gt;&lt;i&gt;_StrToDateTimeDef&lt;/i&gt;"]
+  H["CompararTempo&lt;br/&gt;&lt;i&gt;tag 'tempo' - ms desde TDT&lt;/i&gt;"]
+  I["FinalizarComparacao(AssertsOk)&lt;br/&gt;&lt;i&gt;Cronometro_Finalizar&lt;br/&gt;AssertsResumo + LogDoProcessamento&lt;/i&gt;"]
+
+  A --&gt; B
+  B --&gt; C
+  B --&gt; D
+  D --&gt; E --&gt; F --&gt; G
+  B --&gt; H
+  C --&gt; I
+  F --&gt; I
+  H --&gt; I
+
+  AS["P39_TDD_ASSERTS&lt;br/&gt;&lt;i&gt;AssertsZerar | AssertsOk | AssertFalhou&lt;br/&gt;RegistrarDataSet &rarr; FDataSets&lt;/i&gt;"]
+  I --&gt; AS
+
+  classDef valida fill:#d5f5e3,stroke:#1e8449,stroke-width:2px,color:#0e4429
+  classDef assert fill:#e4dfec,stroke:#8064a2,stroke-width:2px,color:#3b2a55
+  class A,B,C,D,E,F,G,H,I valida
+  class AS assert
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>4. Legenda</h2>
+      <table>
+        <tr><th>Cor</th><th>Significado</th><th>Exemplos</th></tr>
+        <tr><td><span class="dot" style="background:#f4b183"></span>Laranja</td><td>Unit do caso (entrada)</td><td><code>P39_TDD_FAT_PEDIDO_VENDA</code></td></tr>
+        <tr><td><span class="dot" style="background:#1565c0"></span>Azul forte</td><td>N&uacute;cleo orquestrador</td><td><code>P39_TDD_FAT_DOCUMENTO_FATURA</code></td></tr>
+        <tr><td><span class="dot" style="background:#6a1b9a"></span>Roxo forte</td><td>Controle de tela e foco</td><td><code>P39_TDD_MODULO</code></td></tr>
+        <tr><td><span class="dot" style="background:#e8f5e9"></span>Verde claro</td><td>Camadas de grava&ccedil;&atilde;o (issue #12)</td><td><code>..._DADOS_PRINCIPAIS</code>, <code>..._ITENS</code></td></tr>
+        <tr><td><span class="dot" style="background:#d5f5e3"></span>Verde forte</td><td>Valida&ccedil;&atilde;o de resultado esperado e asserts</td><td><code>P39_TDD_VALIDAR_RESULTADO</code>, <code>P39_TDD_ASSERTS</code></td></tr>
+        <tr><td><span class="dot" style="background:#dae8fc"></span>Azul claro</td><td>Infra de casos de teste</td><td><code>P39_TDD_CASOS_DE_TESTE</code>, <code>P39_TDD_PARAMETRO</code></td></tr>
+        <tr><td><span class="dot" style="background:#f0f0f0"></span>Cinza</td><td>Units base (<code>P39_TDD_LOGS</code> como hub)</td><td><code>P39_TDD_ODBC</code>, <code>P39_TDD_CONSTANTES</code></td></tr>
+        <tr><td><span class="dot" style="background:#fff8e1"></span>Amarelo claro</td><td>Apoio (JSON do caso e SQL)</td><td><code>..._FAT_DOCUMENTO_FATURA_JSON</code>, <code>..._DOCUMENTO_FATURA_SQL</code></td></tr>
+      </table>
+      <p class="legend-note">N&uacute;mero de linhas entre par&ecirc;nteses no grafo 1. Arestas tracejadas = ciclo intencional. Negrito <b>ATIVO</b> = integra&ccedil;&atilde;o dos asserts habilitada no fluxo.</p>
+    </div>
+
+    <div class="card">
+      <h2>5. Observa&ccedil;&otilde;es</h2>
+      <ul style="font-size:13px;line-height:1.6;margin:0;padding-left:20px">
+        <li><b>Refatora&ccedil;&atilde;o conclu&iacute;da (issue #12)</b>: <code>P39_TDD_FAT_DOCUMENTO_FATURA</code> caiu de <b>774</b> para <b>292</b> linhas, dividida em 8 units coesas.</li>
+        <li><b>Heran&ccedil;a transitiva</b>: o n&uacute;cleo n&atilde;o declara <code>P39_TDD_CASOS_DE_TESTE</code>, <code>P39_TDD_ASSERTS</code> nem <code>P39_TDD_VALIDAR_RESULTADO</code> no <code>uses</code> &mdash; chegam via <code>P39_TDD_MODULO</code>. Por isso as chamadas <code>RegistrarDataSet</code> e <code>CompararResultadoEsperado</code> podem ser <b>n&atilde;o qualificadas</b>.</li>
+        <li class="danger"><b>Ciclos intencionais</b>: n&uacute;cleo &harr; DADOS_PRINCIPAIS, n&uacute;cleo &harr; ITENS e DADOS_PRINCIPAIS &harr; ITENS. As camadas precisam dos <code>var</code> e das fun&ccedil;&otilde;es auxiliares do n&uacute;cleo. Chamadas entre camadas s&atilde;o qualificadas (<code>P39_TDD_..._FINANCEIRO._Financeiro</code>) porque o interpretador n&atilde;o aceita <code>overload</code>.</li>
+        <li class="ok"><b>Perda de foco resolvida</b>: <code>AbrirTela</code> dispara o click real do menu (<code>Emisso1Click</code>) no <code>FPrincipal</code> em vez de criar o form avulso; <code>FocarModulo</code> / <code>TrazerParaFrente</code> devolvem o foco ao m&oacute;dulo.</li>
+        <li><b><code>Relogar</code> mantido</b>: cada caso de teste pode ter uma situa&ccedil;&atilde;o de par&acirc;metro a ser executada, ent&atilde;o a reconex&atilde;o do servidor de aplica&ccedil;&atilde;o &eacute; obrigat&oacute;ria &mdash; o foco &eacute; apenas restaurado depois dela.</li>
+        <li class="ok"><b>Asserts integrados</b>: <code>RegistrarDataSet</code> (10 calls) e <code>CompararResultadoEsperado</code> foram habilitados; <code>AssertsFalhou</code> continua ativo em <code>..._FAT_DOCUMENTO_FATURA_ITENS</code>.</li>
+        <li><b>Rename na TekStore</b>: <code>P39_TDD_FAT_VALIDAR_RESULTADO</code> &rarr; <code>P39_TDD_VALIDAR_RESULTADO</code> (generalizado para todos os m&oacute;dulos). <code>P39_TDD_VALIDAR_GENERICO</code> (3087) saiu da lista da API.</li>
+        <li><b>Pend&ecirc;ncia</b>: <code>CDSCasosTestes.COMPARADO</code> ainda n&atilde;o &eacute; gravado por <code>P39_TDD_VALIDAR_RESULTADO</code>.</li>
+        <li><b>Cache do ERP</b>: ap&oacute;s atualiza&ccedil;&atilde;o externa da unit, fechar/reabrir no BI antes de executar &mdash; a sess&atilde;o pode regravar a vers&atilde;o antiga por cima da nova.</li>
+        <li><b>Resumo</b>: 21 units no fluxo do PEDIDO DE VENDA, 40 arestas de <code>uses</code> mapeadas.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      securityLevel: 'loose',
+      flowchart: { htmlLabels: true, curve: 'basis', nodeSpacing: 45, rankSpacing: 60 }
+    });
+  </script>
+</body>
+</html>

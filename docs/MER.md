@@ -13,19 +13,19 @@ erDiagram
     AREA {
         bigint AUTOINC_AREA PK "NOT NULL"
         varchar(50) DESCRICAO_AREA
-        bigint MODULO_AREA FK "NOT NULL"
+        bigint MODULO_AREA FK
     }
     CASO_TESTE {
         bigint AUTOINC_CT PK "NOT NULL"
         bigint MODULO_CT FK "NOT NULL"
-        bigint AREA_CT FK "NOT NULL"
+        bigint AREA_CT FK
         varchar(255) DESCRICAO_CASO_TESTE_CT "NOT NULL"
-        blob CASO_TESTE_CT "JSON"
-        blob CAMPOS_DISPONIVEIS_CT "JSON"
-        blob RESULTADO_ESPERADO_CT "JSON"
-        varchar(10) REQUISITO_VERSAO_CT "Versao minima opcional"
+        blob CASO_TESTE_CT "TEXT ISO8859_1 - JSON"
         char(1) ATIVO_CT "DEFAULT 'S' CHECK (S/N)"
-        blob JSON_CASO_TESTE
+        blob CAMPOS_DISPONIVEIS_CT "TEXT ISO8859_1 - JSON"
+        blob RESULTADO_ESPERADO_CT "TEXT ISO8859_1 - JSON"
+        blob JSON_CASO_TESTE "TEXT ISO8859_1 - JSON"
+        varchar(10) REQUISITO_VERSAO_CT "Versao minima opcional"
     }
     HISTORICO_EXECUCAO {
         integer AUTOINC_HISTORICO_HE PK "IDENTITY NOT NULL"
@@ -61,14 +61,14 @@ erDiagram
     }
     UNIT {
         bigint CODIGO_UNIT PK "NOT NULL"
-        varchar(60) NOME_UNIT UK "NOT NULL"
+        varchar(60) NOME_UNIT UK
         blob CODIFICACAO_UNIT
         blob OBSERVACAO_UNIT
-        bigint MODULO_UNIT FK "NOT NULL DEFAULT 0"
+        bigint MODULO_UNIT FK "DEFAULT 0"
     }
     PROCESSAMENTO {
         integer CODIGO_PROCESSAMENTO PK "NOT NULL"
-        varchar(60) DESCRICAO_PROCESSAMENTO UK "NOT NULL"
+        varchar(60) DESCRICAO_PROCESSAMENTO UK
         blob CODIFICACAO_PROCESSAMENTO "NOT NULL"
         blob OBSERVACAO_PROCESSAMENTO
         bigint MODULO_PROCESSAMENTO "FK implícita"
@@ -96,7 +96,7 @@ erDiagram
         blob DADOS_FATCONFIG "resumo: 22 campos de configuração"
     }
     FINANCEIRO_CONFIGURACAO {
-        blob DADOS_FINCONFIG "resumo: 15 campos de configuração"
+        blob DADOS_FINCONFIG "resumo: 14 campos de configuração"
     }
 
     MODULO ||--o{ AREA : "possui"
@@ -111,6 +111,35 @@ erDiagram
 ```
 
 ## Notas
+
+### Blobs de `CASO_TESTE`
+
+Todas as colunas de JSON — `CASO_TESTE_CT`, `CAMPOS_DISPONIVEIS_CT`,
+`RESULTADO_ESPERADO_CT` e `JSON_CASO_TESTE` — são **blob texto** (`SUB_TYPE 1`,
+`ISO8859_1`).
+
+O Firebird não permite alterar o tipo de uma coluna existente com `ALTER
+TABLE`. A conversão foi feita pela técnica das 4 fases: criar a coluna nova no
+tipo alvo → `UPDATE` movendo os dados → `DROP` da coluna antiga →
+`ALTER COLUMN ... TO` renomeando a nova para o nome original. Por isso a
+conversão roda em **duas transações**: a Fase 1 precisa de `COMMIT` para o DML
+enxergar a coluna nova, e as Fases 2–4 ficam num único bloco atômico.
+
+Scripts: `sql/migracao_blob_binario_para_texto_caso_teste.sql` (2 primeiras
+colunas + criação de `JSON_CASO_TESTE`) e
+`sql/temp-local/migracao_blob_binario_para_texto_caso_teste_ct.sql`
+(`CASO_TESTE_CT`).
+
+A conversão de `CASO_TESTE_CT` o moveu para a última posição da tabela, já que o
+Firebird não permite reordenar colunas. O código não é afetado: usa listas
+explícitas de colunas e `FieldByName`.
+
+### Tabelas de métricas do TDD_RUNNER
+
+`HISTORICO_EXECUCAO`, `METRICAS_TICK_DIFF` e `METRICAS_ASSERTS` foram criadas por
+`sql/migracao_tdd_runner_metricas.sql`. São gravadas por `P39_TDD_FINISHED.pas`
+(`INSERT ... RETURNING AUTOINC_HISTORICO_HE`) e lidas pelo `TDD_RUNNER`.
+`STATUS_EXECUCAO_HE` é validado por `CK_HISTORICO_EXECUCAO_STATUS`.
 
 ### FKs implícitas
 

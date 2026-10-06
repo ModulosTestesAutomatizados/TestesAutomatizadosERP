@@ -20,7 +20,7 @@ Regras do processo:
 
 | Item | Valor |
 | ---- | ----- |
-| diretório | `C:\Users\Gerson Ribeiro\Documents\TEK\ProjetosTek\Testes\TestesAutomatizadosERP\docs\assets` |
+| diretório | `D:\TestesAutomatizados\ERP\SourceTDD` |
 
 **Regras obrigatórias para o diretório:**
 
