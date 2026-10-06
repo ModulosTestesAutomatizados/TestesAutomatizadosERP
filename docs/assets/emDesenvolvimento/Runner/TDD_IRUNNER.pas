@@ -64,17 +64,8 @@ begin
           lLS.Add('        LogDoProcessamentoAdd(''ENCERROU '    + lMetodo + ''');');
           lLS.Add('        {P39_TDD_RUNNER.}RegistrarTick(1, ''' + lMetodo + ''');');
         end
-        else
-        begin
-          lLS.Add('        CallBack_Mensagem(ClassOwner, '''     + lMetodo + ''');');
-          lLS.Add('        {P39_TDD_RUNNER.}RegistrarTick(0, ''' + lMetodo + ''');');
-          lLS.Add('        LogDoProcessamentoAdd(''INICIOU '     + lMetodo + ''');');
-          lLS.Add('        '                                     + lMetodo +    ';');
-          lLS.Add('        LogDoProcessamentoAdd(''ENCERROU '    + lMetodo + ''');');
-          lLS.Add('        {P39_TDD_RUNNER.}RegistrarTick(1, ''' + lMetodo + ''');');
-        end;
-//        else // Restringe apenas a Setup e Teste.
-//          raise Exception.Create('Apenas os métodos de "Setup" e "Teste" são aceitos!');
+        else // Restringe apenas a Setup e Teste.
+          raise Exception.Create('Apenas os métodos de "Setup" e "Teste" são aceitos!');
       end;
 
       FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__USES_UNITS__', FUsesUnits.CommaText);

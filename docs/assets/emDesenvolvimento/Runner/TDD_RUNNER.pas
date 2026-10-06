@@ -55,9 +55,90 @@ var
 procedure Main;
 var lInstrucoes :string;
 begin
-  lInstrucoes := '';
+  lInstrucoes := 'SetupCasosTestes(modulo, area): carrega o CDS global uma vez, antes do loop em ExecutarLote na casca.' + #13 +
+    'SetarCasoTeste: prepara o contexto individual; InicializarMetricasTickDiff reinicia os tempos de cada tentativa.';
   {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_RUNNER', lInstrucoes);
 end;
+
+{$region Setup Casos de Testes}
+{ ================================================================
+  CARGA DO CONJUNTO DE CASOS DE TESTE
+    - Chamada pela Main da casca antes da iteracao dos casos
+  ================================================================ }
+function SetupCasosTestes(const pDescricaoModulo, pDescricaoArea :string) :Boolean;
+begin
+  Result := False;
+
+  if (Trim(pDescricaoModulo) = '') or (Trim(pDescricaoArea) = '') then
+    raise Exception.Create('Modulo e area devem ser informados para carregar os casos de teste.');
+
+  CallBack_Mensagem(ClassOwner, '[SETUP CASOS DE TESTE INICIADO]');
+  {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug(
+    '=================================================================' + #13 +
+    'SETUP CASOS DE TESTE INICIADO'                                     + #13 +
+    '=================================================================' + #13 +
+    '| Modulo:    ' + pDescricaoModulo                                  + #13 +
+    '| Area:      ' + pDescricaoArea
+  );
+
+  try
+    {P39_TDD_CASOS_DE_TESTE.}SetModulo(pDescricaoModulo);
+    {P39_TDD_CASOS_DE_TESTE.}SetArea(pDescricaoArea);
+    if FEstruturaCasoTesteIniciada then
+    begin
+      CDSCasosTestes.EmptyDataSet;
+      CDSResultadoEsperado.EmptyDataSet;
+    end;
+    {P39_TDD_CASOS_DE_TESTE.}CarregarCasosTeste;
+
+    FContextoCasoTeste.DescricaoModulo := pDescricaoModulo;
+    FContextoCasoTeste.DescricaoArea := pDescricaoArea;
+
+    {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug(
+      'Estrutura de casos de teste inicializada' + #13 +
+      'Modulo/Area configurados'                 + #13 +
+      'Casos de teste carregados'
+    );
+
+    {P39_TDD_LOGS.}MostrarCDSEmModoDebugT(CDSCasosTestes, 'CDSCasosTestes - TDD_RUNNER');
+
+    Result := True;
+
+  except
+    on E: Exception do
+    begin
+      {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug('ERRO NO SETUP: ' + E.Message);
+      raise Exception.Create('Falha ao carregar os casos de teste: ' + E.Message);
+    end;
+  end;
+end;
+
+{ ================================================================
+  CONTEXTO INDIVIDUAL DO REGISTRO CORRENTE DO CDS GLOBAL
+    - Chamada por Run para preparar cada tentativa
+    - Reinicia historico, status, erros, etapa e dados do caso anterior
+    - Define o contexto sem carregar casos ou mover o cursor
+  ================================================================ }
+procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste :string);
+begin
+  FHistoricoExecucao.AutoIncHistorico := 0;
+  FHistoricoExecucao.AutoIncCasoTeste := CDSCasosTestes.FieldByName('ID').AsInteger;
+  FHistoricoExecucao.VersaoExecucao := '';
+  FHistoricoExecucao.RequisitoVersao := CDSCasosTestes.FieldByName('REQUISITOVERSAO').AsString;
+  FHistoricoExecucao.StatusExecucao := '';
+  FHistoricoExecucao.EtapaFalha := 0;
+  FHistoricoExecucao.MensagemErro := '';
+  FHistoricoExecucao.LogsFalhas := '';
+
+  FNomeMetodoAtual := '';
+  FEtapaAtual := 0;
+  FCasoTesteAtualId := 0;
+  FCasoTesteAtualJson := '';
+  FContextoCasoTeste.DescricaoModulo    := pDescricaoModulo;
+  FContextoCasoTeste.DescricaoArea      := pDescricaoArea;
+  FContextoCasoTeste.DescricaoCasoTeste := pDescricaoCasoTeste;
+end;
+{$endregion}
 
 { ================================================================
   INICIALIZAÇÃO DE CDS PARA ARMAZENAR TICKS DE EXECUÇÕES
@@ -190,14 +271,3 @@ begin
   {P39_TDD_LOGS.}MostrarCDSEmModoDebugT(FCDSMetricasTickDiff, 'CDS - Métricas Tick Diff');
 end;
 {$endregion}
-
-{ ================================================================
-  MÉTODO COM PAPEL DE SETTER PARA O CASO DE TESTE
-  Responsabilidade mantida no RUNNER para cronometrar o STARTED
-  ================================================================ }
-procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste :string);
-begin
-  FContextoCasoTeste.DescricaoModulo    := pDescricaoModulo;
-  FContextoCasoTeste.DescricaoArea      := pDescricaoArea;
-  FContextoCasoTeste.DescricaoCasoTeste := pDescricaoCasoTeste;
-end;

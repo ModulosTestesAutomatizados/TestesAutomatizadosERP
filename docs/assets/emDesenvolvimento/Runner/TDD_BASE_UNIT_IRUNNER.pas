@@ -4,70 +4,120 @@ uses TDD_RUNNER,__USES_UNITS__;
 
 procedure Main;
 begin
-  Run(__PARAMETROS_CASO_TESTE__);
+  ExecutarLote(__PARAMETROS_CASO_TESTE__);
 end;
 
-{$region Execução}
-procedure Run(pDescricaoModulo,pDescricaoArea,pDescricaoCasoTeste :string);
+procedure ExecutarLote(pDescricaoModulo,pDescricaoArea :string);
+var lTentados :integer;
 begin
+  lTentados := 0;
   try
+    // A carga pertence ao lote; somente este loop avanca o CDS global.
+    {TDD_RUNNER.}SetupCasosTestes(pDescricaoModulo,pDescricaoArea);
     try
-      // Inicializa para registrar todas as métricas até o ASSERTS.
-      {P39_TDD_RUNNER}InicializarMetricasTickDiff;
+      CDSCasosTestes.First;
+      while not CDSCasosTestes.Eof do
+      begin
+        lTentados := lTentados + 1;
+        Run;
+        CDSCasosTestes.Next;
+      end;
+    finally
+      LogDoProcessamentoAdd('LOTE: carregados=' + IntToStr(CDSCasosTestes.RecordCount) +
+        '; tentados=' + IntToStr(lTentados) + '; nao tentados=' + IntToStr(CDSCasosTestes.RecordCount - lTentados));
+    end;
+  finally
+    // Os metodos existentes cuidam da limpeza, mesmo se outro encerramento falhar.
+    try
+      LiberarMetricasTickDiff;
+    finally
+      try
+        TearDown_FinalizarParametros;
+      finally
+        try
+          Cache_TearDown_LimparInformacoes;
+        finally
+          TearDown_Finalizar_CasosTeste;
+        end;
+      end;
+    end;
+  end;
+end;
 
-      // Ponto de entrada deve sempre ser o run,assim o cronometro é capaz rastrear o tempo total corretamente.
-      {P39_TDD_RUNNER.}RegistrarTick(0,'TOTAL');
+{$region Execucao individual}
+procedure Run;
+var lInicioLog :integer;
+begin
+  lInicioLog := Length(LogDoProcessamento);
+  try
+    InicializarMetricasTickDiff;
+    RegistrarTick(0,'TOTAL');
+    // SetarCasoTeste reinicia o estado e usa o registro corrente do lote.
+    SetarCasoTeste(FDescModulo,FDescArea,CDSCasosTestes.FieldByName('DESCRICAO').AsString);
 
+    try
       CallBack_AbreTela('Run');
       CallBack_AbreTela(ClassOwner);
-
       try
-        {P39_TDD_RUNNER.}SetarCasoTeste(pDescricaoModulo,pDescricaoArea,pDescricaoCasoTeste);
+        try
+          FNomeMetodoAtual := 'STARTED';
+          RegistrarTick(0,'STARTED');
+          {TDD_STARTED.}Started;
+          RegistrarTick(1,'STARTED');
 
-        {P39_TDD_RUNNER.}FNomeMetodoAtual := 'STARTED';
-        {P39_TDD_RUNNER.}RegistrarTick(0,FNomeMetodoAtual);
-        {P39_TDD_STARTED.}Started;
-        {P39_TDD_RUNNER.}RegistrarTick(1,FNomeMetodoAtual);
+          FNomeMetodoAtual := 'IRUNNER';
+          RegistrarTick(0,'IRUNNER');
+__CHAMADAS_METODOS__ // Identacao incorreta propositalmente!
+          RegistrarTick(1,'IRUNNER');
 
-        FNomeMetodoAtual := 'IRUNNER';
-        RegistrarTick(0,FNomeMetodoAtual);
-__CHAMADAS_METODOS__ // Identação incorreta propositalmente!
-        RegistrarTick(1,FNomeMetodoAtual);
+          FNomeMetodoAtual := 'ASSERTS';
+          RegistrarTick(0,'ASSERTS');
+          //{P39_TDD_ASSERTS.} //PENDENTE O USE CASE DE ASSERTS;
+          RegistrarTick(1,'ASSERTS');
 
-        FNomeMetodoAtual := 'ASSERTS';
-        RegistrarTick(0,FNomeMetodoAtual);
-        //{P39_TDD_ASSERTS.} //PENDENTE O USE CASE DE ASSERTS;
-        RegistrarTick(1,FNomeMetodoAtual);
+          FHistoricoExecucao.StatusExecucao := 'SUCESSO';
+        except
+          on Ex: Exception do
+          begin
+            FHistoricoExecucao.MensagemErro := 'Falha no caso ID ' + IntToStr(FHistoricoExecucao.AutoIncCasoTeste) +
+              ', metodo ' + FNomeMetodoAtual + ': ' + Ex.Message;
+            FHistoricoExecucao.EtapaFalha := FEtapaAtual;
+            if FHistoricoExecucao.StatusExecucao <> 'VERSAO_INCOMPATIVEL' then
+              FHistoricoExecucao.StatusExecucao := 'FALHA';
+            LogDoProcessamentoAdd(FHistoricoExecucao.MensagemErro);
 
-        {P39_TDD_RUNNER.}FHistoricoExecucao.StatusExecucao := 'SUCESSO';
-      except
-        on Ex: Exception do
-        begin
-          FHistoricoExecucao.MensagemErro := Ex.Message;
-          FHistoricoExecucao.EtapaFalha   := FEtapaAtual;
-
-          if FHistoricoExecucao.StatusExecucao <> 'VERSAO_INCOMPATIVEL' then
-            FHistoricoExecucao.StatusExecucao := 'FALHA';
-
-          raise exception.Create(MensagemPersonalizada + Ex.Message);
+            // Falhas do teste e incompatibilidade ficam no historico; preparacao interrompe.
+            if (FNomeMetodoAtual = 'STARTED') and
+               (FHistoricoExecucao.StatusExecucao <> 'VERSAO_INCOMPATIVEL') then
+              raise;
+          end;
         end;
+      finally
+        // Fecha os tempos em aberto, inclusive quando o caso falha.
+        FCDSMetricasTickDiff.First;
+        while not FCDSMetricasTickDiff.Eof do
+        begin
+          if FCDSMetricasTickDiff.FieldByName('TEMPO_FIM').AsInteger = 0 then
+            RegistrarTick(1,FCDSMetricasTickDiff.FieldByName('NOME_METODO').AsString);
+          FCDSMetricasTickDiff.Next;
+        end;
+        FHistoricoExecucao.LogsFalhas := Copy(LogDoProcessamento,lInicioLog + 1,Length(LogDoProcessamento));
+        FNomeMetodoAtual := 'FINISHED';
+        {TDD_FINISHED.}RegistrarMetricas;
       end;
     finally
       try
-        RegistrarTick(1,'TOTAL');
-        FHistoricoExecucao.LogsFalhas := LogDoProcessamento;
-        {P39_TDD_FINISHED.}RegistrarMetricas;
-      except
-        on Ex: Exception do
-          raise Exception.Create('Falha ao persistir metricas: ' + Ex.Message);
+        CallBack_FechaTela(ClassOwner);
+      finally
+        CallBack_FechaTela('Run');
       end;
-      CallBack_FechaTela(ClassOwner);
-      CallBack_FechaTela('Run');
-      {P39_TDD_RUNNER.}LiberarMetricasTickDiff;
     end;
+    // As metricas ficam disponiveis ate a proxima inicializacao ou limpeza do lote.
   except
-    on ex: Exception do
-      raise Exception.Create(MensagemPersonalizada + #13 + ex.Message);
+    on Ex: Exception do
+      raise Exception.Create(MensagemPersonalizada + #13 +
+        'Falha no caso ID ' + IntToStr(FHistoricoExecucao.AutoIncCasoTeste) +
+        ', metodo ' + FNomeMetodoAtual + ': ' + Ex.Message);
   end;
 end;
 {$endregion}
