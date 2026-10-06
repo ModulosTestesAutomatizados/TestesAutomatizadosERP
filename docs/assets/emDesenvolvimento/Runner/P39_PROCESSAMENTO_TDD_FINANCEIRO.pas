@@ -5,7 +5,7 @@ uses TDD_IRUNNER;
 procedure Main;
 var lInstrucoes :string;
 begin
-  {P39_TDD_LOGS.}FModoDebug := False;
+  {P39_TDD_LOGS.}FExibirInstrucoes := False;
   lInstrucoes := 'Entrada do processamento financeiro que configura a unit e inicia o lote IRunner.'                       + #13 +
     '====================================================================================================================' + #13 +
     'Métodos disponibilizados pela Unit:'                                                                                  + #13 +
