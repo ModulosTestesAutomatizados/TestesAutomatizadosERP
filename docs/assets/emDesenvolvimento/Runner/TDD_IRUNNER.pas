@@ -1,4 +1,6 @@
-var FUsesUnits, FMetodos, FParamsCasosTeste, FUnitInterpretar :TStringList;
+var
+  FTDDUnit                            :string;
+  FParamsCasosTeste, FUnitInterpretar :TStringList;
 
 procedure Main();
 var lInstrucoes :string;
@@ -7,82 +9,59 @@ begin
   {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_IRUNNER', lInstrucoes);
 end;
 
+// Define a unica unit cujo Teste sera chamado por Run para cada caso.
+procedure SetTDDUnit(pUnit :string);
+begin
+  FTDDUnit := Trim(pUnit);
+end;
+
 procedure AddItemToList(var pList: TStringList; const pValue: string);
 begin
   if not Assigned(pList) then
     pList := TStringList.Create;
-
   pList.Add(pValue);
 end;
 
-procedure AddMetodo(pMetodo: string);
-begin
-  AddItemToList(FMetodos, pMetodo);
-end;
-
-procedure AddUsesUnit(pUnit: string);
-begin
-  AddItemToList(FUsesUnits, pUnit);
-end;
-
-procedure AddParamsRun(pParam: string);
+procedure AddParamsRun(pParam :string);
 begin
   AddItemToList(FParamsCasosTeste, pParam);
 end;
 
 procedure Executar;
-var 
-  lIndice :integer;
+var
   lLS     :TStringList;
   lMetodo :string;
 begin
+  if Trim(FTDDUnit) = '' then
+    raise Exception.Create('Nenhuma Unit para uses informada! Impossivel executar o teste.');
+  if not Assigned(FParamsCasosTeste) then
+    raise Exception.Create('Módulo e área devem ser informados.');
+  if FParamsCasosTeste.Count <> 2 then
+    raise Exception.Create('Informe exatamente dois parâmetros: módulo e área.');
+
+  lLS              := TStringList.Create;
+  FUnitInterpretar := TStringList.Create;
   try
-    if ((Trim(FUsesUnits.Text) = '') or (Trim(FUsesUnits[0]) = '')) then
-      raise Exception.Create('Nenhuma Unit para uses informada! Impossível executar o teste.');
+    FUnitInterpretar.Clear;
+    FUnitInterpretar.Add(CodificacaoUnit('TDD_BASE_UNIT_IRUNNER'));
 
-    if ((Trim(FMetodos.Text) = '') or (Trim(FMetodos[0]) = '')) then
-      raise Exception.Create('Não existem métodos para serem executados! Impossível executar o teste.');
+    lLS.Clear;
+    lMetodo := 'Teste';
+    lLS.Add('        CallBack_Mensagem(ClassOwner, '''     + lMetodo + ''');');
+    lLS.Add('        {P39_TDD_RUNNER.}RegistrarTick(0, ''' + lMetodo + ''');');
+    lLS.Add('        {' + FTDDUnit + '.}'                  + lMetodo +    ';');
+    lLS.Add('        {P39_TDD_RUNNER.}RegistrarTick(1, ''' + lMetodo + ''');');
 
-    lLS              := TStringList.Create;
-    FUnitInterpretar := TStringList.Create;
-    try
-      FUnitInterpretar.Clear;
-      FUnitInterpretar.Add(CodificacaoUnit('TDD_BASE_UNIT_IRUNNER'));
+    FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__USES_UNITS__', FTDDUnit);
+    FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__PARAMETROS_CASO_TESTE__', FParamsCasosTeste.CommaText);
+    FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, ',', ', ');
+    FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__CHAMADAS_METODOS__ // Identacao incorreta propositalmente!', lLS.Text);
 
-      lLS.Clear;
-      for lIndice := 0 to FMetodos.Count -1 do
-      begin
-        lMetodo := FMetodos[lIndice];
-
-        CallBack_Mensagem(ClassOwner, lMetodo);
-        if ((Pos('Setup', lMetodo) > 0) or (Pos('Teste', lMetodo) > 0)) then
-        begin
-          lLS.Add('        CallBack_Mensagem(ClassOwner, '''     + lMetodo + ''');');
-          lLS.Add('        {P39_TDD_RUNNER.}RegistrarTick(0, ''' + lMetodo + ''');');
-          lLS.Add('        LogDoProcessamentoAdd(''INICIOU '     + lMetodo + ''');');
-          lLS.Add('        '                                     + lMetodo +    ';');
-          lLS.Add('        LogDoProcessamentoAdd(''ENCERROU '    + lMetodo + ''');');
-          lLS.Add('        {P39_TDD_RUNNER.}RegistrarTick(1, ''' + lMetodo + ''');');
-        end
-        else // Restringe apenas a Setup e Teste.
-          raise Exception.Create('Apenas os métodos de "Setup" e "Teste" são aceitos!');
-      end;
-
-      FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__USES_UNITS__', FUsesUnits.CommaText);
-      FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__PARAMETROS_CASO_TESTE__', FParamsCasosTeste.CommaText);
-      FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, ',', ', ');
-      FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__CHAMADAS_METODOS__', lLS.Text);
-
-      {P39_TDD_LOGS.}MostrarLogTextoEmModoDebugT(FUnitInterpretar.Text, 'FUnitInterpretar.Text - TDD_IRUNNER.Executar');
-      Interpretar(FUnitInterpretar.Text);
-    finally
-      FUsesUnits.Free;
-      FMetodos.Free;
-      lLS.Free;
-      FUnitInterpretar.Free;
-    end;
-  except
-    on ex: Exception do
-      raise Exception.Create(ex.Message);
+    {P39_TDD_LOGS.}MostrarLogTextoEmModoDebugT(FUnitInterpretar.Text, 'FUnitInterpretar.Text - TDD_IRUNNER.Executar');
+    Interpretar(FUnitInterpretar.Text);
+  finally
+    lLS.Free;
+    FUnitInterpretar.Free;
+    FParamsCasosTeste.Free;
   end;
 end;

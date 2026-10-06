@@ -1,4 +1,7 @@
-var FModoDebug, FExibirInstrucoes :Boolean;
+var
+  FModoDebug, FExibirInstrucoes :Boolean;
+  // Registro em memoria; Run controlara Clear por caso e o lote liberara a lista.
+  FLogsCasoTeste :TStringList;
 
 { ================================================================
   MAIN / INSTRUÇÕES
@@ -18,10 +21,12 @@ begin
     '  - Outra variant, porém destinada à exibição de um CDS.'                                                                                                                                              + #13 +
     'procedure MostrarCDSEmModoDebugT(pCDSDebug: TClientDataSet, pTitulo :string)'                                                                                                                          + #13 +
     '  - Variante da exibição de CDS com titulo personalizado.'                                                                                                                                             + #13 +
-    'procedure LogDoProcessamentoAddEmModoDebug(pLog :string)'                                                                                                                                              + #13 +
+    'procedure DelimitadorLog(pTitulo :string)' + #13 +
+    '  - Registra separador e titulo para agrupar mensagens de uma etapa.' + #13 +
+    'procedure RegistrarLogEmModoDebug(pLog :string)'                                                                                                                                              + #13 +
     '  - Ao executar um fluxo na thread do método "interpreta", LogTexto não é exibido, então é melhor registrar os logs do processamento.'                                                                 + #13 +
     '=====================================================================================================================================================================================================' + #13 +
-    'O comportamento descrito de todas as units depende de FModoDebug ser "True"!'                                                                                                                          + #13 +
+    'As mensagens de texto sao registradas em FLogsCasoTeste quando FModoDebug está ligado'                                                                                                                 + #13 +
     'As variantes "T" fazem uma validação se o parâmetro título não é vazio e todas as units adotam "[DEBUG]" como título padrão quando aplicável!'                                                         + #13 +
     'MostrarCDSEmModoDebugT mantém o valor True para o parâmetro de Modal.'                                                                                                                                 + #13 +
     '=====================================================================================================================================================================================================' + #13 +
@@ -36,11 +41,13 @@ end;
 {$region MostrarLogs}
 procedure MostrarLogTextoEmModoDebug(pTexto :string);
 begin
+  RegistrarLogEmModoDebug(pTexto);
   if FModoDebug then MostrarLogTexto(pTexto, '[DEBUG]');
 end;
 
 procedure MostrarLogTextoEmModoDebugT(pTexto, pTitulo :string);
 begin
+  RegistrarLogEmModoDebug(pTexto);
   if FModoDebug then MostrarLogTexto(pTexto, iif(Trim(pTitulo) <> '', pTitulo, '[DEBUG]'));
 end;
 
@@ -54,9 +61,24 @@ begin
   if FModoDebug then MostrarCDS(pCDSDebug, True, iif(Trim(pTitulo) <> '', pTitulo, '[DEBUG]'));
 end;
 
-procedure LogDoProcessamentoAddEmModoDebug(pLog :string);
+procedure DelimitadorLog(pTitulo :string);
 begin
-  if FModoDebug then LogDoProcessamentoAdd(pLog);
+  RegistrarLogEmModoDebug(
+    '================================================================' + #13 +
+    pTitulo                                                            + #13 +
+    '================================================================'
+  );
+end;
+
+procedure RegistrarLogEmModoDebug(pLog :string);
+begin
+  if not Assigned(FLogsCasoTeste) then
+    FLogsCasoTeste := TStringList.Create;
+
+  if FModoDebug then
+  begin
+    FLogsCasoTeste.Add(pLog + #13);
+  end;
 end;
 {$endregion}
 

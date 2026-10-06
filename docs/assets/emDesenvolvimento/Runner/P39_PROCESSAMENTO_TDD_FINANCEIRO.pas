@@ -10,11 +10,9 @@ end;
 
 procedure ExecutarIRunner;
 begin
-  {P39_TDD_IRUNNER.}AddUsesUnit('REFACTOR_TDD_FINANCEIRO_PILOTO');
+  {P39_TDD_IRUNNER.}SetTDDUnit('REFACTOR_TDD_FINANCEIRO_PILOTO');
   {P39_TDD_IRUNNER.}AddParamsRun('''FINANCEIRO''');
   {P39_TDD_IRUNNER.}AddParamsRun('''FINANCEIRO''');
-  {P39_TDD_IRUNNER.}AddMetodo('{REFACTOR_TDD_FINANCEIRO_PILOTO.}ExecutarFluxoCompletoFinanceiro');  
-
   {P39_TDD_IRUNNER.}Executar;
 end;
 

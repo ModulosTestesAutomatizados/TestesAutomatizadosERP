@@ -86,9 +86,10 @@ __CHAMADAS_METODOS__ // Identacao incorreta propositalmente!
               FHistoricoExecucao.StatusExecucao := 'FALHA';
             LogDoProcessamentoAdd(FHistoricoExecucao.MensagemErro);
 
-            // Falhas do teste e incompatibilidade ficam no historico; preparacao interrompe.
-            if (FNomeMetodoAtual = 'STARTED') and
-               (FHistoricoExecucao.StatusExecucao <> 'VERSAO_INCOMPATIVEL') then
+            // Falhas do teste ficam no historico; preparacao/limpeza insegura interrompe.
+            if (FNomeMetodoAtual = 'TEARDOWN') or
+               ((FNomeMetodoAtual = 'STARTED') and
+                (FHistoricoExecucao.StatusExecucao <> 'VERSAO_INCOMPATIVEL')) then
               raise;
           end;
         end;
@@ -102,7 +103,7 @@ __CHAMADAS_METODOS__ // Identacao incorreta propositalmente!
           FCDSMetricasTickDiff.Next;
         end;
         FHistoricoExecucao.LogsFalhas := Copy(LogDoProcessamento,lInicioLog + 1,Length(LogDoProcessamento));
-        FNomeMetodoAtual := 'FINISHED';
+        FNomeMetodoAtual              := 'FINISHED';
         {TDD_FINISHED.}RegistrarMetricas;
       end;
     finally
@@ -112,12 +113,14 @@ __CHAMADAS_METODOS__ // Identacao incorreta propositalmente!
         CallBack_FechaTela('Run');
       end;
     end;
-    // As metricas ficam disponiveis ate a proxima inicializacao ou limpeza do lote.
+    // As métricas ficam disponíveis até a próxima inicialização ou limpeza do lote.
   except
     on Ex: Exception do
-      raise Exception.Create(MensagemPersonalizada + #13 +
-        'Falha no caso ID ' + IntToStr(FHistoricoExecucao.AutoIncCasoTeste) +
-        ', metodo ' + FNomeMetodoAtual + ': ' + Ex.Message);
+      raise Exception.Create(MensagemPersonalizada                          + #13 +
+        'Falha no caso ID ' + IntToStr(FHistoricoExecucao.AutoIncCasoTeste) + #13 +
+        'Método: ' + FNomeMetodoAtual + ': '                                + #13 +
+        Ex.Message
+      );
   end;
 end;
 {$endregion}
