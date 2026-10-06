@@ -1,5 +1,5 @@
 { ================================================================
-  P39_TDD_STARTED - Casca única / Test Runner para testes TDD
+  TDD_STARTED - Preparação individual no fluxo IRunner
 
   Herda via P39_TDD_CASOS_DE_TESTE:
   - P39_TDD_CONSTANTES (constantes, cache, SQL)
@@ -20,23 +20,27 @@ var
   MAIN / INSTRUÇÕES
   ================================================================ }
 procedure Main;
-var
-  lInstrucoes :string;
+var lInstrucoes :string;
 begin
-  lInstrucoes := 'Unit Responsavel pela preparacao individual do registro corrente, com parametros e validacao de versao. A carga pertence a TDD_RUNNER.'                                                   + #13 +
-    '=====================================================================================================================================================================================================' + #13 +
-    'Uses mínimo: P39_TDD_CASOS_DE_TESTE (herda CONSTANTES, ODBC, JSON, CACHE, PARAMETRO)'                                                                                                                  + #13 +
-    '=====================================================================================================================================================================================================' + #13 +
-    'Métodos disponibilizados pela Unit:'                                                                                                                                                                   + #13 +
-    'procedure AplicarParametrosDoCasoTeste'                                                                                                                                                                + #13 +
-    '  - Após carregar um caso de teste, temos a possibilidade de ter no json do caso de teste um objeto de parâmetros do sistema, caso existam eles são setados antes de iniciar o teste.'                 + #13 +
-    'function ValidarVersaoRequisito :boolean'                                                                                                                                                              + #13 +
-    '  - Quando existir uma versão requisito no caso de teste, validamos se a versão do ERP em que a execução está sendo executada é valida utilizando VersaoSistemaIgualOuSuperior.'                       + #13 +
-    'procedure Started'                                                                                                                                                                                    + #13 +
-    '  - Prepara o registro corrente do CDSCasosTestes, valida a versão e aplica os parâmetros desse caso, sem recarregar ou mover o cursor.'                                                                  + #13 +
-    '=====================================================================================================================================================================================================' + #13 +
-    'Todos esses métodos estão altamente acoplados em TDD_RUNNER, eles possuem diversas dependências presentes na unit principal da execução, isso é proposital pois temos um fluxo completo para o TDD.'   + #13 +
-    '=====================================================================================================================================================================================================';
+  lInstrucoes := 'Unit responsável pela preparação do caso corrente, validação de versão e aplicação de parâmetros.'       + #13 +
+    '====================================================================================================================' + #13 +
+    'Dependências herdadas:'                                                                                               + #13 +
+    'Uses: P39_TDD_CASOS_DE_TESTE; herda CONSTANTES, ODBC, JSON, CACHE e PARAMETRO.'                                       + #13 +
+    '====================================================================================================================' + #13 +
+    'Métodos disponibilizados pela Unit:'                                                                                  + #13 +
+    'procedure Started'                                                                                                    + #13 +
+    '  - Obtém ID, descrição e JSON do registro corrente, sem carregar casos ou mover o cursor.'                           + #13 +
+    'function ValidarVersaoRequisito :Boolean'                                                                             + #13 +
+    '  - Aceita requisito vazio; valida a versão mínima quando informada e registra incompatibilidade.'                    + #13 +
+    'procedure AplicarParametrosDoCasoTeste'                                                                               + #13 +
+    '  - Aplica os parâmetros presentes no JSON após a verificação de versão.'                                             + #13 +
+    '====================================================================================================================' + #13 +
+    'Contrato de execução:'                                                                                                + #13 +
+    'Started é chamada por Run após SetarCasoTeste; a carga do lote permanece em SetupCasosTestes.'                        + #13 +
+    'FCasoTesteAtualId e FCasoTesteAtualJson são compartilhados com a unit de Teste.'                                      + #13 +
+    'Os tempos são registrados pelos métodos existentes; logs são condicionados a FModoDebug.'                             + #13 +
+    'FExibirInstrucoes controla a exibição destas instruções.'                                                             + #13 +
+    '====================================================================================================================';
   {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_STARTED', lInstrucoes);
 end;
 
@@ -60,13 +64,13 @@ begin
         if not Assigned(lObj) then
           raise Exception.Create('JSON de parâmetros inválido.');
 
-        {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug(
+        {P39_TDD_LOGS.}RegistrarLogEmModoDebug(
           'Aplicando parâmetros do caso de teste no sistema.' + #13 +
           lObj.ToJSON
         );
 
         {P39_TDD_PARAMETRO.}VerificarParametros(lObj.ToJSON);
-        {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug('Parâmetros verificados.');
+        {P39_TDD_LOGS.}RegistrarLogEmModoDebug('Parâmetros verificados.');
       finally
         lObj.Free;
       end;
@@ -101,7 +105,7 @@ begin
             lVersaoRequisito
           ])
         );
-      end;      
+      end;
     end;
   except
     on ex: Exception do
@@ -142,7 +146,7 @@ begin
   FContextoCasoTeste.DescricaoCasoTeste := CDSCasosTestes.FieldByName('DESCRICAO').AsString;
   FHistoricoExecucao.AutoIncCasoTeste := FCasoTesteAtualId;
 
-  {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug(
+  {P39_TDD_LOGS.}RegistrarLogEmModoDebug(
     'Preparando caso de teste: ' + FContextoCasoTeste.DescricaoCasoTeste + #13 +
     ' (ID ' + IntToStr(FCasoTesteAtualId) + ')'                          + #13 +
     'JSON do caso: '                                                     + #13 +
