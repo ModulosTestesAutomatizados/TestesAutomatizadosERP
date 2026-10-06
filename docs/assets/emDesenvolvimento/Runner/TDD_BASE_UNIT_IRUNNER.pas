@@ -65,10 +65,10 @@ begin
   try
     try
       {TDD_LOGS.}DelimitadorLog('PREPARAÇÃO DO CASO');
-      InicializarMetricasTickDiff;
-      RegistrarTick(0,'TOTAL');
       // SetarCasoTeste reinicia o estado e usa o registro corrente do lote.
       SetarCasoTeste(FDescModulo,FDescArea,CDSCasosTestes.FieldByName('DESCRICAO').AsString);
+      InicializarMetricasTickDiff;
+      RegistrarTick(0,'TOTAL');
 
       try
         CallBack_AbreTela('Run');

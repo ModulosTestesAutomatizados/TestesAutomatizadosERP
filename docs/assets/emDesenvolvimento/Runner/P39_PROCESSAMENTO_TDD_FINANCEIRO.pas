@@ -1,6 +1,6 @@
 unit P39_PROCESSAMENTO_TDD_FINANCEIRO;
 
-uses TDD_RUNNER;
+uses TDD_IRUNNER;
 
 procedure Main;
 var lInstrucoes :string;
