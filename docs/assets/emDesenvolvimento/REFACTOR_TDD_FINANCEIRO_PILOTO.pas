@@ -54,7 +54,7 @@ begin
   lTipoDoc := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'TIPODOC_DUP', 0);
 
   if lEmpresa <= 0 then
-    FMsgCasoTesteInvalido := FMsgCasoTesteInvalido + #13 + 'Tag EMPRESA_DUP ausente ou inválida.'
+    FMsgCasoTesteInvalido := FMsgCasoTesteInvalido + #13 + 'Tag EMPRESA_DUP ausente ou inválida.';
 
   if lTipoDoc <= 0 then
     FMsgCasoTesteInvalido := FMsgCasoTesteInvalido + #13 + 'Tag TIPODOC_DUP ausente ou inválida.';
