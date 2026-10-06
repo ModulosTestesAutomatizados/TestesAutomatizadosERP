@@ -1,20 +1,20 @@
-uses P39_TDD_ODBC, TDD_IRUNNER, TDD_LOGS, TDD_STARTED, TDD_FINISHED;
+uses P39_TDD_ODBC, TDD_LOGS, TDD_STARTED, TDD_FINISHED;
 
 type
-  THistoricoExecucao = record
-    AutoIncHistorico :integer; // PK
-    AutoIncCasoTeste :integer; // FK
-    VersaoExecucao   :string;
-    RequisitoVersao  :string;
-    StatusExecucao   :string;
-    EtapaFalha       :integer;
-    MensagemErro     :string;
-    LogsFalhas       :string;
+  THistoricoExecucao  = record
+    AutoIncHistorico  :integer; // PK
+    AutoIncCasoTeste  :integer; // FK
+    VersaoExecucao    :string;
+    RequisitoVersao   :string;
+    StatusExecucao    :string;
+    EtapaFalha        :integer;
+    MensagemErro      :string;
+    LogsProcessamento :string;
   end;
 
 type
   TMetricasTickDiff     = record
-    //AutoIncHistorico    :integer; // FK
+    //AutoIncHistorico  :integer; // FK
     NomeMetodo          :string;
     EtapaCasoTeste      :integer;
     TempoInicio         :Cardinal;
@@ -24,15 +24,15 @@ type
   end;
 
 type
-  TMetricasAsserts    = record
-    //AutoIncHistorico  :integer; // FK
-    EtapaCasoTeste    :integer;
-    TempoTotal        :Cardinal;
-    AssertsTotal      :integer;
-    AssertsAprovados  :integer;
-    AssertsFalhos     :integer;
-    ResultadoEsperado :string;
-    ResultadoObtido   :string;
+  TMetricasAsserts     = record
+    //AutoIncHistorico :integer; // FK
+    EtapaCasoTeste     :integer;
+    TempoTotal         :Cardinal;
+    AssertsTotal       :integer;
+    AssertsAprovados   :integer;
+    AssertsFalhos      :integer;
+    ResultadoEsperado  :string;
+    ResultadoObtido    :string;
   end;
 
 type
@@ -140,19 +140,19 @@ end;
   ================================================================ }
 procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste :string);
 begin
-  FHistoricoExecucao.AutoIncHistorico := 0;
-  FHistoricoExecucao.AutoIncCasoTeste := CDSCasosTestes.FieldByName('ID').AsInteger;
-  FHistoricoExecucao.VersaoExecucao := '';
-  FHistoricoExecucao.RequisitoVersao := CDSCasosTestes.FieldByName('REQUISITOVERSAO').AsString;
-  FHistoricoExecucao.StatusExecucao := '';
-  FHistoricoExecucao.EtapaFalha := 0;
-  FHistoricoExecucao.MensagemErro := '';
-  FHistoricoExecucao.LogsFalhas := '';
+  FHistoricoExecucao.AutoIncHistorico  := 0;
+  FHistoricoExecucao.AutoIncCasoTeste  := CDSCasosTestes.FieldByName('ID').AsInteger;
+  FHistoricoExecucao.VersaoExecucao    := '';
+  FHistoricoExecucao.RequisitoVersao   := CDSCasosTestes.FieldByName('REQUISITOVERSAO').AsString;
+  FHistoricoExecucao.StatusExecucao    := '';
+  FHistoricoExecucao.EtapaFalha        := 0;
+  FHistoricoExecucao.MensagemErro      := '';
+  FHistoricoExecucao.LogsProcessamento := '';
 
-  FNomeMetodoAtual := '';
-  FEtapaAtual := 0;
-  FCasoTesteAtualId := 0;
-  FCasoTesteAtualJson := '';
+  FNomeMetodoAtual                      := '';
+  FEtapaAtual                           := 0;
+  FCasoTesteAtualId                     := 0;
+  FCasoTesteAtualJson                   := '';
   FContextoCasoTeste.DescricaoModulo    := pDescricaoModulo;
   FContextoCasoTeste.DescricaoArea      := pDescricaoArea;
   FContextoCasoTeste.DescricaoCasoTeste := pDescricaoCasoTeste;

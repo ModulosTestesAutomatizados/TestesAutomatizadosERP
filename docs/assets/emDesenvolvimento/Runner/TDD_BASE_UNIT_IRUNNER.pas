@@ -124,8 +124,8 @@ __CHAMADAS_METODOS__ // Identacao incorreta propositalmente!
             FCDSMetricasTickDiff.Next;
           end;
           {TDD_LOGS.}DelimitadorLog('FINISHED');
-          FHistoricoExecucao.LogsFalhas := FLogsCasoTeste.Text;
-          FNomeMetodoAtual              := 'FINISHED';
+          FHistoricoExecucao.LogsProcessamento := {TDD_LOGS.}FLogsCasoTeste.Text;
+          FNomeMetodoAtual                     := 'FINISHED';
           {TDD_FINISHED.}RegistrarMetricas;
         end;
       finally
