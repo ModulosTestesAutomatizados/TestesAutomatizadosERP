@@ -1,0 +1,17 @@
+import type { IDocumento } from '../models/documentacao.ts';
+// Índice de títulos; links de seção permanecem dentro da rota hash do Pages.
+export default Vue.defineComponent({
+  props: { documento: Object as import('vue').PropType<IDocumento>, ativa: String },
+  setup() { return { route: VueRouter.useRoute(), titulo: (pSecao: import('../models/documentacao.ts').ISecao) => pSecao.titulo.replace(/^\d+\s*·\s*/, '') }; },
+  template: `  <aside class="document-toc"><nav aria-label="Sumário"><h2>Sumário</h2><ul>
+    <li
+      v-for="secao in documento.secoes"
+      :key="secao.id"
+      :data-nivel="secao.nivel ?? 2">
+      <RouterLink
+        :to="{ path: route.path, query: { secao: secao.id } }"
+        :class="{ 'toc-active': ativa === secao.id }"
+        :aria-current="ativa === secao.id ? 'location' : undefined">{{ titulo(secao) }}</RouterLink>
+    </li>
+  </ul></nav></aside>`
+});

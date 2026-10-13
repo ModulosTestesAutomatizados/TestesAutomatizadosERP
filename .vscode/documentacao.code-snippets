@@ -1,0 +1,155 @@
+{
+  "Documento TDD": {
+    "scope": "typescript",
+    "prefix": "docpagina",
+    "description": "Documento modular do portal TDD; registre uma vez no catálogo.",
+    "body": [
+      "import type { IDocumento } from '../../models/documentacao.ts';",
+      "",
+      "export default {",
+      "  slug: '${1:novo-caso}', categoria: '${2|documentos,estrutura,guias|}',",
+      "  titulo: '${3:Título da documentação}',",
+      "  resumo: '${4:Objetivo e conteúdo da página.}',",
+      "  estado: 'em-desenvolvimento',",
+      "  fontes: [{ caminho: '${5:docs/assets/caminho/UNIT.pas}' }],",
+      "  secoes: [{",
+      "    id: '${6:objetivo}', titulo: '${7:Objetivo e pré-requisitos}', nivel: 2,",
+      "    blocos: [{ tipo: 'paragrafo', texto: '${8:Descreva objetivo, fluxo e limites do caso.}' }]",
+      "  }]",
+      "} satisfies IDocumento;",
+      "$0"
+    ]
+  },
+  "Seção documental": {
+    "scope": "typescript",
+    "prefix": "docsecao",
+    "description": "Seção reutilizável com ID único no documento.",
+    "body": [
+      "{",
+      "  id: '${1:fluxo}', titulo: '${2:Fluxo de execução}', nivel: ${3|2,3,4|},",
+      "  blocos: [{ tipo: 'paragrafo', texto: '${4:Explique o fluxo.}' }]",
+      "},$0"
+    ]
+  },
+  "Código literal": {
+    "scope": "typescript",
+    "prefix": "doccodigo",
+    "description": "Bloco de código selecionável com botão de cópia.",
+    "body": [
+      "{ tipo: 'codigo', linguagem: '${1|pascal,json,typescript,javascript,shell|}',",
+      "  codigo: `${2:Conteúdo literal do código}` },$0"
+    ]
+  },
+  "Tabela documental": {
+    "scope": "typescript",
+    "prefix": "doctabela",
+    "description": "Tabela com o mesmo número de células por linha.",
+    "body": [
+      "{ tipo: 'tabela',",
+      "  colunas: ['${1:Unit}', '${2:Responsabilidade}'],",
+      "  linhas: [['${3:TDD_STARTED}', '${4:Preparar o caso corrente}']]",
+      "},$0"
+    ]
+  },
+  "Diagrama canônico": {
+    "scope": "typescript",
+    "prefix": "docdiagrama",
+    "description": "Referência a um fence Mermaid em Markdown, sem duplicar o mapa.",
+    "body": [
+      "{ tipo: 'mermaid', fonte: 'docs/MAPEAMENTO_AST_USES_UNITS/${1:documentacao}/${2:fluxo}.md',",
+      "  titulo: '${3:Dependências diretas e transitivas}' },$0"
+    ]
+  },
+  "Documento individual de unit": {
+    "scope": "typescript",
+    "prefix": "docunit",
+    "description": "Unit completa: responsabilidade, estado global, assinaturas, implementação e limites.",
+    "body": [
+      "import { criarDocumentoUnit } from './criarDocumentoUnit.ts';",
+      "export default criarDocumentoUnit({",
+      "  nome: '${1:TDD_NOVA_UNIT}', aliases: ['${2:P39_TDD_NOVA_UNIT}'],",
+      "  estado: 'em-desenvolvimento',",
+      "  resumo: '${3:Responsabilidade principal da unit.}',",
+      "  fonte: '${4:docs/assets/caminho/TDD_NOVA_UNIT.pas}',",
+      "  responsabilidade: '${5:O que esta unit deve realizar.}',",
+      "  problema: '${6:Qual problema ela resolve.}',",
+      "  estados: [['${7:ESTADO}', '${8:Tipo e finalidade}', '${9:Inicialização, alteração e descarte}']],",
+      "  metodos: [['${10:procedure Executar;}', '${11:Finalidade e contrato}', '${12:Como está implementada}']],",
+      "  implementacao: ['${13:Etapas internas e decisões}'],",
+      "  dependencias: ['${14:TDD_IRUNNER}: ${15:Motivo da dependência}'],",
+      "  limites: ['${16:Limitações verificadas nos fontes}']",
+      "});",
+      "$0"
+    ]
+  },
+  "Método da unit": {
+    "scope": "typescript",
+    "prefix": "docunitmetodo",
+    "description": "Procedure/function: assinatura Pascal, contrato e implementação.",
+    "body": [
+      "['${1:function Consultar(ID: Integer): String;}',",
+      " '${2:Entradas, retorno, efeitos e erros}',",
+      " '${3:Passos da implementação e dependências}'],$0"
+    ]
+  },
+  "Estado global da unit": {
+    "scope": "typescript",
+    "prefix": "docunitestado",
+    "description": "Estado global: nome, finalidade e ciclo de vida.",
+    "body": [
+      "['${1:ESTADO_GLOBAL}', '${2:Tipo e finalidade}', '${3:Quem inicializa, altera e limpa}'],$0"
+    ]
+  },
+  "Registro de unit": {
+    "scope": "typescript",
+    "prefix": "docregistrounit",
+    "description": "Import em content/units/catalogo.js; aliases também passam a gerar links automáticos.",
+    "body": [
+      "import ${1:novaUnit} from './${2:tdd-nova-unit}.ts';",
+      "// Acrescente ${1:novaUnit} à lista units abaixo.",
+      "$0"
+    ]
+  },
+  "Aviso documental": {
+    "scope": "typescript",
+    "prefix": "docaviso",
+    "description": "Aviso técnico visível na documentação.",
+    "body": [
+      "{ tipo: 'aviso', severidade: '${1|info,warning,error,success|}', texto: '${2:Limitação ou observação}' },$0"
+    ]
+  },
+  "Lista documental": {
+    "scope": "typescript",
+    "prefix": "doclista",
+    "description": "Lista de responsabilidades, etapas ou referências de units.",
+    "body": [
+      "{ tipo: 'lista', itens: ['${1:Primeiro item}', '${2:Segundo item}'] },$0"
+    ]
+  },
+  "Fonte Mermaid em Markdown": {
+    "scope": "markdown",
+    "prefix": "docmermaid",
+    "description": "Salve em docs/MAPEAMENTO_AST_USES_UNITS/<slug>/<diagrama>.md e referencie com docdiagrama.",
+    "body": [
+      "# ${1:Título do diagrama}",
+      "",
+      "Documentação: ${2:Assunto}. Fonte canônica do diagrama.",
+      "",
+      "```mermaid",
+      "flowchart ${3|LR,TD|}",
+      "  A[\"${4:TDD_IRUNNER}\"] --> B[\"${5:TDD_RUNNER}\"]",
+      "```",
+      "$0"
+    ]
+  },
+  "Registro do documento": {
+    "scope": "typescript",
+    "prefix": "docregistro",
+    "description": "Import para catalogo.js; acrescente o identificador à lista documentos.",
+    "body": [
+      "import ${1:novaPagina} from './${2:documentos/novo-caso}.ts';",
+      "// Acrescente ${1:novaPagina} à lista documentos abaixo.",
+      "$0"
+    ]
+  }
+}

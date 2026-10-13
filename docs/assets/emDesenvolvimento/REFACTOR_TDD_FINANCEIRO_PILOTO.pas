@@ -1,172 +1,105 @@
-uses TDD_STARTED, TDD_ASSERTS, TDD_CARREGAR_CASO_TESTE,
-  TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO,
-  TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO;
+uses  TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO,
+      TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO;
 
 const
-  cModuloFinanceiro = 'FINANCEIRO';
-  cAreaFinanceiro   = 'FINANCEIRO';
-  cCasoTesteUnico   = 'TDD_FINANCEIRO';
-
-  cTipoDuplicataReceber = 0;
-  cTipoDuplicataPagar   = 1;
-
   cFormReceber    = 'FCadReceber';
   cFormPagar      = 'FCadPagar';
   cDMCadDuplicata = 'DMCadDuplicata';
 
-  cEtapaDuplicataReceber   = 1;
-  cEtapaDuplicataPagar     = 2;
-  cEtapaBorderoRecebimento = 3;
-  cEtapaBorderoPagamento   = 4;
-  cEtapaFluxoCompleto      = 0;
-
-  cEtapaAtual = cEtapaFluxoCompleto;
-
 var
-  FCDSCasoTeste: TClientDataSet;
-  FCDSConfig: TClientDataSet;
-  FJSONCasoTeste: String;
   FCasoTesteInvalido: Boolean;
   FMsgCasoTesteInvalido: String;
 
 procedure Main;
 var lInstrucoes :string;
 begin
-  // TDD_CARREGAR_CASO_TESTE.Main;
-  // TDD_STARTED.Main;
-  // TDD_ASSERTS.Main;
-
-  lInstrucoes := 'PILOTO TDD_STARTED + TDD_ASSERTS - Caso Unico TDD_FINANCEIRO por ETAPAS:' + #13 +
-    'Etapa 1 - Cadastro de Duplicata a Receber' + #13 +
-    'Etapa 2 - Cadastro de Duplicata a Pagar' + #13 +
-    'Etapa 3 - Borda de Recebimento (baixa duplicatas a receber)' + #13 +
-    'Etapa 4 - Borda de Pagamento (baixa duplicatas a pagar)' + #13 + #13 +
-    'Etapa em execucao: ' + IntToStr(cEtapaAtual) + #13 +
-    ' - altere a constante cEtapaAtual para avancar de etapa.' + #13 + #13 +
-    'Fluxo: Setup -> Teste -> TearDown_DestruirObjetos' + #13 + #13 +
-    'Caso de Teste: Modulo=' + cModuloFinanceiro + ', Area=' + cAreaFinanceiro + ', Teste=' + cCasoTesteUnico;
-  MostrarLogTexto(lInstrucoes, 'Instrucoes REFACTOR_TDD_FINANCEIRO_PILOTO');
+  lInstrucoes := 'Unit de Teste financeiro executada na casca IRunner com o contexto global do caso corrente.'             + #13 +
+    '====================================================================================================================' + #13 +
+    'Entrada e validação do caso:'                                                                                         + #13 +
+    'procedure Teste'                                                                                                      + #13 +
+    '  - Valida o JSON e executa duplicata receber, duplicata pagar, borderô receber e borderô pagar.'                     + #13 +
+    'procedure ValidarCasoTeste'                                                                                           + #13 +
+    '  - Validação específica do financeiro; usa o JSON preparado por Started sem carregar casos.'                         + #13 +
+    '  - EMPRESA_DUP deve corresponder à empresa atual; TIPODOC_DUP mantém a validação existente.'                         + #13 +
+    '  - PESSOA_DUP, VALOR_DUP, GRUPORESULTADO_DUPGR e CONTA_BORD não usam configuração padrão.'                           + #13 +
+    '  - QUALIFICACAO_DUP, PESSOANOTACREDITO_BORD e PRAZOVENCIMENTO_DUP continuam opcionais.'                              + #13 +
+    '====================================================================================================================' + #13 +
+    'Métodos financeiros:'                                                                                                 + #13 +
+    'procedure _IncluirDuplicata(pTipo :Integer)'                                                                          + #13 +
+    '  - Tipo 0: duplicata receber. Tipo 1: duplicata pagar.'                                                              + #13 +
+    'procedure _IncluirBordero(pTipo :Integer)'                                                                            + #13 +
+    '  - Tipo 0: recebimento. Tipo 1: pagamento, incluindo a seleção da pessoa.'                                           + #13 +
+    '  - Mantém os mapeamentos, filtros, totalização e gravação próprios de cada tipo.'                                    + #13 +
+    '====================================================================================================================' + #13 +
+    'Encerramento e diagnóstico:'                                                                                          + #13 +
+    'procedure TearDown_DestruirObjetos'                                                                                   + #13 +
+    '  - Declarada no final; cancela edições e fecha telas sem destruir CDS compartilhados.'                               + #13 +
+    'TEARDOWN no campo FNomeMetodoAtual mantém a interrupção do lote se a limpeza falhar.'                                 + #13 +
+    'Logs usam RegistrarLogEmModoDebug e DelimitadorLog, condicionados a FModoDebug.'                                      + #13 +
+    'Resultados e comparações pertencem à etapa de asserts, que não é implementada nesta unit.'                            + #13 +
+    'FExibirInstrucoes controla a exibição destas instruções.'                                                             + #13 +
+    '====================================================================================================================';
+  {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_FINANCEIRO', lInstrucoes);
 end;
 
-procedure ExecutarFluxoCompletoFinanceiro;
-var
-  lEsperado: String;
-  lAtual: String;
+procedure ValidarCasoTeste;
+var lEmpresa, lTipoDoc: Integer;
 begin
-  Setup;
-  try
-    Teste;
-    
-    lEsperado := ObterResultadoEsperado;
-    lAtual    := ObterResultadoAtual;
-  finally
-    TearDown_DestruirObjetos;
-  end;
-end;
+  FMsgCasoTesteInvalido   := '';
+  FCasoTesteInvalido      := False;
+  if Trim(FCasoTesteAtualJson) = '' then
+    FMsgCasoTesteInvalido := 'JSON do caso de teste vazio!';
 
-function ObterResultadoAtual: String;
-var lJSON: TStringList;
-begin
-  lJSON := TStringList.Create;
-  try
-    lJSON.Add('{');
-    lJSON.Add('  "campos": [');
-    lJSON.Add('    { "campo": "duplicata_receber_criada", "operacao": 0, "valor": "true" },');
-    lJSON.Add('    { "campo": "duplicata_pagar_criada", "operacao": 0, "valor": "true" },');
-    lJSON.Add('    { "campo": "bordero_recebimento_gravado", "operacao": 0, "valor": "true" },');
-    lJSON.Add('    { "campo": "bordero_pagamento_gravado", "operacao": 0, "valor": "true" }');
-    lJSON.Add('  ]');
-    lJSON.Add('}');
-    Result := lJSON.Text;
-  finally
-    lJSON.Free;
-  end;
-end;
+  lEmpresa := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'EMPRESA_DUP', 0);
+  lTipoDoc := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'TIPODOC_DUP', 0);
 
-function ObterResultadoEsperado: String;
-begin
-  Result := '';
+  if lEmpresa <= 0 then
+    FMsgCasoTesteInvalido := FMsgCasoTesteInvalido + #13 + 'Tag EMPRESA_DUP ausente ou inválida.';
 
-  try
-    Result := FCDSCasoTeste.FieldByName('RESULTADO_ESPERADO_CT').AsString;
-  except
-    Result := '';
-  end;
-end;
+  if lTipoDoc <= 0 then
+    FMsgCasoTesteInvalido := FMsgCasoTesteInvalido + #13 + 'Tag TIPODOC_DUP ausente ou inválida.';
 
-procedure Setup;
-begin
-  CallBack_AbreTela(ClassOwner);
-  try
-    CallBack_Mensagem(ClassOwner, '[SETUP TDD_STARTED] Inicializando....');
-    Setup_InicializarObjetos;
-  finally
-    CallBack_FechaTela(ClassOwner);
-  end;
-end;
+  if {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'PESSOA_DUP', 0) = 0 then
+    FMsgCasoTesteInvalido := FMsgCasoTesteInvalido + #13 + 'Tag PESSOA_DUP ausente, inválida ou zerada.';
 
-procedure Setup_InicializarObjetos;
-begin
-  FCDSCasoTeste := TClientDataSet.Create;
-  FCDSConfig    := TClientDataSet.Create;
+  if {P39_TDD_FUNCOES_JSON.}ValorCurrencyTag(FCasoTesteAtualJson, 'VALOR_DUP', 0) = 0 then
+    FMsgCasoTesteInvalido := FMsgCasoTesteInvalido + #13 + 'Tag VALOR_DUP ausente, inválida ou zerada.';
 
-  CarregarCasoTeste(cModuloFinanceiro, cAreaFinanceiro, cCasoTesteUnico, FCDSCasoTeste);
+  if {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'GRUPORESULTADO_DUPGR', 0) = 0 then
+    FMsgCasoTesteInvalido := FMsgCasoTesteInvalido + #13 + 'Tag GRUPORESULTADO_DUPGR ausente, inválida ou zerada.';
 
-  FJSONCasoTeste := FCDSCasoTeste.FieldByName('CASO_TESTE_CT').AsString;
+  if {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'CONTA_BORD', 0) = 0 then
+    FMsgCasoTesteInvalido := FMsgCasoTesteInvalido + #13 + 'Tag CONTA_BORD ausente, inválida ou zerada.';
 
-  // MostrarLogTexto(FJSONCasoTeste, 'FJSONCasoTeste');
-
-  FCDSConfig.Close;
-  FCDSConfig.Data := TDDReaderODBCP('SELECT * FROM FINANCEIRO_CONFIGURACAO', null);
-
-  if FCDSConfig.IsEmpty then
-    raise Exception.Create(MensagemPersonalizada + 'Configuracao financeira nao carregada.');
-
-  ValidarCasoTeste;
-end;
-
-procedure TearDown_DestruirObjetos;
-begin
-  FCDSCasoTeste.Free;
-  FCDSConfig.Free;
+  FCasoTesteInvalido := FMsgCasoTesteInvalido <> '';
+  if FCasoTesteInvalido then
+    raise Exception.Create('Caso financeiro inválido: ' + #13 + FMsgCasoTesteInvalido);
 end;
 
 procedure Teste;
 begin
-  if FCDSCasoTeste.IsEmpty then
-    raise Exception.Create(MensagemPersonalizada + 'Nao ha caso de teste para ser executado.');
-
-  if FCasoTesteInvalido then
-  begin
-    EnviarMensagemInterna(Nome_Usuario_Atual, 'Teste Automatizado - Erro!', FMsgCasoTesteInvalido);
-    Exit;
-  end;
-
-  CallBack_AbreTela(ClassOwner);
   try
-    CallBack_Mensagem(ClassOwner, 'Executando Etapa ' + IntToStr(cEtapaAtual) + '.....');
-
-    case cEtapaAtual of
-      cEtapaFluxoCompleto:
-      begin
-        try _IncluirDuplicata(cTipoDuplicataReceber);
-        except on ex: Exception do raise Exception.Create('[Fluxo] Falha Etapa 1 (Dup Receber): ' + ex.Message); end;
-        try _IncluirDuplicata(cTipoDuplicataPagar);
-        except on ex: Exception do raise Exception.Create('[Fluxo] Falha Etapa 2 (Dup Pagar): ' + ex.Message); end;
-        try _IncluirBorderoRecebimento;
-        except on ex: Exception do raise Exception.Create('[Fluxo] Falha Etapa 3 (Bordero Receber): ' + ex.Message); end;
-        try _IncluirBorderoPagamento;
-        except on ex: Exception do raise Exception.Create('[Fluxo] Falha Etapa 4 (Bordero Pagar): ' + ex.Message); end;
-      end;
-      cEtapaDuplicataReceber:   _IncluirDuplicata(cTipoDuplicataReceber);
-      cEtapaDuplicataPagar:     _IncluirDuplicata(cTipoDuplicataPagar);
-      cEtapaBorderoRecebimento: _IncluirBorderoRecebimento;
-      cEtapaBorderoPagamento:   _IncluirBorderoPagamento;
-    else
-      raise Exception.Create(MensagemPersonalizada + 'Etapa ' + IntToStr(cEtapaAtual) + ' nao reconhecida.');
-    end;
+    ValidarCasoTeste;
+    {P39_TDD_LOGS.}RegistrarLogEmModoDebug('Inclusão da duplicata a receber.');
+    try _IncluirDuplicata(0);
+    except on Ex: Exception do raise Exception.Create('[Fluxo] Duplicata receber: ' + Ex.Message); end;
+    {P39_TDD_LOGS.}RegistrarLogEmModoDebug('Inclusão da duplicata a pagar.');
+    try _IncluirDuplicata(1);
+    except on Ex: Exception do raise Exception.Create('[Fluxo] Duplicata pagar: ' + Ex.Message); end;
+    {P39_TDD_LOGS.}RegistrarLogEmModoDebug('Inclusão do borderô de recebimento.');
+    try _IncluirBordero(0);
+    except on Ex: Exception do raise Exception.Create('[Fluxo] Bordero receber: ' + Ex.Message); end;
+    {P39_TDD_LOGS.}RegistrarLogEmModoDebug('Inclusão do borderô de pagamento.');
+    try _IncluirBordero(1);
+    except on Ex: Exception do raise Exception.Create('[Fluxo] Bordero pagar: ' + Ex.Message); end;
   finally
-    CallBack_FechaTela(ClassOwner);
+    // O campo de fase distingue falha de limpeza de falha do teste.
+    {P39_TDD_LOGS.}DelimitadorLog('TEARDOWN');
+    FNomeMetodoAtual := 'TEARDOWN';
+    RegistrarTick(0, FNomeMetodoAtual);
+    TearDown_DestruirObjetos;
+    RegistrarTick(1, FNomeMetodoAtual);
+    FNomeMetodoAtual := 'IRUNNER';
   end;
 end;
 
@@ -181,12 +114,12 @@ var
   lValor: Double;
   lPrazoVencimento: Integer;
 begin
-  if pTipo = cTipoDuplicataReceber then lNomeForm := cFormReceber else lNomeForm := cFormPagar;
+  if pTipo = 0 then lNomeForm := cFormReceber else lNomeForm := cFormPagar;
   lNomeDM := cDMCadDuplicata;
 
   lFDuplicatas := FormCriadoPeloNome(lNomeForm);
   if lFDuplicatas = nil then lFDuplicatas := CriarFormPeloNome(lNomeForm);
-  if lFDuplicatas = nil then raise Exception.Create(MensagemPersonalizada + 'Formulario "' + lNomeForm + '" nao encontrado.');
+  if lFDuplicatas = nil then raise Exception.Create('Formulario "' + lNomeForm + '" nao encontrado.');
 
   lFDuplicatas.Show;
   lDMDuplicatas  := DMCriadoPeloNome(lNomeDM);
@@ -194,19 +127,15 @@ begin
   lCDSGrupResult := lDMDuplicatas.FindComponent('CDSDuplicata_GrupoResultado');
   lCePessoa      := lFDuplicatas.FindComponent('EditPessoa');
 
-  lPessoa := ValorInteiroTagLocal(FJSONCasoTeste, 'PESSOA_DUP', 0);
-  if lPessoa = 0 then lPessoa := PessoaPadraoConfig(pTipo);
+  lPessoa := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'PESSOA_DUP', 0);
 
-  lValor := ValorCurrencyTagLocal(FJSONCasoTeste, 'VALOR_DUP', 0);
-  if lValor = 0 then lValor := ValorPadraoConfig(pTipo);
+  lValor := {P39_TDD_FUNCOES_JSON.}ValorCurrencyTag(FCasoTesteAtualJson, 'VALOR_DUP', 0);
 
-  lGR := ValorInteiroTagLocal(FJSONCasoTeste, 'GRUPORESULTADO_DUPGR', 0);
-  if lGR = 0 then lGR := GRPadraoConfig(pTipo);
+  lGR := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'GRUPORESULTADO_DUPGR', 0);
 
-  lTipoDoc := ValorInteiroTagLocal(FJSONCasoTeste, 'TIPODOC_DUP', 0);
-  if lTipoDoc = 0 then lTipoDoc := FCDSConfig.FieldByName('TIPO_FINCONFIG').AsInteger;
+  lTipoDoc := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'TIPODOC_DUP', 0);
 
-  lQualificacao := ValorInteiroTagLocal(FJSONCasoTeste, 'QUALIFICACAO_DUP', 0);
+  lQualificacao := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'QUALIFICACAO_DUP', 0);
 
   lCePessoa.Value := lPessoa;
 
@@ -223,7 +152,7 @@ begin
   lCDSCadastro.FieldByName('PESSOA_DUP').AsInteger := lPessoa;
   lCDSCadastro.FieldByName('DOCUMENTO_DUP').AsString := 'DUP_' + FormatDateTime('hh_mm_ss_zz', DataHoraServidor);
   lCDSCadastro.FieldByName('EMISSAO_DUP').AsDateTime := DataHoraServidor;
-  lPrazoVencimento := ValorInteiroTagLocal(FJSONCasoTeste, 'PRAZOVENCIMENTO_DUP', 0);
+  lPrazoVencimento := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'PRAZOVENCIMENTO_DUP', 0);
   lCDSCadastro.FieldByName('VENCIMENTO_DUP').AsDateTime := Hoje + lPrazoVencimento;
   lCDSCadastro.FieldByName('VALORNOMINALORIGINAL_DUP').AsCurrency := lValor;
   lCDSCadastro.FieldByName('VALOR_DUP').AsCurrency := lValor;
@@ -239,252 +168,200 @@ begin
 
   ExecutarMetodoDeObjeto(lFDuplicatas, 'BotaoGravarClick', [nil]);
 
-  try lFDuplicatas.Close; except end;
+  lFDuplicatas.Close;
 end;
 
-procedure _IncluirBorderoRecebimento;
+procedure _IncluirBordero(pTipo: Integer);
 var
   VlrPagar: Double;
-  lPessoa: Integer;
+  lPessoa, lFornecedor, lPessoaNotaCredito: Integer;
   lEtapa: String;
 begin
-  lEtapa := 'mapear componentes';
-  try
-    {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}MapearBordero;
+  VlrPagar := 0;
+  if pTipo = 0 then
+  begin
+    lEtapa := 'mapear componentes';
+    try
+      {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}MapearBordero;
 
-    lEtapa := 'incluir bordero';
-    {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}IncluirBordero;
-
-    lEtapa := 'obter pessoa';
-    lPessoa := ValorInteiroTagLocal(FJSONCasoTeste, 'PESSOA_DUP', 0);
-    if lPessoa = 0 then lPessoa := FCDSConfig.FieldByName('CLIENTE_FINCONFIG').AsInteger;
-
-    lEtapa := 'preparar cadastro';
-    try if CDSCadastroRecebimento.State <> 1 then CDSCadastroRecebimento.Cancel; except end;
-    if CDSCadastroRecebimento.State < 2 then
+      lEtapa := 'incluir bordero';
       {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}IncluirBordero;
 
-    lEtapa := 'definir cliente';
-    edtCliente.SetFocus;
-    CDSCadastroRecebimento.FieldByName('PESSOA_BORDERO').AsInteger := lPessoa;
-    edtNovoBanco.SetFocus;
+      lEtapa := 'obter pessoa';
+      lPessoa := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'PESSOA_DUP', 0);
 
-    lEtapa := 'filtrar titulos';
-    {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}Filtrar;
-    PageControl1.ActivePage := TSReceber;
+      lEtapa := 'preparar cadastro';
+      try if CDSCadastroRecebimento.State <> 1 then CDSCadastroRecebimento.Cancel; except end;
+      if CDSCadastroRecebimento.State < 2 then
+        {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}IncluirBordero;
 
-    lEtapa := 'marcar contas a receber';
-    if not CDSReceberRecebimento.IsEmpty then
-    begin
-      CDSReceberRecebimento.First;
-      while not CDSReceberRecebimento.Eof do
+      lEtapa := 'definir cliente';
+      edtCliente.SetFocus;
+      CDSCadastroRecebimento.FieldByName('PESSOA_BORDERO').AsInteger := lPessoa;
+      edtNovoBanco.SetFocus;
+
+      lEtapa := 'filtrar titulos';
+      {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}Filtrar;
+      PageControl1.ActivePage := TSReceber;
+
+      lEtapa := 'marcar contas a receber';
+      if not CDSReceberRecebimento.IsEmpty then
       begin
-        CDSReceberRecebimento.Edit;
-        VlrPagar := VlrPagar + CDSReceberRecebimento.FieldByName('VLREMABERTO').AsCurrency;
-        CDSReceberRecebimento.FieldByName('MARQUE').AsInteger := 1;
-        CDSReceberRecebimento.Post;
-        CDSReceberRecebimento.Next;
+        CDSReceberRecebimento.First;
+        while not CDSReceberRecebimento.Eof do
+        begin
+          CDSReceberRecebimento.Edit;
+          VlrPagar := VlrPagar + CDSReceberRecebimento.FieldByName('VLREMABERTO').AsCurrency;
+          CDSReceberRecebimento.FieldByName('MARQUE').AsInteger := 1;
+          CDSReceberRecebimento.Post;
+          CDSReceberRecebimento.Next;
+        end;
       end;
-    end;
 
-    lEtapa := 'marcar prorrogacoes';
-    if not CDSProrrogacoesRecebimento.IsEmpty then
-    begin
-      CDSProrrogacoesRecebimento.First;
-      while not CDSProrrogacoesRecebimento.Eof do
+      lEtapa := 'marcar prorrogacoes';
+      if not CDSProrrogacoesRecebimento.IsEmpty then
       begin
-        CDSProrrogacoesRecebimento.Edit;
-        CDSProrrogacoesRecebimento.FieldByName('MARQUE').AsInteger := 1;
-        VlrPagar := VlrPagar + CDSProrrogacoesRecebimento.FieldByName('VALORCOBRADO_PRORROGACAO').AsCurrency;
-        CDSProrrogacoesRecebimento.Post;
-        CDSProrrogacoesRecebimento.Next;
+        CDSProrrogacoesRecebimento.First;
+        while not CDSProrrogacoesRecebimento.Eof do
+        begin
+          CDSProrrogacoesRecebimento.Edit;
+          CDSProrrogacoesRecebimento.FieldByName('MARQUE').AsInteger := 1;
+          VlrPagar := VlrPagar + CDSProrrogacoesRecebimento.FieldByName('VALORCOBRADO_PRORROGACAO').AsCurrency;
+          CDSProrrogacoesRecebimento.Post;
+          CDSProrrogacoesRecebimento.Next;
+        end;
       end;
+
+      lEtapa := 'validar valor';
+      if VlrPagar = 0 then
+        raise Exception.Create('Nao ha duplicatas a receber em aberto para a pessoa ' + IntToStr(lPessoa) + '.');
+
+      lEtapa := 'incluir complemento';
+      PageControl1.ActivePage := TSComplementos;
+      CDSComplementosRecebimento.Insert;
+      CDSComplementosRecebimento.FieldByName('CONTA_COMPLBORD').AsCurrency := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'CONTA_BORD', 0);
+      CDSComplementosRecebimento.FieldByName('VALOR_COMPLBORD').AsCurrency := VlrPagar;
+      CDSComplementosRecebimento.Post;
+
+      lEtapa := 'gravar bordero';
+      {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}GravarBordero;
+
+      // O fechamento pertence a TearDown_DestruirObjetos.
+    except
+      on E: Exception do
+        raise Exception.Create('Bordero receber - ' + lEtapa + ': ' + E.Message);
     end;
+  end
+  else
+  begin
+    fBorderoPagamento := FormCriadoPeloNome('FCadBorderoPagamento');
+    if not Assigned(fBorderoPagamento) then
+      fBorderoPagamento := CriarFormPeloNome('FCadBorderoPagamento');
+    if not Assigned(fBorderoPagamento) then
+      raise Exception.Create('Formulario de bordero de pagamento nao encontrado.');
+    fBorderoPagamento.Show;
+    {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO.}MapearComponentesBorderoPagamento;
+    {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO.}IniciarCDSCadastroBordero;
 
-    lEtapa := 'validar valor';
-    if VlrPagar = 0 then
-      raise Exception.Create(MensagemPersonalizada + 'Nao ha duplicatas a receber em aberto para a pessoa ' + IntToStr(lPessoa) + '.');
-
-    lEtapa := 'incluir complemento';
-    PageControl1.ActivePage := TSComplementos;
-    CDSComplementosRecebimento.Insert;
-    CDSComplementosRecebimento.FieldByName('CONTA_COMPLBORD').AsCurrency := ContaBorderoPadrao;
-    CDSComplementosRecebimento.FieldByName('VALOR_COMPLBORD').AsCurrency := VlrPagar;
-    CDSComplementosRecebimento.Post;
-
-    lEtapa := 'gravar bordero';
-    {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}GravarBordero;
-
-    lEtapa := 'fechar bordero';
-    try {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}Fechar; except end;
-  except
-    on E: Exception do
-      raise Exception.Create(MensagemPersonalizada + 'Bordero receber - ' + lEtapa + ': ' + E.Message);
-  end;
-end;
-
-procedure _IncluirBorderoPagamento;
-var
-  VlrPagar: Double;
-  lFornecedor: Integer;
-  lPessoaNotaCredito: Integer;
-begin
-  {P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO.}CriarObjetos;
-  {P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO.}IniciarCDSCadastroBordero;
-  
-  try if CDSCadastroPagamento.State <> 1 then CDSCadastroPagamento.Cancel; except end;
-  ExecutarMetodoDeObjeto(fBorderoPagamento, 'BotaoIncluirClick', [nil]);
-
-  if CDSCadastroPagamento.State < 2 then
+    try if CDSCadastroPagamento.State <> 1 then CDSCadastroPagamento.Cancel; except end;
     ExecutarMetodoDeObjeto(fBorderoPagamento, 'BotaoIncluirClick', [nil]);
 
-  CDSCadastroPagamento.FieldByName('CONTA_BORDERO').AsInteger := ContaBorderoPadrao;
+    if CDSCadastroPagamento.State < 2 then
+      ExecutarMetodoDeObjeto(fBorderoPagamento, 'BotaoIncluirClick', [nil]);
 
-  lPessoaNotaCredito := ValorInteiroTagLocal(FJSONCasoTeste, 'PESSOANOTACREDITO_BORD', 0);
-  if lPessoaNotaCredito > 0 then
-    CDSCadastroPagamento.FieldByName('PESSOANOTACREDITO_BORDERO').AsInteger := lPessoaNotaCredito;
+    CDSCadastroPagamento.FieldByName('CONTA_BORDERO').AsInteger := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'CONTA_BORD', 0);
 
-  lFornecedor := ValorInteiroTagLocal(FJSONCasoTeste, 'PESSOA_DUP', 0);
-  if lFornecedor = 0 then lFornecedor := FCDSConfig.FieldByName('FORNECEDOR_FINCONFIG').AsInteger;
+    lPessoaNotaCredito := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'PESSOANOTACREDITO_BORD', 0);
+    if lPessoaNotaCredito > 0 then
+      CDSCadastroPagamento.FieldByName('PESSOANOTACREDITO_BORDERO').AsInteger := lPessoaNotaCredito;
 
-  try rgPessoa.ItemIndex := 1; except end;
-  DefinirPessoaSelecao(lFornecedor);
+    lFornecedor := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'PESSOA_DUP', 0);
 
-  try
-    dtEditContasPgEntreIni.Date := Hoje - 365;
-    dtEditContasPgEntreFim.Date := Hoje + 365;
-  except end;
+    try rgPessoa.ItemIndex := 1; except end;
+    if CDSSelecao = nil then
+      raise Exception.Create('CDSSelecao nao encontrado no SPessoa do bordero de pagamento.');
 
-  ExecutarMetodoDeObjeto(fBorderoPagamento, 'BotaoFiltrarClick', [nil]);
+    if not CDSSelecao.Active then CDSSelecao.Open;
 
-  if CDSPagarPagamento.IsEmpty then
-    MostrarLogTextoEmModoDebug('[Etapa 4] Filtro contas a pagar vazio para pessoa ' + IntToStr(lFornecedor))
-  else
-    MostrarCDSEmModoDebug(CDSPagarPagamento);
+    CDSSelecao.EmptyDataSet;
+    CDSSelecao.Insert;
+    CDSSelecao.FieldByName('Codigo').AsInteger := lFornecedor;
+    CDSSelecao.FieldByName('Descricao').AsString := '';
+    CDSSelecao.FieldByName('Ordem').AsInteger := 1;
+    CDSSelecao.Post;
 
-  if not CDSPagarPagamento.IsEmpty then
-  begin
-    CDSPagarPagamento.First;
-    while not CDSPagarPagamento.Eof do
+    try
+      dtEditContasPgEntreIni.Date := Hoje - 365;
+      dtEditContasPgEntreFim.Date := Hoje + 365;
+    except end;
+
+    ExecutarMetodoDeObjeto(fBorderoPagamento, 'BotaoFiltrarClick', [nil]);
+
+    if CDSPagarPagamento.IsEmpty then
+      RegistrarLogEmModoDebug('[Etapa 4] Filtro contas a pagar vazio para pessoa ' + IntToStr(lFornecedor))
+    else
+      {P39_TDD_LOGS.}RegistrarLogEmModoDebug('Títulos a pagar encontrados: ' + IntToStr(CDSPagarPagamento.RecordCount));
+
+    if not CDSPagarPagamento.IsEmpty then
     begin
-      CDSPagarPagamento.Edit;
-      VlrPagar := VlrPagar + CDSPagarPagamento.FieldByName('VLREMABERTO').AsCurrency;
-      CDSPagarPagamento.FieldByName('MARQUE').AsInteger := 1;
-      CDSPagarPagamento.Post;
-      CDSPagarPagamento.Next;
-    end;
-  end;
-
-  if VlrPagar = 0 then
-    raise Exception.Create(MensagemPersonalizada + 'Nao ha duplicatas a pagar em aberto para a pessoa ' + IntToStr(lFornecedor) + '.');
-
-  CDSComplementoPagamento.Insert;
-  CDSComplementoPagamento.FieldByName('CONTA_COMPLBORD').AsCurrency := ContaBorderoPadrao;
-  CDSComplementoPagamento.FieldByName('VALOR_COMPLBORD').AsCurrency := VlrPagar;
-  CDSComplementoPagamento.Post;
-
-  ExecutarMetodoDeObjeto(fBorderoPagamento, 'BotaoGravarClick', [nil]);
-
-  try fBorderoPagamento.Close; except end;
-end;
-
-procedure DefinirPessoaSelecao(pPessoa: Integer);
-begin
-  if CDSSelecao = nil then
-    raise Exception.Create(MensagemPersonalizada + 'CDSSelecao nao encontrado no SPessoa do bordero de pagamento.');
-
-  if not CDSSelecao.Active then CDSSelecao.Open;
-
-  CDSSelecao.Insert;
-  CDSSelecao.FieldByName('Codigo').AsInteger := pPessoa;
-  CDSSelecao.FieldByName('Descricao').AsString := '';
-  CDSSelecao.FieldByName('Ordem').AsInteger := 1;
-  CDSSelecao.Post;
-end;
-
-function ExtrairTag(pJson, pTag: String): String;
-var lMarcador, lPos, lFim: Integer; lChar: String;
-begin
-  Result := '';
-  try Result := GetValueJson(pJson, pTag); except end;
-  if Trim(Result) = '' then
-  begin
-    lMarcador := '"' + pTag + '":';
-    lPos := Pos(lMarcador, pJson);
-    if lPos > 0 then
-    begin
-      lPos := lPos + Length(lMarcador);
-      lFim := lPos;
-      while lFim <= Length(pJson) do
+      CDSPagarPagamento.First;
+      while not CDSPagarPagamento.Eof do
       begin
-        lChar := Copy(pJson, lFim, 1);
-        if (lChar = ',') or (lChar = '}') then Break;
-        lFim := lFim + 1;
+        CDSPagarPagamento.Edit;
+        VlrPagar := VlrPagar + CDSPagarPagamento.FieldByName('VLREMABERTO').AsCurrency;
+        CDSPagarPagamento.FieldByName('MARQUE').AsInteger := 1;
+        CDSPagarPagamento.Post;
+        CDSPagarPagamento.Next;
       end;
-      Result := Trim(Copy(pJson, lPos, lFim - lPos));
     end;
+
+    if VlrPagar = 0 then
+      raise Exception.Create('Nao ha duplicatas a pagar em aberto para a pessoa ' + IntToStr(lFornecedor) + '.');
+
+    CDSComplementoPagamento.Insert;
+    CDSComplementoPagamento.FieldByName('CONTA_COMPLBORD').AsCurrency := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'CONTA_BORD', 0);
+    CDSComplementoPagamento.FieldByName('VALOR_COMPLBORD').AsCurrency := VlrPagar;
+    CDSComplementoPagamento.Post;
+
+    ExecutarMetodoDeObjeto(fBorderoPagamento, 'BotaoGravarClick', [nil]);
+
+    // O fechamento pertence a TearDown_DestruirObjetos.
   end;
 end;
 
-function TagJson(pTag: String): String;
-begin Result := ExtrairTag(FJSONCasoTeste, pTag); end;
-
-function ValorInteiroTagLocal(pJson, pTag: String; pDefault: Integer): Integer;
-var lValor: String; lNum: Integer;
+procedure TearDown_DestruirObjetos;
+var
+  lIndice: Integer;
+  lNomeForm, lNomeDM: String;
+  lForm: TForm;
+  lDM: TDataModule;
+  lCDS: TClientDataSet;
 begin
-  Result := pDefault;
-  lValor := Trim(ExtrairTag(pJson, pTag));
-  try lNum := StrToInt(lValor); Result := lNum; except end;
-end;
-
-function ValorCurrencyTagLocal(pJson, pTag: String; pDefault: Double): Double;
-begin Result := StrToCurrDef(Troca(Trim(ExtrairTag(pJson, pTag)), '.', ','), pDefault); end;
-
-procedure SetCasoTeste(pCasoTeste: String);
-begin FJSONCasoTeste := pCasoTeste; ValidarCasoTeste; end;
-
-procedure ValidarCasoTeste;
-var lPosEmpresa, lPosTipoDoc: Integer;
-begin
-  FMsgCasoTesteInvalido := '';
-  if Trim(FJSONCasoTeste) = '' then FMsgCasoTesteInvalido := FMsgCasoTesteInvalido + #13 + 'JSON do caso de teste vazio!';
-  lPosEmpresa := Pos('"EMPRESA_DUP"', FJSONCasoTeste);
-  lPosTipoDoc := Pos('"TIPODOC_DUP"', FJSONCasoTeste);
-  if ValorInteiroTagLocal(FJSONCasoTeste, 'EMPRESA_DUP', 0) = 0 then
-    FMsgCasoTesteInvalido := FMsgCasoTesteInvalido + #13 + 'Tag EMPRESA_DUP ausente ou zerada.';
-  if ValorInteiroTagLocal(FJSONCasoTeste, 'TIPODOC_DUP', 0) = 0 then
-    FMsgCasoTesteInvalido := FMsgCasoTesteInvalido + #13 + 'Tag TIPODOC_DUP ausente ou zerada.';
-  FCasoTesteInvalido := (FMsgCasoTesteInvalido <> '');
-  if FCasoTesteInvalido then
-    FMsgCasoTesteInvalido := FMsgCasoTesteInvalido + #13 + #13 + '[DEBUG] Len=' + IntToStr(Length(FJSONCasoTeste)) + ' | Inicio=[' + Copy(FJSONCasoTeste, 1, 120) + ']';
-end;
-
-function PessoaPadraoConfig(pTipo: Integer): Integer;
-begin
-  Result := 0;
-  if FCDSConfig.IsEmpty then Exit;
-  if pTipo = cTipoDuplicataReceber then Result := FCDSConfig.FieldByName('CLIENTE_FINCONFIG').AsInteger
-  else Result := FCDSConfig.FieldByName('FORNECEDOR_FINCONFIG').AsInteger;
-end;
-
-function ValorPadraoConfig(pTipo: Integer): Double;
-begin
-  Result := 0;
-  if FCDSConfig.IsEmpty then Exit;
-  if pTipo = cTipoDuplicataReceber then Result := FCDSConfig.FieldByName('VALOR_PADRAO_RECEBER_FINCONFIG').AsCurrency
-  else Result := FCDSConfig.FieldByName('VALOR_PADRAO_PAGAR_FINCONFIG').AsCurrency;
-end;
-
-function GRPadraoConfig(pTipo: Integer): Integer;
-begin
-  Result := 0;
-  if FCDSConfig.IsEmpty then Exit;
-  if pTipo = cTipoDuplicataReceber then Result := FCDSConfig.FieldByName('GR_CONTAS_RECEBER_FINCONFIG').AsInteger
-  else Result := FCDSConfig.FieldByName('GR_CONTAS_PAGAR_FINCONFIG').AsInteger;
-end;
-
-function ContaBorderoPadrao: Integer;
-begin
-  Result := ValorInteiroTagLocal(FJSONCasoTeste, 'CONTA_BORD', 0);
-  if Result = 0 then Result := FCDSConfig.FieldByName('CONTA_PRINCIPAL_FINCONFIG').AsInteger;
+  // Encerra apenas os recursos financeiros; os CDS compartilhados pertencem ao lote.
+  for lIndice := 0 to 3 do
+  begin
+    case lIndice of
+      0: begin lNomeForm := cFormReceber; lNomeDM := cDMCadDuplicata; end;
+      1: begin lNomeForm := cFormPagar; lNomeDM := cDMCadDuplicata; end;
+      2: begin lNomeForm := 'FCadBorderoAcerto'; lNomeDM := 'DMCadBorderoAcerto'; end;
+      3: begin lNomeForm := 'FCadBorderoPagamento'; lNomeDM := 'DMCadBorderoPagamento'; end;
+    end;
+    lForm := FormCriadoPeloNome(lNomeForm);
+    if Assigned(lForm) then
+    begin
+      try
+        lDM := DMCriadoPeloNome(lNomeDM);
+        if Assigned(lDM) then
+        begin
+          lCDS := lDM.FindComponent('CDSCadastro');
+          if Assigned(lCDS) then
+            if lCDS.Active then
+              if (lCDS.State = 2) or (lCDS.State = 3) then
+                lCDS.Cancel;
+        end;
+      finally
+        lForm.Close;
+      end;
+    end;
+  end;
 end;
