@@ -1,0 +1,31 @@
+{
+  "name": "documentacao-tdd-erp",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "lint": "eslint --config config/eslint.config.js app && node config/lint-templates.mjs",
+    "lint:fix": "eslint --config config/eslint.config.js app --fix && node config/lint-templates.mjs --fix",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "check": "npm run lint && npm run typecheck",
+    "build": "node config/build.mjs",
+    "preview": "node config/preview.mjs",
+    "dev": "npm run build && npm run preview"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "eslint": "10.5.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-jsdoc": "65.3.2",
+    "eslint-plugin-simple-import-sort": "12.1.1",
+    "eslint-plugin-vue": "10.11.1",
+    "mermaid": "11.17.2",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.71.2",
+    "vue": "3.5.43",
+    "vue-router": "4.6.4",
+    "vuetify": "4.2.3"
+  }
+}

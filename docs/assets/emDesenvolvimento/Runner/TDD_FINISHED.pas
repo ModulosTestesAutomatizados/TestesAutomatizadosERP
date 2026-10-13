@@ -1,8 +1,20 @@
 procedure Main;
 var lInstrucoes :string;
 begin
-  lInstrucoes := '';
-  
+  lInstrucoes := 'Unit responsável pela persistência individual do histórico e das métricas de tempo.'                     + #13 +
+    '====================================================================================================================' + #13 +
+    'Métodos disponibilizados pela Unit:'                                                                                  + #13 +
+    'procedure RegistrarMetricas'                                                                                          + #13 +
+    '  - Insere o histórico de FHistoricoExecucao e obtém o ID retornado.'                                                 + #13 +
+    '  - Persiste os registros de FCDSMetricasTickDiff vinculados ao histórico dessa tentativa.'                           + #13 +
+    '====================================================================================================================' + #13 +
+    'Contrato de persistência:'                                                                                            + #13 +
+    'Run fornece o contexto; Finished copia os logs em memória imediatamente antes do INSERT.'                             + #13 +
+    'Erros continuam propagados pelos tratamentos existentes; não há repetição automática de INSERT.'                      + #13 +
+    'A persistência de asserts permanece comentada e será implementada por outro desenvolvedor.'                           + #13 +
+    'Finished não acrescenta logs da persistência; salva somente as mensagens acumuladas pelo caso.'                       + #13 +
+    'FExibirInstrucoes controla a exibição destas instruções.'                                                             + #13 +
+    '====================================================================================================================';
   {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_FINISHED', lInstrucoes);
 end;
 
@@ -18,7 +30,7 @@ begin
       '  STATUS_EXECUCAO_HE,'                                     + #13 +
       '  ETAPA_FALHA_HE,'                                         + #13 +
       '  MENSAGEM_ERRO_HE,'                                       + #13 +
-      '  LOGS_FALHAS_HE'                                          + #13 +
+      '  LOGS_PROCESSAMENTO_HE'                                   + #13 +
       ') VALUES ('                                                + #13 +
       '  :AutoIncCasoTeste,'                                      + #13 +
       '  :VersaoExecucao,'                                        + #13 +
@@ -26,10 +38,8 @@ begin
       '  :StatusExecucao,'                                        + #13 +
       '  :EtapaFalha,'                                            + #13 +
       '  :MensagemErro,'                                          + #13 +
-      '  :LogsFalhas'                                             + #13 +
+      '  :LogsProcessamento'                                      + #13 +
       ') RETURNING AUTOINC_HISTORICO_HE';
-
-    {P39_TDD_LOGS.}MostrarLogTextoEmModoDebugT(lSQL, 'SQL - HISTÓRICO DA EXECUÇÃO');
 
     {P39_TDD_RUNNER.}FHistoricoExecucao.AutoIncHistorico := {P39_TDD_ODBC.}TDDScalarODBCP(lSQL, [
       // Parâmetros vem de {P39_TDD_RUNNER}
@@ -39,10 +49,8 @@ begin
       FHistoricoExecucao.StatusExecucao,
       FHistoricoExecucao.EtapaFalha,
       FHistoricoExecucao.MensagemErro,
-      FHistoricoExecucao.LogsFalhas
+      FHistoricoExecucao.LogsProcessamento
     ]);
-
-    {P39_TDD_LOGS.}MostrarLogTextoEmModoDebugT(FHistoricoExecucao.AutoIncHistorico, 'ID do Histórico');
 
 (*  === VALUES PARA AS MÉTRICAS DE ASSERTS PENDENTES DE CORREÇÃO ===
     lSQL := 'INSERT INTO METRICAS_ASSERTS ('       + #13 +
@@ -64,8 +72,6 @@ begin
       '  :ResultadoEsperado,'                      + #13 +
       '  :ResultadoObtido'                         + #13 +
       ')';
-
-    {P39_TDD_LOGS.}MostrarLogTextoEmModoDebugT(lSQL, 'SQL - MÉTRICAS ASSERTS');
 
     {P39_TDD_ODBC.}TDDCommandODBCP(lSQL, [
       // Parâmetros vem de {P39_TDD_RUNNER}
@@ -98,9 +104,6 @@ begin
       '  :TempoTotalFormatado'                     + #13 +
       ')';
 
-    {P39_TDD_LOGS.}MostrarLogTextoEmModoDebugT(lSQL, 'SQL - Métricas Tick Diff');
-    {P39_TDD_LOGS.}MostrarCDSEmModoDebugT(FCDSMetricasTickDiff, 'CDS Tick Diff');
-
     if Assigned({P39_TDD_RUNNER.}FCDSMetricasTickDiff) then
     begin
       FCDSMetricasTickDiff.First;
@@ -123,7 +126,6 @@ begin
   except
     on Ex: Exception do
     begin
-      {P39_TDD_LOGS.}MostrarLogTextoEmModoDebug('Falha ao persistir metricas: ' + Ex.Message);
       raise;
     end;
   end;

@@ -1,0 +1,6 @@
+{
+  "eslint.workingDirectories": [{ "directory": "./Documentacoes", "changeProcessCWD": true }],
+  "eslint.options": { "overrideConfigFile": "config/eslint.config.js" },
+  "eslint.validate": ["typescript", "vue"],
+  "typescript.tsdk": "Documentacoes/node_modules/typescript/lib"
+}
