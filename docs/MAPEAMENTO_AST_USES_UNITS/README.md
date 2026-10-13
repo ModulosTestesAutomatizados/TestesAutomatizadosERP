@@ -8,6 +8,7 @@ Todos os Mermaid ativos do portal estão em um subdiretório por documentação:
 - `casos-legado/`: seleção de cenário no processamento anterior.
 - `casos-irunner/`: entrada atual e execução por registro.
 - `piloto-financeiro/`: dependências e sequência das operações do piloto atual.
+- `pedido-venda/`: contribuição do PR #20, com dependências, execução e Draw.io do faturamento refatorado.
 - `historico/financeiro/`, `historico/faturamento/` e `historico/cadastro/`: mapas, HTMLs e Draw.io dos contratos anteriores, preservados para consulta. Não representam os fontes atuais do IRunner.
 
 O portal referencia o Markdown canônico; não há cópias dos diagramas em TypeScript. Orientação e zoom são opções locais de leitura. Novos diagramas devem usar `docs/MAPEAMENTO_AST_USES_UNITS/<slug-do-documento>/<diagrama>.md`.

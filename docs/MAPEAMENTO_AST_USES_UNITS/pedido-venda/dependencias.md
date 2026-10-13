@@ -13,7 +13,7 @@ Referência de código sincronizada a partir da TekStore em 2026-10-05
 flowchart LR
     subgraph CASO["Caso de Teste (casosTestesFaturamento)"]
         PV["P39_TDD_FAT_PEDIDO_VENDA"]
-        CORE["P39_TDD_FAT_DOCUMENTO_FATURA<br/>orquestrador - 293 linhas"]
+        CORE["P39_TDD_FAT_DOCUMENTO_FATURA / orquestrador - 293 linhas"]
     end
 
     subgraph FOCO["Controle de tela e foco"]
@@ -67,7 +67,7 @@ flowchart LR
 
     JS --> FJ
     VR --> CORE
-    VR -.-> AS["P39_TDD_ASSERTS<br/>(uses comentado)"]
+    VR --> AS["P39_TDD_ASSERTS"]
     MOD --> CT
 
     CT --> CO

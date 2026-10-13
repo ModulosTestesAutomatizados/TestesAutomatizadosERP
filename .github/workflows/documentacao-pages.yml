@@ -48,5 +48,8 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: false
       - uses: actions/deploy-pages@v4
         id: deployment

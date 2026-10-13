@@ -25,7 +25,7 @@ export default {
       { tipo: 'aviso', severidade: 'warning', texto: 'Os nomes financeiros de alguns arquivos não correspondem ao conteúdo disponível no repositório. Esta lista registra as chamadas do processamento e sua divergência com os arquivos locais; não comprova que essas entradas existam na variante instalada no ERP.' }
     ] },
     { id: 'faturamento', titulo: 'Cenários presentes nos fontes de faturamento', blocos: [
-      { tipo: 'paragrafo', texto: 'Os arquivos locais P39_TDD_FAT_DOCUMENTO_FATURA e P39_TDD_FAT_PEDIDO_VENDA contêm Main, ConfirmarFiltros e cinco caminhos selecionáveis. Main exige execução cliente e o código interno TekSystem 1000, prepara FAT_CONFIG_TESTE e abre o callback antes de processar as escolhas.' },
+      { tipo: 'paragrafo', texto: 'O PR #20 atualizou P39_TDD_FAT_DOCUMENTO_FATURA e P39_TDD_FAT_PEDIDO_VENDA para um contrato refatorado: main chama Setup e Teste, e o núcleo coordena camadas específicas de gravação. A página Pedido de venda — Documento de Fatura documenta esse fluxo. A lista abaixo pertence à referência anterior preservada, não aos fontes refatorados.' },
       { tipo: 'lista', itens: [
         'Pedido de venda: IncluiPedidoVenda.',
         'Pedido de venda para NFCe: IncluiPedidoVendaNFCe.',
@@ -33,7 +33,7 @@ export default {
         'Pedido de consignação: IncluiConsignacao.',
         'Conferência e liberação de documentos: ConfereLiberaDocumentos.'
       ] },
-      { tipo: 'paragrafo', texto: 'A referência Documento Fatura preserva a descrição anterior dessa área. A implementação disponível nestes arquivos deve ser avaliada pelo seu conteúdo, pois o nome do arquivo não identifica sozinho o cenário que Main executa.' }
+      { tipo: 'paragrafo', texto: 'A referência Documento Fatura preserva a descrição anterior dessa área. O contrato refatorado mantém seu próprio cursor de CDSCasosTestes e ainda não corresponde ao controle por registro do molde IRunner.' }
     ] },
     { id: 'migracao', titulo: 'Relação com o IRunner', blocos: [
       { tipo: 'paragrafo', texto: 'O fluxo novo configura uma única unit com entrada Teste, carrega os registros ativos por módulo/área e reutiliza o contexto por tentativa. O piloto financeiro executa as quatro operações dentro de Teste para cada registro; não seleciona uma delas com o filtro Tipo de Teste deste processamento.' },

@@ -11,7 +11,7 @@ npm run build --prefix Documentacoes
 npm run preview --prefix Documentacoes
 ```
 
-Abra `http://127.0.0.1:8080/`. O preview serve somente `Documentacoes/.pages-output`, resultado do build. Não abra o índice dos fontes diretamente: o navegador precisa dos módulos JavaScript emitidos pelo compilador.
+Abra o endereço informado no terminal, que já inclui `/TestesAutomatizadosERP/`. O preview tenta a porta 8080 e, se estiver ocupada, seleciona automaticamente uma porta livre. Uma configuração explícita de `PORT` é respeitada; para fixar 8090 no PowerShell, execute `$env:PORT = '8090'` antes do comando. Use `Remove-Item Env:PORT` para voltar à seleção automática. O preview serve somente `Documentacoes/.pages-output`, resultado do build. Não abra o índice dos fontes diretamente: o navegador precisa dos módulos JavaScript emitidos pelo compilador.
 
 `npm run dev --prefix Documentacoes` compila antes de servir. O build insere `app/start.ts` compilado diretamente no índice publicado; não existe dependência de `bootstrap.js` nem do framework Bootstrap. O índice dos fontes mostra as instruções de desenvolvimento, sem requisitar arquivos ainda não compilados.
 
