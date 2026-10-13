@@ -19,4 +19,6 @@ Abra `http://127.0.0.1:8080/`. O preview serve somente `Documentacoes/.pages-out
 
 `package.json` e `package-lock.json` são versionados porque definem o build reproduzível e o ESLint. Testes e ferramentas de consumo local da LLM continuam ignorados, sem scripts ou dependências de testes neste pacote.
 
+Os hashes do inventário AST são calculados normalizando CRLF para LF, para que o checkout Windows e o Linux do GitHub Actions verifiquem o mesmo conteúdo.
+
 O workflow do GitHub Pages verifica e compila o portal. A publicação é acionada manualmente no GitHub Actions; selecione GitHub Actions como origem em Settings → Pages. O site final continua estático, com rotas hash e `.nojekyll`; não precisa de Node no navegador.

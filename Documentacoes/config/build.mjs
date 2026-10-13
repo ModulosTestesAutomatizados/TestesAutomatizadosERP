@@ -21,7 +21,10 @@ const assets = new Set(['docs/MAPEAMENTO_AST_USES_UNITS/runner/TDD_IRUNNER.ast.j
 const inventory = JSON.parse(await fs.readFile(path.join(root, [...assets][0]), 'utf8'));
 for (const node of inventory.nodes) {
   if (!node.file || !node.sha256) continue;
-  const hash = createHash('sha256').update(await fs.readFile(path.join(root, node.file))).digest('hex');
+  const source = await fs.readFile(path.join(root, node.file));
+  // Preserve os bytes do fonte; normalize apenas CRLF para LF entre Windows e Linux.
+  const normalized = source.filter((byte, index) => byte !== 13 || source[index + 1] !== 10);
+  const hash = createHash('sha256').update(normalized).digest('hex');
   if (hash !== node.sha256) errors.push(`Mapa de uses desatualizado para ${node.file}; revise os arquivos canônicos.`);
 }
 for (const doc of documents) {

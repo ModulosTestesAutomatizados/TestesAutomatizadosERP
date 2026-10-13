@@ -15,31 +15,31 @@
       "name": "P39_PROCESSAMENTO_TDD_FINANCEIRO",
       "status": "local",
       "file": "docs/assets/emDesenvolvimento/Runner/P39_PROCESSAMENTO_TDD_FINANCEIRO.pas",
-      "sha256": "70eae1c5b70fc3abef1430364c3e923138aecf8b5d353f4d883ad41463261ee7"
+      "sha256": "935fbf9961ba73304bfd988b894e2501a7421e72bb634053197f9e10e6fad4b7"
     },
     {
       "name": "P39_TDD_CACHE",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/P39_TDD_CACHE.pas",
-      "sha256": "aca2ff7e3d007e24373250a5d8683a311a465c77037fbddf7d31560aebf01044"
+      "sha256": "938b488dd9e8cca6fa7c932709466c281ae201701eddb4fb80f3ee0f3cc4a148"
     },
     {
       "name": "P39_TDD_CASOS_DE_TESTE",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas",
-      "sha256": "da393570ea89771d87cb67b11d8c70578e7fb1f803133e4068203658529682e1"
+      "sha256": "7e60987ddcdda0f7ba1052197f6b383a0987a6b06c72d6fcad5309e9600bd582"
     },
     {
       "name": "P39_TDD_CONSTANTES",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/P39_TDD_CONSTANTES.pas",
-      "sha256": "1474a036e7367ab184728183bce6c8b10f94c8c4f05e870751e38a6539d38fd7"
+      "sha256": "0554f9953489b6b4f391a67a123f9aece202ad0a434ebbb464a589f3d3ad0d4e"
     },
     {
       "name": "P39_TDD_FUNCOES_JSON",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/P39_TDD_FUNCOES_JSON.pas",
-      "sha256": "4af79ac9ae38b5019787136fad11a84faf97d339ed6011289b83ed6a5ebafbfe"
+      "sha256": "e910359b4dd11c10ed60bdf866478e3d8555b8157a31f6a95954870e56cbc80a"
     },
     {
       "name": "P39_TDD_LOGS",
@@ -49,37 +49,37 @@
       "name": "P39_TDD_ODBC",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/P39_TDD_ODBC.pas",
-      "sha256": "01ca532a7410c252fa961a9a0fa16b3b676b72a3a27633165233e49ac9977226"
+      "sha256": "7692599e743114afe3d5a17ffed51b4dfcf1867a26609ccd06120ffc09cd3470"
     },
     {
       "name": "P39_TDD_PARAMETRO",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO.pas",
-      "sha256": "53cca1b8d4f5fa19f68a8eb385e04b78048ec79619e04fdf1450f48e768b3dc3"
+      "sha256": "41055f4c980cea3b53ac18ccf9cb4745f61a09e0c32b7e0b91ca358a1071aefd"
     },
     {
       "name": "P39_TDD_PARAMETRO_MAPEAMENTO",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO_MAPEAMENTO.pas",
-      "sha256": "b77f805a081cf580efd052bf60122a10dac35c8c8814cdaa1987063781b50a8a"
+      "sha256": "eb871651f0850e836f5af72b4da71db913b736fcd8e50337b13246b890f093d1"
     },
     {
       "name": "REFACTOR_TDD_FINANCEIRO_PILOTO",
       "status": "local",
       "file": "docs/assets/emDesenvolvimento/REFACTOR_TDD_FINANCEIRO_PILOTO.pas",
-      "sha256": "a83729bfa118acc27107495afea3be8cf92a20d66d27e6edf91c0df135c29cc4"
+      "sha256": "4c59a15a205d6a0aa61d4370de0217c0854bd2f07839e25891051de159a7b75c"
     },
     {
       "name": "TDD_BASE_UNIT_IRUNNER",
       "status": "local",
       "file": "docs/assets/emDesenvolvimento/Runner/TDD_BASE_UNIT_IRUNNER.pas",
-      "sha256": "b32d601d5b99a45d9ee6814736409a37b769f64cccc8fd2fcfec6f2cf94a9a96"
+      "sha256": "c25948057b7b07edc42d37cf31f1de6f323e768cee5a7c55e1b6801c811bba2d"
     },
     {
       "name": "TDD_FINISHED",
       "status": "local",
       "file": "docs/assets/emDesenvolvimento/Runner/TDD_FINISHED.pas",
-      "sha256": "31fd66d16a3b875cc95016a2faea91a6a409a0ea98f081f14f6204a5f9e24505"
+      "sha256": "c82062208c2bb66b4975af61ca2900cbbadea0015d6d313300cbddaa501447c7"
     },
     {
       "name": "TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO",
@@ -93,25 +93,25 @@
       "name": "TDD_IRUNNER",
       "status": "local",
       "file": "docs/assets/emDesenvolvimento/Runner/TDD_IRUNNER.pas",
-      "sha256": "08db9af8221f785f637102a4d25f4fee1f79af7e11900778732c7e1b08f4869d"
+      "sha256": "abd62219cf42270d0d5297386617bd1ea0366877ddcdbd01c38be7101d7d56fa"
     },
     {
       "name": "TDD_LOGS",
       "status": "local",
       "file": "docs/assets/emDesenvolvimento/Runner/TDD_LOGS.pas",
-      "sha256": "45f52eac3c2a7a7397b996c245e0c44672246e76a94fbb51f409815b27b3004a"
+      "sha256": "cda0453816a442df3b03debda75d13869f3697acb188de84c8e7e20b5b6d80e5"
     },
     {
       "name": "TDD_RUNNER",
       "status": "local",
       "file": "docs/assets/emDesenvolvimento/Runner/TDD_RUNNER.pas",
-      "sha256": "acf13ce5a9e50ca44bfeaeb1f2673fcc5a40f6ecaf39a846656c195c9322ff02"
+      "sha256": "ec69e7da605febaec5da687097980dab4dfd3d9f8a1ecef2c324ff0458cf361b"
     },
     {
       "name": "TDD_STARTED",
       "status": "local",
       "file": "docs/assets/emDesenvolvimento/Runner/TDD_STARTED.pas",
-      "sha256": "ef4e21fea22865ec8dbe87a9972c858ebaca83f75607907a5741de16d2afdd08"
+      "sha256": "56ce9c8a2d3f244953e7829110896cfa8e20284d7888249ba5bd0271116397ef"
     },
     {
       "name": "__USES_UNITS__",
