@@ -266,9 +266,9 @@ O processamento atualmente atribui `True` a `FSincRemoto` antes de chamar `Sincr
 | PORTAL-14 | Helpers | Execute | Verified |
 | PORTAL-15 | Helpers | Execute | Verified |
 | PORTAL-16 | Helpers | Execute | Verified |
-| PORTAL-17 | Drawer | Specify | Pending |
-| PORTAL-18 | Drawer | Specify | Pending |
-| PORTAL-19 | Drawer | Specify | Pending |
+| PORTAL-17 | Drawer | Execute | Verified |
+| PORTAL-18 | Drawer | Execute | Verified |
+| PORTAL-19 | Drawer | Execute | Verified |
 | PORTAL-20 | Rolagem | Specify | Pending |
 | PORTAL-21 | Rolagem | Specify | Pending |
 | PORTAL-22 | Autoria | Execute | Verified |

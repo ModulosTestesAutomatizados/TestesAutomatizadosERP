@@ -105,8 +105,8 @@ T3 → T4 → T5 → T6 → T7
 **Requirement**: PORTAL-17, PORTAL-18, PORTAL-19
 **Tools**: filesystem, navegador local; TLC e Vue.
 **Done when**:
-- [ ] Nomes em uma linha com ellipsis e tooltip em hover/foco; pelo menos 48 px após o último item.
-- [ ] Verificação desktop/mobile e qualidade passam.
+- [x] Nomes em uma linha com ellipsis e tooltip em hover/foco; pelo menos 48 px após o último item.
+- [x] Verificação desktop/mobile e qualidade passam.
 **Tests**: e2e
 **Gate**: build
 **Commit**: fix(docs): melhora leitura e espaco final do drawer
@@ -174,3 +174,7 @@ Build: PASS, 24 documentos. check.mjs helpers: PASS; assertions em check.mjs:41-
 ### T4 concluída
 
 npm run check e build: PASS. browser.mjs loading: PASS; assertions em browser.mjs:37-66 verificam viewport 1280x800, nome acessivel, reduced motion, inercia inicial, liberacao apos montagem e falha/timeout com recarga. Distribuicoes locais das mesmas versoes CDN usadas sem mocks de comportamento. Apenas ferramentas ignoradas.
+
+### T5 concluída
+
+npm run check e build: PASS. browser.mjs drawer: PASS; assertions em browser.mjs:69-87 verificam item visivel via rota profunda, tooltip por hover e foco, nowrap/ellipsis, padding minimo de 48px e paginas antigas ausentes. Mobile 360px sem overflow horizontal; capturas locais desktop.png e mobile.png.

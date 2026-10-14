@@ -13,9 +13,12 @@ body:has(.portal-loading) { overflow: hidden; }
 .portal-bar { border-bottom: 1px solid #e4e8f0; }
 .portal-bar .v-toolbar__content { overflow: visible; }
 .portal-drawer { border-right: 1px solid #e4e8f0; }
+.portal-drawer nav { padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px)); }
 .drawer-heading { padding: 30px 24px 12px; font-size: 10px; letter-spacing: 2px; color: #71809a; font-weight: 700; }
 .portal-drawer .v-list { padding: 0 16px; }
-.portal-drawer .v-list-item-title { white-space: normal; overflow-wrap: anywhere; font-size: 13px; line-height: 1.5; padding: 8px 0; }
+.portal-drawer .v-list-item-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; line-height: 1.5; padding: 8px 0; }
+.portal-drawer .v-list-item__content { min-width: 0; }
+.v-tooltip .v-overlay__content { max-width: min(480px, calc(100vw - 32px)); overflow-wrap: anywhere; }
 .navigation-group-title .v-list-item-title { font-weight: 650; }
 .navigation-group-title { width: 100%; text-align: start; }
 .portal-drawer .v-list-item__prepend > .v-icon { margin-inline-end: 12px; font-size: 19px; }

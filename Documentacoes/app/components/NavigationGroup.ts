@@ -27,12 +27,18 @@ const navigationGroup = Vue.defineComponent({
       v-if="!grupo.documentos?.length && !grupo.grupos?.length"
       :title="grupo.vazio ?? 'Sem documentação cadastrada.'"
       disabled/>
-    <v-list-item
+    <v-tooltip
       v-for="doc in grupo.documentos ?? []"
       :key="doc.slug"
-      :to="rotaDocumento(doc)"
-      :title="doc.titulo"
-      class="navigation-document"/>
+      :text="doc.titulo"
+      :openOnFocus="true"
+      location="end">
+      <template #activator="{ props }"><v-list-item
+        v-bind="props"
+        :to="rotaDocumento(doc)"
+        :title="doc.titulo"
+        class="navigation-document"/></template>
+    </v-tooltip>
   </v-list-group>`
 });
 export default navigationGroup;
