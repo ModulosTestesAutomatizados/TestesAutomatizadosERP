@@ -5,7 +5,8 @@ body { margin: 0; }
 *::-webkit-scrollbar { width: 0; height: 0; display: none; }
 .v-application { font-family: inherit; }
 .portal-status { padding: 2rem; color: #334155; }
-.portal-loading { position: fixed; inset: 0; z-index: 4000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 24px; background: #f7f8fc; color: #17233c; text-align: center; }
+.portal-loading { position: fixed; inset: 0; z-index: 4000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 24px; background: rgb(71 85 105 / 48%); color: #17233c; text-align: center; }
+.portal-loading p { padding: 16px 24px; border-radius: 8px; background: #fff; }
 .portal-spinner { width: 64px; height: 64px; border: 4px solid #dfe5f0; border-top-color: #2454c6; border-radius: 50%; animation: portal-spin .9s linear infinite; }
 .portal-loading button { border: 0; border-radius: 8px; padding: 12px 20px; background: #2454c6; color: #fff; font: inherit; cursor: pointer; }
 body:has(.portal-loading) { overflow: hidden; }
