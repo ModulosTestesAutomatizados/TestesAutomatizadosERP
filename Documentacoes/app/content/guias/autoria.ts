@@ -133,7 +133,7 @@ export default {
         'Confira título, resumo, status, menu, sumário e links da página. Teste a busca por nomes de estados e métodos de uma unit.',
         'Preserve slug e IDs quando houver links existentes; se precisar renomear uma rota, planeje o redirecionamento no manifesto de compatibilidade.',
         'Inclua no PR os fontes TypeScript, snippets, referências necessárias e mapas canônicos. tests, tools, dependências instaladas e saídas geradas permanecem ignorados.',
-        'O workflow verifica lint, tipos e build no PR. Após o merge, a publicação é manual na branch padrão, com Pages configurado para GitHub Actions. O site usa o artefato estático, não o servidor local.'
+        'O workflow verifica lint, tipos e build no PR. Após o merge ou push em master, publica automaticamente quando houver alterações em index.html, Documentacoes/**, docs/MAPEAMENTO_AST_USES_UNITS/**, docs/assets/** ou no próprio workflow. A execução manual continua disponível em master, com Pages configurado para GitHub Actions. O site usa o artefato estático, não o servidor local.'
       ] }
     ] }
   ]

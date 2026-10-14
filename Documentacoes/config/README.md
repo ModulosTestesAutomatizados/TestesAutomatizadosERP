@@ -21,4 +21,4 @@ Abra o endereço informado no terminal, que já inclui `/TestesAutomatizadosERP/
 
 Os hashes do inventário AST são calculados normalizando CRLF para LF, para que o checkout Windows e o Linux do GitHub Actions verifiquem o mesmo conteúdo.
 
-O workflow do GitHub Pages verifica e compila o portal. A publicação é acionada manualmente no GitHub Actions; selecione GitHub Actions como origem em Settings → Pages. O site final continua estático, com rotas hash e `.nojekyll`; não precisa de Node no navegador.
+O workflow do GitHub Pages verifica e compila o portal nos PRs, sem publicar. Após merge ou push em `master`, publica automaticamente quando houver alterações em `index.html`, `Documentacoes/**`, `docs/MAPEAMENTO_AST_USES_UNITS/**`, `docs/assets/**` ou `.github/workflows/documentacao-pages.yml`. A execução manual continua disponível em `master`; outras branches não publicam. Selecione GitHub Actions como origem em Settings → Pages. O site final continua estático, com rotas hash e `.nojekyll`; não precisa de Node no navegador.

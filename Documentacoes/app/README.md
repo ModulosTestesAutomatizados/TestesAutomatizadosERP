@@ -19,7 +19,7 @@ Para compilar e abrir o servidor em um único comando, use `npm run dev --prefix
 
 Abra o endereço informado no terminal. O preview tenta a porta 8080 e, se estiver ocupada, seleciona automaticamente uma porta livre. Para fixar uma porta, defina `PORT` antes de executar o comando (no PowerShell: `$env:PORT = '8090'`). O preview serve `Documentacoes/.pages-output`, e não os arquivos TypeScript. Após editar, execute novamente check e build. O índice dos fontes não pode ser servido diretamente porque os navegadores não executam TypeScript.
 
-O workflow `.github/workflows/documentacao-pages.yml` verifica e compila alterações em PRs. A publicação é manual, via GitHub Actions, na branch padrão. O GitHub Pages deve usar GitHub Actions como origem. As rotas hash permitem abrir e recarregar páginas sob `/TestesAutomatizadosERP/`; o build inclui `.nojekyll` e mantém os caminhos relativos de assets e diagramas. Consulte `../config/README.md` para os detalhes da configuração.
+O workflow `.github/workflows/documentacao-pages.yml` verifica e compila alterações em PRs, sem publicar. Após merge ou push em `master`, a publicação é automática quando pelo menos um arquivo alterado corresponde a `index.html`, `Documentacoes/**`, `docs/MAPEAMENTO_AST_USES_UNITS/**`, `docs/assets/**` ou ao próprio workflow. Os padrões `**` incluem subdiretórios. A execução manual continua disponível em `master`. O GitHub Pages deve usar GitHub Actions como origem. As rotas hash permitem abrir e recarregar páginas sob `/TestesAutomatizadosERP/`; o build inclui `.nojekyll` e mantém os caminhos relativos de assets e diagramas. Consulte `../config/README.md` para os detalhes da configuração.
 
 ## Organização dos fontes
 
