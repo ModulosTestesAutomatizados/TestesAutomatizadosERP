@@ -15,7 +15,6 @@ var
   FCasoTesteAtualId   :integer;
   FCasoTesteAtualJson :string;
 
-
 { ================================================================
   MAIN / INSTRUÇÕES
   ================================================================ }
@@ -33,12 +32,14 @@ begin
     'function ValidarVersaoRequisito :Boolean'                                                                             + #13 +
     '  - Aceita requisito vazio; valida a versão mínima quando informada e registra incompatibilidade.'                    + #13 +
     'procedure AplicarParametrosDoCasoTeste'                                                                               + #13 +
-    '  - Aplica os parâmetros presentes no JSON após a verificação de versão.'                                             + #13 +
+    '  - Aplica a seção opcional de parâmetros; ausência ou objeto vazio não altera o sistema.'                              + #13 +
+    'function ObterParametrosDoCasoTeste(pJson :string) :string'                                                           + #13 +
+    '  - Lê somente a seção de parâmetros da raiz e rejeita JSON ou seção inválidos.'                                         + #13 +
     '====================================================================================================================' + #13 +
     'Contrato de execução:'                                                                                                + #13 +
     'Started é chamada por Run após SetarCasoTeste; a carga do lote permanece em SetupCasosTestes.'                        + #13 +
     'FCasoTesteAtualId e FCasoTesteAtualJson são compartilhados com a unit de Teste.'                                      + #13 +
-    'Os tempos são registrados pelos métodos existentes; logs são condicionados a FModoDebug.'                             + #13 +
+    'Os tempos são registrados pelos métodos existentes; logs são capturados mesmo sem FModoDebug.'                       + #13 +
     'FExibirInstrucoes controla a exibição destas instruções.'                                                             + #13 +
     '====================================================================================================================';
   {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_STARTED', lInstrucoes);
@@ -49,32 +50,57 @@ end;
   APLICAÇÃO DE PARÂMETROS DO SISTEMA PARA EXECUTAR O TESTE
     - Está sendo cronometrado em sua chamada por Started
   ================================================================ }
-procedure AplicarParametrosDoCasoTeste;
+function ObterParametrosDoCasoTeste(pJson :string) :string;
 var
-  lParametrosJson: string;
-  lObj: TJSONObject;
+  lTexto :string;
+  lObj :TJSONObject;
+  lPair :TJSONPair;
+  lIndice :Integer;
 begin
-  if (Trim(FCasoTesteAtualJson) <> '') and (Trim(FCasoTesteAtualJson) <> '{}') then
-  begin
-    lParametrosJson := GetObjectJson(FCasoTesteAtualJson, 'parametros');
-    if (Trim(lParametrosJson) <> '') and (Trim(lParametrosJson) <> '{}') then
+  Result := '';
+  lTexto := Trim(pJson);
+  if lTexto = '' then
+    Exit;
+  if Copy(lTexto, 1, 1) <> '{' then
+    raise Exception.Create('JSON do caso de teste deve ser um objeto.');
+
+  lObj := nil;
+  try
+    lObj := TJSONObject.ParseJSONValue(lTexto);
+    if not Assigned(lObj) then
+      raise Exception.Create('JSON do caso de teste inválido.');
+
+    // GetPair e os leitores de pares já são usados em P39_TDD_PARAMETRO.
+    // Não usa GetObjectJson: a ausência de uma seção opcional não é erro.
+    for lIndice := 0 to lObj.Count - 1 do
     begin
-      try
-        lObj := TJSONObject.ParseJSONValue(lParametrosJson);
-        if not Assigned(lObj) then
-          raise Exception.Create('JSON de parâmetros inválido.');
-
-        {P39_TDD_LOGS.}RegistrarLogEmModoDebug(
-          'Aplicando parâmetros do caso de teste no sistema.' + #13 +
-          lObj.ToJSON
-        );
-
-        {P39_TDD_PARAMETRO.}VerificarParametros(lObj.ToJSON);
-        {P39_TDD_LOGS.}RegistrarLogEmModoDebug('Parâmetros verificados.');
-      finally
-        lObj.Free;
+      lPair := ExecutarMetodoDeObjeto(lObj, 'GetPair', [lIndice]);
+      if GetPairName(lPair) = 'parametros' then
+      begin
+        Result := Trim(GetPairValue(lPair));
+        if Copy(Result, 1, 1) <> '{' then
+          raise Exception.Create('A seção de parâmetros deve ser um objeto JSON.');
+        Exit;
       end;
     end;
+  finally
+    if Assigned(lObj) then
+      lObj.Free;
+  end;
+end;
+
+procedure AplicarParametrosDoCasoTeste;
+var lParametrosJson :string;
+begin
+  lParametrosJson := ObterParametrosDoCasoTeste(FCasoTesteAtualJson);
+  if (Trim(lParametrosJson) <> '') and (Trim(lParametrosJson) <> '{}') then
+  begin
+    {P39_TDD_LOGS.}RegistrarLogEmModoDebug(
+      'Aplicando parâmetros do caso de teste no sistema.' + #13 +
+      lParametrosJson
+    );
+    {P39_TDD_PARAMETRO.}VerificarParametros(lParametrosJson);
+    {P39_TDD_LOGS.}RegistrarLogEmModoDebug('Parâmetros verificados.');
   end;
 end;
 {$endregion}
@@ -127,20 +153,20 @@ begin
 
   if (Trim(FContextoCasoTeste.DescricaoModulo) = '') or
      (Trim(FContextoCasoTeste.DescricaoArea) = '') then
-    raise Exception.Create('Contexto do caso de teste nao foi configurado corretamente no TDD_RUNNER.');
+    raise Exception.Create('Contexto do caso de teste não foi configurado corretamente no TDD_RUNNER.');
 
   if not Assigned(CDSCasosTestes) then
-    raise Exception.Create('CDS global dos casos de teste nao foi inicializado.');
+    raise Exception.Create('CDS global dos casos de teste não foi inicializado.');
 
   if not CDSCasosTestes.Active then
-    raise Exception.Create('CDS global dos casos de teste nao esta ativo.');
+    raise Exception.Create('CDS global dos casos de teste não está ativo.');
 
   if CDSCasosTestes.IsEmpty or CDSCasosTestes.Eof then
-    raise Exception.Create('Nao ha registro corrente para preparar o caso de teste.');
+    raise Exception.Create('Não há registro corrente para preparar o caso de teste.');
 
   FCasoTesteAtualId := CDSCasosTestes.FieldByName('ID').AsInteger;
   if FCasoTesteAtualId <= 0 then
-    raise Exception.Create('Registro corrente possui ID de caso de teste invalido.');
+    raise Exception.Create('Registro corrente possui ID de caso de teste inválido.');
 
   FCasoTesteAtualJson := CDSCasosTestes.FieldByName('CASOTESTE').AsString;
   FContextoCasoTeste.DescricaoCasoTeste := CDSCasosTestes.FieldByName('DESCRICAO').AsString;
@@ -156,7 +182,7 @@ begin
   CallBack_Mensagem(ClassOwner, 'ValidarVersaoRequisito');
   {P39_TDD_RUNNER.}RegistrarTick(0, 'Validar Versao Requisito');
   if not ValidarVersaoRequisito then
-    raise Exception.Create('Versao do sistema nao atende o requisito do caso de teste.');
+    raise Exception.Create('Versão do sistema não atende o requisito do caso de teste.');
   {P39_TDD_RUNNER.}RegistrarTick(1, 'Validar Versao Requisito');
 
   CallBack_Mensagem(ClassOwner, 'AplicarParametrosDoCasoTeste');

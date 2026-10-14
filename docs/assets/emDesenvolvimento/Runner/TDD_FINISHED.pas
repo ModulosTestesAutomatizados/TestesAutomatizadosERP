@@ -22,6 +22,10 @@ end;
 procedure RegistrarMetricas;
 var lSQL :string;
 begin
+  // Copia no ponto de persistência, antes que Run limpe a lista da tentativa.
+  if Assigned(FLogsCasoTeste) then
+    FHistoricoExecucao.LogsProcessamento := FLogsCasoTeste.Text;
+
   try
     lSQL := 'INSERT INTO HISTORICO_EXECUCAO ('                    + #13 +
       '  AUTOINC_CASO_TESTE_HE,'                                  + #13 +

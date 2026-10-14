@@ -65,7 +65,7 @@ begin
         {P39_TDD_FINISHED.}RegistrarMetricas;
       except
         on Ex: Exception do
-          raise Exception.Create('Falha ao persistir metricas: ' + Ex.Message);
+          raise Exception.Create('Falha ao persistir métricas: ' + Ex.Message);
       end;
       CallBack_FechaTela(ClassOwner);
       CallBack_FechaTela('Run');

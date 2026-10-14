@@ -27,7 +27,7 @@ begin
   {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_IRUNNER', lInstrucoes);
 end;
 
-// Define a unica unit cujo Teste sera chamado por Run para cada caso.
+// Define a única unit cujo Teste será chamado por Run para cada caso.
 procedure SetTDDUnit(pUnit :string);
 begin
   FTDDUnit := Trim(pUnit);
@@ -51,7 +51,7 @@ var
   lMetodo :string;
 begin
   if Trim(FTDDUnit) = '' then
-    raise Exception.Create('Nenhuma Unit para uses informada! Impossivel executar o teste.');
+    raise Exception.Create('Nenhuma Unit para uses informada! Impossível executar o teste.');
   if not Assigned(FParamsCasosTeste) then
     raise Exception.Create('Módulo e área devem ser informados.');
   if FParamsCasosTeste.Count <> 2 then
