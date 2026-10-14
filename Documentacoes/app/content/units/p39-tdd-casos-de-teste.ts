@@ -1,6 +1,6 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
-  navegacao: { grupo: 'units', subgrupo: 'irunner' },
+  navegacao: { grupo: 'units', subgrupo: 'setup', ordem: 0 },
   nome: 'P39_TDD_CASOS_DE_TESTE', resumo: 'Datasets e seleção dos registros usados pelo lote de casos.',
   aliasesArtefatos: { CDSCasosTestes: ['FCDSCasosTestes'] },
   fonte: 'docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas',

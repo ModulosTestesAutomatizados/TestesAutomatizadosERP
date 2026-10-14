@@ -39,7 +39,6 @@ if (errors.length) throw new Error(errors.join('\n'));
 await fs.mkdir(path.join(output, 'Documentacoes/app'), { recursive: true });
 await fs.cp(compiled, path.join(output, 'Documentacoes/app'), { recursive: true });
 await fs.cp(path.join(project, 'app/styles'), path.join(output, 'Documentacoes/app/styles'), { recursive: true });
-await fs.cp(path.join(project, 'app/redirecionamentos'), path.join(output, 'Documentacoes/app/redirecionamentos'), { recursive: true, filter: p => !p.endsWith('.ts') });
 for (const asset of assets) {
   const destination = path.resolve(output, asset);
   if (!destination.startsWith(output + path.sep)) throw new Error('Asset fora da saída');
@@ -56,12 +55,5 @@ const index = template
   .replace('<!-- portal-entry -->', () => `<script type="module">\n${entry}\n</script>`);
 await fs.writeFile(path.join(output, 'index.html'), index, 'utf8');
 await fs.unlink(path.join(output, 'Documentacoes/app/start.js'));
-// Compatibilidade com URLs anteriores sem manter pastas editoriais na raiz.
-const { REDIRECIONAMENTOS } = await import(pathToFileURL(path.join(compiled, 'redirecionamentos/manifesto.js')));
-for (const item of REDIRECIONAMENTOS) {
-  const destination = path.join(output, item.anterior, 'index.html');
-  await fs.mkdir(path.dirname(destination), { recursive: true });
-  await fs.writeFile(destination, `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=../../index.html#${item.rota}"></head><body><a href="../../index.html#${item.rota}">Abrir documentação</a></body></html>`, 'utf8');
-}
 await fs.writeFile(path.join(output, '.nojekyll'), '');
 process.stdout.write(`Portal compilado: ${documents.length} documentos em Documentacoes/.pages-output.\n`);

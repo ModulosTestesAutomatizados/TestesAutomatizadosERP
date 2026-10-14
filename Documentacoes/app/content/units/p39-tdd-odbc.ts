@@ -1,7 +1,7 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
-  nome: 'P39_TDD_ODBC', navegacao: { grupo: 'units', subgrupo: 'infraestrutura' },
+  nome: 'P39_TDD_ODBC', navegacao: { grupo: 'units', subgrupo: 'persistencia', ordem: 0 },
   resumo: 'Wrappers de leitura, comando e valor escalar usando a conexão ODBC compartilhada do TDD.',
   fonte: 'docs/assets/configuracoesGerais/P39_TDD_ODBC.pas',
   responsabilidade: 'Encaminhar operações ao host ODBC usando cConexaoODBCPadrao.',

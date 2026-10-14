@@ -1,7 +1,7 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
-  navegacao: { grupo: 'units', subgrupo: 'faturamento' },
+  navegacao: { grupo: 'units', subgrupo: 'setup', ordem: 4 },
   nome: 'P39_TDD_MODULO', resumo: 'Abre o módulo pelo menu real e recupera o foco da tela após alterações de parâmetros.',
   fonte: 'docs/assets/configuracoesGerais/P39_TDD_MODULO.pas',
   responsabilidade: 'Preparar módulo, configurações e casos de teste e controlar a abertura e o foco do formulário principal no fluxo de Pedido de Venda.',

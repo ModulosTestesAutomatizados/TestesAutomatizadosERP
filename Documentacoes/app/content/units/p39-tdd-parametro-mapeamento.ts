@@ -1,7 +1,7 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
-  nome: 'P39_TDD_PARAMETRO_MAPEAMENTO', navegacao: { grupo: 'units', subgrupo: 'irunner' },
+  nome: 'P39_TDD_PARAMETRO_MAPEAMENTO', navegacao: { grupo: 'units', subgrupo: 'setup', ordem: 3 },
   resumo: 'Relaciona as chaves JSON de parâmetros aos campos e tabelas de configuração do ERP.',
   fonte: 'docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO_MAPEAMENTO.pas',
   responsabilidade: 'Resolver o nome JSON, o campo do banco e a tabela correspondente para cada parâmetro registrado.',

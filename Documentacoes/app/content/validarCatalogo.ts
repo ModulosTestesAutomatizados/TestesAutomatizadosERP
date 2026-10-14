@@ -36,6 +36,8 @@ export function validarCatalogo(pDocumentos: IDocumento[]): string[] {
       if (doc.navegacao.ordem !== undefined && !Number.isFinite(doc.navegacao.ordem)) erro('navegacao.ordem', 'use um número finito');
     }
     if (doc.categoria === 'units' && (!preenchido(doc.unit) || doc.slug !== doc.unit.toLowerCase().replace(/_/g, '-'))) erro('unit', 'nome e slug devem seguir o padrão de units');
+    if (doc.categoria === 'units' && (!/^P39_TDD_[A-Z0-9_]+$/.test(doc.unit ?? '') || doc.titulo !== doc.unit)) erro('unit', 'use o mesmo nome canônico P39_TDD_ no artefato, título e navegação');
+    if (doc.categoria === 'units' && !doc.fontes?.some(pF => pF.caminho.endsWith(`/${doc.unit}.pas`))) erro('fontes', 'o arquivo Pascal deve ter o mesmo nome canônico da unit');
     if (doc.categoria === 'units') {
       if (doc.aliases !== undefined && !Array.isArray(doc.aliases)) erro('aliases', 'deve ser uma lista');
       for (const nome of [doc.unit, ...(Array.isArray(doc.aliases) ? doc.aliases : [])]) {

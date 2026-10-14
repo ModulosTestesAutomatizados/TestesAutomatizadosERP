@@ -4,7 +4,7 @@ const paragrafo = (pTexto: string): TBloco => ({ tipo: 'paragrafo', texto: pText
 const aviso = (pTexto: string): TBloco => ({ tipo: 'aviso', severidade: 'warning', texto: pTexto });
 
 export default {
-  slug: 'runner', categoria: 'estrutura', titulo: 'Estrutura e fluxo de IRunner.Executar',
+  slug: 'runner', categoria: 'estrutura', titulo: 'IRunner.Executar',
   resumo: 'Da montagem do código ao lote de casos: responsabilidades, uses, estado compartilhado, logs e métricas.',
   estado: 'em-desenvolvimento',
   fontes: [

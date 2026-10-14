@@ -1,7 +1,7 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
-  nome: 'P39_TDD_FIN_BORDERO_RECEBIMENTO', navegacao: { grupo: 'helpers', subgrupo: 'financeiro' },
+  nome: 'P39_TDD_FIN_BORDERO_RECEBIMENTO', navegacao: { grupo: 'mapeamentos', subgrupo: 'financeiro', ordem: 1 },
   resumo: 'Mapeia a tela de acerto e expõe comandos e datasets do borderô de recebimento.',
   fonte: 'docs/assets/casosTestesFinanceiro/P39_TDD_FIN_BORDERO_RECEBIMENTO.pas',
   responsabilidade: 'Localizar o formulário de recebimento e centralizar o acesso a seus componentes e eventos.',

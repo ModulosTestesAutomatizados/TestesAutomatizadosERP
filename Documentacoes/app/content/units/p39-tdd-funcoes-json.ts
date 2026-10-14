@@ -1,7 +1,7 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
-  nome: 'P39_TDD_FUNCOES_JSON', navegacao: { grupo: 'units', subgrupo: 'infraestrutura' },
+  nome: 'P39_TDD_FUNCOES_JSON', navegacao: { grupo: 'helpers', subgrupo: 'gerais' },
   resumo: 'Leitura tipada de tags JSON e acesso aos pares usados na configuração dos testes.',
   fonte: 'docs/assets/configuracoesGerais/P39_TDD_FUNCOES_JSON.pas',
   responsabilidade: 'Ler tags e converter valores para inteiro, moeda, lógico, data ou texto com os padrões definidos pelo consumidor.',

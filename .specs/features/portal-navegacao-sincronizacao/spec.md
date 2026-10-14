@@ -259,7 +259,7 @@ O processamento atualmente atribui `True` a `FSincRemoto` antes de chamar `Sincr
 | PORTAL-07 | Navegação | Specify | Pending |
 | PORTAL-08 | Navegação | Specify | Pending |
 | PORTAL-09 | Navegação | Specify | Pending |
-| PORTAL-10 | Navegação | Specify | Pending |
+| PORTAL-10 | Navegação | Execute | Verified |
 | PORTAL-11 | Helpers | Specify | Pending |
 | PORTAL-12 | Helpers | Specify | Pending |
 | PORTAL-13 | Helpers | Specify | Pending |
@@ -271,14 +271,14 @@ O processamento atualmente atribui `True` a `FSincRemoto` antes de chamar `Sincr
 | PORTAL-19 | Drawer | Specify | Pending |
 | PORTAL-20 | Rolagem | Specify | Pending |
 | PORTAL-21 | Rolagem | Specify | Pending |
-| PORTAL-22 | Autoria | Specify | Pending |
+| PORTAL-22 | Autoria | Execute | Verified |
 | PORTAL-23 | Autoria | Specify | Pending |
 | PORTAL-24 | Pages | Specify | Pending |
 | PORTAL-25 | Pages | Specify | Pending |
 | PORTAL-26 | Nomenclatura | Execute | Verified |
 | PORTAL-27 | Nomenclatura | Execute | Verified |
 | PORTAL-28 | Nomenclatura | Execute | Verified |
-| PORTAL-29 | Nomenclatura | Specify | Pending |
+| PORTAL-29 | Nomenclatura | Execute | Verified |
 | PORTAL-30 | Nomenclatura | Execute | Verified |
 | PORTAL-31 | Nomenclatura | Specify | Pending |
 

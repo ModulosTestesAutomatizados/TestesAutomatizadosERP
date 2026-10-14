@@ -62,9 +62,9 @@ T3 → T4 → T5 → T6 → T7
 **Requirement**: PORTAL-06, PORTAL-07, PORTAL-08, PORTAL-09, PORTAL-10, PORTAL-22, PORTAL-29
 **Tools**: filesystem, Git; TLC.
 **Done when**:
-- [ ] Árvore e ordem correspondem ao mapa para as 19 units existentes; três helpers entram em T3.
-- [ ] Páginas antigas e redirecionamentos excluídos; catálogo e rotas de unit canônicas coerentes.
-- [ ] Build e verificação de catálogo passam.
+- [x] Árvore e ordem correspondem ao mapa para as 19 units existentes; três helpers entram em T3.
+- [x] Páginas antigas e redirecionamentos excluídos; catálogo e rotas de unit canônicas coerentes.
+- [x] Build e verificação de catálogo passam.
 **Tests**: integration
 **Gate**: full
 **Commit**: refactor(docs): reorganiza navegacao e remove paginas obsoletas
@@ -162,3 +162,7 @@ Registrar comando, resultado e localização das verificações ao concluir cada
 ### T1 concluída
 
 `python Documentacoes/tools/portal-iteration/migrate.py --check`: PASS, 21 fontes alterados apenas por nomes; baseline dos fontes fornecidos preservado localmente. `npm run typecheck --prefix Documentacoes`: PASS. Asserções locais em `migrate.py:38` comparam conteúdo normalizado contra a migração aprovada; os literais dinâmicos são verificados nas linhas seguintes. Cobertura: PORTAL-26/27/28/30; nenhuma alteração de regra Pascal. Os três fontes novos e a retirada dos fontes antigos de sincronização integram esta migração de identidade; suas páginas entram em T3.
+
+### T2 concluída
+
+Build: PASS, 21 documentos antes dos helpers. check.mjs catalog: PASS; assertions em check.mjs:12-40 comparam grupos, ordem, unicidade, nomes, caminhos e ausencia de paginas e redirecionamentos. PORTAL-09 e PORTAL-29 tambem recebem prova no navegador nas tarefas visuais. Nenhum teste versionado.

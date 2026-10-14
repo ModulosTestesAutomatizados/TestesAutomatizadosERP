@@ -1,7 +1,7 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
-  navegacao: { grupo: 'units', subgrupo: 'casos' },
+  navegacao: { grupo: 'casos', ordem: 0 },
   nome: 'P39_TDD_FAT_PEDIDO_VENDA',
   resumo: 'Entrada do caso de Pedido de Venda no faturamento refatorado, com configuração de tela e delegação ao núcleo.',
   fonte: 'docs/assets/casosTestesFaturamento/P39_TDD_FAT_PEDIDO_VENDA.pas',

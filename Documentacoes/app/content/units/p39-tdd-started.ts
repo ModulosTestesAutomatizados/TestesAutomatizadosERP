@@ -1,6 +1,6 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
-  navegacao: { grupo: 'units', subgrupo: 'irunner' },
+  navegacao: { grupo: 'units', subgrupo: 'irunner', ordem: 3 },
   nome: 'P39_TDD_STARTED', resumo: 'Preparação do caso corrente: identidade, versão e parâmetros.',
   fonte: 'docs/assets/emDesenvolvimento/Runner/P39_TDD_STARTED.pas',
   responsabilidade: 'Preparar os dados usados pela unit Teste depois que Run define o contexto da tentativa.',

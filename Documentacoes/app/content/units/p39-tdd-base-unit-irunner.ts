@@ -1,6 +1,6 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
-  navegacao: { grupo: 'units', subgrupo: 'irunner' },
+  navegacao: { grupo: 'units', subgrupo: 'irunner', ordem: 1 },
   nome: 'P39_TDD_BASE_UNIT_IRUNNER', resumo: 'Molde do programa interpretado: entrada, lote, tentativa e limpeza.',
   fonte: 'docs/assets/emDesenvolvimento/Runner/P39_TDD_BASE_UNIT_IRUNNER.pas',
   responsabilidade: 'Orquestrar a execução por lote depois que P39_TDD_IRUNNER preenche os marcadores do molde.',

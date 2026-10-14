@@ -1,7 +1,7 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
-  nome: 'P39_TDD_FIN_BORDERO_PAGAMENTO', navegacao: { grupo: 'helpers', subgrupo: 'financeiro' },
+  nome: 'P39_TDD_FIN_BORDERO_PAGAMENTO', navegacao: { grupo: 'mapeamentos', subgrupo: 'financeiro', ordem: 0 },
   resumo: 'Mapeia a tela de borderô de pagamento e mantém referências aos componentes, datasets e seletores.',
   fonte: 'docs/assets/casosTestesFinanceiro/P39_TDD_FIN_BORDERO_PAGAMENTO.pas',
   responsabilidade: 'Localizar a tela e seus componentes e preparar os datasets temporários utilizados pelo cenário financeiro.',

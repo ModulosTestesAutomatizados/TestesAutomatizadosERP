@@ -1,7 +1,7 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
-  navegacao: { grupo: 'units', subgrupo: 'casos' },
+  navegacao: { grupo: 'casos', ordem: 1 },
   nome: 'P39_TDD_FIN_PAGAMENTO_RECEBIMENTO', estado: 'em-desenvolvimento',
   resumo: 'Caso financeiro que valida o registro corrente e executa duplicatas e borderôs na casca IRunner.',
   fonte: 'docs/assets/emDesenvolvimento/P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.pas',

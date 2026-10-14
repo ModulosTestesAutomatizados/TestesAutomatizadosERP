@@ -1,6 +1,6 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
-  navegacao: { grupo: 'units', subgrupo: 'irunner' },
+  navegacao: { grupo: 'units', subgrupo: 'setup', ordem: 2 },
   nome: 'P39_TDD_PARAMETROS', resumo: 'Mapeamento, comparação e atualização dos parâmetros do ERP.',
   fonte: 'docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETROS.pas',
   responsabilidade: 'Comparar o bloco parametros com a configuração corrente e aplicar somente as diferenças necessárias.',

@@ -1,6 +1,6 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
-  navegacao: { grupo: 'units', subgrupo: 'irunner' },
+  navegacao: { grupo: 'units', subgrupo: 'irunner', ordem: 2 },
   nome: 'P39_TDD_RUNNER', resumo: 'Carga do lote, contexto individual e medição de tempo das etapas.',
   fonte: 'docs/assets/emDesenvolvimento/Runner/P39_TDD_RUNNER.pas',
   responsabilidade: 'Carregar os casos do módulo/área, reiniciar o contexto de uma tentativa e registrar os tempos usados pela casca.',
