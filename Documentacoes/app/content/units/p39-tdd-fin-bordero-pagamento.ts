@@ -1,10 +1,9 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
-  nome: 'P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO', aliases: ['TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO'],
-  navegacao: { grupo: 'helpers', subgrupo: 'financeiro' },
+  nome: 'P39_TDD_FIN_BORDERO_PAGAMENTO', navegacao: { grupo: 'helpers', subgrupo: 'financeiro' },
   resumo: 'Mapeia a tela de borderô de pagamento e mantém referências aos componentes, datasets e seletores.',
-  fonte: 'docs/assets/casosTestesFinanceiro/P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO.pas',
+  fonte: 'docs/assets/casosTestesFinanceiro/P39_TDD_FIN_BORDERO_PAGAMENTO.pas',
   responsabilidade: 'Localizar a tela e seus componentes e preparar os datasets temporários utilizados pelo cenário financeiro.',
   problema: 'Separar os nomes concretos de componentes do fluxo de teste; o helper pode atender consumidores além do IRunner.',
   estados: [
@@ -31,6 +30,6 @@ export default criarDocumentoUnit({
     ['procedure DestruirObjetos', 'Liberar os datasets temporários.', 'Chama Free nos dez temporários; a liberação do formulário está comentada.']
   ],
   implementacao: ['As constantes cAbaPrincipal até cAbaTotalizacao identificam índices de abas.', 'Também declara checkboxes de filtros, intervalos de datas e labels de totalização, mapeados por nomes concretos do formulário.'],
-  dependencias: ['Sem uses ativo no fonte; tipos e métodos de localização são fornecidos pelo host.', 'O piloto REFACTOR_TDD_FINANCEIRO_PILOTO referencia a variante TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO no uses.'],
+  dependencias: ['Sem uses ativo no fonte; tipos e métodos de localização são fornecidos pelo host.', 'O piloto P39_TDD_FIN_PAGAMENTO_RECEBIMENTO referencia a variante P39_TDD_FIN_BORDERO_PAGAMENTO no uses.'],
   limites: ['A documentação vincula a variante P39 local; o alias sem prefixo não comprova equivalência do fonte instalado no ERP.', 'FindComponent pode retornar referência ausente; o fonte não valida todas as atribuições.', 'CriarObjetos cria novos temporários em cada chamada; Main não executa a limpeza comentada no finally.']
 });

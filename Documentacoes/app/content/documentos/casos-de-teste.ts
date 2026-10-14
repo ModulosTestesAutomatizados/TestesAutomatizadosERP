@@ -11,14 +11,14 @@ export default {
     { caminho: 'docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas' },
     { caminho: 'docs/assets/configuracoesGerais/sincronizar/persistenciasODBC/P39_TDD_REGISTRAR_CASO_TESTE.pas' },
     { caminho: 'docs/assets/configuracoesGerais/sincronizar/persistenciasODBC/P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS.pas' },
-    { caminho: 'docs/assets/emDesenvolvimento/Runner/TDD_RUNNER.pas' },
-    { caminho: 'docs/assets/emDesenvolvimento/Runner/TDD_STARTED.pas' },
-    { caminho: 'docs/assets/emDesenvolvimento/Runner/TDD_BASE_UNIT_IRUNNER.pas' },
+    { caminho: 'docs/assets/emDesenvolvimento/Runner/P39_TDD_RUNNER.pas' },
+    { caminho: 'docs/assets/emDesenvolvimento/Runner/P39_TDD_STARTED.pas' },
+    { caminho: 'docs/assets/emDesenvolvimento/Runner/P39_TDD_BASE_UNIT_IRUNNER.pas' },
     { caminho: 'docs/MER.md' }
   ],
   secoes: [
     { id: 'conceito', titulo: 'O caso de teste no IRunner', blocos: [
-      { tipo: 'paragrafo', texto: 'Um caso de teste reúne identificação, entrada JSON, requisito de versão e dados de referência no banco dedicado. A unit P39_TDD_CASOS_DE_TESTE está em uso no fluxo atual: é herdada por TDD_STARTED e disponibiliza os datasets usados pelo Runner.' },
+      { tipo: 'paragrafo', texto: 'Um caso de teste reúne identificação, entrada JSON, requisito de versão e dados de referência no banco dedicado. A unit P39_TDD_CASOS_DE_TESTE está em uso no fluxo atual: é herdada por P39_TDD_STARTED e disponibiliza os datasets usados pelo Runner.' },
       { tipo: 'paragrafo', texto: 'No contrato por lote, módulo e área selecionam os casos ativos. A descrição vem de cada registro corrente; o ID liga o caso ao histórico. A unit Teste não precisa informar a descrição de um cenário nem carregar ou avançar o lote.' }
     ] },
     { id: 'cadastro', titulo: 'Do cadastro à execução', blocos: [

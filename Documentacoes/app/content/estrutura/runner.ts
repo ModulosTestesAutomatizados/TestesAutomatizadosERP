@@ -8,17 +8,17 @@ export default {
   resumo: 'Da montagem do código ao lote de casos: responsabilidades, uses, estado compartilhado, logs e métricas.',
   estado: 'em-desenvolvimento',
   fontes: [
-    ...['TDD_IRUNNER', 'TDD_RUNNER', 'TDD_BASE_UNIT_IRUNNER', 'TDD_STARTED', 'TDD_FINISHED', 'TDD_LOGS', 'P39_PROCESSAMENTO_TDD_FINANCEIRO'].map(pNome => ({ caminho: `${pastaRunner}${pNome}.pas` })),
+    ...['P39_TDD_IRUNNER', 'P39_TDD_RUNNER', 'P39_TDD_BASE_UNIT_IRUNNER', 'P39_TDD_STARTED', 'P39_TDD_FINISHED', 'P39_TDD_LOGS', 'P39_TDD_FIN_PROCESSAMENTO'].map(pNome => ({ caminho: `${pastaRunner}${pNome}.pas` })),
     { caminho: 'docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas' },
-    { caminho: 'docs/assets/emDesenvolvimento/REFACTOR_TDD_FINANCEIRO_PILOTO.pas' },
-    { caminho: 'docs/MER.md' }, { caminho: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/TDD_IRUNNER.md' }, { caminho: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/TDD_IRUNNER.ast.json' }
+    { caminho: 'docs/assets/emDesenvolvimento/P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.pas' },
+    { caminho: 'docs/MER.md' }, { caminho: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/P39_TDD_IRUNNER.md' }, { caminho: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/P39_TDD_IRUNNER.ast.json' }
   ],
   secoes: [
     { id: 'contrato', titulo: '01 · Contrato de entrada', blocos: [
       paragrafo('IRunner monta um programa interpretado para uma única unit com entrada Teste sem parâmetros. SetTDDUnit define essa unit; AddParamsRun recebe exatamente dois valores, módulo e área, escritos como literais Pascal. Executar preenche o molde e chama Interpretar uma vez. A carga do lote e o cursor dos casos pertencem ao molde, não à unit Teste.'),
-      { tipo: 'codigo', linguagem: 'pascal', codigo: "uses TDD_IRUNNER;\n\nprocedure ExecutarIRunner;\nbegin\n  SetTDDUnit('REFACTOR_TDD_FINANCEIRO_PILOTO');\n  AddParamsRun('''FINANCEIRO''');\n  AddParamsRun('''FINANCEIRO''');\n  Executar;\nend;" },
+      { tipo: 'codigo', linguagem: 'pascal', codigo: "uses P39_TDD_IRUNNER;\n\nprocedure ExecutarIRunner;\nbegin\n  SetTDDUnit('P39_TDD_FIN_PAGAMENTO_RECEBIMENTO');\n  AddParamsRun('''FINANCEIRO''');\n  AddParamsRun('''FINANCEIRO''');\n  Executar;\nend;" },
       aviso('TDD_ASSERTS e a persistência de METRICAS_ASSERTS continuam pendentes. SUCESSO indica que o caminho implementado terminou sem exceção; não certifica aprovação funcional dos asserts.'),
-      paragrafo('Nomenclatura: BASE_UNIT é TDD_BASE_UNIT_IRUNNER.pas. O artefato de casos referido como TDD_CASOS_DE_TESTES está disponível como P39_TDD_CASOS_DE_TESTE.pas, no singular. Os nomes reais dos fontes são preservados nos links.')
+      paragrafo('Nomenclatura: BASE_UNIT é P39_TDD_BASE_UNIT_IRUNNER.pas. O artefato de casos referido como TDD_CASOS_DE_TESTES está disponível como P39_TDD_CASOS_DE_TESTE.pas, no singular. Os nomes reais dos fontes são preservados nos links.')
     ] },
     { id: 'responsabilidades', titulo: '02 · Responsabilidades e fronteiras', blocos: [
       { tipo: 'mermaid', titulo: 'Responsabilidades do fluxo interpretado', fonte: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/responsabilidades.md' },
@@ -27,7 +27,7 @@ export default {
     { id: 'montagem', titulo: '03 · Como Executar preenche o molde', nivel: 3, blocos: [
       { tipo: 'lista', itens: [
         'Valida FTDDUnit não vazia, lista de parâmetros inicializada e exatamente dois parâmetros.',
-        "Obtém CodificacaoUnit('TDD_BASE_UNIT_IRUNNER') e mantém o texto em FUnitInterpretar.",
+        "Obtém CodificacaoUnit('P39_TDD_BASE_UNIT_IRUNNER') e mantém o texto em FUnitInterpretar.",
         'Substitui __USES_UNITS__ pela unit definida, __PARAMETROS_CASO_TESTE__ pelos literais módulo/área e __CHAMADAS_METODOS__ pelo bloco de chamada de Teste.',
         'A chamada gerada envolve Teste com callback, delimitador de logs e RegistrarTick(0/1).',
         'Registra o código gerado em modo debug e executa Interpretar(FUnitInterpretar.Text).',
@@ -38,9 +38,9 @@ export default {
     { id: 'uses', titulo: '04 · Grafo AST dos uses', blocos: [
       paragrafo('O mapa é gerado de uma árvore sintática do subconjunto uses: comentários e strings são reconhecidos para evitar relações falsas; cada aresta conserva arquivo e linha. O inventário registra cláusulas, nós e alcance transitivo. Não é uma AST completa de Delphi nem prova de resolução pelo ERP.'),
       paragrafo('Setas sólidas representam dependências diretas; a sequência de setas expõe herança transitiva. Setas pontilhadas representam CodificacaoUnit e o marcador da unit Teste. Azul identifica fonte local, cinza dependência externa/não resolvida e amarelo marcador dinâmico. Prefixos P39_TDD e TDD permanecem distintos.'),
-      { tipo: 'mermaid', fonte: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/TDD_IRUNNER.md', titulo: 'Dependências declaradas e montagem dinâmica' },
-      paragrafo('Os arquivos e linhas de cada relação estão no mapa Markdown e no inventário TDD_IRUNNER.ast.json, disponíveis nas fontes ao final desta página. O desenho mantém a visão das dependências sem repetir todas as arestas em uma tabela.'),
-      paragrafo('TDD_FINISHED não declara uses, mas acessa globais e funções do contexto interpretado. Esses acessos são documentados como compartilhamento de estado, não como dependências estáticas inventadas. O piloto financeiro é uma raiz separada do inventário: SetTDDUnit o insere dinamicamente no molde.')
+      { tipo: 'mermaid', fonte: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/P39_TDD_IRUNNER.md', titulo: 'Dependências declaradas e montagem dinâmica' },
+      paragrafo('Os arquivos e linhas de cada relação estão no mapa Markdown e no inventário P39_TDD_IRUNNER.ast.json, disponíveis nas fontes ao final desta página. O desenho mantém a visão das dependências sem repetir todas as arestas em uma tabela.'),
+      paragrafo('P39_TDD_FINISHED não declara uses, mas acessa globais e funções do contexto interpretado. Esses acessos são documentados como compartilhamento de estado, não como dependências estáticas inventadas. O piloto financeiro é uma raiz separada do inventário: SetTDDUnit o insere dinamicamente no molde.')
     ] },
     { id: 'lote', titulo: '05 · Fluxo do lote e da tentativa', blocos: [
       { tipo: 'mermaid', titulo: 'Da entrada à persistência', fonte: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/lote.md' },

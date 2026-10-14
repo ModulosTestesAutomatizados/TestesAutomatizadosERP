@@ -1,9 +1,9 @@
 
 
-uses TDD_RUNNER,__USES_UNITS__;
+uses P39_TDD_RUNNER,__USES_UNITS__;
 
 { ================================================================
-  TDD_BASE_UNIT_IRUNNER - MOLDE DO FLUXO INTERPRETADO
+  P39_TDD_BASE_UNIT_IRUNNER - MOLDE DO FLUXO INTERPRETADO
   Main chama ExecutarLote com o módulo e a área configurados.
   ExecutarLote carrega uma vez, controla First/Run/Next e libera o lote.
   Run prepara o caso corrente, executa Started/Teste, mantém ASSERTS
@@ -24,7 +24,7 @@ begin
   lTentados := 0;
   try
     // A carga pertence ao lote; somente este loop avanca o CDS global.
-    {TDD_RUNNER.}SetupCasosTestes(pDescricaoModulo,pDescricaoArea);
+    {P39_TDD_RUNNER.}SetupCasosTestes(pDescricaoModulo,pDescricaoArea);
     try
       CDSCasosTestes.First;
       while not CDSCasosTestes.Eof do
@@ -34,8 +34,8 @@ begin
         CDSCasosTestes.Next;
       end;
     finally
-      {TDD_LOGS.}DelimitadorLog('RESUMO DO LOTE');
-      {TDD_LOGS.}RegistrarLogEmModoDebug(
+      {P39_TDD_LOGS.}DelimitadorLog('RESUMO DO LOTE');
+      {P39_TDD_LOGS.}RegistrarLogEmModoDebug(
         '| Carregados: ' + IntToStr(CDSCasosTestes.RecordCount) + #13 +
         '| Tentados:   ' + IntToStr(lTentados)
       );
@@ -64,7 +64,7 @@ begin
   FLogsCasoTeste.Clear;
   try
     try
-      {TDD_LOGS.}DelimitadorLog('PREPARAÇÃO DO CASO');
+      {P39_TDD_LOGS.}DelimitadorLog('PREPARAÇÃO DO CASO');
       // SetarCasoTeste reinicia o estado e usa o registro corrente do lote.
       SetarCasoTeste(FDescModulo,FDescArea,CDSCasosTestes.FieldByName('DESCRICAO').AsString);
       InicializarMetricasTickDiff;
@@ -75,13 +75,13 @@ begin
         CallBack_AbreTela(ClassOwner);
         try
           try
-            {TDD_LOGS.}DelimitadorLog('STARTED');
+            {P39_TDD_LOGS.}DelimitadorLog('STARTED');
             FNomeMetodoAtual := 'STARTED';
             RegistrarTick(0,'STARTED');
-            {TDD_STARTED.}Started;
+            {P39_TDD_STARTED.}Started;
             RegistrarTick(1,'STARTED');
 
-            {TDD_LOGS.}DelimitadorLog('IRUNNER');
+            {P39_TDD_LOGS.}DelimitadorLog('IRUNNER');
             FNomeMetodoAtual := 'IRUNNER';
             RegistrarTick(0,'IRUNNER');
 
@@ -89,7 +89,7 @@ __CHAMADAS_METODOS__ // Identacao incorreta propositalmente!
 
             RegistrarTick(1,'IRUNNER');
 
-            {TDD_LOGS.}DelimitadorLog('ASSERTS');
+            {P39_TDD_LOGS.}DelimitadorLog('ASSERTS');
             FNomeMetodoAtual := 'ASSERTS';
             RegistrarTick(0,'ASSERTS');
             //{P39_TDD_ASSERTS.} //PENDENTE O USE CASE DE ASSERTS;
@@ -104,7 +104,7 @@ __CHAMADAS_METODOS__ // Identacao incorreta propositalmente!
               FHistoricoExecucao.EtapaFalha := FEtapaAtual;
               if FHistoricoExecucao.StatusExecucao <> 'VERSAO_INCOMPATIVEL' then
                 FHistoricoExecucao.StatusExecucao := 'FALHA';
-              {TDD_LOGS.}RegistrarLogEmModoDebug(FHistoricoExecucao.MensagemErro);
+              {P39_TDD_LOGS.}RegistrarLogEmModoDebug(FHistoricoExecucao.MensagemErro);
 
               // Falhas do teste ficam no historico; preparacao/limpeza insegura interrompe.
               if (FNomeMetodoAtual = 'TEARDOWN') or
@@ -114,7 +114,7 @@ __CHAMADAS_METODOS__ // Identacao incorreta propositalmente!
             end;
           end;
         finally
-          {TDD_LOGS.}DelimitadorLog('ENCERRAMENTO DOS TEMPOS');
+          {P39_TDD_LOGS.}DelimitadorLog('ENCERRAMENTO DOS TEMPOS');
           // Fecha os tempos em aberto, inclusive quando o caso falha.
           FCDSMetricasTickDiff.First;
           while not FCDSMetricasTickDiff.Eof do
@@ -123,10 +123,10 @@ __CHAMADAS_METODOS__ // Identacao incorreta propositalmente!
               RegistrarTick(1,FCDSMetricasTickDiff.FieldByName('NOME_METODO').AsString);
             FCDSMetricasTickDiff.Next;
           end;
-          {TDD_LOGS.}DelimitadorLog('FINISHED');
-          FHistoricoExecucao.LogsProcessamento := {TDD_LOGS.}FLogsCasoTeste.Text;
+          {P39_TDD_LOGS.}DelimitadorLog('FINISHED');
+          FHistoricoExecucao.LogsProcessamento := {P39_TDD_LOGS.}FLogsCasoTeste.Text;
           FNomeMetodoAtual                     := 'FINISHED';
-          {TDD_FINISHED.}RegistrarMetricas;
+          {P39_TDD_FINISHED.}RegistrarMetricas;
         end;
       finally
         try

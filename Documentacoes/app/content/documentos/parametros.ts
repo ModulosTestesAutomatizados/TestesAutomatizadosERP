@@ -8,15 +8,15 @@ export default {
   resumo: 'Preparação e aplicação do bloco parametros em Started, antes da execução de cada caso do IRunner.',
   referenciaAnterior: '/documentos/parametros-referencia-anterior',
   fontes: [
-    { caminho: 'docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO.pas' },
+    { caminho: 'docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETROS.pas' },
     { caminho: 'docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO_MAPEAMENTO.pas' },
     { caminho: 'docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas' },
-    { caminho: 'docs/assets/emDesenvolvimento/Runner/TDD_STARTED.pas' },
-    { caminho: 'docs/assets/emDesenvolvimento/Runner/TDD_BASE_UNIT_IRUNNER.pas' }
+    { caminho: 'docs/assets/emDesenvolvimento/Runner/P39_TDD_STARTED.pas' },
+    { caminho: 'docs/assets/emDesenvolvimento/Runner/P39_TDD_BASE_UNIT_IRUNNER.pas' }
   ],
   secoes: [
     { id: 'papel', titulo: 'Parâmetros no fluxo atual', blocos: [
-      { tipo: 'paragrafo', texto: 'P39_TDD_PARAMETRO e P39_TDD_PARAMETRO_MAPEAMENTO são dependências em uso no IRunner. Started lê parametros do JSON do caso corrente e aplica as alterações antes de chamar Teste. Não é necessário iniciar um processamento separado para cada caso.' },
+      { tipo: 'paragrafo', texto: 'P39_TDD_PARAMETROS e P39_TDD_PARAMETRO_MAPEAMENTO são dependências em uso no IRunner. Started lê parametros do JSON do caso corrente e aplica as alterações antes de chamar Teste. Não é necessário iniciar um processamento separado para cada caso.' },
       { tipo: 'paragrafo', texto: 'Os parâmetros alteram a configuração do ERP, enquanto os casos e históricos pertencem ao banco dedicado de testes. Esse mecanismo permite variar a configuração entre registros do mesmo lote.' }
     ] },
     { id: 'preparacao', titulo: 'Preparação do lote', blocos: [

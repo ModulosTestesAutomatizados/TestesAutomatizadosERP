@@ -154,7 +154,7 @@ export default {
               "Executor. Monta a unit dinâmica e a envia ao interpretador"
             ],
             [
-              "TDD_BASE_UNIT_IRUNNER",
+              "P39_TDD_BASE_UNIT_IRUNNER",
               "Template da unit interpretada (placeholders __USES_UNITS__ e __CHAMADAS_METODOS__)"
             ],
             [
@@ -190,7 +190,7 @@ export default {
               "Cache de módulos e áreas em memória"
             ],
             [
-              "P39_TDD_PARAMETRO",
+              "P39_TDD_PARAMETROS",
               "Aplicação dos parâmetros do sistema a partir do JSON do caso de teste"
             ],
             [
@@ -323,12 +323,12 @@ export default {
         },
         {
           "tipo": "paragrafo",
-          "texto": "O IRUNNER então lê o template TDD_BASE_UNIT_IRUNNER do banco de testes (via CodificacaoUnit), substitui os placeholders e entrega o resultado ao método Interpretar do ERP:"
+          "texto": "O IRUNNER então lê o template P39_TDD_BASE_UNIT_IRUNNER do banco de testes (via CodificacaoUnit), substitui os placeholders e entrega o resultado ao método Interpretar do ERP:"
         },
         {
           "tipo": "codigo",
           "linguagem": "pascal",
-          "codigo": "unit TDD_BASE_UNIT_IRUNNER;\n\nuses __USES_UNITS__;\n\nprocedure Main();\nbegin\n  __CHAMADAS_METODOS__\nend;\n\nend."
+          "codigo": "unit P39_TDD_BASE_UNIT_IRUNNER;\n\nuses __USES_UNITS__;\n\nprocedure Main();\nbegin\n  __CHAMADAS_METODOS__\nend;\n\nend."
         },
         {
           "tipo": "paragrafo",
@@ -490,7 +490,7 @@ export default {
       "blocos": [
         {
           "tipo": "paragrafo",
-          "texto": "O IRUNNER busca o template pelo nome TDD_BASE_UNIT_IRUNNER usando CodificacaoUnit. Esse nome deve existir no banco de testes, e não pode ser confundido com o nome de arquivo P39_TDD_BASE_UNIT_IRUNNER.pas no diretório de sources: o Runner resolve o template em tempo de execução pelo código da unit."
+          "texto": "O IRUNNER busca o template pelo nome P39_TDD_BASE_UNIT_IRUNNER usando CodificacaoUnit. Esse nome deve existir no banco de testes, e não pode ser confundido com o nome de arquivo P39_TDD_BASE_UNIT_IRUNNER.pas no diretório de sources: o Runner resolve o template em tempo de execução pelo código da unit."
         }
       ]
     },
@@ -502,12 +502,12 @@ export default {
         {
           "tipo": "lista",
           "itens": [
-            "Acoplamento intencional. As units do Runner acessam diretamente variáveis e rotinas umas das outras (por exemplo FHistoricoExecucao, FCDSMetricasTickDiff e RegistrarTick de TDD_RUNNER são usados por TDD_STARTED e TDD_FINISHED). Isso é proposital: existe um fluxo completo de TDD, não módulos isolados.",
+            "Acoplamento intencional. As units do Runner acessam diretamente variáveis e rotinas umas das outras (por exemplo FHistoricoExecucao, FCDSMetricasTickDiff e RegistrarTick de P39_TDD_RUNNER são usados por P39_TDD_STARTED e P39_TDD_FINISHED). Isso é proposital: existe um fluxo completo de TDD, não módulos isolados.",
             "Execução no interpretador. Não há compilação das units de teste. Alterações de código exigem republicação da unit na Tek-Store antes de produzirem efeito.",
             "Métricas mesmo em falha. O finally garante a persistência das métricas mesmo quando o teste falha, permitindo a análise de desempenho de execuções com erro.",
             "Granularidade do cronômetro. GetTickCount é monotônico e mede em milissegundos; valores muito curtos (abaixo de ~15 ms) podem aparecer como 00:00:00:000 por resolução do sistema.",
             "Etapa de falha. O campo ETAPA_FALHA_HE existe no histórico, mas o Runner não o preenche automaticamente na tratativa de erro: hoje a informação de em qual etapa a falha ocorreu é obtida pela sequência de linhas INICIOU / ENCERROU no log.",
-            "Consolidação de asserts. A unit TDD_FINISHED grava METRICAS_ASSERTS a partir do registro FMetricasAsserts, que é declarado no Runner mas não é preenchido no fluxo atual — os contadores são gravados como zero.",
+            "Consolidação de asserts. A unit P39_TDD_FINISHED grava METRICAS_ASSERTS a partir do registro FMetricasAsserts, que é declarado no Runner mas não é preenchido no fluxo atual — os contadores são gravados como zero.",
             "Validação de versão dentro do STARTED. A rotina SetupCasoTeste possui um ponto de parada de depuração (\"Finalizamos até aqui!\") imediatamente após o carregamento dos casos de teste. Enquanto ele estiver presente, a execução sempre será interrompida antes de aplicar os parâmetros.",
             "Leitura do registro de início. No ramo de Início de RegistrarTick, a variável de verificação do FindKey não é atribuída antes do uso, o que torna a validação de \"etapa já iniciada\" ineficaz. A proteção efetiva vem do Locate por TEMPO_FIM = 0 feito no ramo de Fim.",
             "Leitura de logs. O arquivo de log do processamento é a saída oficial de cada execução. Em caso de falha, sempre consultar o log antes de investigar o banco: a etapa exata fica evidentemente marcada."

@@ -1,4 +1,4 @@
-uses P39_TDD_ODBC, TDD_LOGS, TDD_STARTED, TDD_FINISHED;
+uses P39_TDD_ODBC, P39_TDD_LOGS, P39_TDD_STARTED, P39_TDD_FINISHED;
 
 type
   THistoricoExecucao  = record
@@ -74,10 +74,10 @@ begin
     '====================================================================================================================' + #13 +
     'Contrato compartilhado:'                                                                                              + #13 +
     'FHistoricoExecucao, FContextoCasoTeste, FNomeMetodoAtual e FEtapaAtual pertencem ao fluxo da casca.'                  + #13 +
-    'Os logs usam TDD_LOGS; a casca limpa FLogsCasoTeste por tentativa e libera a lista no fim do lote.'                   + #13 +
+    'Os logs usam P39_TDD_LOGS; a casca limpa FLogsCasoTeste por tentativa e libera a lista no fim do lote.'                   + #13 +
     'FExibirInstrucoes controla a exibição destas instruções.'                                                             + #13 +
     '====================================================================================================================';
-  {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_RUNNER', lInstrucoes);
+  {P39_TDD_LOGS.}MostrarInstrucoesUnit('P39_TDD_RUNNER', lInstrucoes);
 end;
 
 {$region Setup Casos de Testes}

@@ -98,7 +98,7 @@ begin
   FTelaPedidoAberta := False;
   FItemMenu := 'Emisso1'; // Nome do Menu para forÃ§ar o click e chamar a tela
   
-  {TDD_MODULO}AbrirTela('Emisso1Click');
+  {P39_TDD_MODULO}AbrirTela('Emisso1Click');
 
   FormCadastro := FormCriadoPeloNome(FCadastro);
   if not Assigned(FormCadastro) then
@@ -152,8 +152,8 @@ end;
 procedure FinalizarFormulario;
 begin
   FormCadastro.Free;
-  {TDD_MODULO}FocarModulo;
-  {TDD_MODULO}TrazerParaFrente;
+  {P39_TDD_MODULO}FocarModulo;
+  {P39_TDD_MODULO}TrazerParaFrente;
   FTelaPedidoAberta := False;
 end;
 
@@ -272,7 +272,7 @@ begin
     FinalizarFormulario;
     
   try
-    {TDD_PARAMETRO}VerificarParametros(pParams);
+    {P39_TDD_PARAMETROS}VerificarParametros(pParams);
   finally
     //Sleep(2000);
     Setup_IniciarFormulario;

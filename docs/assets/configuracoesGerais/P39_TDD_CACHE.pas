@@ -9,7 +9,7 @@ procedure Main;
 var lInstrucoes :string;
 begin
   lInstrucoes := '';
-  {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_CACHE', lInstrucoes);
+  {P39_TDD_LOGS.}MostrarInstrucoesUnit('P39_TDD_CACHE', lInstrucoes);
 end;
 
 procedure Cache_Setup_CarregarInformacoes;

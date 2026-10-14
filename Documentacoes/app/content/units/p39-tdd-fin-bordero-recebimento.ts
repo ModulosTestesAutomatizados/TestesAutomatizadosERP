@@ -1,10 +1,9 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
-  nome: 'P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO', aliases: ['TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO'],
-  navegacao: { grupo: 'helpers', subgrupo: 'financeiro' },
+  nome: 'P39_TDD_FIN_BORDERO_RECEBIMENTO', navegacao: { grupo: 'helpers', subgrupo: 'financeiro' },
   resumo: 'Mapeia a tela de acerto e expõe comandos e datasets do borderô de recebimento.',
-  fonte: 'docs/assets/casosTestesFinanceiro/P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.pas',
+  fonte: 'docs/assets/casosTestesFinanceiro/P39_TDD_FIN_BORDERO_RECEBIMENTO.pas',
   responsabilidade: 'Localizar o formulário de recebimento e centralizar o acesso a seus componentes e eventos.',
   problema: 'Permitir que cenários usem o borderô sem repetir os nomes concretos de componentes em cada teste.',
   estados: [
@@ -87,6 +86,6 @@ export default criarDocumentoUnit({
     ['procedure MapearPrincipal', 'Mapear os controles principais.', 'Obtém seletores, código, cliente, conta e demais campos principais.']
   ],
   implementacao: ['Também mantém referências a campos principais, labels de totalização, filtros, controles contábeis e abas, todas pertencentes à tela.', 'Não cria datasets temporários próprios como o mapeamento de pagamento.'],
-  dependencias: ['MOVIMENTO_CAIXA aparece somente em uses comentado; MovBordero depende do contexto fornecido pelo host.', 'O piloto financeiro usa a variante TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.'],
+  dependencias: ['MOVIMENTO_CAIXA aparece somente em uses comentado; MovBordero depende do contexto fornecido pelo host.', 'O piloto financeiro usa a variante P39_TDD_FIN_BORDERO_RECEBIMENTO.'],
   limites: ['O alias sem prefixo não comprova equivalência da variante carregada no ERP.', 'O bloco de erro libera a tela, mas não relança a exceção nem zera as referências globais.', 'O consumidor deve mapear a tela antes de chamar operações; o fonte não valida todas as referências.']
 });

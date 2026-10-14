@@ -61,7 +61,7 @@
         <mxCell id="ct" value="P39_TDD_CASOS_DE_TESTE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#666666;" vertex="1" parent="lane_infra">
           <mxGeometry x="50" y="45" width="260" height="45" as="geometry"/>
         </mxCell>
-        <mxCell id="pa" value="P39_TDD_PARAMETRO&lt;br&gt;VerificarParametros | Relogar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#666666;" vertex="1" parent="lane_infra">
+        <mxCell id="pa" value="P39_TDD_PARAMETROS&lt;br&gt;VerificarParametros | Relogar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#666666;" vertex="1" parent="lane_infra">
           <mxGeometry x="330" y="45" width="260" height="45" as="geometry"/>
         </mxCell>
         <mxCell id="ca" value="P39_TDD_CACHE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4f8;strokeColor=#666666;" vertex="1" parent="lane_infra">

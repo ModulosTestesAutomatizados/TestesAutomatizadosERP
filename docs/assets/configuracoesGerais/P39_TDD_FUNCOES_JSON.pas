@@ -4,7 +4,7 @@ procedure Main;
 var lInstrucoes :string;
 begin
   lInstrucoes := '';
-  {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_FUNCOES_JSON', lInstrucoes);
+  {P39_TDD_LOGS.}MostrarInstrucoesUnit('P39_TDD_FUNCOES_JSON', lInstrucoes);
 end;
 
 function TagExiste(pJson, pTag: String):Boolean;

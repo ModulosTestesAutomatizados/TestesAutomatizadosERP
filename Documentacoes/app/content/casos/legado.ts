@@ -12,7 +12,7 @@ export default {
   ].map(pCaminho => ({ caminho: pCaminho })),
   secoes: [
     { id: 'contrato', titulo: 'Entrada do contrato anterior', blocos: [
-      { tipo: 'paragrafo', texto: 'O processamento InclusaoDeDuplicatas solicita o filtro Tipo de Teste e encaminha uma das quatro opções a uma chamada explícita de unit. O inventário abaixo representa essas opções presentes no fonte; a execução desse processamento não passa por TDD_IRUNNER.Executar nem pelo cursor do molde novo.' },
+      { tipo: 'paragrafo', texto: 'O processamento InclusaoDeDuplicatas solicita o filtro Tipo de Teste e encaminha uma das quatro opções a uma chamada explícita de unit. O inventário abaixo representa essas opções presentes no fonte; a execução desse processamento não passa por P39_TDD_IRUNNER.Executar nem pelo cursor do molde novo.' },
       { tipo: 'mermaid', fonte: 'docs/MAPEAMENTO_AST_USES_UNITS/casos-legado/entrada.md', titulo: 'Seleção manual do cenário financeiro anterior' }
     ] },
     { id: 'financeiro', titulo: 'Casos financeiros referenciados', blocos: [

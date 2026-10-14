@@ -19,7 +19,7 @@ export default {
       "blocos": [
         {
           "tipo": "paragrafo",
-          "texto": "O Parâmetro é o mecanismo que permite a um caso de teste configurar o próprio sistema antes da execução. As units (P39_TDD_PARAMETRO e P39_TDD_PARAMETRO_MAPEAMENTO) leem o bloco parametros do JSON do caso de teste, escrevem o valor no banco de dados do ERP e reconectam a sessão para que o ERP carregue os novos valores em memória."
+          "texto": "O Parâmetro é o mecanismo que permite a um caso de teste configurar o próprio sistema antes da execução. As units (P39_TDD_PARAMETROS e P39_TDD_PARAMETRO_MAPEAMENTO) leem o bloco parametros do JSON do caso de teste, escrevem o valor no banco de dados do ERP e reconectam a sessão para que o ERP carregue os novos valores em memória."
         },
         {
           "tipo": "paragrafo",
@@ -66,7 +66,7 @@ export default {
               "Mantém o mapeamento nome no JSON → campo no banco → tabela"
             ],
             [
-              "P39_TDD_PARAMETRO",
+              "P39_TDD_PARAMETROS",
               "Lê o JSON, compara com o valor atual, monta e executa o UPDATE e reconecta a sessão"
             ],
             [
@@ -347,7 +347,7 @@ export default {
           "tipo": "lista",
           "itens": [
             "fecha o formulário de pedido de venda (a configuração invalida o formulário aberto);",
-            "chama {TDD_PARAMETRO}VerificarParametros;",
+            "chama {P39_TDD_PARAMETROS}VerificarParametros;",
             "reabre o formulário via Setup_IniciarFormulario."
           ]
         },
@@ -365,7 +365,7 @@ export default {
       "blocos": [
         {
           "tipo": "paragrafo",
-          "texto": "Necessário publicar na Tek-Store as units P39_TDD_PARAMETRO e P39_TDD_PARAMETRO_MAPEAMENTO. A unit de mapeamento é carregada como dependência da unit de parâmetros."
+          "texto": "Necessário publicar na Tek-Store as units P39_TDD_PARAMETROS e P39_TDD_PARAMETRO_MAPEAMENTO. A unit de mapeamento é carregada como dependência da unit de parâmetros."
         },
         {
           "tipo": "paragrafo",

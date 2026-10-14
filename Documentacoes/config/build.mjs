@@ -17,7 +17,7 @@ execFileSync(process.execPath, [path.join(project, 'node_modules/typescript/bin/
 const { default: documents } = await import(pathToFileURL(path.join(compiled, 'content/catalogo.js')));
 const { validarCatalogo } = await import(pathToFileURL(path.join(compiled, 'content/validarCatalogo.js')));
 const errors = validarCatalogo(documents);
-const assets = new Set(['docs/MAPEAMENTO_AST_USES_UNITS/runner/TDD_IRUNNER.ast.json']);
+const assets = new Set(['docs/MAPEAMENTO_AST_USES_UNITS/runner/P39_TDD_IRUNNER.ast.json']);
 const inventory = JSON.parse(await fs.readFile(path.join(root, [...assets][0]), 'utf8'));
 for (const node of inventory.nodes) {
   if (!node.file || !node.sha256) continue;

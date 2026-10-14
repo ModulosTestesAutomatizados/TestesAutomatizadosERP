@@ -1,7 +1,7 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
   navegacao: { grupo: 'units', subgrupo: 'irunner' },
-  nome: 'P39_TDD_CASOS_DE_TESTE', aliases: ['TDD_CASOS_DE_TESTE', 'TDD_CASOS_DE_TESTES'], resumo: 'Datasets e seleção dos registros usados pelo lote de casos.',
+  nome: 'P39_TDD_CASOS_DE_TESTE', resumo: 'Datasets e seleção dos registros usados pelo lote de casos.',
   aliasesArtefatos: { CDSCasosTestes: ['FCDSCasosTestes'] },
   fonte: 'docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas',
   responsabilidade: 'Inicializar datasets de casos e referência, obter identificadores de módulo/área e carregar os casos ativos do banco dedicado.',
@@ -28,7 +28,7 @@ export default criarDocumentoUnit({
     ['procedure Setup_Inicializar_CasosTeste', 'Preparar os recursos compartilhados.', 'Cria quatro datasets, configura campos, carrega cache e inicializa parâmetros; ativa a flag de estrutura.'],
     ['procedure TearDown_Finalizar_CasosTeste', 'Liberar os datasets.', 'Tenta liberar cada estrutura, agrega os erros e redefine a flag; erros agregados são propagados.']
   ],
-  implementacao: ['TDD_RUNNER.SetupCasosTestes faz a carga do lote. TDD_STARTED apenas lê o registro corrente.', 'ExecutarLote de TDD_BASE_UNIT_IRUNNER controla First e Next.', 'A carga prepara os dados esperados; não implementa a etapa TDD_ASSERTS.'],
-  dependencias: ['Uses diretos: P39_TDD_CONSTANTES, P39_TDD_PARAMETRO e P39_TDD_CACHE.'],
+  implementacao: ['P39_TDD_RUNNER.SetupCasosTestes faz a carga do lote. P39_TDD_STARTED apenas lê o registro corrente.', 'ExecutarLote de P39_TDD_BASE_UNIT_IRUNNER controla First e Next.', 'A carga prepara os dados esperados; não implementa a etapa TDD_ASSERTS.'],
+  dependencias: ['Uses diretos: P39_TDD_CONSTANTES, P39_TDD_PARAMETROS e P39_TDD_CACHE.'],
   limites: ['Não atribuir a esta unit a responsabilidade de executar os cenários ou aprovar asserts.', 'O nome real do arquivo é singular: CASOS_DE_TESTE.']
 });

@@ -19,8 +19,8 @@ graph TD
     end
 
     subgraph Mapeamentos de Tela
-        F["P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO<br/>(local 26)"]
-        G["P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO<br/>(Tek Store 2911)"]
+        F["P39_TDD_FIN_BORDERO_RECEBIMENTO<br/>(local 26)"]
+        G["P39_TDD_FIN_BORDERO_PAGAMENTO<br/>(Tek Store 2911)"]
     end
 
     subgraph Sincronizacao do Cenario
@@ -29,7 +29,7 @@ graph TD
     end
 
     subgraph Proxima Iteracao (estudo)
-        J["P39_TDD_PARAMETRO<br/>(Tek Store 2969)"]
+        J["P39_TDD_PARAMETROS<br/>(Tek Store 2969)"]
         K["P39_TDD_PARAMETRO_MAPEAMENTO<br/>(Tek Store 2970)"]
         L["P39_TDD_ASSERTS<br/>(Tek Store 3042)"]
         M["P39_TDD_CASOS_DE_TESTE<br/>(Tek Store 2971)"]

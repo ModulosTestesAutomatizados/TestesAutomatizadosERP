@@ -15,7 +15,7 @@ begin
     'Finished não acrescenta logs da persistência; salva somente as mensagens acumuladas pelo caso.'                       + #13 +
     'FExibirInstrucoes controla a exibição destas instruções.'                                                             + #13 +
     '====================================================================================================================';
-  {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_FINISHED', lInstrucoes);
+  {P39_TDD_LOGS.}MostrarInstrucoesUnit('P39_TDD_FINISHED', lInstrucoes);
 end;
 
 {$region 'Persistência'}

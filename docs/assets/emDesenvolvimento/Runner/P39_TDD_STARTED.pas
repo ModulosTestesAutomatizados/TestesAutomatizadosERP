@@ -1,12 +1,12 @@
 { ================================================================
-  TDD_STARTED - Preparação individual no fluxo IRunner
+  P39_TDD_STARTED - Preparação individual no fluxo IRunner
 
   Herda via P39_TDD_CASOS_DE_TESTE:
   - P39_TDD_CONSTANTES (constantes, cache, SQL)
   - P39_TDD_ODBC (TDDCommandODBC, TDDReaderODBC, TDDScalarODBC)
   - P39_TDD_FUNCOES_JSON (GetValueJson, ValorCurrencyTag, etc.)
   - P39_TDD_CACHE (CDSModulos, CDSAreas, AreaPeloNome, ModuloPeloNome)
-  - P39_TDD_PARAMETRO (Setup_Inicializar_Parametros, SetParametro, etc.)
+  - P39_TDD_PARAMETROS (Setup_Inicializar_Parametros, SetParametro, etc.)
   ================================================================ }
 uses P39_TDD_CASOS_DE_TESTE;
 
@@ -41,7 +41,7 @@ begin
     'Os tempos são registrados pelos métodos existentes; logs são condicionados a FModoDebug.'                             + #13 +
     'FExibirInstrucoes controla a exibição destas instruções.'                                                             + #13 +
     '====================================================================================================================';
-  {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_STARTED', lInstrucoes);
+  {P39_TDD_LOGS.}MostrarInstrucoesUnit('P39_TDD_STARTED', lInstrucoes);
 end;
 
 {$region Aplicação de parâmetros do sistema do caso de teste}
@@ -69,7 +69,7 @@ begin
           lObj.ToJSON
         );
 
-        {P39_TDD_PARAMETRO.}VerificarParametros(lObj.ToJSON);
+        {P39_TDD_PARAMETROS.}VerificarParametros(lObj.ToJSON);
         {P39_TDD_LOGS.}RegistrarLogEmModoDebug('Parâmetros verificados.');
       finally
         lObj.Free;
@@ -114,10 +114,10 @@ begin
 end;
 {$endregion}
 
-{$region Use case da TDD_STARTED}
+{$region Use case da P39_TDD_STARTED}
 { ================================================================
-  USE CASE DA TDD_STARTED PARA O TDD_RUNNER.Run
-    - Está sendo cronometrado por sua chamada em TDD_RUNNER
+  USE CASE DA P39_TDD_STARTED PARA O P39_TDD_RUNNER.Run
+    - Está sendo cronometrado por sua chamada em P39_TDD_RUNNER
   ================================================================ }
 procedure Started;
 begin
@@ -127,7 +127,7 @@ begin
 
   if (Trim(FContextoCasoTeste.DescricaoModulo) = '') or
      (Trim(FContextoCasoTeste.DescricaoArea) = '') then
-    raise Exception.Create('Contexto do caso de teste nao foi configurado corretamente no TDD_RUNNER.');
+    raise Exception.Create('Contexto do caso de teste nao foi configurado corretamente no P39_TDD_RUNNER.');
 
   if not Assigned(CDSCasosTestes) then
     raise Exception.Create('CDS global dos casos de teste nao foi inicializado.');

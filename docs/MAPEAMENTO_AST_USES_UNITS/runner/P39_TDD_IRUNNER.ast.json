@@ -1,0 +1,325 @@
+{
+  "roots": [
+    "P39_TDD_IRUNNER",
+    "P39_TDD_BASE_UNIT_IRUNNER",
+    "P39_TDD_RUNNER",
+    "P39_TDD_STARTED",
+    "P39_TDD_FINISHED",
+    "P39_TDD_LOGS",
+    "P39_TDD_CASOS_DE_TESTE",
+    "P39_TDD_FIN_PAGAMENTO_RECEBIMENTO",
+    "P39_TDD_FIN_PROCESSAMENTO"
+  ],
+  "nodes": [
+    {
+      "name": "Impossivel",
+      "status": "external"
+    },
+    {
+      "name": "P39_TDD_BASE_UNIT_IRUNNER",
+      "status": "local",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_BASE_UNIT_IRUNNER.pas",
+      "sha256": "6cd2d56bb75ed4da5494748c01bbf3f77df76f18880af2794d69e6bc53e720f7"
+    },
+    {
+      "name": "P39_TDD_CACHE",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CACHE.pas",
+      "sha256": "a98651b0c0e7a64cadded13cdc88ddb0dc48c8438dbd3c061d2f943cabc24959"
+    },
+    {
+      "name": "P39_TDD_CASOS_DE_TESTE",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas",
+      "sha256": "da9653586f2162cacf93911874c57b79f17603a76849d9fdd9937e47b62dd834"
+    },
+    {
+      "name": "P39_TDD_CONSTANTES",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CONSTANTES.pas",
+      "sha256": "f1684bf411939a2d7c52e603a3c296e6288ba71161e2394439701665ba75077a"
+    },
+    {
+      "name": "P39_TDD_FINISHED",
+      "status": "local",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_FINISHED.pas",
+      "sha256": "3024ed780b579d6a826f8cc1ed96a75408a91fcf1939fafccd6f6e601e0221ce"
+    },
+    {
+      "name": "P39_TDD_FIN_BORDERO_PAGAMENTO",
+      "status": "local",
+      "file": "docs/assets/casosTestesFinanceiro/P39_TDD_FIN_BORDERO_PAGAMENTO.pas",
+      "sha256": "ad58377524364c0f84582e7d77b0e6bc51e1f4dd751e51eb22b16788a3ec21bf"
+    },
+    {
+      "name": "P39_TDD_FIN_BORDERO_RECEBIMENTO",
+      "status": "local",
+      "file": "docs/assets/casosTestesFinanceiro/P39_TDD_FIN_BORDERO_RECEBIMENTO.pas",
+      "sha256": "cb61700ebc7611e449a6a1936940d1b093cd83cc472d8c47b601ed00d7da93fc"
+    },
+    {
+      "name": "P39_TDD_FIN_PAGAMENTO_RECEBIMENTO",
+      "status": "local",
+      "file": "docs/assets/emDesenvolvimento/P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.pas",
+      "sha256": "b43fdfa342ea7d0ea7e6e834beee7f5df01664e9d3aac8fcfba9d35830503c7b"
+    },
+    {
+      "name": "P39_TDD_FIN_PROCESSAMENTO",
+      "status": "local",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_FIN_PROCESSAMENTO.pas",
+      "sha256": "df7614648965a5c8ee3cf41d642350c6891983d07db89c69c54205177fb48c09"
+    },
+    {
+      "name": "P39_TDD_FUNCOES_JSON",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_FUNCOES_JSON.pas",
+      "sha256": "120ecbc3ac896d18edf06d680771afd87318b724ca1f2463273634830d9b5146"
+    },
+    {
+      "name": "P39_TDD_IRUNNER",
+      "status": "local",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_IRUNNER.pas",
+      "sha256": "0ce6273232c07fd21628f5a7f4c8eedff2a333e371c0fc53ae162be62cd89475"
+    },
+    {
+      "name": "P39_TDD_LOGS",
+      "status": "local",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_LOGS.pas",
+      "sha256": "77526871a5e4a9ef49500959bbbc7157a8e8a52aea3955e5746e76a3eeb334f4"
+    },
+    {
+      "name": "P39_TDD_ODBC",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_ODBC.pas",
+      "sha256": "0b4a715938443a685e131f2b3b8a16bcea07df323032f2eb3a9d0d350e233f32"
+    },
+    {
+      "name": "P39_TDD_PARAMETROS",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETROS.pas",
+      "sha256": "66544cc72b107cb8c3f8c6471173f82a2ee597a6a8f8acbb09edb9f6c93393f1"
+    },
+    {
+      "name": "P39_TDD_PARAMETRO_MAPEAMENTO",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO_MAPEAMENTO.pas",
+      "sha256": "744dc8ffc22e527f00f872df9e21030194d57a91f104f23b9138b1bd48127004"
+    },
+    {
+      "name": "P39_TDD_RUNNER",
+      "status": "local",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_RUNNER.pas",
+      "sha256": "7ddf5f65b5ea9b95b95118539507245e8c5f2c94ef078c4f13696da5be29483e"
+    },
+    {
+      "name": "P39_TDD_STARTED",
+      "status": "local",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_STARTED.pas",
+      "sha256": "5ae39c0ccc90c6cf0ecab937b2a0438afac24171be217fd3a9497b5e93d653c7"
+    },
+    {
+      "name": "__USES_UNITS__",
+      "status": "dynamic"
+    },
+    {
+      "name": "executar",
+      "status": "external"
+    },
+    {
+      "name": "informada",
+      "status": "external"
+    },
+    {
+      "name": "o",
+      "status": "external"
+    },
+    {
+      "name": "teste",
+      "status": "external"
+    }
+  ],
+  "edges": [
+    {
+      "from": "P39_TDD_BASE_UNIT_IRUNNER",
+      "to": "P39_TDD_RUNNER",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_BASE_UNIT_IRUNNER.pas",
+      "line": 3
+    },
+    {
+      "from": "P39_TDD_BASE_UNIT_IRUNNER",
+      "to": "__USES_UNITS__",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_BASE_UNIT_IRUNNER.pas",
+      "line": 3
+    },
+    {
+      "from": "P39_TDD_CACHE",
+      "to": "P39_TDD_ODBC",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CACHE.pas",
+      "line": 2
+    },
+    {
+      "from": "P39_TDD_CASOS_DE_TESTE",
+      "to": "P39_TDD_CACHE",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas",
+      "line": 1
+    },
+    {
+      "from": "P39_TDD_CASOS_DE_TESTE",
+      "to": "P39_TDD_CONSTANTES",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas",
+      "line": 1
+    },
+    {
+      "from": "P39_TDD_CASOS_DE_TESTE",
+      "to": "P39_TDD_PARAMETROS",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas",
+      "line": 1
+    },
+    {
+      "from": "P39_TDD_CONSTANTES",
+      "to": "P39_TDD_LOGS",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CONSTANTES.pas",
+      "line": 1
+    },
+    {
+      "from": "P39_TDD_FIN_PAGAMENTO_RECEBIMENTO",
+      "to": "P39_TDD_FIN_BORDERO_PAGAMENTO",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.pas",
+      "line": 2
+    },
+    {
+      "from": "P39_TDD_FIN_PAGAMENTO_RECEBIMENTO",
+      "to": "P39_TDD_FIN_BORDERO_RECEBIMENTO",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.pas",
+      "line": 1
+    },
+    {
+      "from": "P39_TDD_FIN_PROCESSAMENTO",
+      "to": "P39_TDD_IRUNNER",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_FIN_PROCESSAMENTO.pas",
+      "line": 3
+    },
+    {
+      "from": "P39_TDD_FUNCOES_JSON",
+      "to": "P39_TDD_LOGS",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_FUNCOES_JSON.pas",
+      "line": 1
+    },
+    {
+      "from": "P39_TDD_IRUNNER",
+      "to": "Impossivel",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_IRUNNER.pas",
+      "line": 54
+    },
+    {
+      "from": "P39_TDD_IRUNNER",
+      "to": "P39_TDD_LOGS",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_IRUNNER.pas",
+      "line": 1
+    },
+    {
+      "from": "P39_TDD_IRUNNER",
+      "to": "executar",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_IRUNNER.pas",
+      "line": 54
+    },
+    {
+      "from": "P39_TDD_IRUNNER",
+      "to": "informada",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_IRUNNER.pas",
+      "line": 54
+    },
+    {
+      "from": "P39_TDD_IRUNNER",
+      "to": "o",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_IRUNNER.pas",
+      "line": 54
+    },
+    {
+      "from": "P39_TDD_IRUNNER",
+      "to": "teste",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_IRUNNER.pas",
+      "line": 54
+    },
+    {
+      "from": "P39_TDD_ODBC",
+      "to": "P39_TDD_CONSTANTES",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_ODBC.pas",
+      "line": 1
+    },
+    {
+      "from": "P39_TDD_PARAMETROS",
+      "to": "P39_TDD_FUNCOES_JSON",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETROS.pas",
+      "line": 1
+    },
+    {
+      "from": "P39_TDD_PARAMETROS",
+      "to": "P39_TDD_PARAMETRO_MAPEAMENTO",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETROS.pas",
+      "line": 1
+    },
+    {
+      "from": "P39_TDD_PARAMETRO_MAPEAMENTO",
+      "to": "P39_TDD_LOGS",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO_MAPEAMENTO.pas",
+      "line": 1
+    },
+    {
+      "from": "P39_TDD_RUNNER",
+      "to": "P39_TDD_FINISHED",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_RUNNER.pas",
+      "line": 1
+    },
+    {
+      "from": "P39_TDD_RUNNER",
+      "to": "P39_TDD_LOGS",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_RUNNER.pas",
+      "line": 1
+    },
+    {
+      "from": "P39_TDD_RUNNER",
+      "to": "P39_TDD_ODBC",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_RUNNER.pas",
+      "line": 1
+    },
+    {
+      "from": "P39_TDD_RUNNER",
+      "to": "P39_TDD_STARTED",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_RUNNER.pas",
+      "line": 1
+    },
+    {
+      "from": "P39_TDD_STARTED",
+      "to": "P39_TDD_CASOS_DE_TESTE",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_STARTED.pas",
+      "line": 11
+    }
+  ]
+}

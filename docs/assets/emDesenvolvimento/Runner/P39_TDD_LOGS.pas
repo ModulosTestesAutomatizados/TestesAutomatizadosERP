@@ -29,7 +29,7 @@ begin
     'procedure MostrarInstrucoesUnit(pNomeUnitInstrucao, pInstrucoes :string)'                                             + #13 +
     '  - Exige o nome da unit e exibe as instruções apenas quando FExibirInstrucoes está ativo.'                           + #13 +
     '====================================================================================================================';
-  {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_LOGS', lInstrucoes);
+  {P39_TDD_LOGS.}MostrarInstrucoesUnit('P39_TDD_LOGS', lInstrucoes);
 end;
 
 {$region RegistroLogs}

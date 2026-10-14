@@ -1,8 +1,8 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
   navegacao: { grupo: 'units', subgrupo: 'irunner' },
-  nome: 'P39_TDD_PARAMETRO', aliases: ['TDD_PARAMETRO'], resumo: 'Mapeamento, comparação e atualização dos parâmetros do ERP.',
-  fonte: 'docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO.pas',
+  nome: 'P39_TDD_PARAMETROS', resumo: 'Mapeamento, comparação e atualização dos parâmetros do ERP.',
+  fonte: 'docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETROS.pas',
   responsabilidade: 'Comparar o bloco parametros com a configuração corrente e aplicar somente as diferenças necessárias.',
   problema: 'Permite que o JSON de cada cenário prepare o ERP para o Teste sem um processamento manual separado.',
   estados: [['CDSParametro: TClientDataSet', 'Leitura dos parâmetros disponíveis no ERP', 'Preparado no setup e liberado por TearDown_FinalizarParametros']],
@@ -18,7 +18,7 @@ export default criarDocumentoUnit({
     ['procedure Setup_Inicializar_Parametros', 'Inicializar mapeamento e leitura.', 'Chama MapearParametros, lê GetSQLParametro com ExecuteReader e configura as propriedades dos campos.'],
     ['procedure TearDown_FinalizarParametros', 'Liberar a estrutura de parâmetros.', 'Executa Free em CDSParametro.']
   ],
-  implementacao: ['TDD_STARTED consome parametros do JSON do registro corrente e chama VerificarParametros.', 'CONFIG_SISTEMA é global; CONFIG_SISTEMA_EMPRESA e PCP_CONFIG recebem filtros da empresa atual.', 'As mudanças pertencem ao banco do ERP, não ao banco dedicado de testes.'],
+  implementacao: ['P39_TDD_STARTED consome parametros do JSON do registro corrente e chama VerificarParametros.', 'CONFIG_SISTEMA é global; CONFIG_SISTEMA_EMPRESA e PCP_CONFIG recebem filtros da empresa atual.', 'As mudanças pertencem ao banco do ERP, não ao banco dedicado de testes.'],
   dependencias: ['Uses diretos: P39_TDD_PARAMETRO_MAPEAMENTO e P39_TDD_FUNCOES_JSON.'],
   limites: ['Falha de UPDATE propaga por Started e pode interromper o lote.', 'A limpeza do dataset não restaura os valores antigos de configuração.', 'O fonte não mostra rollback automático de toda a sequência de UPDATEs.']
 });

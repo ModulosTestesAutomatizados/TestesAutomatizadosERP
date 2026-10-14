@@ -58,7 +58,7 @@ O campo `estado` pertence à página inteira, descreve o recurso documentado e p
 
 Para uma unit de caso de teste, use `docunitjson` dentro de `criarDocumentoUnit`. O campo `jsonBase` contém `exemplo` (objeto JSON), `campos` (caminho, tipo, finalidade e impacto), `observacoes` e `fontes` opcionais. Ele gera a seção JSON base do caso de teste usando o terminal copiável e a tabela compartilhada. Preencha o modelo conforme os consumidores do fonte, registrando valores obrigatórios, padrões e precedência; códigos zero são espaços de preenchimento e não representam registros válidos da base.
 
-As rotas de units usam minúsculas e sublinhados convertidos em hífens: `TDD_IRUNNER` → `/units/tdd-irunner`. Aliases representam variantes documentais dos nomes e não comprovam equivalência das implementações. `ReferenceText` identifica nomes registrados e usa `UnitReference` para produzir links em textos, listas, tabelas, títulos e códigos. Nós Mermaid também podem redirecionar para uma unit. A cópia de códigos preserva o texto literal.
+As rotas de units usam minúsculas e sublinhados convertidos em hífens: `P39_TDD_IRUNNER` → `/units/p39-tdd-irunner`. Aliases representam variantes documentais dos nomes e não comprovam equivalência das implementações. `ReferenceText` identifica nomes registrados e usa `UnitReference` para produzir links em textos, listas, tabelas, títulos e códigos. Nós Mermaid também podem redirecionar para uma unit. A cópia de códigos preserva o texto literal.
 
 ## Navegação e busca
 
@@ -66,11 +66,11 @@ O conteúdo é exibido inteiro, sem painéis expansíveis. O sumário hierárqui
 
 O drawer contém grupos expansíveis para Arquitetura, Units, Helpers, Referências, Casos de teste e Contribuir. Units possui IRunner, Infraestrutura compartilhada, Casos de teste e Faturamento. Helpers possui Financeiro e Sincronização, esta preparada para a próxima iteração. Casos de teste mantém Legado e IRunner. O registro único é `content/navegacao.ts`. Para uma unit, use `navegacao: { grupo: 'units', subgrupo: 'irunner', ordem: 0 }`; para um helper financeiro, troque para `grupo: 'helpers', subgrupo: 'financeiro'`. A ordem é opcional. A rota da página atual abre seus grupos automaticamente e continua no padrão `/units/<slug>` para units, mesmo dentro de Helpers.
 
-A busca usa um índice local ponderado inspirado em BM25, com acentos normalizados, múltiplos termos e prefixos. As declarações de estados e assinaturas recebem prioridade sobre citações no corpo. `RegistrarTick` prioriza TDD_RUNNER; `FCasoTesteAtualJson`, TDD_STARTED. `FCDSCasosTestes` é alias explícito de pesquisa de `CDSCasosTestes`, declarado em P39_TDD_CASOS_DE_TESTE. Registre novas variantes com `aliasesArtefatos: { nomeDeclarado: ['variante'] }` sem renomear o Pascal.
+A busca usa um índice local ponderado inspirado em BM25, com acentos normalizados, múltiplos termos e prefixos. As declarações de estados e assinaturas recebem prioridade sobre citações no corpo. `RegistrarTick` prioriza P39_TDD_RUNNER; `FCasoTesteAtualJson`, P39_TDD_STARTED. `FCDSCasosTestes` é alias explícito de pesquisa de `CDSCasosTestes`, declarado em P39_TDD_CASOS_DE_TESTE. Registre novas variantes com `aliasesArtefatos: { nomeDeclarado: ['variante'] }` sem renomear o Pascal.
 
 ## Mapas e limites
 
-Cada diagrama ativo é lido do subdiretório canônico correspondente ao slug da página. O mapa sintático do Runner está em `runner/TDD_IRUNNER.md` e o inventário em `runner/TDD_IRUNNER.ast.json`, incluindo fontes, linhas, hashes e alcance transitivo. A extração cobre o subconjunto uses e carregamentos literais, sem compilar Pascal ou inferir equivalência entre prefixos.
+Cada diagrama ativo é lido do subdiretório canônico correspondente ao slug da página. O mapa sintático do Runner está em `runner/P39_TDD_IRUNNER.md` e o inventário em `runner/P39_TDD_IRUNNER.ast.json`, incluindo fontes, linhas, hashes e alcance transitivo. A extração cobre o subconjunto uses e carregamentos literais, sem compilar Pascal ou inferir equivalência entre prefixos.
 
 Mapas anteriores ficam em `docs/MAPEAMENTO_AST_USES_UNITS/historico`, separados por assunto. O mapa atual de dependências do piloto financeiro foi revisto contra o processamento e as units disponíveis. Orientação e zoom afetam apenas a leitura, preservando o Markdown canônico.
 

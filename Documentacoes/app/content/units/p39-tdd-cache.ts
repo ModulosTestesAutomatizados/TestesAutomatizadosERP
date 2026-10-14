@@ -1,7 +1,7 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
-  nome: 'P39_TDD_CACHE', aliases: ['TDD_CACHE'], navegacao: { grupo: 'units', subgrupo: 'irunner' },
+  nome: 'P39_TDD_CACHE', navegacao: { grupo: 'units', subgrupo: 'irunner' },
   resumo: 'Carrega e consulta módulos e áreas do banco dedicado para preparar o contexto dos testes.',
   fonte: 'docs/assets/configuracoesGerais/P39_TDD_CACHE.pas',
   responsabilidade: 'Manter os datasets de módulos e áreas e resolver seus códigos por nome ou identificador.',

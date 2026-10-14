@@ -1,6 +1,6 @@
-unit TDD_BASE_UNIT_IRUNNER;
+unit P39_TDD_BASE_UNIT_IRUNNER;
 
-uses TDD_RUNNER, REFACTOR_TDD_FINANCEIRO_PILOTO;
+uses P39_TDD_RUNNER, P39_TDD_FIN_PAGAMENTO_RECEBIMENTO;
 
 procedure Main;
 begin
@@ -31,12 +31,12 @@ begin
 
         FNomeMetodoAtual := 'IRUNNER';
         RegistrarTick(0, FNomeMetodoAtual);
-        CallBack_Mensagem(ClassOwner, '{REFACTOR_TDD_FINANCEIRO_PILOTO.}Teste');
-        {P39_TDD_RUNNER.}RegistrarTick(0, '{REFACTOR_TDD_FINANCEIRO_PILOTO.}Teste');
-        LogDoProcessamentoAdd('INICIOU {REFACTOR_TDD_FINANCEIRO_PILOTO.}Teste');
-        {REFACTOR_TDD_FINANCEIRO_PILOTO.}Teste;
-        LogDoProcessamentoAdd('ENCERROU {REFACTOR_TDD_FINANCEIRO_PILOTO.}Teste');
-        {P39_TDD_RUNNER.}RegistrarTick(1, '{REFACTOR_TDD_FINANCEIRO_PILOTO.}Teste');
+        CallBack_Mensagem(ClassOwner, '{P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.}Teste');
+        {P39_TDD_RUNNER.}RegistrarTick(0, '{P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.}Teste');
+        LogDoProcessamentoAdd('INICIOU {P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.}Teste');
+        {P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.}Teste;
+        LogDoProcessamentoAdd('ENCERROU {P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.}Teste');
+        {P39_TDD_RUNNER.}RegistrarTick(1, '{P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.}Teste');
  // Identação incorreta propositalmente!
         RegistrarTick(1, FNomeMetodoAtual);
 

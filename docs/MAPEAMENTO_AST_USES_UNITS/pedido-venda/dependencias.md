@@ -37,7 +37,7 @@ flowchart LR
 
     subgraph INFRA["Infra de casos de teste (transitiva)"]
         CT["P39_TDD_CASOS_DE_TESTE"]
-        PA["P39_TDD_PARAMETRO"]
+        PA["P39_TDD_PARAMETROS"]
         PM["P39_TDD_PARAMETRO_MAPEAMENTO"]
         CA["P39_TDD_CACHE"]
         OD["P39_TDD_ODBC"]
@@ -110,8 +110,8 @@ flowchart LR
 ## Heranças transitivas
 
 - `P39_TDD_MODULO` → `P39_TDD_CASOS_DE_TESTE` → `P39_TDD_CONSTANTES`,
-  `P39_TDD_PARAMETRO`, `P39_TDD_CACHE`
-- `P39_TDD_PARAMETRO` → `P39_TDD_PARAMETRO_MAPEAMENTO`, `P39_TDD_FUNCOES_JSON`
+  `P39_TDD_PARAMETROS`, `P39_TDD_CACHE`
+- `P39_TDD_PARAMETROS` → `P39_TDD_PARAMETRO_MAPEAMENTO`, `P39_TDD_FUNCOES_JSON`
 - `P39_TDD_CACHE` → `P39_TDD_ODBC`
 
 Por isso o núcleo **não** declara `P39_TDD_CASOS_DE_TESTE` no `uses`: `SetModulo`,
@@ -158,7 +158,7 @@ P39_TDD_FAT_PEDIDO_VENDA.main
          │   ├─ LimparRegistrosCasoTeste + GetObjectJson (documento / item / itens)
          │   ├─ ParseJSONValue(parametros) → _AjustarParametros
          │   │   ├─ FinalizarFormulario  (FormCadastro.Free + FocarModulo + TrazerParaFrente)
-         │   │   ├─ P39_TDD_PARAMETRO.VerificarParametros → Relogar
+         │   │   ├─ P39_TDD_PARAMETROS.VerificarParametros → Relogar
          │   │   └─ Setup_IniciarFormulario (finally)  → reabre a tela
          │   ├─ SetJSON_Caso_Teste
          │   └─ ValidarCasoTeste

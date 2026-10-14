@@ -1,7 +1,7 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
-  nome: 'P39_TDD_CONSTANTES', aliases: ['TDD_CONSTANTES'], navegacao: { grupo: 'units', subgrupo: 'infraestrutura' },
+  nome: 'P39_TDD_CONSTANTES', navegacao: { grupo: 'units', subgrupo: 'infraestrutura' },
   resumo: 'Constantes de conexão e consultas compartilhadas por configurações, cache e cadastros TDD.',
   fonte: 'docs/assets/configuracoesGerais/P39_TDD_CONSTANTES.pas',
   responsabilidade: 'Centralizar os identificadores de conexão e as consultas de versão, configurações, casos, módulos e áreas.',

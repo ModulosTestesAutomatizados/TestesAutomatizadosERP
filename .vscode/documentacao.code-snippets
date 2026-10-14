@@ -47,7 +47,7 @@
     "body": [
       "{ tipo: 'tabela',",
       "  colunas: ['${1:Unit}', '${2:Responsabilidade}'],",
-      "  linhas: [['${3:TDD_STARTED}', '${4:Preparar o caso corrente}']]",
+      "  linhas: [['${3:P39_TDD_STARTED}', '${4:Preparar o caso corrente}']]",
       "},$0"
     ]
   },
@@ -76,7 +76,7 @@
       "  estados: [['${7:ESTADO}', '${8:Tipo e finalidade}', '${9:Inicialização, alteração e descarte}']],",
       "  metodos: [['${10:procedure Executar;}', '${11:Finalidade e contrato}', '${12:Como está implementada}']],",
       "  implementacao: ['${13:Etapas internas e decisões}'],",
-      "  dependencias: ['${14:TDD_IRUNNER}: ${15:Motivo da dependência}'],",
+      "  dependencias: ['${14:P39_TDD_IRUNNER}: ${15:Motivo da dependência}'],",
       "  limites: ['${16:Limitações verificadas nos fontes}']",
       "});",
       "$0"
@@ -137,7 +137,7 @@
       "",
       "```mermaid",
       "flowchart ${3|LR,TD|}",
-      "  A[\"${4:TDD_IRUNNER}\"] --> B[\"${5:TDD_RUNNER}\"]",
+      "  A[\"${4:P39_TDD_IRUNNER}\"] --> B[\"${5:P39_TDD_RUNNER}\"]",
       "```",
       "$0"
     ]

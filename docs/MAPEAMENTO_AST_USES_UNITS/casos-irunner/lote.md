@@ -1,18 +1,18 @@
 # Inventário e lote com IRunner
 
-Fontes: `P39_PROCESSAMENTO_TDD_FINANCEIRO.pas`, `TDD_IRUNNER.pas` e `TDD_BASE_UNIT_IRUNNER.pas` em `docs/assets/emDesenvolvimento/Runner/`.
+Fontes: `P39_TDD_FIN_PROCESSAMENTO.pas`, `P39_TDD_IRUNNER.pas` e `P39_TDD_BASE_UNIT_IRUNNER.pas` em `docs/assets/emDesenvolvimento/Runner/`.
 
 ```mermaid
 flowchart TD
-  Entrada[P39_PROCESSAMENTO_TDD_FINANCEIRO] --> Config[TDD_IRUNNER: unit e módulo/área]
-  Config --> Molde[TDD_BASE_UNIT_IRUNNER]
-  Molde --> Setup[TDD_RUNNER: SetupCasosTestes]
+  Entrada[P39_TDD_FIN_PROCESSAMENTO] --> Config[P39_TDD_IRUNNER: unit e módulo/área]
+  Config --> Molde[P39_TDD_BASE_UNIT_IRUNNER]
+  Molde --> Setup[P39_TDD_RUNNER: SetupCasosTestes]
   Setup --> Casos[P39_TDD_CASOS_DE_TESTE: CDSCasosTestes.First]
   Casos --> Cursor{Eof?}
   Cursor -->|Não| Run[Run: reiniciar contexto e métricas]
-  Run --> Started[TDD_STARTED: JSON, versão e parâmetros]
-  Started --> Teste[REFACTOR_TDD_FINANCEIRO_PILOTO.Teste]
-  Teste --> Finished[TDD_FINISHED: histórico e tempos]
+  Run --> Started[P39_TDD_STARTED: JSON, versão e parâmetros]
+  Started --> Teste[P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.Teste]
+  Teste --> Finished[P39_TDD_FINISHED: histórico e tempos]
   Finished --> Next[CDSCasosTestes.Next]
   Next --> Cursor
   Cursor -->|Sim| Limpeza[Liberar recursos do lote]

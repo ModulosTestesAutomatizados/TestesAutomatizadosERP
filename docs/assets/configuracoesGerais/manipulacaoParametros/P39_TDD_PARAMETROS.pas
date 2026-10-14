@@ -13,7 +13,7 @@ procedure Main;
 var lInstrucoes :string;
 begin
   lInstrucoes := '';
-  {P39_TDD_PARAMETRO_MAPEAMENTO -> P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_PARAMETRO', lInstrucoes);
+  {P39_TDD_PARAMETRO_MAPEAMENTO -> P39_TDD_LOGS.}MostrarInstrucoesUnit('P39_TDD_PARAMETROS', lInstrucoes);
 end;
 
 function GetSQLParametro:String;
