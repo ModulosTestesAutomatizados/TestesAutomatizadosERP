@@ -210,4 +210,4 @@ npm run check, build e check.mjs final: PASS, 24 documentos. snippets.mjs: PASS,
 
 ### T8 concluída
 
-Regressao check.mjs:12 falhou antes da correcao, listando cinco palavras de mensagem como dependencias. Apos mascarar strings e comentarios em conjunto, check.mjs final e build: PASS. Inventario agora com 17 nos e 22 arestas reais, hashes Pascal inalterados. Nenhum fonte Pascal ou teste versionado foi alterado nesta correcao.
+Regressao check.mjs:12 falhou antes da correcao, listando cinco palavras de mensagem como dependencias. Apos mascarar strings e comentarios em conjunto, check.mjs final e build: PASS. Inventario agora com 18 nos (17 locais e um marcador dinamico) e 21 arestas reais, hashes Pascal inalterados. Nenhum fonte Pascal ou teste versionado foi alterado nesta correcao.

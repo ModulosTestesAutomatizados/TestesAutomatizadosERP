@@ -1,12 +1,12 @@
 # Navegação, sincronização e apresentação do portal
 
-Status: proposta atualizada com as decisões do usuário. Data: 2026-10-14.
+Status: especificação aprovada e implementação local concluída; revisão independente registrada em validation.md. Data: 2026-10-14.
 
 ## Problem Statement
 
 O menu atual conserva agrupamentos anteriores, repete entradas de casos e não representa o mapa de navegação fornecido pelo usuário. O carregamento inicial aparece como texto simples, identificadores longos quebram linhas e o final do drawer precisa de espaço para leitura e clique.
 
-Os três fontes atualizados de sincronização já estão no worktree, mas ainda não possuem documentação individual. Esta entrega organiza o portal e documenta esses fontes sem executar suas operações no ERP ou nos bancos.
+No início desta iteração, os três fontes atualizados de sincronização estavam no worktree sem documentação individual. Esta entrega organiza o portal e documenta esses fontes sem executar suas operações no ERP ou nos bancos.
 
 A nomenclatura passa a ser única entre arquivos Pascal, identificadores de units, menu e títulos das páginas. As páginas anteriores fora do mapa serão excluídas junto de suas rotas, sem camada de compatibilidade.
 
@@ -37,13 +37,13 @@ A nomenclatura passa a ser única entre arquivos Pascal, identificadores de unit
 | Hierarquia e ordem | Usar os seis grupos do mapa reproduzido abaixo, corrigindo somente acentos nos rótulos humanos. | O arquivo foi fornecido como representação da navegação desejada. | Sim, solicitação do usuário. |
 | Nome de menu, página e fonte | Usar o mesmo identificador canônico em todas as superfícies; renomear os artefatos locais e ajustar suas referências conforme a tabela de migração. | O usuário rejeitou nomes de exibição diferentes dos fontes e incluiu explicitamente o custo das renomeações. | Sim, resposta do usuário. |
 | Páginas anteriores ausentes do mapa | Excluir páginas, rotas e redirecionamentos relacionados, além das entradas de menu, cards e busca. | O usuário escolheu excluir também as páginas e seus endereços. | Sim, resposta do usuário. |
-| Posição da sigla do módulo | Usar `P39_TDD_FIN_PROCESSAMENTO` para o processamento financeiro e `P39_TDD_FIN_PAGAMENTO_RECEBIMENTO` para o caso financeiro. | Aplica o padrão `P39_TDD_FIN_` solicitado aos dois artefatos financeiros que ainda tinham nomes fora do padrão. | Premissa de nomenclatura derivada da resposta. |
-| Scrollbar | Ocultar permanentemente a barra visual, mantendo rolagem por mouse, touchpad, toque e teclado. | O pedido explícito é fazer a barra desaparecer; o exemplo enviado ainda produz uma barra fina. | Premissa para revisão. |
-| Truncamento | Limitar os rótulos do drawer a uma linha com reticências e disponibilizar o nome completo por hover e foco. | Mantém o desenho solicitado sem perder o acesso ao identificador. | Premissa para revisão. |
-| Respiro no drawer | Garantir ao menos 48 px após o último item expandido, além da área segura do dispositivo. | Dá um critério verificável ao espaço solicitado no fim da navegação. | Premissa para revisão. |
-| Fontes movidos e removidos | Considerar a pasta `Sincronizar` com capitalização exata; preservar a remoção local dos antigos arquivos em `sincronizar/persistenciasODBC` e do HTML antigo, sem restaurá-los automaticamente. | O worktree já contém essas alterações do usuário; Linux diferencia maiúsculas de minúsculas. | Premissa para revisão. |
-| Fonte temporária do mapa | Reproduzir o mapa nesta especificação e manter o cadastro TypeScript como fonte executável da navegação. | `mapeamentoNavegacao.txt` está ignorado pela regra `*.txt`; o portal não deve depender desse arquivo local. | Premissa para revisão. |
-| Estado de carregamento | Mostrar overlay no artefato compilado; preservar a instrução de desenvolvimento ao abrir o índice dos fontes diretamente. | O índice dos fontes não possui os módulos compilados necessários para iniciar o portal. | Premissa para revisão. |
+| Posição da sigla do módulo | Usar `P39_TDD_FIN_PROCESSAMENTO` para o processamento financeiro e `P39_TDD_FIN_PAGAMENTO_RECEBIMENTO` para o caso financeiro. | Aplica o padrão `P39_TDD_FIN_` solicitado aos dois artefatos financeiros que ainda tinham nomes fora do padrão. | Sim, especificação aprovada. |
+| Scrollbar | Ocultar permanentemente a barra visual, mantendo rolagem por mouse, touchpad, toque e teclado. | O pedido explícito é fazer a barra desaparecer; o exemplo enviado ainda produz uma barra fina. | Sim, especificação aprovada. |
+| Truncamento | Limitar os rótulos do drawer a uma linha com reticências e disponibilizar o nome completo por hover e foco. | Mantém o desenho solicitado sem perder o acesso ao identificador. | Sim, especificação aprovada. |
+| Respiro no drawer | Garantir ao menos 48 px após o último item expandido, além da área segura do dispositivo. | Dá um critério verificável ao espaço solicitado no fim da navegação. | Sim, especificação aprovada. |
+| Fontes movidos e removidos | Considerar a pasta `Sincronizar` com capitalização exata; preservar a remoção local dos antigos arquivos em `sincronizar/persistenciasODBC` e do HTML antigo, sem restaurá-los automaticamente. | O worktree já contém essas alterações do usuário; Linux diferencia maiúsculas de minúsculas. | Sim, especificação aprovada. |
+| Fonte temporária do mapa | Reproduzir o mapa nesta especificação e manter o cadastro TypeScript como fonte executável da navegação. | `mapeamentoNavegacao.txt` está ignorado pela regra `*.txt`; o portal não deve depender desse arquivo local. | Sim, especificação aprovada. |
+| Estado de carregamento | Mostrar overlay no artefato compilado; preservar a instrução de desenvolvimento ao abrir o índice dos fontes diretamente. | O índice dos fontes não possui os módulos compilados necessários para iniciar o portal. | Sim, especificação aprovada. |
 
 **Open questions:** none. As duas decisões de produto foram respondidas; os detalhes complementares estão registrados como premissas explícitas acima.
 
@@ -250,15 +250,15 @@ O processamento atualmente atribui `True` a `FSincRemoto` antes de chamar `Sincr
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| PORTAL-01 | Carregamento | Specify | Pending |
-| PORTAL-02 | Carregamento | Specify | Pending |
-| PORTAL-03 | Carregamento | Specify | Pending |
-| PORTAL-04 | Carregamento | Specify | Pending |
-| PORTAL-05 | Carregamento | Specify | Pending |
-| PORTAL-06 | Navegação | Specify | Pending |
-| PORTAL-07 | Navegação | Specify | Pending |
-| PORTAL-08 | Navegação | Specify | Pending |
-| PORTAL-09 | Navegação | Specify | Pending |
+| PORTAL-01 | Carregamento | Execute | Verified |
+| PORTAL-02 | Carregamento | Execute | Verified |
+| PORTAL-03 | Carregamento | Execute | Verified |
+| PORTAL-04 | Carregamento | Execute | Verified |
+| PORTAL-05 | Carregamento | Execute | Verified |
+| PORTAL-06 | Navegação | Execute | Verified |
+| PORTAL-07 | Navegação | Execute | Verified |
+| PORTAL-08 | Navegação | Execute | Verified |
+| PORTAL-09 | Navegação | Execute | Verified |
 | PORTAL-10 | Navegação | Execute | Verified |
 | PORTAL-11 | Helpers | Execute | Verified |
 | PORTAL-12 | Helpers | Execute | Verified |
@@ -282,7 +282,7 @@ O processamento atualmente atribui `True` a `FSincRemoto` antes de chamar `Sincr
 | PORTAL-30 | Nomenclatura | Execute | Verified |
 | PORTAL-31 | Nomenclatura | Execute | Verified |
 
-Coverage: 31 requisitos definidos; tarefas ainda não produzidas. As decisões de remoção e nomenclatura foram confirmadas pelo usuário.
+Coverage: 31 requisitos implementados e verificados; sete tarefas planejadas e uma correção do grafo concluídas. Evidências em tasks.md e validation.md.
 
 ## Success Criteria
 
@@ -294,4 +294,4 @@ Coverage: 31 requisitos definidos; tarefas ainda não produzidas. As decisões d
 
 ## Próxima etapa
 
-Após a revisão, produzir o desenho da mudança e tarefas atômicas, com verificações proporcionais a esta documentação. Nenhuma alteração de aplicação, commit ou publicação integra esta proposta de especificação.
+Implementação e commits mantidos neste worktree. Não houve push, abertura de PR ou publicação remota nesta iteração. A atualização dos cadastros do ERP e da TekStore permanece externa a esta entrega.

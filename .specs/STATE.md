@@ -6,11 +6,10 @@ Nenhuma decisao AD de projeto foi registrada como aprovada nesta entrega. As res
 
 ## Handoff
 
-- **Feature:** .specs/features/tdd-irunner-lote-json/
-- **Phase / Task:** Etapa incremental 12: Finished sem logs de persistência; Clear por Run verificado.
-- **Completed:** Emissores de logs de persistência removidos de Finished; SQL/captura preservados. Clear já existe no finally externo de Run, após sucesso/exception. Campo/parametro/record renomeados; Finished captura Text antes do INSERT; Base sem cópia redundante; migration em sql/temp-local e MER indicando alteração prevista. Limpeza de ExecutarLote sequencial; primeira falha interrompe chamadas seguintes e sobe com contexto. Run preservado. Piloto com seis procedures, seleção incorporada ao pagamento e _IncluirBordero por tipo; resultados/setter retirados e teardown no final. Instruções com 116 caracteres e quebras alinhadas. Oito fontes do fluxo ajustados localmente. Wrappers e fallbacks de configuração do piloto removidos por autorização; quatro campos validados antes das gravações. Três opcionais confirmados e preservados. Log global por caso integrado e instruções padronizadas com exibição condicionada. Quatro procedures de exibição de debug removidas após busca sem chamadores nos arquivos Pascal locais. Main do molde e duas linhas iniciais preservados. SQL, ordem financeira e regras de Started permanecem.
-- **In-progress:** Gates funcionais do plano amplo pendentes. Nenhum requisito Verified por auditoria estrutural.
-- **Next step:** Sem UPDATE de logs: Finished não registra mensagens de persistência conforme decisão do usuário; migration requer execução/validação autorizada antes de usar o novo nome no ERP. Revisão do usuário e autorização para validação no ERP; demais pendências de runtime/restauração continuam registradas. Não repetir testes financeiros automaticamente.
-- **Blockers:** Sem execução nativa realizada; Currency/JSON, visibilidade compartilhada e restauração de parâmetros ainda exigem provas.
-- **Uncommitted files:** Oito fontes locais, registros TLC e mapa de uses. Configuração, Documentacoes, HTMLs e exemplo externos preservados.
-- **Branch:** master.
+- **Feature:** .specs/features/portal-navegacao-sincronizacao/
+- **Phase / Task:** Implementação local e revisão independente TLC concluídas: PASS.
+- **Completed:** T1–T7 e T8 de correção do grafo. Nomes canônicos em fontes, páginas, menu e referências; seis grupos; 24 documentos; três helpers de sincronização; exclusão das páginas e rotas antigas; overlay; truncamento e tooltip; respiro de 48 px no drawer; scroll com barras ocultas; guia e 22 snippets atualizados.
+- **Verification:** Lint, tipos, build, catálogo, busca, snippets e navegação desktop/mobile sob prefixo Pages passaram. Migração comparada ao baseline dos fontes fornecidos, sem mudanças de lógica Pascal. Sensor independente: duas mutações em cópias, ambas detectadas, sem alterar a árvore real.
+- **Next step:** Revisão do usuário e eventual autorização para publicação via PR. validation.md e gate TLC aprovados. Publicação remota depende de nova instrução; a exceção de push direto em master ficou restrita à pipeline anterior.
+- **Runtime limits:** Nenhuma execução no ERP/TekStore/bancos. Atualizar os nomes dos cadastros externos antes de executar os fontes renomeados. Testes e ferramentas locais continuam ignorados.
+- **Branch / worktree:** TestesAutomatizadosERP-docs, somente este worktree.
