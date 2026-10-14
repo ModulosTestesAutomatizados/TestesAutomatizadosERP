@@ -40,7 +40,7 @@ export function criarDocumentoUnit({ nome: pNome, aliases: pAliases = [], aliase
       { id: 'implementacao', titulo: 'Como a unit é implementada', blocos: [{ tipo: 'lista', itens: pImplementacao }] },
       { id: 'dependencias', titulo: 'Dependências e integração', blocos: [
         { tipo: 'lista', itens: pDependencias.length ? pDependencias : ['Sem cláusula uses no fonte; a integração ocorre pelo contexto interpretado.'] },
-        { tipo: 'paragrafo', texto: 'Aliases locais e remotos são nomes de referência documental. O fonte vinculado é a evidência desta página; isso não comprova que a variante carregada no ERP seja idêntica.' }
+        { tipo: 'paragrafo', texto: 'O nome canônico identifica o arquivo Pascal e a página. O fonte vinculado é a evidência local; confira o cadastro e a versão da unit instalada no ERP antes de executar.' }
       ] },
       ...(pLimites.length ? [{ id: 'limites', titulo: 'Limites e observações', blocos: [{ tipo: 'lista', itens: pLimites }] } satisfies ISecao] : [])
     ]

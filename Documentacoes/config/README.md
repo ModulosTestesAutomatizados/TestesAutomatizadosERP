@@ -15,7 +15,7 @@ Abra o endereço informado no terminal, que já inclui `/TestesAutomatizadosERP/
 
 `npm run dev --prefix Documentacoes` compila antes de servir. O build insere `app/start.ts` compilado diretamente no índice publicado; não existe dependência de `bootstrap.js` nem do framework Bootstrap. O índice dos fontes mostra as instruções de desenvolvimento, sem requisitar arquivos ainda não compilados.
 
-`../tsconfig.json` usa modo strict e reescreve imports relativos `.ts` para `.js`. `build.mjs` compila, valida o catálogo e as referências e monta o artefato estático por seleção explícita. Confere os hashes dos fontes locais do inventário sintático para detectar mapas desatualizados. Copia os diagramas canônicos utilizados, gera os redirecionamentos de compatibilidade e exclui histórico HTML, fontes TypeScript, configurações, testes, ferramentas e dependências npm.
+`../tsconfig.json` usa modo strict e reescreve imports relativos `.ts` para `.js`. `build.mjs` compila, valida o catálogo e as referências e monta o artefato estático por seleção explícita. Confere os hashes dos fontes locais do inventário sintático para detectar mapas desatualizados. Copia os diagramas canônicos utilizados e exclui fontes TypeScript, configurações, testes, ferramentas e dependências npm. As páginas e rotas antigas foram excluídas; não são gerados redirecionamentos de compatibilidade.
 
 `package.json` e `package-lock.json` são versionados porque definem o build reproduzível e o ESLint. Testes e ferramentas de consumo local da LLM continuam ignorados, sem scripts ou dependências de testes neste pacote.
 

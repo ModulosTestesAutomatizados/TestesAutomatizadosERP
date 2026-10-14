@@ -133,8 +133,8 @@ T3 → T4 → T5 → T6 → T7
 **Requirement**: PORTAL-23, PORTAL-25, PORTAL-31
 **Tools**: filesystem, navegador local; TLC e entregas.
 **Done when**:
-- [ ] Guia e snippets usam nomes canônicos e grupos válidos; guia explica atualização dos cadastros externos.
-- [ ] Lint, tipos, build e navegação sob prefixo Pages passam; iniciar revisão independente TLC.
+- [x] Guia e snippets usam nomes canônicos e grupos válidos; guia explica atualização dos cadastros externos.
+- [x] Lint, tipos, build e navegação sob prefixo Pages passam; iniciar revisão independente TLC.
 **Tests**: integration
 **Gate**: build
 **Commit**: docs: atualiza autoria para o catalogo canonico
@@ -182,3 +182,7 @@ npm run check e build: PASS. browser.mjs drawer: PASS; assertions em browser.mjs
 ### T6 concluída
 
 npm run check e build: PASS. browser.mjs scroll: PASS; assertions em browser.mjs:92-108 conferem scrollbar-width none, terminal e tabela por ArrowRight, drawer expandido por PageDown e roda e pagina por roda. Corrigida a camada de overflow da tabela para que o wrapper focavel receba a rolagem. Nenhum teste versionado.
+
+### T7 concluída
+
+npm run check, build e check.mjs final: PASS, 24 documentos. snippets.mjs: PASS, 22 snippets e expansoes pagina/unit compiladas em strict; assertions verificam nome unificado, ausencia de subgrupos obsoletos e instrucao de atualizar os cadastros externos. browser.mjs final: PASS sob /TestesAutomatizadosERP/, desktop/mobile; migrate.py --check: PASS preservando logica Pascal. Revisao independente TLC iniciada apos este commit.

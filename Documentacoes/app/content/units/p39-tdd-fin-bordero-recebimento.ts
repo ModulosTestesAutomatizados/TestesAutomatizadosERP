@@ -86,6 +86,6 @@ export default criarDocumentoUnit({
     ['procedure MapearPrincipal', 'Mapear os controles principais.', 'Obtém seletores, código, cliente, conta e demais campos principais.']
   ],
   implementacao: ['Também mantém referências a campos principais, labels de totalização, filtros, controles contábeis e abas, todas pertencentes à tela.', 'Não cria datasets temporários próprios como o mapeamento de pagamento.'],
-  dependencias: ['MOVIMENTO_CAIXA aparece somente em uses comentado; MovBordero depende do contexto fornecido pelo host.', 'O piloto financeiro usa a variante P39_TDD_FIN_BORDERO_RECEBIMENTO.'],
-  limites: ['O alias sem prefixo não comprova equivalência da variante carregada no ERP.', 'O bloco de erro libera a tela, mas não relança a exceção nem zera as referências globais.', 'O consumidor deve mapear a tela antes de chamar operações; o fonte não valida todas as referências.']
+  dependencias: ['MOVIMENTO_CAIXA aparece somente em uses comentado; MovBordero depende do contexto fornecido pelo host.', 'O piloto financeiro usa P39_TDD_FIN_BORDERO_RECEBIMENTO.'],
+  limites: ['Confira o cadastro externo e a versão do fonte instalada no ERP após a renomeação.', 'O bloco de erro libera a tela, mas não relança a exceção nem zera as referências globais.', 'O consumidor deve mapear a tela antes de chamar operações; o fonte não valida todas as referências.']
 });

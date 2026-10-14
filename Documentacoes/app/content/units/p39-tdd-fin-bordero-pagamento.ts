@@ -30,6 +30,6 @@ export default criarDocumentoUnit({
     ['procedure DestruirObjetos', 'Liberar os datasets temporários.', 'Chama Free nos dez temporários; a liberação do formulário está comentada.']
   ],
   implementacao: ['As constantes cAbaPrincipal até cAbaTotalizacao identificam índices de abas.', 'Também declara checkboxes de filtros, intervalos de datas e labels de totalização, mapeados por nomes concretos do formulário.'],
-  dependencias: ['Sem uses ativo no fonte; tipos e métodos de localização são fornecidos pelo host.', 'O piloto P39_TDD_FIN_PAGAMENTO_RECEBIMENTO referencia a variante P39_TDD_FIN_BORDERO_PAGAMENTO no uses.'],
-  limites: ['A documentação vincula a variante P39 local; o alias sem prefixo não comprova equivalência do fonte instalado no ERP.', 'FindComponent pode retornar referência ausente; o fonte não valida todas as atribuições.', 'CriarObjetos cria novos temporários em cada chamada; Main não executa a limpeza comentada no finally.']
+  dependencias: ['Sem uses ativo no fonte; tipos e métodos de localização são fornecidos pelo host.', 'O piloto P39_TDD_FIN_PAGAMENTO_RECEBIMENTO referencia P39_TDD_FIN_BORDERO_PAGAMENTO no uses.'],
+  limites: ['O nome do cadastro externo precisa acompanhar a renomeação local; a versão instalada no ERP exige conferência.', 'FindComponent pode retornar referência ausente; o fonte não valida todas as atribuições.', 'CriarObjetos cria novos temporários em cada chamada; Main não executa a limpeza comentada no finally.']
 });

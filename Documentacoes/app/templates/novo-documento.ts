@@ -3,7 +3,8 @@ export default `import type { IDocumento } from '../../models/documentacao.ts';
 
 export default {
   slug: 'novo-caso',
-  categoria: 'documentos',
+  categoria: 'estrutura',
+  navegacao: { grupo: 'estrutura', ordem: 0 },
   titulo: 'Título da documentação',
   resumo: 'Objetivo e conteúdo desta página.',
   estado: 'em-desenvolvimento',

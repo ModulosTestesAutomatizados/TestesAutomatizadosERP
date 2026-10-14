@@ -13,7 +13,7 @@ export default {
   secoes: [
     { id: 'organizacao', titulo: 'Onde cada alteração deve ser feita', blocos: [
       { tipo: 'lista', itens: [
-        'Grupo de navegação: Arquitetura, Units, Referências, Casos de teste e Contribuir no drawer. A categoria ou navegacao da página define em qual grupo ela aparece.',
+        'Grupo de navegação: Arquitetura, Units, Casos de teste, Mapeamentos, Helpers e Contribuir no drawer. A categoria ou navegacao da página define em qual grupo ela aparece.',
         'Página: um documento exportado por um arquivo TypeScript em content e registrado no catálogo. Possui título, resumo, estado e uma rota própria.',
         'Seção: um item de secoes dentro da página. Possui id, titulo, nivel e blocos; aparece no sumário e não exige registro no catálogo.',
         'Bloco: um parágrafo, lista, tabela, código, aviso ou referência Mermaid dentro de uma seção. Não cria uma rota nem possui um estado próprio.',
@@ -23,7 +23,7 @@ export default {
     ] },
     { id: 'passos', titulo: '01 · Incluir uma nova página', blocos: [
       { tipo: 'lista', itens: [
-        'Crie um arquivo .ts em Documentacoes/app/content/documentos/ com nome representativo do assunto.',
+        'Crie um arquivo .ts em Documentacoes/app/content/estrutura/ com nome representativo do assunto.',
         'No VS Code, use docpagina e preencha os campos. Se as sugestões não aparecerem, acione Inserir Snippet na paleta de comandos.',
         'Preencha objetivo, pré-requisitos, entradas, fluxo, resultados esperados, dependências e limitações com evidência nos fontes.',
         'No catalogo.ts, importe o novo módulo e acrescente-o à lista documentos. docregistro auxilia o import. Não altere router, layout ou componentes.',
@@ -90,13 +90,22 @@ export default {
         'Crie content/units/nome-da-unit.ts com docunit. O modelo compartilhado gera seções de responsabilidade, problema resolvido, estado global, procedures/functions, implementação, dependências e limites.',
         'Use docunitestado e docunitmetodo para ampliar as listas. Descreva tipos, entradas, retornos, erros, efeitos sobre o contexto global e o ciclo de vida de cada artefato com base no fonte.',
         'Registre a página em content/units/catalogo.ts com docregistrounit. O catálogo principal, o drawer e a busca passam a incluir a unit automaticamente.',
-        'A rota segue /units/nome-da-unit: nome em minúsculas com sublinhados convertidos em hífens. Declare aliases para variantes identificadas no fonte; eles não significam equivalência de implementação.',
+        'A rota segue /units/nome-da-unit: nome em minúsculas com sublinhados convertidos em hífens. Use o mesmo nome canônico no arquivo Pascal, em nome e no título: P39_TDD_ seguido da responsabilidade, com FIN_ ou FAT_ para artefatos do módulo. Não crie nomes alternativos de exibição.',
         'ReferenceText identifica nomes e aliases por tokens de identificadores e usa UnitReference para gerar os links. Escreva os nomes normalmente em parágrafos, listas, tabelas e códigos; o texto copiado continua literal. Os nós Mermaid também recebem links quando citam uma unit cadastrada.'
         ,'Estados e assinaturas preenchidos com docunitestado e docunitmetodo geram automaticamente símbolos para a busca. A unit que declara um estado, procedure ou function recebe prioridade sobre as páginas que apenas o citam. aliasesArtefatos: { CDSCasosTestes: ["FCDSCasosTestes"] } pode registrar variantes de pesquisa sem alterar o nome declarado no fonte.'
       ] }
     ] },
+    { id: 'nomenclatura', titulo: 'Nomes canônicos e cadastro no ERP', blocos: [
+      { tipo: 'paragrafo', texto: 'Arquivo Pascal, identidade da unit, título e nome no menu devem ser iguais. Exemplo: P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.pas, nome P39_TDD_FIN_PAGAMENTO_RECEBIMENTO e rota /units/p39-tdd-fin-pagamento-recebimento. O build rejeita título ou nome de arquivo divergentes.' },
+      { tipo: 'lista', itens: [
+        'Em uma renomeação, atualize arquivo, declaração unit quando existir, uses, qualificações e nomes em SetTDDUnit ou CodificacaoUnit. Não altere procedimentos ou regras de negócio para mudar a nomenclatura.',
+        'Atualize o módulo TypeScript, o catálogo de units, referências de fonte, snippets e diagramas canônicos. Revise linhas e hashes do inventário AST.',
+        'Antes de executar os fontes renomeados, atualize os nomes cadastrados no ERP e na TekStore, inclusive o molde carregado por CodificacaoUnit e a unit selecionada por SetTDDUnit. Alterar os arquivos locais não publica esses cadastros.',
+        'Esta documentação não executa sincronização nem atualiza cadastros externos. Confira as versões e os nomes do ambiente antes de executar.'
+      ] }
+    ] },
     { id: 'uses', titulo: '06 · Manter os diagramas canônicos', blocos: [
-      { tipo: 'paragrafo', texto: 'Todos os diagramas ativos do portal são lidos de docs/MAPEAMENTO_AST_USES_UNITS/<slug-da-documentacao>/. Cada documentação mantém seu subdiretório, por exemplo runner, casos-de-teste ou parametros. Use docmermaid em um arquivo .md e docdiagrama na página para referenciá-lo. Não duplique o Mermaid em strings TypeScript.' },
+      { tipo: 'paragrafo', texto: 'Todos os diagramas ativos do portal são lidos de docs/MAPEAMENTO_AST_USES_UNITS/<slug-da-documentacao>/. Cada documentação mantém seu subdiretório, por exemplo runner ou p39-tdd-fin-pagamento-recebimento. Use docmermaid em um arquivo .md e docdiagrama na página para referenciá-lo. Não duplique o Mermaid em strings TypeScript.' },
       { tipo: 'paragrafo', texto: 'O mapa de uses do Runner está em runner/P39_TDD_IRUNNER.md; o inventário sintático, em runner/P39_TDD_IRUNNER.ast.json. Ele registra dependências declaradas, linhas e alcance transitivo, preservando units externas e marcadores dinâmicos. Não é uma AST completa de Delphi.' },
       { tipo: 'paragrafo', texto: 'Ajustar, ampliar, reduzir e mudar a orientação alteram apenas a visualização. O Markdown é a fonte de verdade. Testes e ferramentas auxiliares da LLM são locais e ignorados pelo Git; a manutenção manual dos arquivos Markdown e a execução do portal não dependem desses recursos.' },
       { tipo: 'paragrafo', texto: 'Quando um fonte do inventário AST mudar, revise dependências, linhas e hashes antes de publicar. Os hashes SHA-256 normalizam CRLF para LF. O build detecta mapas desatualizados. Não ignore a falha nem copie hashes de uma versão diferente do fonte.' }
@@ -119,19 +128,19 @@ export default {
       { tipo: 'codigo', linguagem: 'typescript', codigo: "// Acrescente dentro da lista secoes da página:\n{\n  id: 'tratamento-de-erros', titulo: 'Tratamento de erros', nivel: 2,\n  blocos: [\n    { tipo: 'paragrafo', texto: 'Descreva o comportamento observado no fonte.' },\n    { tipo: 'aviso', severidade: 'warning', texto: 'Registre a pendência existente.' }\n  ]\n}," }
     ] },
     { id: 'navegacao', titulo: '08 · Posicionar páginas no menu e registrar no catálogo', blocos: [
-      { tipo: 'paragrafo', texto: 'O registro content/navegacao.ts define os grupos e subgrupos do drawer. Sem navegacao, a categoria define o grupo padrão: estrutura em Arquitetura, units em Units → Infraestrutura compartilhada, documentos em Referências e guias em Contribuir. Para um caso de teste, doccaso escolhe Legado ou IRunner; para uma unit ou helper, docnavegacao define o grupo e subgrupo.' },
-      { tipo: 'codigo', linguagem: 'typescript', codigo: "// Metadado da página; não altera /documentos/meu-caso:\nnavegacao: { grupo: 'casos', subgrupo: 'irunner', ordem: 10 },\n\n// Em content/catalogo.ts, fora do objeto da página:\nimport meuCaso from './casos/meu-caso.ts';\n// Acrescente meuCaso à lista documentos existente.\n\n// Para uma unit, use content/units/catalogo.ts:\nimport novaUnit from './tdd-nova-unit.ts';\n// Acrescente novaUnit à lista units existente." },
+      { tipo: 'paragrafo', texto: 'O registro content/navegacao.ts define os seis grupos e seus subgrupos. Arquitetura recebe estrutura; Contribuir recebe guias; units usa Setup como padrão. Prefira navegacao explícita com docnavegacao. Casos de teste não possui subgrupos: use doccaso na documentação individual do cenário. Mapeamentos → Financeiro recebe os dois borderôs; Helpers contém Gerais e Sincronização.' },
+      { tipo: 'codigo', linguagem: 'typescript', codigo: "// Metadado da unit de cenário; mantém sua rota /units/p39-tdd-fin-meu-caso:\nnavegacao: { grupo: 'casos', ordem: 10 },\n\n// Em content/catalogo.ts, fora do objeto da página:\nimport meuCaso from './units/p39-tdd-fin-meu-caso.ts';\n// Acrescente meuCaso à lista documentos existente.\n\n// Para uma unit, use content/units/catalogo.ts:\nimport novaUnit from './p39-tdd-nova-unit.ts';\n// Acrescente novaUnit à lista units existente." },
       { tipo: 'paragrafo', texto: 'Os snippets de registro criam o import e um lembrete; a inclusão do identificador na lista ainda deve ser feita pelo autor. Inserir a mesma página ou alias duas vezes causa falha no catálogo. Criar um grupo não exige criar uma nova categoria nem alterar o router: use docgrupo no array GRUPOS_NAVEGACAO de content/navegacao.ts, docsubgrupo no array subgrupos e docnavegacao na página ou em criarDocumentoUnit.' },
       { tipo: 'codigo', linguagem: 'typescript', codigo: "// Em content/navegacao.ts, dentro de GRUPOS_NAVEGACAO:\n{ id: 'apoio', titulo: 'Apoio', icone: 'mdi-tools',\n  subgrupos: [{ id: 'consultas', titulo: 'Consultas' }] },\n\n// Na página ou nos argumentos de criarDocumentoUnit:\nnavegacao: { grupo: 'apoio', subgrupo: 'consultas', ordem: 10 }," },
       { tipo: 'paragrafo', texto: 'IDs de grupo devem ser únicos; IDs de subgrupo são únicos dentro do grupo. Use os IDs, não os títulos, nos metadados. O build rejeita grupos ou subgrupos inexistentes. A classificação muda somente o drawer: uma unit em Helpers continua com rota /units/nome-da-unit e mantém busca e links de citação.' },
-      { tipo: 'paragrafo', texto: 'Units → IRunner contém o contrato de execução e dependências de contexto, incluindo parâmetros e cache. Infraestrutura compartilhada contém constantes, ODBC e funções JSON; Faturamento contém controle de módulo; Casos de teste contém as units de cenário. Helpers → Financeiro contém os dois mapeamentos de borderô. Sincronização está preparada para receber sua documentação na próxima iteração.' }
+      { tipo: 'paragrafo', texto: 'Units → Setup contém casos, cache, parâmetros, mapeamento de parâmetros e módulo. Constantes e Persistência contêm suas dependências compartilhadas. IRunner contém as seis units do contrato e o processamento financeiro. Casos de teste contém somente as duas units de cenário. Mapeamentos → Financeiro contém os borderôs; Helpers → Gerais contém funções JSON; Helpers → Sincronização contém registro, lista e processamento da sincronização.' }
     ] },
     { id: 'revisao-publicacao', titulo: '09 · Revisar e publicar uma alteração', blocos: [
       { tipo: 'codigo', linguagem: 'powershell', codigo: 'npm ci --prefix Documentacoes\nnpm run check --prefix Documentacoes\nnpm run dev --prefix Documentacoes' },
       { tipo: 'paragrafo', texto: 'Instale dependências ao preparar o ambiente ou quando o lockfile mudar. Após editar os fontes, refaça o build: o preview serve o artefato compilado e não tem atualização automática. Encerre o servidor com Ctrl+C antes de executar dev novamente, ou execute build enquanto o preview atual continua ativo.' },
       { tipo: 'lista', itens: [
         'Confira título, resumo, status, menu, sumário e links da página. Teste a busca por nomes de estados e métodos de uma unit.',
-        'Preserve slug e IDs quando houver links existentes; se precisar renomear uma rota, planeje o redirecionamento no manifesto de compatibilidade.',
+        'Preserve IDs das seções que continuam válidas. Nesta migração, páginas fora do mapa e rotas dos nomes anteriores foram excluídas, sem redirecionamentos. Antes de futuras remoções, revise os links internos afetados.',
         'Inclua no PR os fontes TypeScript, snippets, referências necessárias e mapas canônicos. tests, tools, dependências instaladas e saídas geradas permanecem ignorados.',
         'O workflow verifica lint, tipos e build no PR. Após o merge ou push em master, publica automaticamente quando houver alterações em index.html, Documentacoes/**, docs/MAPEAMENTO_AST_USES_UNITS/**, docs/assets/** ou no próprio workflow. A execução manual continua disponível em master, com Pages configurado para GitHub Actions. O site usa o artefato estático, não o servidor local.'
       ] }

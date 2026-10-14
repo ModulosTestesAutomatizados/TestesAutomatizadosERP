@@ -272,15 +272,15 @@ O processamento atualmente atribui `True` a `FSincRemoto` antes de chamar `Sincr
 | PORTAL-20 | Rolagem | Execute | Verified |
 | PORTAL-21 | Rolagem | Execute | Verified |
 | PORTAL-22 | Autoria | Execute | Verified |
-| PORTAL-23 | Autoria | Specify | Pending |
+| PORTAL-23 | Autoria | Execute | Verified |
 | PORTAL-24 | Pages | Execute | Verified |
-| PORTAL-25 | Pages | Specify | Pending |
+| PORTAL-25 | Pages | Execute | Verified |
 | PORTAL-26 | Nomenclatura | Execute | Verified |
 | PORTAL-27 | Nomenclatura | Execute | Verified |
 | PORTAL-28 | Nomenclatura | Execute | Verified |
 | PORTAL-29 | Nomenclatura | Execute | Verified |
 | PORTAL-30 | Nomenclatura | Execute | Verified |
-| PORTAL-31 | Nomenclatura | Specify | Pending |
+| PORTAL-31 | Nomenclatura | Execute | Verified |
 
 Coverage: 31 requisitos definidos; tarefas ainda não produzidas. As decisões de remoção e nomenclatura foram confirmadas pelo usuário.
 
