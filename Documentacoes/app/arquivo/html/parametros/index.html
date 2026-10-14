@@ -1,0 +1,617 @@
+<!-- Bootstrap CSS - https://getbootstrap.com -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+<!-- Bootstrap JS - https://getbootstrap.com -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+</script>
+
+
+<!--Ícones - https://materializecss.com/icons.html -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<script>
+    function ocultar(id) {
+		el = document.getElementById(id);
+		el_icon = document.getElementById('icon-' + id);
+
+		/* Oculta ou mostra o elemento */
+		if (el) {
+			el.classList.toggle("ocultar");
+		}
+
+		/* Ajusta o icone */
+		if (el_icon) {
+			nome_icone = el_icon.innerText;
+			if (nome_icone === "arrow_forward") {
+			  el_icon.innerText = "arrow_downward";
+			} else {
+			  el_icon.innerText = "arrow_forward";
+			}
+		}
+	}
+</script>
+
+
+<style>
+    .ocultar {
+        display: none;
+    }
+
+    .titulo {
+        cursor: pointer;
+    }
+
+    .titulo:hover {
+        color: red !important;
+    }
+
+    .titulo,
+    .titulo:hover {
+        transition: all 0.3s;
+    }
+
+    .campo-json {
+        font-size: 0.9rem;
+    }
+</style>
+
+<!--
+	Se tiver a classe 'ocultar' usar o ícone 'arrow_downward' ao invés de 'arrow_forward'
+	para que ícone seja alterado corretamente adicionar id. Exemplo: id="icon-definicao", definição é o id do pai
+-->
+
+
+<!-- Definições inicio -->
+<section>
+
+    <h2 onclick="ocultar('definicao')" class="titulo mt-3 text-primary-emphasis">
+        <i id="icon-definicao" class="material-icons">arrow_downward</i> Definições
+    </h2>
+
+    <div id="definicao" class="m-3 p-3">
+        <!-- Colocar conteúdo aqui -->
+        <p>
+            O <strong>Parâmetro</strong> é o mecanismo que permite a um caso de teste <strong>configurar o próprio
+            sistema</strong> antes da execução. As units
+            (<code>P39_TDD_PARAMETRO</code> e <code>P39_TDD_PARAMETRO_MAPEAMENTO</code>) leem o bloco
+            <code>parametros</code> do JSON do caso de teste, escrevem o valor no banco de dados do ERP e
+            <strong>reconectam a sessão</strong> para que o ERP carregue os novos valores em memória.
+        </p>
+
+        <p>Sem esse mecanismo, um teste que depende de uma configuração específica (ex.: "faturar por unidade fabril")
+            teria de deixar o sistema configurado manualmente antes de rodar, o que tornaria a suíte não repetível e
+            dependente do ambiente.</p>
+
+        <div class="alert alert-info" role="alert">
+            <p class="m-3">
+                O parâmetro do caso de teste é <strong>autoaplicado</strong>: não existe necessidade de executar um
+                processamento separado. Ele é aplicado pela etapa STARTED do Runner, imediatamente após o
+                carregamento do caso, e é cronometrado como etapa própria
+                (<code>AplicarParametrosDoCasoTeste</code>).
+            </p>
+        </div>
+
+        <p>
+            A aplicação acontece em <strong>duas situações</strong>:
+        </p>
+
+        <ul>
+            <li>
+                <strong>No STARTED</strong> (via <code>AplicarParametrosDoCasoTeste</code>) - aplica os parâmetros de
+                todos os casos de teste carregados na área, uma vez, antes do IRUNNER executar;
+            </li>
+            <li>
+                <strong>Na troca de caso</strong> (via <code>P39_TDD_FAT_DOCUMENTO_FATURA.SetCasoTeste</code>) - o
+                módulo de Faturamento fecha o formulário, reaplica os parâmetros e reabro a tela, porque a mudança de
+                configuração invalida o formulário já aberto.
+            </li>
+        </ul>
+    </div>
+</section>
+<!-- Definições fim -->
+
+
+<!-- Artefatos inicio -->
+<section>
+    <h2 onclick="ocultar('art')" class="titulo mt-3 text-primary-emphasis">
+        <i id="icon-art" class="material-icons">arrow_forward</i> Artefatos
+    </h2>
+
+    <div id="art" class="ocultar mt-3 ms-2">
+        <!-- Colocar conteúdo aqui -->
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h3 onclick="ocultar('art-1')" class="titulo text-primary-emphasis">
+                    <i id="icon-art-1" class="material-icons">arrow_downward</i>Unidades Envolvidas
+                </h3>
+
+                <div id="art-1" class="m-3 p-3">
+                    <table class="table table-sm table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Unit de Codificação</th>
+                                <th>Responsabilidade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>P39_TDD_PARAMETRO_MAPEAMENTO</code></td>
+                                <td>Mantém o mapeamento <strong>nome no JSON → campo no banco → tabela</strong></td>
+                            </tr>
+                            <tr>
+                                <td><code>P39_TDD_PARAMETRO</code></td>
+                                <td>Lê o JSON, compara com o valor atual, monta e executa o <code>UPDATE</code> e
+                    reconecta a sessão</td>
+                            </tr>
+                            <tr>
+                                <td><code>P39_TDD_STARTED</code></td>
+                                <td>Aplica os parâmetros do caso de teste na inicialização</td>
+                            </tr>
+                            <tr>
+                                <td><code>P39_TDD_CASOS_DE_TESTE</code></td>
+                                <td>Dispara <code>Setup_Inicializar_Parametros</code> durante a criação dos
+                    DataSets</td>
+                            </tr>
+                            <tr>
+                                <td><code>P39_TDD_FUNCOES_JSON</code></td>
+                                <td>Leitura do valor atual do parâmetro na seção JSON do sistema</td>
+                            </tr>
+                            <tr>
+                                <td><code>P39_TDD_FAT_DOCUMENTO_FATURA</code></td>
+                                <td>Reaplica parâmetros ao trocar de caso de teste (fecha e reabre o formulário)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <h3 onclick="ocultar('art-2')" class="titulo text-primary-emphasis">
+                    <i id="icon-art-2" class="material-icons">arrow_downward</i>Tabelas do ERP Alteradas
+                </h3>
+
+                <div id="art-2" class="m-3 p-3">
+                    <p>
+                        Os parâmetros são gravados diretamente nas tabelas de configuração do <strong>ERP</strong>
+                        (não no banco dedicado de testes). Sempre restrito à empresa atual
+                        (<code>Codigo_Empresa_Atual</code>). São três:
+                    </p>
+
+                    <table class="table table-sm table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Tabela</th>
+                                <th>Chave do filtro</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>CONFIG_SISTEMA</code></td>
+                                <td>Configuração global (sem filtro por empresa no <code>UPDATE</code>)</td>
+                            </tr>
+                            <tr>
+                                <td><code>CONFIG_SISTEMA_EMPRESA</code></td>
+                                <td><code>EMPRESA_CFSEMP = Codigo_Empresa_Atual</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>PCP_CONFIG</code></td>
+                                <td><code>CODIGO_CONFIG = Codigo_Empresa_Atual</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="alert alert-warning" role="alert">
+                        <p class="m-3">
+                            <i class="material-icons">warning</i>
+                            <strong>Os parâmetros são persistidos no banco e não são revertidos ao final da
+                            execução.</strong> Ao terminar a suíte, o ambiente fica com a última configuração
+                            aplicada. Em bases dedicadas de teste isso é aceitável, mas em ambientes compartilhados
+                            exige atenção.
+                        </p>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <h3 onclick="ocultar('art-3')" class="titulo text-primary-emphasis">
+                    <i id="icon-art-3" class="material-icons">arrow_downward</i>Parâmetros Mapeados
+                </h3>
+
+                <div id="art-3" class="m-3 p-3">
+                    <p>
+                        O mapeamento fica no corpo de <code>MapearParametros</code>, na unit
+                        <code>P39_TDD_PARAMETRO_MAPEAMENTO</code>, e é carregado uma única vez por sessão
+                        (protegido pela flag <code>FParametroMapeado</code>). O array de mapeamento é fixo em
+                        <code>array [0..8]</code> — atualmente 9 parâmetros mapeados:
+                    </p>
+
+                    <table class="table table-sm table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Chave no JSON</th>
+                                <th>Campo no banco</th>
+                                <th>Tabela</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0</td>
+                                <td><code>Fat_PorUnidadeFabril</code></td>
+                                <td><code>FAT_PORUNIDADEFABRIL_CFS</code></td>
+                                <td><code>CONFIG_SISTEMA</code></td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td><code>OrdemImpressaoItemNF</code></td>
+                                <td><code>FAT_ORDEMIMPRESSAONF_CFSEMP</code></td>
+                                <td><code>CONFIG_SISTEMA_EMPRESA</code></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><code>ConsideraDiasParaEntregaDupFrete</code></td>
+                                <td><code>CONS_DIASENT_DUP_FRETE_CFSEMP</code></td>
+                                <td><code>CONFIG_SISTEMA_EMPRESA</code></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><code>NecessarioAutorizarPagamentos</code></td>
+                                <td><code>NECESSARIOAUTORIZARPAGTO_CFS</code></td>
+                                <td><code>CONFIG_SISTEMA</code></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><code>NecessarioAutorizarAdiantamentos</code></td>
+                                <td><code>NECESSARIOAUTORIZARDIANT_CFS</code></td>
+                                <td><code>CONFIG_SISTEMA</code></td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><code>ObrigatorioGrupoResultadoDiferenteDeZeroNaDuplicata</code></td>
+                                <td><code>GR_OBRIGATORIO_DUPL_CFS</code></td>
+                                <td><code>CONFIG_SISTEMA</code></td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td><code>OcultarDuplicataPagarSalario</code></td>
+                                <td><code>OCULTARDUPLSALARIO_CFS</code></td>
+                                <td><code>CONFIG_SISTEMA</code></td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td><code>BloquearLancamentoBorderoQualificacao0Todas</code></td>
+                                <td><code>BLOQLANCQUALIFTODAS_CFS</code></td>
+                                <td><code>CONFIG_SISTEMA</code></td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td><code>BorderoExigirPreenchimentoRegraIntegracaoContabil</code></td>
+                                <td><code>EXIGIRREGRAINTEGRACAOCTB_CFS</code></td>
+                                <td><code>CONFIG_SISTEMA</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="alert alert-info" role="alert">
+                        <p class="m-3">
+                            <i class="material-icons">info</i>
+                            Para mapear um novo parâmetro, basta adicionar uma linha <code>Add(índice, chaveJson,
+                            campoDB, tabela)</code>. <strong>A ordem dos índices é fixa</strong> — mudar a ordem
+                            embaralha o mapeamento. Para ampliar a lista, é necessário aumentar o limite do array
+                            <code>FMapeamentoParam</code>.
+                        </p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+<!-- Artefatos fim -->
+
+<!-- Instruções de uso ínicio -->
+<section>
+    <h2 onclick="ocultar('uso')" class="titulo mt-3 text-primary-emphasis">
+        <i id="icon-uso" class="material-icons">arrow_forward</i> Instruções de uso
+    </h2>
+
+    <div id="uso" class="ocultar mt-3 ms-2">
+        <!-- Colocar conteúdo aqui -->
+
+        <!-- Fluxo geral início -->
+        <div class="m-3 p-3">
+            <h3 onclick="ocultar('uso-fluxo')" class="titulo text-primary-emphasis">
+                <i id="icon-uso-fluxo" class="material-icons">arrow_downward</i> Fluxo geral de uso
+            </h3>
+
+            <div id="uso-fluxo" class="container-fluid m-3 p-3">
+                <p>Para usar um parâmetro em um caso de teste:</p>
+
+                <ol>
+                    <li>Verificar se a chave já está mapeada em <code>P39_TDD_PARAMETRO_MAPEAMENTO</code>; caso
+                        contrário, adicionar o mapeamento;</li>
+                    <li>Incluir a chave e o valor no bloco <code>parametros</code> do JSON do caso de teste;</li>
+                    <li>Publicar a unit <code>P39_TDD_PARAMETRO_MAPEAMENTO</code> na Tek-Store, se ela foi
+                        alterada;</li>
+                    <li>Executar o caso de teste. O STARTED aplica os parâmetros automaticamente.</li>
+                </ol>
+
+                <p>Exemplo de bloco <code>parametros</code>:</p>
+
+                <pre class="text-danger campo-json">
+"parametros": {
+  "Fat_PorUnidadeFabril": true,
+  "OrdemImpressaoItemNF": 0
+}
+                </pre>
+            </div>
+        </div>
+        <!-- Fluxo geral fim -->
+
+        <!-- Aplicação início -->
+        <div class="m-3 p-3">
+            <h3 onclick="ocultar('uso-1')" class="titulo text-primary-emphasis">
+                <i id="icon-uso-1" class="material-icons">arrow_downward</i> Como a aplicação acontece
+            </h3>
+
+            <div id="uso-1" class="m-3 p-3">
+                <p>
+                    A rotina <code>VerificarParametros(pJSONParametros)</code> executa o seguinte para cada par
+                    chave/valor do objeto JSON:
+                </p>
+
+                <ol>
+                    <li>
+                        <strong>Filtra por necessidade de alteração</strong> -
+                        <code>NecessarioModificarParam</code> compara o valor informado com o valor atual
+                        (<code>GetValueJson(SecaoParametroJson, pCampo)</code>). Se forem iguais, o parâmetro é
+                        <strong>descartado</strong> e nenhum acesso ao banco é feito;
+                    </li>
+                    <li>
+                        <strong>Infere o tipo</strong> do valor a partir do próprio texto JSON, pela rotina
+                        <code>PegarTipoCampo</code>:
+                        <ul>
+                            <li>contém <code>"</code> → <strong>string</strong></li>
+                            <li>é <code>true</code> ou <code>false</code> → <strong>booleano</strong></li>
+                            <li>contém <code>.</code> → <strong>currency</strong></li>
+                            <li>caso contrário → <strong>inteiro</strong></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Acumula</strong> apenas os parâmetros a alterar em um <code>TClientDataSet</code>
+                        (<code>CHAVE</code>, <code>VALOR</code>) indexado pela chave;
+                    </li>
+                    <li>
+                        <strong>Executa</strong> um <code>UPDATE</code> por parâmetro acumulado, na tabela
+                        correspondente ao mapeamento;
+                    </li>
+                    <li>
+                        <strong>Reconecta</strong> a sessão do ERP (rotina <code>Relogar</code>) para recarregar a
+                        seção atual com os novos valores.
+                    </li>
+                </ol>
+
+                <h4 class="mt-4">Montagem do UPDATE</h4>
+
+                <p>
+                    O valor é convertido conforme o tipo inferido, e o <code>WHERE</code> é montado conforme a tabela:
+                </p>
+
+                <table class="table table-sm table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Tipo inferido</th>
+                            <th>Conversão aplicada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>String</code></td>
+                                <td>Remove as aspas e envolve em <code>QuotedStr</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>Inteiro</code> / <code>Currency</code></td>
+                            <td>Usado como está, sem aspas</td>
+                        </tr>
+                        <tr>
+                            <td><code>Boolean</code></td>
+                            <td><code>true</code> → <code>'S'</code>, <code>false</code> → <code>'N'</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="alert alert-warning" role="alert">
+                    <p class="m-3">
+                        <i class="material-icons">warning</i>
+                        A execução do <code>UPDATE</code> é envolvida em <code>try / except</code> que <strong>engole
+                        a exceção</strong>. Uma falha ao gravar o parâmetro <strong>não interrompe</strong> a execução
+                        do teste — ela apenas não surte efeito, e o teste pode falhar mais adiante por isso. Em caso
+                        de falha (parâmetros), verificar o log do processamento e o estado real da tabela de
+                        configuração.
+                    </p>
+                </div>
+
+                <h4 class="mt-4">Rotina Relogar</h4>
+
+                <p>
+                    Após aplicar os parâmetros, a rotina <code>Relogar</code> reabre o data module de conexão
+                    (<code>DMCriadoPeloNome('DMConexao')</code>) chamando
+                    <code>ConectaServidorAplicacao</code> e, em seguida,
+                    <code>CarregaSecaoAtual</code>. É esse passo que faz o ERP enxergar a nova configuração — sem ele, o
+                    banco teria o valor novo, mas a sessão continuaria com o valor antigo.
+                </p>
+            </div>
+        </div>
+        <!-- Aplicação fim -->
+
+        <!-- Carregamento inicial início -->
+        <div class="m-3 p-3">
+            <h3 onclick="ocultar('uso-2')" class="titulo text-primary-emphasis">
+                <i id="icon-uso-2" class="material-icons">arrow_downward</i> Carregamento inicial dos parâmetros
+            </h3>
+
+            <div id="uso-2" class="m-3 p-3">
+                <p>
+                    Na inicialização (<code>Setup_Inicializar_Parametros</code>, chamada por
+                    <code>Setup_Inicializar_CasosTeste</code>):
+                </p>
+
+                <ol>
+                    <li><code>MapearParametros</code> monta o mapa de parâmetros (idempotente);</li>
+                    <li>É montado o <code>SELECT</code> que junta as três tabelas de configuração, usando o método
+                        <code>CamposCadastro</code> de cada classe (<code>TClassConfigSistema</code>,
+                        <code>TClassConfigSistemaEmp</code>, <code>TClassPCP_Config</code>) para montar a lista de
+                        colunas automaticamente;</li>
+                    <li>O resultado é carregado no <code>CDSParametro</code> e as propriedades dos campos são
+                        configuradas pelos mesmos métodos <code>ConfigurarPropriedadesDosCampos</code>.</li>
+                </ol>
+
+                <p>
+                    O <code>CDSParametro</code> é a <strong>imagem atual</strong> dos parâmetros - é ele que permite
+                    o filtro por necessidade de alteração.
+                </p>
+            </div>
+        </div>
+        <!-- Carregamento inicial fim -->
+
+        <!-- Casos específicos início -->
+        <div class="m-3 p-3">
+            <h3 onclick="ocultar('uso-3')" class="titulo text-primary-emphasis">
+                <i id="icon-uso-3" class="material-icons">arrow_downward</i> Reaplicação na troca de caso
+            </h3>
+
+            <div id="uso-3" class="m-3 p-3">
+                <p>
+                    O módulo de Faturamento executa <strong>todos</strong> os casos de teste da área. Como cada caso
+                    pode ter parâmetros diferentes, a rotina <code>SetCasoTeste</code> da unit
+                    <code>P39_TDD_FAT_DOCUMENTO_FATURA</code> reabastece o contexto do caso e, se houver parâmetros:
+                </p>
+
+                <ol>
+                    <li>fecha o formulário de pedido de venda (a configuração invalida o formulário aberto);</li>
+                    <li>chama <code>{TDD_PARAMETRO}VerificarParametros</code>;</li>
+                    <li>reabre o formulário via <code>Setup_IniciarFormulario</code>.</li>
+                </ol>
+
+                <div class="alert alert-info" role="alert">
+                    <p class="m-3">
+                        <i class="material-icons">info</i>
+                        Esse ciclo de fechar/reabrir executa uma vez por caso de teste na área. Em áreas com muitos
+                        casos, é a maior parcela de tempo da execução - e aparece isoladamente na métrica
+                        <code>Total</code> de <code>METRICAS_TICK_DIFF</code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- Casos específicos fim -->
+    </div>
+</section>
+<!-- Instruções de uso fim -->
+
+
+<!-- Instalação e configurações inicio -->
+<section>
+    <h2 onclick="ocultar('conf')" class="titulo mt-3 text-primary-emphasis">
+        <i id="icon-conf" class="material-icons">arrow_forward</i> Instalação e configurações
+    </h2>
+
+    <div id="conf" class="ocultar container-fluid m-3 p-3">
+        <!-- Colocar conteúdo aqui -->
+
+        <p>
+            Necessário publicar na Tek-Store as units <code>P39_TDD_PARAMETRO</code> e
+            <code>P39_TDD_PARAMETRO_MAPEAMENTO</code>. A unit de mapeamento é carregada como dependência da unit de
+            parâmetros.
+        </p>
+
+        <p>
+            O usuário que executa a suíte precisa de permissão para alterar <code>CONFIG_SISTEMA</code>,
+            <code>CONFIG_SISTEMA_EMPRESA</code> e <code>PCP_CONFIG</code> na base de dados do ERP em uso.
+        </p>
+
+        <h3 class="mt-4">Ao mapear um novo parâmetro</h3>
+
+        <p>Adicionar em <code>MapearParametros</code>, respeitando o próximo índice livre:</p>
+
+        <pre class="text-primary">
+Add(9, 'NomeDoParametro', 'CAMPO_NO_BANCO', cTabelaConfigSistema);
+        </pre>
+
+        <p>
+            A constante da tabela deve ser uma das três já declaradas:
+            <code>cTabelaConfigSistema</code>, <code>cTabelaConfigSistemaEmpresa</code> ou
+            <code>ctabelaConfigPCP</code>.
+        </p>
+
+        <div class="alert alert-warning" role="alert">
+            <p class="m-3">
+                <i class="material-icons">warning</i>
+                O limite do array de mapeamento é <code>array [0..8]</code>. Ao ultrapassar a 9 entradas, é
+                necessário alterar o limite em <code>FMapeamentoParam</code> — do contrário o mapeamento é
+                corrompido em memória.
+            </p>
+        </div>
+
+        <h3 class="mt-4">Restrições</h3>
+
+        <ul>
+            <li>O filtro de empresa é aplicado somente a <code>CONFIG_SISTEMA_EMPRESA</code> e
+                <code>PCP_CONFIG</code>. Em <code>CONFIG_SISTEMA</code> o <code>UPDATE</code> é executado sem
+                <code>WHERE</code>, pois a tabela tem um único registro por parâmetro;</li>
+            <li>Chaves não mapeadas são <strong>ignoradas silenciosamente</strong>: o filtro
+                <code>NecessarioModificarParam</code> já as descarta por não encontrarem o valor atual;</li>
+            <li>A comparação de valor atual depende de a chave existir na seção JSON do ERP
+                (<code>SecaoParametroJson</code>) — chaves não publicadas na seção nunca são aplicadas.</li>
+        </ul>
+    </div>
+</section>
+<!-- Instalação e configurações fim -->
+
+
+<!-- Observações importantes início -->
+<section>
+    <h2 onclick="ocultar('obs')" class="titulo mt-3 text-primary-emphasis">
+        <i id="icon-obs" class="material-icons">arrow_forward</i> Observações importantes
+    </h2>
+
+    <div id="obs" class="ocultar container-fluid m-3 p-3">
+        <ul>
+            <li>
+                <strong>Sem rollback.</strong> Parâmetros aplicados permanecem no banco após a execução. Se a suíte
+                precisar restaurar a configuração original, isso deve ser feito explicitamente (por exemplo, com um
+                caso de teste final que reaplique os valores originais).
+            </li>
+            <li>
+                <strong>Escopo por empresa.</strong> Tudo é filtrado por <code>Codigo_Empresa_Atual</code>. A mesma
+                suíte executada em filiais diferentes altera configurações diferentes — comportamento esperado e
+                desejado.
+            </li>
+            <li>
+                <strong>Aplicação incremental.</strong> Só parâmetros cujo valor realmente mudou são gravados, o que
+                reduz drasticamente a quantidade de <code>UPDATE</code> e de reconexões.
+            </li>
+            <li>
+                <strong>Falha silenciosa.</strong> Exceções de escrita são engolidas por desenho (ver alerta na seção
+                de aplicação). O sintoma típico é o teste falhar por "comportamento não aplicado" e não por erro de
+                configuração - sempre conferir o valor efetivo na tabela antes de suspeitar do código do teste.
+            </li>
+            <li>
+                <strong>Booleano por convenção do banco.</strong> Valores lógicos são persistidos como
+                <code>'S'</code> / <code>'N'</code>, enquanto o JSON usa <code>true</code> / <code>false</code>. A
+                conversão é automática em <code>AtualizarParametros</code>, mas é comum errar o lado do JSON ao
+                escrever novos casos.
+            </li>
+            <li>
+                <strong>Inferência de tipo por formato.</strong> O tipo não é declarado no JSON: é deduzido do texto
+                do valor. Um número sem ponto decimal (ex.: <code>10</code>) é tratado como inteiro; para um
+                <code>Currency</code> é necessário informar o separador decimal (ex.: <code>10.5</code>).
+            </li>
+            <li>
+                <strong>Mapeamento único carregado por sessão.</strong> A flag <code>FParametroMapeado</code>
+                impede recarregar o mapa mais de uma vez. Alterações no mapa só têm efeito em nova sessão do ERP.
+            </li>
+        </ul>
+    </div>
+</section>
+<!-- Observações importantes fim -->

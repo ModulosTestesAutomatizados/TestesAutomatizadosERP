@@ -71,12 +71,12 @@ O interpretador possui **herança de uses**: se `UNIT A` usa `UNIT B` e `UNIT B`
 
 ## 1.7 Diagramas Mermaid de dependências
 
-A documentação dos `uses` de cada caso de teste deve ser mantida em arquivos Markdown no diretório `docs/mapeamentoUses/`, com diagramas **Mermaid** (`flowchart`/`graph`), destacando:
+A documentação dos `uses` de cada caso de teste deve ser mantida em arquivos Markdown no diretório `docs/MAPEAMENTO_AST_USES_UNITS/`, com um subdiretório por documentação e diagramas **Mermaid** (`flowchart`/`graph`), destacando:
 
 - Dependências **diretas** do caso de teste.
 - Heranças **transitivas** de `uses` entre as units.
 - Units **externas** (fora do workspace) e units **localizadas no workspace**.
-- Convenção de nome: `docs/mapeamentoUses/<NOME_DA_UNIT>.md`.
+- Convenção de nome: `docs/MAPEAMENTO_AST_USES_UNITS/<slug-da-documentacao>/<diagrama>.md`. Mapas históricos ficam em `historico/`; não duplicar Mermaid nos módulos TypeScript do portal.
 
 Consulte também `docs/MER.md` para o modelo de dados do banco dedicado.
 
