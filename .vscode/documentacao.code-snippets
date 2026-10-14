@@ -69,6 +69,7 @@
       "import { criarDocumentoUnit } from './criarDocumentoUnit.ts';",
       "export default criarDocumentoUnit({",
       "  nome: '${1:P39_TDD_NOVA_UNIT}',",
+      "  tipoArtefato: '${18|unit,processamento|}',",
       "  navegacao: { grupo: 'units', subgrupo: '${2|setup,constantes,persistencia,irunner|}', ordem: ${3:0} },",
       "  estado: 'em-desenvolvimento',",
       "  resumo: '${4:Responsabilidade principal da unit.}',",

@@ -1,5 +1,5 @@
-uses  P39_TDD_FIN_BORDERO_RECEBIMENTO,
-      P39_TDD_FIN_BORDERO_PAGAMENTO;
+uses  P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO,
+      P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO;
 
 const
   cFormReceber    = 'FCadReceber';
@@ -182,10 +182,10 @@ begin
   begin
     lEtapa := 'mapear componentes';
     try
-      {P39_TDD_FIN_BORDERO_RECEBIMENTO.}MapearBordero;
+      {P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO.}MapearBordero;
 
       lEtapa := 'incluir bordero';
-      {P39_TDD_FIN_BORDERO_RECEBIMENTO.}IncluirBordero;
+      {P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO.}IncluirBordero;
 
       lEtapa := 'obter pessoa';
       lPessoa := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'PESSOA_DUP', 0);
@@ -193,7 +193,7 @@ begin
       lEtapa := 'preparar cadastro';
       try if CDSCadastroRecebimento.State <> 1 then CDSCadastroRecebimento.Cancel; except end;
       if CDSCadastroRecebimento.State < 2 then
-        {P39_TDD_FIN_BORDERO_RECEBIMENTO.}IncluirBordero;
+        {P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO.}IncluirBordero;
 
       lEtapa := 'definir cliente';
       edtCliente.SetFocus;
@@ -201,7 +201,7 @@ begin
       edtNovoBanco.SetFocus;
 
       lEtapa := 'filtrar titulos';
-      {P39_TDD_FIN_BORDERO_RECEBIMENTO.}Filtrar;
+      {P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO.}Filtrar;
       PageControl1.ActivePage := TSReceber;
 
       lEtapa := 'marcar contas a receber';
@@ -244,7 +244,7 @@ begin
       CDSComplementosRecebimento.Post;
 
       lEtapa := 'gravar bordero';
-      {P39_TDD_FIN_BORDERO_RECEBIMENTO.}GravarBordero;
+      {P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO.}GravarBordero;
 
       // O fechamento pertence a TearDown_DestruirObjetos.
     except
@@ -260,8 +260,8 @@ begin
     if not Assigned(fBorderoPagamento) then
       raise Exception.Create('Formulario de bordero de pagamento nao encontrado.');
     fBorderoPagamento.Show;
-    {P39_TDD_FIN_BORDERO_PAGAMENTO.}MapearComponentesBorderoPagamento;
-    {P39_TDD_FIN_BORDERO_PAGAMENTO.}IniciarCDSCadastroBordero;
+    {P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO.}MapearComponentesBorderoPagamento;
+    {P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO.}IniciarCDSCadastroBordero;
 
     try if CDSCadastroPagamento.State <> 1 then CDSCadastroPagamento.Cancel; except end;
     ExecutarMetodoDeObjeto(fBorderoPagamento, 'BotaoIncluirClick', [nil]);

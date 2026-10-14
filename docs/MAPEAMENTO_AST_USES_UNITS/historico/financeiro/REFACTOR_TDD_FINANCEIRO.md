@@ -19,8 +19,8 @@ graph TD
     end
 
     subgraph Mapeamentos de Tela
-        F["P39_TDD_FIN_BORDERO_RECEBIMENTO<br/>(local 26)"]
-        G["P39_TDD_FIN_BORDERO_PAGAMENTO<br/>(Tek Store 2911)"]
+        F["P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO<br/>(local 26)"]
+        G["P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO<br/>(Tek Store 2911)"]
     end
 
     subgraph Sincronizacao do Cenario

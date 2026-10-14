@@ -43,6 +43,6 @@ export default criarDocumentoUnit({
     ['procedure TearDown_DestruirObjetos', 'Encerrar os recursos financeiros utilizados.', 'Cancela edições e fecha as telas; os datasets compartilhados do lote não pertencem ao piloto.']
   ],
   implementacao: ['O cursor e a liberação dos artefatos compartilhados pertencem a P39_TDD_BASE_UNIT_IRUNNER.', 'Cada operação possui registro de tempo no contexto de P39_TDD_RUNNER; o teardown é executado mesmo quando uma operação falha.'],
-  dependencias: ['P39_TDD_STARTED prepara o caso e seus parâmetros.', 'P39_TDD_FIN_BORDERO_RECEBIMENTO e P39_TDD_FIN_BORDERO_PAGAMENTO fornecem o acesso às telas.'],
+  dependencias: ['P39_TDD_STARTED prepara o caso e seus parâmetros.', 'P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO e P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO fornecem o acesso às telas.'],
   limites: ['O fonte é de desenvolvimento, sem evidência de homologação no ERP.']
 });

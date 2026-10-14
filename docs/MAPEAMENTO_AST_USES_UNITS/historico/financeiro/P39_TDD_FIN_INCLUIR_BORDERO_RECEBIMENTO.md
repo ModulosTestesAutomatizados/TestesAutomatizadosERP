@@ -13,7 +13,7 @@ flowchart LR
 
     subgraph REMOTO["Remoto (P39_*)"]
         CARREGAR["P39_TDD_CARREGAR_CASO_TESTE"]
-        MAP_RECEB["P39_TDD_FIN_BORDERO_RECEBIMENTO"]
+        MAP_RECEB["P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO"]
         REGISTRAR["P39_TDD_REGISTRAR_CASO_TESTE"]
         FUNCOES_JSON["P39_TDD_FUNCOES_JSON"]
         ODBC["P39_TDD_ODBC"]
@@ -34,7 +34,7 @@ flowchart LR
 | Unit | Purpose |
 | ---- | ------- |
 | `P39_TDD_CARREGAR_CASO_TESTE` | Carrega o caso de teste do banco e popula o CDS por referência. |
-| `P39_TDD_FIN_BORDERO_RECEBIMENTO` | Mapeia o form `FCadBorderoAcerto` e os CDSs do borderô. |
+| `P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO` | Mapeia o form `FCadBorderoAcerto` e os CDSs do borderô. |
 | `P39_TDD_FUNCOES_JSON` | Leitura de tags do JSON do caso de teste (`ValorInteiroTag`, etc.). |
 
 ## Heranças transitivas de uses
@@ -62,7 +62,7 @@ flowchart LR
 
 ### Form real do borderô
 
-O mapeamento `P39_TDD_FIN_BORDERO_RECEBIMENTO` aponta para o
+O mapeamento `P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO` aponta para o
 form **`FCadBorderoAcerto`** / **`DMCadBorderoAcerto`** (Bordero de Acerto).
 
 ### Regra de negócio: valor do complemento

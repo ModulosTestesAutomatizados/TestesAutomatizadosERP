@@ -41,8 +41,8 @@ Não executar Pascal, alterar lógica de testes, publicar cadastros ERP/TekStore
 | --- | --- | --- | --- |
 | PREVIEW-01 | Apresentação | Execute | Verified |
 | PREVIEW-02 | Apresentação | Execute | Verified |
-| PREVIEW-03 | Migração | Execute | Implementing |
-| PREVIEW-04 | Migração | Execute | Implementing |
+| PREVIEW-03 | Migração | Execute | Verified |
+| PREVIEW-04 | Migração | Execute | Verified |
 
 ## Execution Plan
 
@@ -51,3 +51,11 @@ Não executar Pascal, alterar lógica de testes, publicar cadastros ERP/TekStore
 3. Renomear os dois mapeamentos, atualizar referências/grafo e publicar o inventário de impacto no guia; verificar build, consumidores e navegador; commit local.
 
 Design inline: reutilizar o registro de navegação, os chips Vuetify e o contrato criarDocumentoUnit. Criar metadado de tipo apenas para distinguir processamentos; nomes dos mapeamentos são literais canônicos. Preservar preview na porta atual. Encerrar com revisão independente TLC proporcional à documentação.
+
+## Evidências de implementação
+
+- Overlay e cards: browser-homologacao.mjs verifica alpha 0.48, spinner opaco, grupo/subgrupo e dois processamentos com metadado explícito.
+- Migração: check-homologacao.mjs verifica identidades literais dos dois mapeamentos, 11 renomeações, consumidores e carregamentos dinâmicos; compara os fontes com o commit 43a8958, normalizando somente CRLF/LF.
+- Guia: navegador confirmou tabela com 11 linhas, links canônicos e Mermaid renderizado em autoria/migracao-nomes.
+- Gates: npm run check e build aprovados; 24 documentos. 22 snippets e modelos em strict aprovados. Ferramentas permanecem ignoradas.
+- Nenhum push, PR, execução Pascal ou alteração de cadastro externo.

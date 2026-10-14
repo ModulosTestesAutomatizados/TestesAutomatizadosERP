@@ -42,22 +42,22 @@
       "sha256": "3024ed780b579d6a826f8cc1ed96a75408a91fcf1939fafccd6f6e601e0221ce"
     },
     {
-      "name": "P39_TDD_FIN_BORDERO_PAGAMENTO",
+      "name": "P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO",
       "status": "local",
-      "file": "docs/assets/casosTestesFinanceiro/P39_TDD_FIN_BORDERO_PAGAMENTO.pas",
+      "file": "docs/assets/casosTestesFinanceiro/P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO.pas",
       "sha256": "ad58377524364c0f84582e7d77b0e6bc51e1f4dd751e51eb22b16788a3ec21bf"
     },
     {
-      "name": "P39_TDD_FIN_BORDERO_RECEBIMENTO",
+      "name": "P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO",
       "status": "local",
-      "file": "docs/assets/casosTestesFinanceiro/P39_TDD_FIN_BORDERO_RECEBIMENTO.pas",
+      "file": "docs/assets/casosTestesFinanceiro/P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO.pas",
       "sha256": "cb61700ebc7611e449a6a1936940d1b093cd83cc472d8c47b601ed00d7da93fc"
     },
     {
       "name": "P39_TDD_FIN_PAGAMENTO_RECEBIMENTO",
       "status": "local",
       "file": "docs/assets/emDesenvolvimento/P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.pas",
-      "sha256": "b43fdfa342ea7d0ea7e6e834beee7f5df01664e9d3aac8fcfba9d35830503c7b"
+      "sha256": "dec7847c864d18abc250092f5be885449f6f91947242f3badbc295f003b16dd1"
     },
     {
       "name": "P39_TDD_FIN_PROCESSAMENTO",
@@ -170,14 +170,14 @@
     },
     {
       "from": "P39_TDD_FIN_PAGAMENTO_RECEBIMENTO",
-      "to": "P39_TDD_FIN_BORDERO_PAGAMENTO",
+      "to": "P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO",
       "kind": "uses",
       "file": "docs/assets/emDesenvolvimento/P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.pas",
       "line": 2
     },
     {
       "from": "P39_TDD_FIN_PAGAMENTO_RECEBIMENTO",
-      "to": "P39_TDD_FIN_BORDERO_RECEBIMENTO",
+      "to": "P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO",
       "kind": "uses",
       "file": "docs/assets/emDesenvolvimento/P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.pas",
       "line": 1

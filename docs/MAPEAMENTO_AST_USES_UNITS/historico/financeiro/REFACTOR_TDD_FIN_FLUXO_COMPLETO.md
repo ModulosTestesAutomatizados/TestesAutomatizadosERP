@@ -13,8 +13,8 @@ cobrindo o fluxo completo dos 4 recursos:
 ```mermaid
 graph TD
     A["REFACTOR_TDD_FIN_FLUXO_COMPLETO<br/>(grupo 1367 - código 38)"] --> B["TDD_CARREGAR_CASO_TESTE<br/>(grupo 1371)"]
-    A --> C["P39_TDD_FIN_BORDERO_RECEBIMENTO<br/>(grupo 1367)"]
-    A --> D["P39_TDD_FIN_BORDERO_PAGAMENTO<br/>(unit global/Tek Store)"]
+    A --> C["P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO<br/>(grupo 1367)"]
+    A --> D["P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO<br/>(unit global/Tek Store)"]
     A --> E["P39_TDD_FUNCOES_JSON<br/>(unit global/Tek Store)"]
 
     B --> F["P39_TDD_REGISTRAR_CASO_TESTE<br/>(unit global/Tek Store)"]
@@ -75,7 +75,7 @@ A seção `parametros` mantém as flags de configuração financeira (`*_CFS`) p
 - Os casos antigos da área BORDERÔ (AUTOINC 8, 26 e 27) foram **inativados** no banco dedicado;
   o caso unificado é o AUTOINC **28 – TDD_FINANCEIRO**.
 - O fluxo do borderô de pagamento depende da unit global
-  `P39_TDD_FIN_BORDERO_PAGAMENTO` (Tek Store), que expõe
+  `P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO` (Tek Store), que expõe
   `CriarObjetos`, `IniciarCDSCadastroBordero`, `fBorderoPagamento`, `CDSPagar`,
   `CDSComplemento`, `SPessoa`, `rgPessoa`, `PageControl` e as abas (`cAbaContasPagar`,
   `cAbaComplementos`).
