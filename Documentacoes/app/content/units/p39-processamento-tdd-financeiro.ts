@@ -1,0 +1,17 @@
+import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
+
+export default criarDocumentoUnit({
+  nome: 'P39_PROCESSAMENTO_TDD_FINANCEIRO', navegacao: { grupo: 'units', subgrupo: 'irunner' },
+  resumo: 'Entrada que seleciona o piloto financeiro e inicia o lote de IRunner.Executar.',
+  fonte: 'docs/assets/emDesenvolvimento/Runner/P39_PROCESSAMENTO_TDD_FINANCEIRO.pas',
+  responsabilidade: 'Definir a unit de cenário e os literais de módulo e área antes de chamar TDD_IRUNNER.Executar.',
+  problema: 'Manter a configuração do processamento separada do orquestrador, do molde de execução e do caso financeiro.',
+  estado: 'em-desenvolvimento',
+  metodos: [
+    ['procedure Main', 'Apresentar instruções e iniciar o lote.', 'Desabilita FExibirInstrucoes no contexto compartilhado, prepara o texto, chama MostrarInstrucoesUnit, ativa FModoDebug e chama ExecutarIRunner.'],
+    ['procedure ExecutarIRunner', 'Configurar a execução financeira.', 'Define REFACTOR_TDD_FINANCEIRO_PILOTO em SetTDDUnit, adiciona os dois literais FINANCEIRO com AddParamsRun e chama Executar.']
+  ],
+  implementacao: ['Não declara estado global próprio. FExibirInstrucoes e FModoDebug pertencem ao contexto compartilhado de logs.', 'O processamento não registra métodos de teste individualmente nem percorre os datasets de casos.'],
+  dependencias: ['Uses direto: TDD_IRUNNER.', 'REFACTOR_TDD_FINANCEIRO_PILOTO é a seleção dinâmica do cenário; o molde prepara o registro antes de chamar Teste.'],
+  limites: ['O fonte não restaura os controles de logs após a chamada.', 'A documentação descreve a configuração disponível, sem declarar homologação ou comparação funcional por asserts.']
+});

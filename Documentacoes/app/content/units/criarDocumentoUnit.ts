@@ -7,10 +7,11 @@ function nomeMetodo(pAssinatura: string): string {
   return nome;
 }
 
-export function criarDocumentoUnit({ nome: pNome, aliases: pAliases = [], aliasesArtefatos: pAliasesArtefatos = {}, resumo: pResumo, fonte: pFonte, responsabilidade: pResponsabilidade, problema, estado: pEstado = 'em-uso', estados: pEstados = [], metodos: pMetodos = [], implementacao: pImplementacao = [], dependencias: pDependencias = [], limites: pLimites = [] }: IDadosUnit): IDocumento {
+export function criarDocumentoUnit({ nome: pNome, aliases: pAliases = [], aliasesArtefatos: pAliasesArtefatos = {}, resumo: pResumo, fonte: pFonte, responsabilidade: pResponsabilidade, problema, estado: pEstado = 'em-uso', evidenciaValidacao: pEvidenciaValidacao, jsonBase: pJsonBase, navegacao: pNavegacao, estados: pEstados = [], metodos: pMetodos = [], implementacao: pImplementacao = [], dependencias: pDependencias = [], limites: pLimites = [] }: IDadosUnit): IDocumento {
   return {
     slug: pNome.toLowerCase().replace(/_/g, '-'), categoria: 'units', titulo: pNome,
-    unit: pNome, aliases: pAliases, resumo: pResumo, estado: pEstado, fontes: [{ caminho: pFonte }],
+    unit: pNome, aliases: pAliases, resumo: pResumo, estado: pEstado, evidenciaValidacao: pEvidenciaValidacao, navegacao: pNavegacao,
+    fontes: [pFonte, ...(pJsonBase?.fontes ?? [])].map(pCaminho => ({ caminho: pCaminho })),
     simbolos: [
       ...pEstados.flatMap(([pDeclaracao]) => (pDeclaracao.replace(/:[^/]+/g, '').match(/[A-Za-z_][A-Za-z0-9_]*/g) ?? []).map<ISimbolo>(pNome => ({
         nome: pNome, tipo: 'estado', secao: 'estados', aliases: pAliasesArtefatos[pNome] ?? []
@@ -21,6 +22,11 @@ export function criarDocumentoUnit({ nome: pNome, aliases: pAliases = [], aliase
       { id: 'responsabilidade', titulo: 'Responsabilidade e problema resolvido', blocos: [
         { tipo: 'paragrafo', texto: pResponsabilidade }, { tipo: 'paragrafo', texto: problema }
       ] },
+      ...(pJsonBase ? [{ id: 'json-base', titulo: 'JSON base do caso de teste', blocos: [
+        { tipo: 'codigo', linguagem: 'json', codigo: JSON.stringify(pJsonBase.exemplo, null, 2) },
+        { tipo: 'tabela', colunas: ['Objeto / campo', 'Tipo', 'Finalidade', 'Impacto no teste'], linhas: pJsonBase.campos },
+        ...(pJsonBase.observacoes?.length ? [{ tipo: 'lista', itens: pJsonBase.observacoes } as const] : [])
+      ] } satisfies ISecao] : []),
       { id: 'estados', titulo: 'Estados globais', blocos: pEstados.length ? [
         { tipo: 'tabela', colunas: ['Estado / tipo', 'Finalidade', 'Ciclo de vida'], linhas: pEstados }
       ] : [{ tipo: 'paragrafo', texto: 'Esta unit não declara estado global próprio. Os artefatos consumidos do contexto interpretado são descritos na implementação abaixo.' }] },

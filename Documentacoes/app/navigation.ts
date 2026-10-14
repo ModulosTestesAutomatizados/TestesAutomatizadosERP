@@ -1,30 +1,36 @@
-import type { IDocumento, IGrupoNavegacao } from './models/documentacao.ts';
+import type { IDocumento, IGrupoNavegacao, INavegacaoDocumento } from './models/documentacao.ts';
 
+import { GRUPOS_NAVEGACAO } from './content/navegacao.ts';
 import { rotaDocumento } from './content/validarCatalogo.ts';
 
-// Grupos derivados do catálogo; cada documento pode escolher grupo e subgrupo.
-export function criarNavegacao(pDocumentos: IDocumento[]): IGrupoNavegacao[] {
-  const visiveis = pDocumentos.filter(pD => !pD.oculto);
-  const categorias = [
-    ['estrutura', 'Arquitetura', 'mdi-sitemap-outline'],
-    ['units', 'Units', 'mdi-code-braces'],
-    ['documentos', 'Referências', 'mdi-book-open-page-variant-outline'],
-    ['guias', 'Contribuir', 'mdi-pencil-outline']
-  ];
-  const grupos: IGrupoNavegacao[] = categorias.map(([pId, pTitulo, pIcone]) => ({
-    id: pId, titulo: pTitulo, icone: pIcone, documentos: visiveis.filter(pD => pD.categoria === pId && !pD.navegacao)
-  }));
-  grupos.splice(3, 0, { id: 'casos', titulo: 'Casos de teste', icone: 'mdi-format-list-checks', grupos: [
-    { id: 'casos-legado', titulo: 'Legado', documentos: visiveis.filter(pD => pD.navegacao?.subgrupo === 'legado').sort((pA, pB) => (pA.navegacao?.ordem ?? 100) - (pB.navegacao?.ordem ?? 100)) },
-    { id: 'casos-irunner', titulo: 'IRunner', documentos: visiveis.filter(pD => pD.navegacao?.subgrupo === 'irunner').sort((pA, pB) => (pA.navegacao?.ordem ?? 100) - (pB.navegacao?.ordem ?? 100)) }
-  ] });
-  return grupos;
+export function navegacaoDocumento(pDocumento: IDocumento): INavegacaoDocumento {
+  if (pDocumento.navegacao) return pDocumento.navegacao;
+  const grupo = GRUPOS_NAVEGACAO.find(pG => pG.categoria === pDocumento.categoria);
+  return { grupo: grupo?.id ?? pDocumento.categoria, subgrupo: grupo?.subgrupoPadrao };
 }
 
-export function gruposDaRota(pGrupos: IGrupoNavegacao[], path: string): string[] {
+// O registro central define os grupos; as páginas mantêm as rotas originais.
+export function criarNavegacao(pDocumentos: IDocumento[]): IGrupoNavegacao[] {
+  const visiveis = pDocumentos.filter(pD => !pD.oculto);
+  const documentos = (pGrupo: string, pSubgrupo?: string) => visiveis.filter(pD => {
+    const nav = navegacaoDocumento(pD);
+    return nav.grupo === pGrupo && nav.subgrupo === pSubgrupo;
+  }).sort((pA, pB) => (pA.navegacao?.ordem ?? 100) - (pB.navegacao?.ordem ?? 100));
+  return GRUPOS_NAVEGACAO.map(pGrupo => ({
+    id: pGrupo.id, titulo: pGrupo.titulo, icone: pGrupo.icone,
+    documentos: documentos(pGrupo.id),
+    grupos: pGrupo.subgrupos?.map(pSub => ({
+      id: `${pGrupo.id}-${pSub.id}`, titulo: pSub.titulo, vazio: pSub.vazio,
+      documentos: documentos(pGrupo.id, pSub.id)
+    }))
+  }));
+}
+
+export function gruposDaRota(pGrupos: IGrupoNavegacao[], pPath: string): string[] {
   for (const grupo of pGrupos) {
-    if (grupo.documentos?.some(pD => rotaDocumento(pD) === path)) return [grupo.id];
-    for (const filho of grupo.grupos ?? []) if (filho.documentos?.some(pD => rotaDocumento(pD) === path)) return [grupo.id, filho.id];
+    if (grupo.documentos?.some(pD => rotaDocumento(pD) === pPath)) return [grupo.id];
+    const caminho = gruposDaRota(grupo.grupos ?? [], pPath);
+    if (caminho.length) return [grupo.id, ...caminho];
   }
   return [];
 }
