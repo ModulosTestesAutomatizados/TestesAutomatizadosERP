@@ -103,7 +103,7 @@
   "Registro de unit": {
     "scope": "typescript",
     "prefix": "docregistrounit",
-    "description": "Import em content/units/catalogo.js; aliases também passam a gerar links automáticos.",
+    "description": "Import em content/units/catalogo.ts; aliases também passam a gerar links automáticos.",
     "body": [
       "import ${1:novaUnit} from './${2:tdd-nova-unit}.ts';",
       "// Acrescente ${1:novaUnit} à lista units abaixo.",
@@ -145,11 +145,46 @@
   "Registro do documento": {
     "scope": "typescript",
     "prefix": "docregistro",
-    "description": "Import para catalogo.js; acrescente o identificador à lista documentos.",
+    "description": "Import para catalogo.ts; acrescente o identificador à lista documentos.",
     "body": [
       "import ${1:novaPagina} from './${2:documentos/novo-caso}.ts';",
       "// Acrescente ${1:novaPagina} à lista documentos abaixo.",
       "$0"
     ]
+  },
+  "Estado da documentação": {
+    "scope": "typescript",
+    "prefix": "docestado",
+    "description": "Substitua o campo estado existente. validado-no-erp exige docvalidacao.",
+    "body": ["estado: '${1|em-desenvolvimento,em-uso,legado,validado-no-erp|}',$0"]
+  },
+  "Evidência de validação no ERP": {
+    "scope": "typescript",
+    "prefix": "docvalidacao",
+    "description": "Evidência real obrigatória com estado validado-no-erp, em página ou criarDocumentoUnit.",
+    "body": [
+      "evidenciaValidacao: {",
+      "  data: '${1:AAAA-MM-DD}', versaoERP: '${2:Versão efetivamente validada}',",
+      "  referencia: '${3:Link do relatório ou registro de homologação}'",
+      "},$0"
+    ]
+  },
+  "Navegação de caso de teste": {
+    "scope": "typescript",
+    "prefix": "doccaso",
+    "description": "Inclua no documento para agrupá-lo em Casos de teste, sem alterar a rota.",
+    "body": ["navegacao: { grupo: 'casos', subgrupo: '${1|irunner,legado|}', ordem: ${2:0} },$0"]
+  },
+  "Fonte de referência": {
+    "scope": "typescript",
+    "prefix": "docfonte",
+    "description": "Entrada da lista fontes; caminho real relativo à raiz do repositório.",
+    "body": ["{ caminho: '${1:docs/assets/caminho/UNIT.pas}' },$0"]
+  },
+  "Alias de artefato para a busca": {
+    "scope": "typescript",
+    "prefix": "docaliasartefato",
+    "description": "Inclua em criarDocumentoUnit; o nome declarado deve existir em estados.",
+    "body": ["aliasesArtefatos: { ${1:CDSCasosTestes}: ['${2:FCDSCasosTestes}'] },$0"]
   }
 }

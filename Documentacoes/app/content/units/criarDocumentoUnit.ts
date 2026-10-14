@@ -7,10 +7,10 @@ function nomeMetodo(pAssinatura: string): string {
   return nome;
 }
 
-export function criarDocumentoUnit({ nome: pNome, aliases: pAliases = [], aliasesArtefatos: pAliasesArtefatos = {}, resumo: pResumo, fonte: pFonte, responsabilidade: pResponsabilidade, problema, estado: pEstado = 'em-uso', estados: pEstados = [], metodos: pMetodos = [], implementacao: pImplementacao = [], dependencias: pDependencias = [], limites: pLimites = [] }: IDadosUnit): IDocumento {
+export function criarDocumentoUnit({ nome: pNome, aliases: pAliases = [], aliasesArtefatos: pAliasesArtefatos = {}, resumo: pResumo, fonte: pFonte, responsabilidade: pResponsabilidade, problema, estado: pEstado = 'em-uso', evidenciaValidacao: pEvidenciaValidacao, estados: pEstados = [], metodos: pMetodos = [], implementacao: pImplementacao = [], dependencias: pDependencias = [], limites: pLimites = [] }: IDadosUnit): IDocumento {
   return {
     slug: pNome.toLowerCase().replace(/_/g, '-'), categoria: 'units', titulo: pNome,
-    unit: pNome, aliases: pAliases, resumo: pResumo, estado: pEstado, fontes: [{ caminho: pFonte }],
+    unit: pNome, aliases: pAliases, resumo: pResumo, estado: pEstado, evidenciaValidacao: pEvidenciaValidacao, fontes: [{ caminho: pFonte }],
     simbolos: [
       ...pEstados.flatMap(([pDeclaracao]) => (pDeclaracao.replace(/:[^/]+/g, '').match(/[A-Za-z_][A-Za-z0-9_]*/g) ?? []).map<ISimbolo>(pNome => ({
         nome: pNome, tipo: 'estado', secao: 'estados', aliases: pAliasesArtefatos[pNome] ?? []

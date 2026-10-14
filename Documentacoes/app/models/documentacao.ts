@@ -45,6 +45,7 @@ export interface IDadosUnit {
   responsabilidade: string;
   problema: string;
   estado?: TEstado;
+  evidenciaValidacao?: IDocumento['evidenciaValidacao'];
   estados?: [string, string, string][];
   metodos?: [string, string, string][];
   implementacao?: string[];
