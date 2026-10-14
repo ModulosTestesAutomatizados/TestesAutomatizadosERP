@@ -1,11 +1,12 @@
 import type { IDocumento } from '../models/documentacao.ts';
 
 import { estados, rotaDocumento } from '../content/validarCatalogo.ts';
+import { contextoDocumento } from '../navigation.ts';
 
 // Navegação reutilizável; o catálogo determina conteúdo e destino.
 export default Vue.defineComponent({
   props: { documento: { type: Object as import('vue').PropType<IDocumento>, required: true } },
-  setup: () => ({ estados, rotaDocumento }),
+  setup: () => ({ estados, rotaDocumento, contextoDocumento }),
   template: `  <v-card
     :to="rotaDocumento(documento)"
     :aria-label="'Abrir ' + documento.titulo"
@@ -14,7 +15,12 @@ export default Vue.defineComponent({
     rounded="lg"
     height="100%">
     <v-card-text class="d-flex flex-column h-100 pa-6">
-      <div class="card-category">{{ documento.categoria === 'estrutura' ? 'Arquitetura' : documento.categoria === 'units' ? 'Unit' : documento.categoria === 'guias' ? 'Autoria' : 'Referência' }}</div>
+      <div class="card-category">{{ contextoDocumento(documento) }}</div>
+      <v-chip
+        v-if="documento.unit"
+        class="align-self-start mt-3"
+        size="x-small"
+        variant="tonal">{{ documento.tipoArtefato === 'processamento' ? 'Processamento' : 'Unit' }}</v-chip>
       <h2 class="card-title mt-3">{{ documento.titulo }}</h2>
       <p class="mt-3 card-summary">{{ documento.resumo }}</p>
       <v-chip

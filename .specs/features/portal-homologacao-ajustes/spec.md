@@ -39,8 +39,8 @@ Não executar Pascal, alterar lógica de testes, publicar cadastros ERP/TekStore
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| PREVIEW-01 | Apresentação | Execute | Implementing |
-| PREVIEW-02 | Apresentação | Execute | Implementing |
+| PREVIEW-01 | Apresentação | Execute | Verified |
+| PREVIEW-02 | Apresentação | Execute | Verified |
 | PREVIEW-03 | Migração | Execute | Implementing |
 | PREVIEW-04 | Migração | Execute | Implementing |
 

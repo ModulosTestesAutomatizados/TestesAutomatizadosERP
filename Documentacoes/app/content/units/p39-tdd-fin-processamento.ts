@@ -1,6 +1,7 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
+  tipoArtefato: 'processamento',
   nome: 'P39_TDD_FIN_PROCESSAMENTO', navegacao: { grupo: 'units', subgrupo: 'irunner', ordem: 6 },
   resumo: 'Entrada que seleciona o piloto financeiro e inicia o lote de IRunner.Executar.',
   fonte: 'docs/assets/emDesenvolvimento/Runner/P39_TDD_FIN_PROCESSAMENTO.pas',

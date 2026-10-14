@@ -1,6 +1,7 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
+  tipoArtefato: 'processamento',
   nome: 'P39_TDD_PROCESSAMENTO_SINCRONIZACAO',
   navegacao: { grupo: 'helpers', subgrupo: 'sincronizacao', ordem: 2 },
   resumo: 'Entrada que seleciona a origem remota e inicia a sincronização dos casos cadastrados em código.',

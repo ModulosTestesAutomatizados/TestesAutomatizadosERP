@@ -86,6 +86,7 @@ export default {
       { tipo: 'aviso', severidade: 'warning', texto: 'Não use SUCESSO como evidência de asserts no Runner desta iteração. Não prometa restauração de parâmetros ou chamadas reentrantes sem evidência funcional.' }
     ] },
     { id: 'unit', titulo: '05 · Documentar uma única unit', blocos: [
+      { tipo: 'paragrafo', texto: 'Os cards exibem grupo/subgrupo do registro de navegação e o tipo do artefato. criarDocumentoUnit usa tipoArtefato unit como padrão; defina tipoArtefato: processamento para uma entrada de processamento. Essa classificação é explícita e não transforma o nome da unit.' },
       { tipo: 'lista', itens: [
         'Crie content/units/nome-da-unit.ts com docunit. O modelo compartilhado gera seções de responsabilidade, problema resolvido, estado global, procedures/functions, implementação, dependências e limites.',
         'Use docunitestado e docunitmetodo para ampliar as listas. Descreva tipos, entradas, retornos, erros, efeitos sobre o contexto global e o ciclo de vida de cada artefato com base no fonte.',

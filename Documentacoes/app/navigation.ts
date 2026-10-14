@@ -9,6 +9,14 @@ export function navegacaoDocumento(pDocumento: IDocumento): INavegacaoDocumento 
   return { grupo: grupo?.id ?? pDocumento.categoria, subgrupo: grupo?.subgrupoPadrao };
 }
 
+// Contexto legível compartilhado pelos cards; não altera nomes nem rotas.
+export function contextoDocumento(pDocumento: IDocumento): string {
+  const nav = navegacaoDocumento(pDocumento);
+  const grupo = GRUPOS_NAVEGACAO.find(pG => pG.id === nav.grupo);
+  const subgrupo = grupo?.subgrupos?.find(pS => pS.id === nav.subgrupo);
+  return [grupo?.titulo, subgrupo?.titulo].filter(Boolean).join(' / ');
+}
+
 // O registro central define os grupos; as páginas mantêm as rotas originais.
 export function criarNavegacao(pDocumentos: IDocumento[]): IGrupoNavegacao[] {
   const visiveis = pDocumentos.filter(pD => !pD.oculto);

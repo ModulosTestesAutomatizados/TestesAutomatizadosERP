@@ -38,6 +38,7 @@ export interface IDocumento {
   fontes: { caminho: string }[];
   secoes: ISecao[];
   unit?: string;
+  tipoArtefato?: 'unit' | 'processamento';
   aliases?: string[];
   simbolos?: ISimbolo[];
   oculto?: boolean;
@@ -54,6 +55,7 @@ export interface IJsonBaseCaso {
 }
 export interface IDadosUnit {
   nome: string;
+  tipoArtefato?: IDocumento['tipoArtefato'];
   aliases?: string[];
   aliasesArtefatos?: Record<string, string[]>;
   resumo: string;
