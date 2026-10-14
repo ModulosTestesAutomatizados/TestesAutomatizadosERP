@@ -39,6 +39,7 @@ if (errors.length) throw new Error(errors.join('\n'));
 await fs.mkdir(path.join(output, 'Documentacoes/app'), { recursive: true });
 await fs.cp(compiled, path.join(output, 'Documentacoes/app'), { recursive: true });
 await fs.cp(path.join(project, 'app/styles'), path.join(output, 'Documentacoes/app/styles'), { recursive: true });
+await fs.cp(path.join(project, 'app/assets'), path.join(output, 'Documentacoes/app/assets'), { recursive: true });
 for (const asset of assets) {
   const destination = path.resolve(output, asset);
   if (!destination.startsWith(output + path.sep)) throw new Error('Asset fora da saída');
@@ -51,7 +52,7 @@ const entry = (await fs.readFile(path.join(compiled, 'start.js'), 'utf8'))
 const template = await fs.readFile(path.join(root, 'index.html'), 'utf8');
 if (!template.includes('<!-- portal-entry -->')) throw new Error('Entrada do portal ausente no índice');
 const index = template
-  .replace(/<!-- portal-status-start -->[\s\S]*?<!-- portal-status-end -->/, '<div id="portal-status" class="portal-loading" role="status" aria-label="Carregando documentação" aria-busy="true"><span class="portal-spinner" aria-hidden="true"></span></div>')
+  .replace(/<!-- portal-status-start -->[\s\S]*?<!-- portal-status-end -->/, '<div id="portal-status" class="portal-boot" role="status" aria-label="Carregando documentação" aria-busy="true"><div class="portal-boot-header" aria-hidden="true"><span class="brand-mark">T</span><span>TDD <strong>ERP</strong></span></div><div class="portal-boot-placeholder" aria-hidden="true"><span></span><span></span><span></span></div></div>')
   .replace('<div id="app">', '<div id="app" inert aria-busy="true">')
   .replace('<!-- portal-entry -->', () => `<script type="module">\n${entry}\n</script>`);
 await fs.writeFile(path.join(output, 'index.html'), index, 'utf8');

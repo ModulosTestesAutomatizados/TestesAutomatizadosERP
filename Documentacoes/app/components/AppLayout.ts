@@ -2,10 +2,13 @@ import documentos from '../content/catalogo.ts';
 import { criarNavegacao, gruposDaRota } from '../navigation.ts';
 import DocumentSearch from './DocumentSearch.ts';
 import navigationGroup from './NavigationGroup.ts';
+import PortalLoading from './PortalLoading.ts';
 
 // Estrutura compartilhada; navegação derivada do catálogo.
 export default Vue.defineComponent({
-  components: { DocumentSearch, NavigationGroup: navigationGroup },
+  components: { DocumentSearch, NavigationGroup: navigationGroup, PortalLoading },
+  props: { carregando: Boolean, bloqueado: Boolean, falha: Boolean },
+  emits: ['pronto'],
   setup() {
     const { mobile } = Vuetify.useDisplay();
     const drawer = Vue.ref(!mobile.value);
@@ -21,12 +24,16 @@ export default Vue.defineComponent({
     });
     Vue.watch(mobile, pValue => { drawer.value = !pValue; });
     function focarConteudo() { document.getElementById('conteudo')?.focus(); }
-    return { grupos, abertos, mobile, drawer, focarConteudo };
+    const documentoInicial = window.location.hash.replace(/^#/, '').split('?')[0];
+    return { grupos, abertos, mobile, drawer, focarConteudo, documentoInicial: !!documentoInicial && documentoInicial !== '/' };
   },
-  template: `  <v-app id="portal-ready"><a
-                             href="#conteudo"
-                             class="skip-link"
-                             @click.prevent="focarConteudo">Ir para o conteúdo</a>
+  template: `  <v-app id="portal-ready"><div
+    :inert="bloqueado || undefined"
+    :aria-busy="bloqueado ? 'true' : undefined"
+    class="portal-shell"><a
+                         href="#conteudo"
+                         class="skip-link"
+                         @click.prevent="focarConteudo">Ir para o conteúdo</a>
     <v-app-bar
       height="68"
       class="portal-bar"
@@ -70,5 +77,9 @@ export default Vue.defineComponent({
                 :is="Component"
                 :key="route.path"/></RouterView></div>
       <footer class="portal-footer">Testes Automatizados ERP · Documentação mantida no repositório</footer>
-    </v-main></v-app>`
+    </v-main></div><PortalLoading
+    :ativo="carregando"
+    :erro="falha"
+    :documento="documentoInicial"
+    @finalizado="$emit('pronto')"/></v-app>`
 });

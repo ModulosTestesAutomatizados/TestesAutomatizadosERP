@@ -3,6 +3,7 @@
 Todos os Mermaid ativos do portal estão em um subdiretório por documentação:
 
 - `runner/`: dependências declaradas, montagem dinâmica, lote, falhas, estados e métricas.
+- `manutencao-migracao-units/`: apoio ao roteiro de manutenção dos desenvolvedores em `docs/assets/emDesenvolvimento/MIGRACAO_NOMES_UNITS_TDD.md`; não integra as páginas do portal.
 - `historico/financeiro/`, `historico/faturamento/` e `historico/cadastro/`: mapas, HTMLs e Draw.io dos contratos anteriores, preservados para consulta. Não representam os fontes atuais do IRunner.
 
 O portal referencia o Markdown canônico; não há cópias dos diagramas em TypeScript. Orientação e zoom são opções locais de leitura. Novos diagramas devem usar `docs/MAPEAMENTO_AST_USES_UNITS/<slug-do-documento>/<diagrama>.md`.

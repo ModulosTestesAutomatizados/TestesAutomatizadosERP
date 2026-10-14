@@ -21,6 +21,7 @@ try {
 } catch {
   const status = document.getElementById('portal-status');
   if (status) {
+    status.className = 'portal-boot portal-boot-error';
     status.removeAttribute('aria-label');
     status.removeAttribute('aria-busy');
     status.setAttribute('role', 'alert');

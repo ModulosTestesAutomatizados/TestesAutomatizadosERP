@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('../.pages-output/', import.meta.url));
-const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.md': 'text/plain', '.json': 'application/json' };
+const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.md': 'text/plain', '.json': 'application/json', '.jpg': 'image/jpeg' };
 await fs.access(path.join(root, 'index.html'));
 const server = createServer(async (req, res) => {
   try {
