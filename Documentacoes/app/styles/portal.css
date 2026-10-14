@@ -2,6 +2,11 @@
 body { margin: 0; }
 .v-application { font-family: inherit; }
 .portal-status { padding: 2rem; color: #334155; }
+.portal-loading { position: fixed; inset: 0; z-index: 4000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 24px; background: #f7f8fc; color: #17233c; text-align: center; }
+.portal-spinner { width: 64px; height: 64px; border: 4px solid #dfe5f0; border-top-color: #2454c6; border-radius: 50%; animation: portal-spin .9s linear infinite; }
+.portal-loading button { border: 0; border-radius: 8px; padding: 12px 20px; background: #2454c6; color: #fff; font: inherit; cursor: pointer; }
+body:has(.portal-loading) { overflow: hidden; }
+@keyframes portal-spin { to { transform: rotate(360deg); } }
 .brand { display: flex; align-items: center; gap: 12px; margin-left: 24px; text-decoration: none; color: #17233c; font-size: 19px; letter-spacing: -.5px; }
 .brand-mark { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; background: #2454c6; color: white; font-size: 20px; font-weight: 800; }
 .bar-caption { font-size: 10px; letter-spacing: 2px; font-weight: 650; color: #67748c; }
@@ -119,3 +124,4 @@ a { color: #2454c6; }
   .document-toc { position: static; grid-row: 1; max-height: none; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
+@media (prefers-reduced-motion: reduce) { .portal-spinner { animation: none; } }

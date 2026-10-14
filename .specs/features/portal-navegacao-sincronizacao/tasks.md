@@ -91,8 +91,8 @@ T3 → T4 → T5 → T6 → T7
 **Requirement**: PORTAL-01, PORTAL-02, PORTAL-03, PORTAL-04, PORTAL-05
 **Tools**: filesystem, navegador local; TLC e Vue.
 **Done when**:
-- [ ] Overlay cobre viewport sem depender de CDN, some após montagem e oferece recarga em erro.
-- [ ] Movimento reduzido e instrução do índice fonte preservados; checks locais passam.
+- [x] Overlay cobre viewport sem depender de CDN, some após montagem e oferece recarga em erro.
+- [x] Movimento reduzido e instrução do índice fonte preservados; checks locais passam.
 **Tests**: e2e
 **Gate**: build
 **Commit**: feat(docs): adiciona overlay de carregamento inicial
@@ -170,3 +170,7 @@ Build: PASS, 21 documentos antes dos helpers. check.mjs catalog: PASS; assertion
 ### T3 concluída
 
 Build: PASS, 24 documentos. check.mjs helpers: PASS; assertions em check.mjs:41-60 verificam os tres helpers, ordem, caminhos com Sincronizar, busca por seis simbolos, citacoes e ausencia de propriedade de FSincRemoto no processamento. Contratos conferidos por leitura integral dos tres fontes fornecidos, sem execucao de ERP.
+
+### T4 concluída
+
+npm run check e build: PASS. browser.mjs loading: PASS; assertions em browser.mjs:37-66 verificam viewport 1280x800, nome acessivel, reduced motion, inercia inicial, liberacao apos montagem e falha/timeout com recarga. Distribuicoes locais das mesmas versoes CDN usadas sem mocks de comportamento. Apenas ferramentas ignoradas.

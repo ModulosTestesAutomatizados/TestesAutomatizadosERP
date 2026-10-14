@@ -51,7 +51,8 @@ const entry = (await fs.readFile(path.join(compiled, 'start.js'), 'utf8'))
 const template = await fs.readFile(path.join(root, 'index.html'), 'utf8');
 if (!template.includes('<!-- portal-entry -->')) throw new Error('Entrada do portal ausente no índice');
 const index = template
-  .replace(/(<div id="portal-status"[^>]*>)[\s\S]*?(<\/div>)/, '$1Carregando documentação…$2')
+  .replace(/<!-- portal-status-start -->[\s\S]*?<!-- portal-status-end -->/, '<div id="portal-status" class="portal-loading" role="status" aria-label="Carregando documentação" aria-busy="true"><span class="portal-spinner" aria-hidden="true"></span></div>')
+  .replace('<div id="app">', '<div id="app" inert aria-busy="true">')
   .replace('<!-- portal-entry -->', () => `<script type="module">\n${entry}\n</script>`);
 await fs.writeFile(path.join(output, 'index.html'), index, 'utf8');
 await fs.unlink(path.join(output, 'Documentacoes/app/start.js'));

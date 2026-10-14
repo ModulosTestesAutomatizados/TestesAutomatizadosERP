@@ -14,4 +14,5 @@ export async function iniciar() {
   app.use(router);
   await router.isReady();
   app.mount('#app');
+  await Vue.nextTick();
 }
