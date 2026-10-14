@@ -6,11 +6,11 @@ Nenhuma decisao AD de projeto foi registrada como aprovada nesta entrega. As res
 
 ## Handoff
 
-- **Feature:** .specs/features/portal-homologacao-ajustes/
-- **Phase / Task:** Três ajustes implementados e revisão independente TLC concluída: PASS, 4/4 critérios.
-- **Completed:** Overlay cinza com alpha 0.48; cards com grupo/subgrupo e tipoArtefato explícito; nomes finais P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO/RECEBIMENTO; guia e relatório com onze renomeações cumulativas, consumidores locais em uses e referências dinâmicas; Mermaid canônico em autoria/impacto-renomeacao.md.
-- **Verification:** Lint, tipos, build com 24 documentos, 22 snippets e navegador desktop/mobile aprovados. Revisão independente conferiu consumidores nos 80 Pascal locais; uma mutação em cópia foi detectada. Testes e ferramentas continuam ignorados.
-- **Preview:** http://127.0.0.1:57929/TestesAutomatizadosERP/ continua em execução; atualizar a página para os novos assets.
-- **Next step:** Revisão do usuário no preview e eventual autorização para PR. Nenhum push ou publicação remota nesta etapa.
-- **Runtime limits:** Cadastros ERP/TekStore não foram consultados nem modificados. O guia lista os pontos locais de correção e os nomes em CodificacaoUnit/SetTDDUnit; atualizar cadastros externos antes de executar os fontes renomeados.
+- **Feature:** .specs/features/portal-loading-vuetify/
+- **Phase / Task:** Implementação e revisão independente TLC concluídas: PASS, 8/8 critérios.
+- **Completed:** Loading com componentes nativos Vuetify, skeleton por tipo de página, scrim, mínimo de 650 ms e saída de 240 ms; movimento reduzido respeitado. Migração retirada do portal e movida para docs/assets/emDesenvolvimento/MIGRACAO_NOMES_UNITS_TDD.md. Favicon JPEG incluído nos assets da aplicação.
+- **Verification:** Lint, templates, tipos, build de 24 documentos e cenários de navegador aprovados. Sensor independente detectou remoção do tempo mínimo. Ferramentas e testes continuam locais e ignorados. Evidências e limites em validation.md.
+- **Preview:** http://127.0.0.1:57929/TestesAutomatizadosERP/ continua em execução.
+- **Next step:** Revisão do usuário no preview; publicação somente quando autorizada. Nenhum push ou deploy nesta etapa.
+- **Runtime limits:** Sem execução de ERP, banco ou TekStore. Disponibilidade da CDN pública e UAT humana não comprovadas pelos testes locais.
 - **Branch / worktree:** TestesAutomatizadosERP-docs, somente este worktree.
