@@ -1,5 +1,8 @@
 :root { font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; color: #17233c; }
 body { margin: 0; }
+/* Esconde apenas a barra; overflow e navegação por teclado permanecem ativos. */
+* { scrollbar-width: none; }
+*::-webkit-scrollbar { width: 0; height: 0; display: none; }
 .v-application { font-family: inherit; }
 .portal-status { padding: 2rem; color: #334155; }
 .portal-loading { position: fixed; inset: 0; z-index: 4000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 24px; background: #f7f8fc; color: #17233c; text-align: center; }
@@ -61,6 +64,7 @@ h1 { font-size: clamp(28px, 3vw, 42px); letter-spacing: -1.5px; line-height: 1.1
 .doc-blocks ul { padding-left: 22px; }
 .doc-blocks li + li { margin-top: 8px; }
 .table-scroll { overflow-x: auto; border: 1px solid #e5eaf2; border-radius: 8px; max-width: 100%; }
+.table-scroll .v-table__wrapper { overflow: visible; }
 .table-scroll th { background: #f1f4fa; font-size: 12px; font-weight: 650 !important; color: #425577; }
 .table-scroll td { font-size: 12px; min-width: 160px; vertical-align: top; padding-top: 14px !important; padding-bottom: 14px !important; line-height: 1.8; }
 .doc-notice { font-size: 13px; }

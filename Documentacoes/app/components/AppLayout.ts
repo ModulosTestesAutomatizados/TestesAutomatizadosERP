@@ -46,7 +46,9 @@ export default Vue.defineComponent({
       :permanent="!mobile"
       width="280"
       class="portal-drawer">
-      <nav aria-label="Documentações"><div class="drawer-heading">EXPLORAR</div><v-list
+      <nav
+        tabindex="0"
+        aria-label="Documentações"><div class="drawer-heading">EXPLORAR</div><v-list
         v-model:opened="abertos"
         openStrategy="multiple"
         density="comfortable"

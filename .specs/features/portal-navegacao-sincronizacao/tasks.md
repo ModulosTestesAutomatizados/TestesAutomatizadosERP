@@ -119,8 +119,8 @@ T3 → T4 → T5 → T6 → T7
 **Requirement**: PORTAL-20, PORTAL-21
 **Tools**: filesystem, navegador local; TLC.
 **Done when**:
-- [ ] Página, drawer, terminal, tabelas e diagramas rolam sem barras visuais.
-- [ ] Roda/teclado e rolagem horizontal continuam funcionais; verificação local passa.
+- [x] Página, drawer, terminal, tabelas e diagramas rolam sem barras visuais.
+- [x] Roda/teclado e rolagem horizontal continuam funcionais; verificação local passa.
 **Tests**: e2e
 **Gate**: build
 **Commit**: style(docs): oculta barras preservando a rolagem
@@ -178,3 +178,7 @@ npm run check e build: PASS. browser.mjs loading: PASS; assertions em browser.mj
 ### T5 concluída
 
 npm run check e build: PASS. browser.mjs drawer: PASS; assertions em browser.mjs:69-87 verificam item visivel via rota profunda, tooltip por hover e foco, nowrap/ellipsis, padding minimo de 48px e paginas antigas ausentes. Mobile 360px sem overflow horizontal; capturas locais desktop.png e mobile.png.
+
+### T6 concluída
+
+npm run check e build: PASS. browser.mjs scroll: PASS; assertions em browser.mjs:92-108 conferem scrollbar-width none, terminal e tabela por ArrowRight, drawer expandido por PageDown e roda e pagina por roda. Corrigida a camada de overflow da tabela para que o wrapper focavel receba a rolagem. Nenhum teste versionado.
