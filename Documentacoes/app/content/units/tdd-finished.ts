@@ -1,5 +1,6 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
+  navegacao: { grupo: 'units', subgrupo: 'irunner' },
   nome: 'TDD_FINISHED', aliases: ['P39_TDD_FINISHED'], resumo: 'Persistência do histórico e das métricas de tempo de uma tentativa.',
   fonte: 'docs/assets/emDesenvolvimento/Runner/TDD_FINISHED.pas',
   responsabilidade: 'Inserir o histórico individual, obter seu ID e gravar as linhas de tempo vinculadas a ele.',

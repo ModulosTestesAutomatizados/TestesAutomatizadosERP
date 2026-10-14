@@ -20,6 +20,15 @@ export interface ISimbolo {
   aliases?: string[];
   assinatura?: string;
 }
+export interface INavegacaoDocumento { grupo: string; subgrupo?: string; ordem?: number }
+export interface IDefinicaoGrupoNavegacao {
+  id: string;
+  titulo: string;
+  icone?: string;
+  categoria?: TCategoria;
+  subgrupoPadrao?: string;
+  subgrupos?: { id: string; titulo: string; vazio?: string }[];
+}
 export interface IDocumento {
   slug: string;
   categoria: TCategoria;
@@ -34,7 +43,7 @@ export interface IDocumento {
   oculto?: boolean;
   referenciaAnterior?: string;
   evidenciaValidacao?: { data: string; versaoERP: string; referencia: string };
-  navegacao?: { grupo: 'casos'; subgrupo: 'legado' | 'irunner'; ordem?: number };
+  navegacao?: INavegacaoDocumento;
 }
 export type TValorJson = string | number | boolean | null | TValorJson[] | { [pChave: string]: TValorJson };
 export interface IJsonBaseCaso {
@@ -54,6 +63,7 @@ export interface IDadosUnit {
   estado?: TEstado;
   evidenciaValidacao?: IDocumento['evidenciaValidacao'];
   jsonBase?: IJsonBaseCaso;
+  navegacao?: INavegacaoDocumento;
   estados?: [string, string, string][];
   metodos?: [string, string, string][];
   implementacao?: string[];
@@ -66,6 +76,7 @@ export interface IGrupoNavegacao {
   icone?: string;
   documentos?: IDocumento[];
   grupos?: IGrupoNavegacao[];
+  vazio?: string;
 }
 export interface IReferenciaUnit { texto: string; unit?: boolean }
 export interface IResultadoBusca { documento: IDocumento; score: number; simbolos: ISimbolo[] }

@@ -7,7 +7,7 @@ export default {
   resumo: 'Crie e mantenha páginas, seções, documentações de units, estados e diagramas com TypeScript e snippets.',
   estado: 'em-uso', fontes: [
     'Documentacoes/app/README.md', '.vscode/documentacao.code-snippets',
-    'Documentacoes/app/models/documentacao.ts', 'Documentacoes/app/navigation.ts',
+    'Documentacoes/app/models/documentacao.ts', 'Documentacoes/app/navigation.ts', 'Documentacoes/app/content/navegacao.ts',
     'Documentacoes/app/content/validarCatalogo.ts', 'Documentacoes/config/README.md'
   ].map(pCaminho => ({ caminho: pCaminho })),
   secoes: [
@@ -56,10 +56,13 @@ export default {
         ['docestado', 'Campo estado com opções; substitui o campo existente'],
         ['docvalidacao', 'Evidência obrigatória para validado-no-erp, em página ou unit'],
         ['doccaso', 'Agrupamento em Casos de teste → Legado ou IRunner'],
+        ['docgrupo', 'Novo grupo no registro central de navegação'],
+        ['docsubgrupo', 'Novo subgrupo dentro de um grupo registrado'],
+        ['docnavegacao', 'Posicionamento de página ou unit por grupo, subgrupo e ordem'],
         ['docfonte', 'Entrada da lista fontes com caminho relativo à raiz'],
         ['docaliasartefato', 'Variante de pesquisa para um estado declarado pela unit']
       ] },
-      { tipo: 'paragrafo', texto: 'Os 19 snippets ficam em .vscode/documentacao.code-snippets. Use os prefixos em arquivos TypeScript; docmermaid usa Markdown. Os blocos suportados são paragrafo, lista, tabela, codigo, aviso e mermaid. Conteúdo é texto, não HTML executável. Para strings TypeScript com várias linhas, use crases; escape crases e interpolação quando forem conteúdo do exemplo. O CodeBlock mantém o código literal e selecionável se a cópia automática não estiver disponível.' },
+      { tipo: 'paragrafo', texto: 'Os 22 snippets ficam em .vscode/documentacao.code-snippets. Use os prefixos em arquivos TypeScript; docmermaid usa Markdown. Os blocos suportados são paragrafo, lista, tabela, codigo, aviso e mermaid. Conteúdo é texto, não HTML executável. Para strings TypeScript com várias linhas, use crases; escape crases e interpolação quando forem conteúdo do exemplo. O CodeBlock mantém o código literal e selecionável se a cópia automática não estiver disponível.' },
       { tipo: 'codigo', linguagem: 'typescript', codigo: "{ tipo: 'tabela', colunas: ['Unit', 'Responsabilidade'],\n  linhas: [['TDD_STARTED', 'Preparar o caso corrente']] },\n{ tipo: 'mermaid', fonte: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/TDD_IRUNNER.md',\n  titulo: 'Uses diretos e transitivos' },\n{ tipo: 'aviso', severidade: 'warning', texto: 'Asserts pendentes.' }" }
     ] },
     { id: 'evidencias', titulo: '04 · Estado documental e evidências', blocos: [
@@ -116,9 +119,12 @@ export default {
       { tipo: 'codigo', linguagem: 'typescript', codigo: "// Acrescente dentro da lista secoes da página:\n{\n  id: 'tratamento-de-erros', titulo: 'Tratamento de erros', nivel: 2,\n  blocos: [\n    { tipo: 'paragrafo', texto: 'Descreva o comportamento observado no fonte.' },\n    { tipo: 'aviso', severidade: 'warning', texto: 'Registre a pendência existente.' }\n  ]\n}," }
     ] },
     { id: 'navegacao', titulo: '08 · Posicionar páginas no menu e registrar no catálogo', blocos: [
-      { tipo: 'paragrafo', texto: 'Sem navegacao, categoria estrutura aparece em Arquitetura, units em Units, documentos em Referências e guias em Contribuir. Para um caso de teste, acrescente doccaso e escolha legado ou irunner conforme o contrato de execução.' },
+      { tipo: 'paragrafo', texto: 'O registro content/navegacao.ts define os grupos e subgrupos do drawer. Sem navegacao, a categoria define o grupo padrão: estrutura em Arquitetura, units em Units → Infraestrutura compartilhada, documentos em Referências e guias em Contribuir. Para um caso de teste, doccaso escolhe Legado ou IRunner; para uma unit ou helper, docnavegacao define o grupo e subgrupo.' },
       { tipo: 'codigo', linguagem: 'typescript', codigo: "// Metadado da página; não altera /documentos/meu-caso:\nnavegacao: { grupo: 'casos', subgrupo: 'irunner', ordem: 10 },\n\n// Em content/catalogo.ts, fora do objeto da página:\nimport meuCaso from './casos/meu-caso.ts';\n// Acrescente meuCaso à lista documentos existente.\n\n// Para uma unit, use content/units/catalogo.ts:\nimport novaUnit from './tdd-nova-unit.ts';\n// Acrescente novaUnit à lista units existente." },
-      { tipo: 'paragrafo', texto: 'Os snippets de registro criam o import e um lembrete; a inclusão do identificador na lista ainda deve ser feita pelo autor. Inserir a mesma página ou alias duas vezes causa falha no catálogo. A criação de um grupo novo do drawer exige alterar navigation.ts; novos grupos ou categorias fora do contrato também exigem ajustar os tipos e o validador. doccaso cobre os grupos já suportados.' }
+      { tipo: 'paragrafo', texto: 'Os snippets de registro criam o import e um lembrete; a inclusão do identificador na lista ainda deve ser feita pelo autor. Inserir a mesma página ou alias duas vezes causa falha no catálogo. Criar um grupo não exige criar uma nova categoria nem alterar o router: use docgrupo no array GRUPOS_NAVEGACAO de content/navegacao.ts, docsubgrupo no array subgrupos e docnavegacao na página ou em criarDocumentoUnit.' },
+      { tipo: 'codigo', linguagem: 'typescript', codigo: "// Em content/navegacao.ts, dentro de GRUPOS_NAVEGACAO:\n{ id: 'apoio', titulo: 'Apoio', icone: 'mdi-tools',\n  subgrupos: [{ id: 'consultas', titulo: 'Consultas' }] },\n\n// Na página ou nos argumentos de criarDocumentoUnit:\nnavegacao: { grupo: 'apoio', subgrupo: 'consultas', ordem: 10 }," },
+      { tipo: 'paragrafo', texto: 'IDs de grupo devem ser únicos; IDs de subgrupo são únicos dentro do grupo. Use os IDs, não os títulos, nos metadados. O build rejeita grupos ou subgrupos inexistentes. A classificação muda somente o drawer: uma unit em Helpers continua com rota /units/nome-da-unit e mantém busca e links de citação.' },
+      { tipo: 'paragrafo', texto: 'Units → IRunner contém o contrato de execução e dependências de contexto, incluindo parâmetros e cache. Infraestrutura compartilhada contém constantes, ODBC e funções JSON; Faturamento contém controle de módulo; Casos de teste contém as units de cenário. Helpers → Financeiro contém os dois mapeamentos de borderô. Sincronização está preparada para receber sua documentação na próxima iteração.' }
     ] },
     { id: 'revisao-publicacao', titulo: '09 · Revisar e publicar uma alteração', blocos: [
       { tipo: 'codigo', linguagem: 'powershell', codigo: 'npm ci --prefix Documentacoes\nnpm run check --prefix Documentacoes\nnpm run dev --prefix Documentacoes' },

@@ -1,5 +1,6 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
+  navegacao: { grupo: 'units', subgrupo: 'irunner' },
   nome: 'TDD_LOGS', aliases: ['P39_TDD_LOGS'], resumo: 'Registro em memória das mensagens e exibição independente de instruções.',
   fonte: 'docs/assets/emDesenvolvimento/Runner/TDD_LOGS.pas',
   responsabilidade: 'Oferecer uma forma comum de registrar mensagens do caso e apresentar instruções das units.',

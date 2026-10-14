@@ -7,10 +7,10 @@ function nomeMetodo(pAssinatura: string): string {
   return nome;
 }
 
-export function criarDocumentoUnit({ nome: pNome, aliases: pAliases = [], aliasesArtefatos: pAliasesArtefatos = {}, resumo: pResumo, fonte: pFonte, responsabilidade: pResponsabilidade, problema, estado: pEstado = 'em-uso', evidenciaValidacao: pEvidenciaValidacao, jsonBase: pJsonBase, estados: pEstados = [], metodos: pMetodos = [], implementacao: pImplementacao = [], dependencias: pDependencias = [], limites: pLimites = [] }: IDadosUnit): IDocumento {
+export function criarDocumentoUnit({ nome: pNome, aliases: pAliases = [], aliasesArtefatos: pAliasesArtefatos = {}, resumo: pResumo, fonte: pFonte, responsabilidade: pResponsabilidade, problema, estado: pEstado = 'em-uso', evidenciaValidacao: pEvidenciaValidacao, jsonBase: pJsonBase, navegacao: pNavegacao, estados: pEstados = [], metodos: pMetodos = [], implementacao: pImplementacao = [], dependencias: pDependencias = [], limites: pLimites = [] }: IDadosUnit): IDocumento {
   return {
     slug: pNome.toLowerCase().replace(/_/g, '-'), categoria: 'units', titulo: pNome,
-    unit: pNome, aliases: pAliases, resumo: pResumo, estado: pEstado, evidenciaValidacao: pEvidenciaValidacao,
+    unit: pNome, aliases: pAliases, resumo: pResumo, estado: pEstado, evidenciaValidacao: pEvidenciaValidacao, navegacao: pNavegacao,
     fontes: [pFonte, ...(pJsonBase?.fontes ?? [])].map(pCaminho => ({ caminho: pCaminho })),
     simbolos: [
       ...pEstados.flatMap(([pDeclaracao]) => (pDeclaracao.replace(/:[^/]+/g, '').match(/[A-Za-z_][A-Za-z0-9_]*/g) ?? []).map<ISimbolo>(pNome => ({

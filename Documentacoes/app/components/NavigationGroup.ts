@@ -24,6 +24,10 @@ const navigationGroup = Vue.defineComponent({
       :key="filho.id"
       :grupo="filho"/>
     <v-list-item
+      v-if="!grupo.documentos?.length && !grupo.grupos?.length"
+      :title="grupo.vazio ?? 'Sem documentação cadastrada.'"
+      disabled/>
+    <v-list-item
       v-for="doc in grupo.documentos ?? []"
       :key="doc.slug"
       :to="rotaDocumento(doc)"

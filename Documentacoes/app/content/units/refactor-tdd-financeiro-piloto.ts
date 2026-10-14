@@ -1,6 +1,7 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
+  navegacao: { grupo: 'units', subgrupo: 'casos' },
   nome: 'REFACTOR_TDD_FINANCEIRO_PILOTO', estado: 'em-desenvolvimento',
   resumo: 'Caso financeiro que valida o registro corrente e executa duplicatas e borderôs na casca IRunner.',
   fonte: 'docs/assets/emDesenvolvimento/REFACTOR_TDD_FINANCEIRO_PILOTO.pas',

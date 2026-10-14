@@ -1,5 +1,6 @@
 import { criarDocumentoUnit } from './criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
+  navegacao: { grupo: 'units', subgrupo: 'irunner' },
   nome: 'TDD_IRUNNER', aliases: ['P39_TDD_IRUNNER', 'IRunner'],
   resumo: 'Montagem do código interpretado para a unit de Teste configurada.',
   fonte: 'docs/assets/emDesenvolvimento/Runner/TDD_IRUNNER.pas',

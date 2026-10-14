@@ -1,5 +1,7 @@
 // Contrato compartilhado pelo portal e pelo validador de publicação.
 import type { IDocumento, TCategoria, TEstado } from '../models/documentacao.ts';
+
+import { GRUPOS_NAVEGACAO } from './navegacao.ts';
 export const categorias: TCategoria[] = ['estrutura', 'documentos', 'guias', 'units'];
 export const estados: Record<TEstado, string> = { legado: 'Contrato anterior', 'em-uso': 'Em uso', 'em-desenvolvimento': 'Em desenvolvimento', 'validado-no-erp': 'Validado no ERP' };
 const preenchido = (pValue: unknown): pValue is string => typeof pValue === 'string' && pValue.trim().length > 0;
@@ -7,6 +9,17 @@ export const rotaDocumento = (pDocumento: IDocumento): string => `/${pDocumento.
 
 export function validarCatalogo(pDocumentos: IDocumento[]): string[] {
   const erros: string[] = [], slugs = new Set<string>(), nomesUnits = new Set<string>();
+  const idsGrupos = new Set<string>();
+  for (const grupo of GRUPOS_NAVEGACAO) {
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(grupo.id) || idsGrupos.has(grupo.id) || !preenchido(grupo.titulo)) erros.push(`navegacao: grupo inválido ou duplicado: ${grupo.id}`);
+    idsGrupos.add(grupo.id);
+    const idsSubgrupos = new Set<string>();
+    for (const sub of grupo.subgrupos ?? []) {
+      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(sub.id) || idsSubgrupos.has(sub.id) || !preenchido(sub.titulo)) erros.push(`navegacao: subgrupo inválido ou duplicado: ${grupo.id}/${sub.id}`);
+      idsSubgrupos.add(sub.id);
+    }
+    if (grupo.subgrupoPadrao && !idsSubgrupos.has(grupo.subgrupoPadrao)) erros.push(`navegacao: subgrupo padrão inexistente: ${grupo.id}`);
+  }
   if (!Array.isArray(pDocumentos)) return ['catalogo: deve ser uma lista'];
   for (const doc of pDocumentos) {
     const erro = (pCampo: string, pMensagem: string): number => erros.push(`${doc?.slug ?? '?'}: ${pCampo}: ${pMensagem}`);
@@ -16,7 +29,12 @@ export function validarCatalogo(pDocumentos: IDocumento[]): string[] {
     if (slugs.has(doc.slug)) erro('slug', 'duplicado');
     slugs.add(doc.slug);
     if (!categorias.includes(doc.categoria)) erro('categoria', 'desconhecida');
-    if (doc.navegacao && (doc.navegacao.grupo !== 'casos' || !['legado', 'irunner'].includes(doc.navegacao.subgrupo))) erro('navegacao', 'use grupo casos e subgrupo legado ou irunner');
+    if (doc.navegacao) {
+      const grupo = GRUPOS_NAVEGACAO.find(pG => pG.id === doc.navegacao?.grupo);
+      if (!grupo) erro('navegacao.grupo', 'registre o grupo em content/navegacao.ts');
+      if (doc.navegacao.subgrupo !== undefined && !grupo?.subgrupos?.some(pS => pS.id === doc.navegacao?.subgrupo)) erro('navegacao.subgrupo', 'registre o subgrupo no grupo correspondente');
+      if (doc.navegacao.ordem !== undefined && !Number.isFinite(doc.navegacao.ordem)) erro('navegacao.ordem', 'use um número finito');
+    }
     if (doc.categoria === 'units' && (!preenchido(doc.unit) || doc.slug !== doc.unit.toLowerCase().replace(/_/g, '-'))) erro('unit', 'nome e slug devem seguir o padrão de units');
     if (doc.categoria === 'units') {
       if (doc.aliases !== undefined && !Array.isArray(doc.aliases)) erro('aliases', 'deve ser uma lista');

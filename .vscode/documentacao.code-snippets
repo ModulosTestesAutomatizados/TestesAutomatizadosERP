@@ -172,7 +172,9 @@
     "scope": "typescript",
     "prefix": "docestado",
     "description": "Substitua o campo estado existente. validado-no-erp exige docvalidacao.",
-    "body": ["estado: '${1|em-desenvolvimento,em-uso,legado,validado-no-erp|}',$0"]
+    "body": [
+      "estado: '${1|em-desenvolvimento,em-uso,legado,validado-no-erp|}',$0"
+    ]
   },
   "Evidência de validação no ERP": {
     "scope": "typescript",
@@ -189,18 +191,49 @@
     "scope": "typescript",
     "prefix": "doccaso",
     "description": "Inclua no documento para agrupá-lo em Casos de teste, sem alterar a rota.",
-    "body": ["navegacao: { grupo: 'casos', subgrupo: '${1|irunner,legado|}', ordem: ${2:0} },$0"]
+    "body": [
+      "navegacao: { grupo: 'casos', subgrupo: '${1|irunner,legado|}', ordem: ${2:0} },$0"
+    ]
   },
   "Fonte de referência": {
     "scope": "typescript",
     "prefix": "docfonte",
     "description": "Entrada da lista fontes; caminho real relativo à raiz do repositório.",
-    "body": ["{ caminho: '${1:docs/assets/caminho/UNIT.pas}' },$0"]
+    "body": [
+      "{ caminho: '${1:docs/assets/caminho/UNIT.pas}' },$0"
+    ]
   },
   "Alias de artefato para a busca": {
     "scope": "typescript",
     "prefix": "docaliasartefato",
     "description": "Inclua em criarDocumentoUnit; o nome declarado deve existir em estados.",
-    "body": ["aliasesArtefatos: { ${1:CDSCasosTestes}: ['${2:FCDSCasosTestes}'] },$0"]
+    "body": [
+      "aliasesArtefatos: { ${1:CDSCasosTestes}: ['${2:FCDSCasosTestes}'] },$0"
+    ]
+  },
+  "Grupo de navega??o": {
+    "scope": "typescript",
+    "prefix": "docgrupo",
+    "description": "Inclua em GRUPOS_NAVEGACAO de app/content/navegacao.ts; p?ginas escolhem estes IDs.",
+    "body": [
+      "{ id: '${1:novo-grupo}', titulo: '${2:Novo grupo}', icone: '${3:mdi-folder-outline}',",
+      "  subgrupos: [{ id: '${4:geral}', titulo: '${5:Geral}' }] },$0"
+    ]
+  },
+  "Subgrupo de navega??o": {
+    "scope": "typescript",
+    "prefix": "docsubgrupo",
+    "description": "Inclua no array subgrupos do grupo em content/navegacao.ts.",
+    "body": [
+      "{ id: '${1:novo-subgrupo}', titulo: '${2:Novo subgrupo}' },$0"
+    ]
+  },
+  "Posicionamento no drawer": {
+    "scope": "typescript",
+    "prefix": "docnavegacao",
+    "description": "Inclua no documento ou criarDocumentoUnit; IDs devem existir no registro de navega??o.",
+    "body": [
+      "navegacao: { grupo: '${1:units}', subgrupo: '${2:irunner}', ordem: ${3:0} },$0"
+    ]
   }
 }

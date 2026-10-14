@@ -10,7 +10,7 @@ body { margin: 0; }
 .portal-drawer { border-right: 1px solid #e4e8f0; }
 .drawer-heading { padding: 30px 24px 12px; font-size: 10px; letter-spacing: 2px; color: #71809a; font-weight: 700; }
 .portal-drawer .v-list { padding: 0 16px; }
-.portal-drawer .v-list-item-title { white-space: normal; font-size: 13px; line-height: 1.5; padding: 8px 0; }
+.portal-drawer .v-list-item-title { white-space: normal; overflow-wrap: anywhere; font-size: 13px; line-height: 1.5; padding: 8px 0; }
 .navigation-group-title .v-list-item-title { font-weight: 650; }
 .navigation-group-title { width: 100%; text-align: start; }
 .portal-drawer .v-list-item__prepend > .v-icon { margin-inline-end: 12px; font-size: 19px; }
