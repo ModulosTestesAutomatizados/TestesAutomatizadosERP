@@ -38,6 +38,12 @@ T1 → T2 → T3
 T3 → T4 → T5 → T6 → T7
 ```
 
+### Phase 3: Correção do inventário na revisão
+
+```text
+T7 → T8
+```
+
 ## Task Breakdown
 
 ### T1: Migrar identidades dos artefatos
@@ -139,6 +145,20 @@ T3 → T4 → T5 → T6 → T7
 **Gate**: build
 **Commit**: docs: atualiza autoria para o catalogo canonico
 
+### T8: Excluir literais Pascal do inventário de uses
+
+**What**: Corrigir o grafo canônico para considerar apenas cláusulas uses reais.
+**Where**: inventário canônico de dependências do Runner
+**Depends on**: T7
+**Requirement**: PORTAL-28
+**Tools**: filesystem; TLC.
+**Done when**:
+- [x] Grafo de P39_TDD_IRUNNER possui somente P39_TDD_LOGS como uses direto; palavras de mensagens não geram nós.
+- [x] Regressão local falha antes da correção e passa depois; build preserva hashes atuais.
+**Tests**: integration
+**Gate**: full
+**Commit**: fix(docs): exclui literais Pascal do grafo de uses
+
 ## Diagram-Definition Cross-Check
 
 | Task | Depends On | Diagram Shows | Status |
@@ -150,6 +170,7 @@ T3 → T4 → T5 → T6 → T7
 | T5 | T4 | T4 → T5 | Match |
 | T6 | T5 | T5 → T6 | Match |
 | T7 | T6 | T6 → T7 | Match |
+| T8 | T7 | T7 → T8 | Match |
 
 ## Test Co-location Validation
 
@@ -186,3 +207,7 @@ npm run check e build: PASS. browser.mjs scroll: PASS; assertions em browser.mjs
 ### T7 concluída
 
 npm run check, build e check.mjs final: PASS, 24 documentos. snippets.mjs: PASS, 22 snippets e expansoes pagina/unit compiladas em strict; assertions verificam nome unificado, ausencia de subgrupos obsoletos e instrucao de atualizar os cadastros externos. browser.mjs final: PASS sob /TestesAutomatizadosERP/, desktop/mobile; migrate.py --check: PASS preservando logica Pascal. Revisao independente TLC iniciada apos este commit.
+
+### T8 concluída
+
+Regressao check.mjs:12 falhou antes da correcao, listando cinco palavras de mensagem como dependencias. Apos mascarar strings e comentarios em conjunto, check.mjs final e build: PASS. Inventario agora com 17 nos e 22 arestas reais, hashes Pascal inalterados. Nenhum fonte Pascal ou teste versionado foi alterado nesta correcao.

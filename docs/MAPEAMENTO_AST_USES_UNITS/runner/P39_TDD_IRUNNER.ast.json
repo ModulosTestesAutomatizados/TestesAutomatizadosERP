@@ -12,10 +12,6 @@
   ],
   "nodes": [
     {
-      "name": "Impossivel",
-      "status": "external"
-    },
-    {
       "name": "P39_TDD_BASE_UNIT_IRUNNER",
       "status": "local",
       "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_BASE_UNIT_IRUNNER.pas",
@@ -120,22 +116,6 @@
     {
       "name": "__USES_UNITS__",
       "status": "dynamic"
-    },
-    {
-      "name": "executar",
-      "status": "external"
-    },
-    {
-      "name": "informada",
-      "status": "external"
-    },
-    {
-      "name": "o",
-      "status": "external"
-    },
-    {
-      "name": "teste",
-      "status": "external"
     }
   ],
   "edges": [
@@ -218,45 +198,10 @@
     },
     {
       "from": "P39_TDD_IRUNNER",
-      "to": "Impossivel",
-      "kind": "uses",
-      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_IRUNNER.pas",
-      "line": 54
-    },
-    {
-      "from": "P39_TDD_IRUNNER",
       "to": "P39_TDD_LOGS",
       "kind": "uses",
       "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_IRUNNER.pas",
       "line": 1
-    },
-    {
-      "from": "P39_TDD_IRUNNER",
-      "to": "executar",
-      "kind": "uses",
-      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_IRUNNER.pas",
-      "line": 54
-    },
-    {
-      "from": "P39_TDD_IRUNNER",
-      "to": "informada",
-      "kind": "uses",
-      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_IRUNNER.pas",
-      "line": 54
-    },
-    {
-      "from": "P39_TDD_IRUNNER",
-      "to": "o",
-      "kind": "uses",
-      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_IRUNNER.pas",
-      "line": 54
-    },
-    {
-      "from": "P39_TDD_IRUNNER",
-      "to": "teste",
-      "kind": "uses",
-      "file": "docs/assets/emDesenvolvimento/Runner/P39_TDD_IRUNNER.pas",
-      "line": 54
     },
     {
       "from": "P39_TDD_ODBC",

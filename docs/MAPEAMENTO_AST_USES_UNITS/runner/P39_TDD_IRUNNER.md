@@ -1,10 +1,9 @@
 # Grafo de uses do IRunner
 
-Fonte de verdade: inventário adjacente `P39_TDD_IRUNNER.ast.json`.
+Inventário: `P39_TDD_IRUNNER.ast.json`. Comentários e strings Pascal não são cláusulas uses.
 
 ```mermaid
 flowchart LR
-  Impossivel["Impossivel"]
   P39_TDD_BASE_UNIT_IRUNNER["P39_TDD_BASE_UNIT_IRUNNER"]
   P39_TDD_CACHE["P39_TDD_CACHE"]
   P39_TDD_CASOS_DE_TESTE["P39_TDD_CASOS_DE_TESTE"]
@@ -23,10 +22,6 @@ flowchart LR
   P39_TDD_RUNNER["P39_TDD_RUNNER"]
   P39_TDD_STARTED["P39_TDD_STARTED"]
   __USES_UNITS__["__USES_UNITS__"]
-  executar["executar"]
-  informada["informada"]
-  o["o"]
-  teste["teste"]
   P39_TDD_BASE_UNIT_IRUNNER --> P39_TDD_RUNNER
   P39_TDD_BASE_UNIT_IRUNNER --> __USES_UNITS__
   P39_TDD_CACHE --> P39_TDD_ODBC
@@ -38,12 +33,7 @@ flowchart LR
   P39_TDD_FIN_PAGAMENTO_RECEBIMENTO --> P39_TDD_FIN_BORDERO_RECEBIMENTO
   P39_TDD_FIN_PROCESSAMENTO --> P39_TDD_IRUNNER
   P39_TDD_FUNCOES_JSON --> P39_TDD_LOGS
-  P39_TDD_IRUNNER --> Impossivel
   P39_TDD_IRUNNER --> P39_TDD_LOGS
-  P39_TDD_IRUNNER --> executar
-  P39_TDD_IRUNNER --> informada
-  P39_TDD_IRUNNER --> o
-  P39_TDD_IRUNNER --> teste
   P39_TDD_ODBC --> P39_TDD_CONSTANTES
   P39_TDD_PARAMETROS --> P39_TDD_FUNCOES_JSON
   P39_TDD_PARAMETROS --> P39_TDD_PARAMETRO_MAPEAMENTO
