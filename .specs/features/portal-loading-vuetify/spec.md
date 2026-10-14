@@ -59,3 +59,7 @@ Steering recebido durante implementação: remover do portal o roteiro de migra�
 ## Evidências de implementação
 
 Gate local: npm run check e npm run build aprovados, com 24 documentos. browser-loading.mjs passou em bootstrap anterior ao CDN, três componentes Vuetify reais, bloqueio do conteúdo, mínimo de 650ms, fade de 240ms, navegação posterior sem atraso, skeleton de artigo mobile, movimento reduzido e falhas CDN/timeout/rota. A mesma verificação confirma a remoção da seção de migração, o Markdown operacional fora do artefato e o JPEG original servido como image/jpeg sob prefixo Pages. Ferramentas e capturas são locais e ignoradas.
+
+## Revisão visual solicitada em 2026-10-14
+
+O usuário aprovou o skeleton e solicitou remover o card central de carregamento. Esta revisão substitui a exigência de VProgressCircular em LOADING-01: durante a carga normal são exibidos somente VOverlay e VSkeletonLoader, sem marca, texto visível ou indicador circular central. O status permanece acessível aos leitores de tela. O painel de erro e recarga permanece restrito a falhas, preservando LOADING-05. Tempos, transições, bloqueio e favicon permanecem conforme os demais critérios. A validação anterior descreve o estado histórico antes desta revisão.

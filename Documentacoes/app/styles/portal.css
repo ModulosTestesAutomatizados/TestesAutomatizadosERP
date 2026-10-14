@@ -24,6 +24,7 @@ body:has(.portal-boot) { overflow: hidden; }
 .portal-skeleton-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .portal-skeleton-card { min-height: 240px; border: 1px solid #e0e6f0; padding: 24px 8px; }
 .portal-skeleton-article { display: grid; grid-template-columns: minmax(0, 1fr) 180px; gap: 40px; }
+.portal-loading-status { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .portal-loading-panel { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 28px 36px; max-width: calc(100vw - 32px); color: #17233c; }
 .portal-loading-panel p { font-size: 13px; text-align: center; }
 .portal-skeleton.fade-transition-leave-active, .portal-loading-overlay .fade-transition-leave-active { transition-duration: 240ms !important; }

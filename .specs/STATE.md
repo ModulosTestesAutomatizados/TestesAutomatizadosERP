@@ -8,7 +8,7 @@ Nenhuma decisao AD de projeto foi registrada como aprovada nesta entrega. As res
 
 - **Feature:** .specs/features/portal-loading-vuetify/
 - **Phase / Task:** Implementação e revisão independente TLC concluídas: PASS, 8/8 critérios.
-- **Completed:** Loading com componentes nativos Vuetify, skeleton por tipo de página, scrim, mínimo de 650 ms e saída de 240 ms; movimento reduzido respeitado. Migração retirada do portal e movida para docs/assets/emDesenvolvimento/MIGRACAO_NOMES_UNITS_TDD.md. Favicon JPEG incluído nos assets da aplicação.
+- **Completed:** Loading com overlay e skeleton nativos Vuetify por tipo de página, sem card central ou progresso circular após revisão visual do usuário, mínimo de 650 ms e saída de 240 ms; movimento reduzido respeitado. Migração retirada do portal e movida para docs/assets/emDesenvolvimento/MIGRACAO_NOMES_UNITS_TDD.md. Favicon JPEG incluído nos assets da aplicação.
 - **Verification:** Lint, templates, tipos, build de 24 documentos e cenários de navegador aprovados. Sensor independente detectou remoção do tempo mínimo. Ferramentas e testes continuam locais e ignorados. Evidências e limites em validation.md.
 - **Preview:** http://127.0.0.1:57929/TestesAutomatizadosERP/ continua em execução.
 - **Next step:** Revisão do usuário no preview; publicação somente quando autorizada. Nenhum push ou deploy nesta etapa.

@@ -1,4 +1,4 @@
-// Carregamento inicial nativo: skeleton de conteúdo, scrim e indicador acessível.
+// Carregamento inicial: skeleton e scrim; aviso de recarga somente em caso de falha.
 export default Vue.defineComponent({
   props: {
     ativo: { type: Boolean, required: true },
@@ -64,28 +64,22 @@ export default Vue.defineComponent({
     persistent
     noClickAnimation
     @afterLeave="$emit('finalizado')">
+    <span
+      v-if="!erro"
+      class="portal-loading-status"
+      role="status"
+      aria-live="polite">Carregando documentação</span>
     <v-sheet
-      :role="erro ? 'alert' : 'status'"
-      :aria-busy="erro ? undefined : 'true'"
+      v-if="erro"
+      role="alert"
       class="portal-loading-panel"
       rounded="xl"
       elevation="8"
       aria-live="polite">
-      <span
-        class="brand-mark"
-        aria-hidden="true">T</span>
-      <template v-if="!erro"><v-progress-circular
-                               :indeterminate="!movimentoReduzido"
-                               :modelValue="movimentoReduzido ? 75 : 0"
-                               :size="40"
-                               :width="3"
-                               color="primary"
-                               aria-label="Carregando documentação"/>
-        <p>Preparando a documentação</p></template>
-      <template v-else><p>Não foi possível carregar a documentação.</p><v-btn
+      <p>Não foi possível carregar a documentação.</p><v-btn
         ref="recarregar"
         color="primary"
-        @click="recarregarPagina">Recarregar página</v-btn></template>
+        @click="recarregarPagina">Recarregar página</v-btn>
     </v-sheet>
   </v-overlay>`
 });
