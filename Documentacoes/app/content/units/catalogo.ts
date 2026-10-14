@@ -10,6 +10,9 @@ import modulo from './p39-tdd-modulo.ts';
 import odbc from './p39-tdd-odbc.ts';
 import parametro from './p39-tdd-parametros.ts';
 import parametroMapeamento from './p39-tdd-parametro-mapeamento.ts';
+import processamentoSincronizacao from './p39-tdd-processamento-sincronizacao.ts';
+import registrarCaso from './p39-tdd-registrar-caso-teste.ts';
+import sincronizarCasos from './p39-tdd-sincronizar-casos-teste-registrados.ts';
 import pilotoFinanceiro from './p39-tdd-fin-pagamento-recebimento.ts';
 import base from './p39-tdd-base-unit-irunner.ts';
 import finished from './p39-tdd-finished.ts';
@@ -20,5 +23,6 @@ import started from './p39-tdd-started.ts';
 
 // Adicionar uma unit aqui basta para criar sua página, busca e citações.
 const units = [irunner, runner, base, started, finished, logs, processamentoFinanceiro, casos, parametro, cache, parametroMapeamento,
-  constantes, odbc, funcoesJson, modulo, pedidoVenda, pilotoFinanceiro, borderoPagamento, borderoRecebimento];
+  constantes, odbc, funcoesJson, modulo, pedidoVenda, pilotoFinanceiro, borderoPagamento, borderoRecebimento,
+  registrarCaso, sincronizarCasos, processamentoSincronizacao];
 export default units;

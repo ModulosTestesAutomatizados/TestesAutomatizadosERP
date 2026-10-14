@@ -77,8 +77,8 @@ T3 → T4 → T5 → T6 → T7
 **Requirement**: PORTAL-11, PORTAL-12, PORTAL-13, PORTAL-14, PORTAL-15, PORTAL-16, PORTAL-24
 **Tools**: filesystem, Git; TLC.
 **Done when**:
-- [ ] Três páginas descrevem estados, assinaturas, efeitos e limites conforme os fontes, sem executar Pascal.
-- [ ] Busca e citações resolvem os símbolos; catálogo final de 24 documentos e build passam.
+- [x] Três páginas descrevem estados, assinaturas, efeitos e limites conforme os fontes, sem executar Pascal.
+- [x] Busca e citações resolvem os símbolos; catálogo final de 24 documentos e build passam.
 **Tests**: integration
 **Gate**: full
 **Commit**: docs: documenta helpers de sincronizacao de casos
@@ -166,3 +166,7 @@ Registrar comando, resultado e localização das verificações ao concluir cada
 ### T2 concluída
 
 Build: PASS, 21 documentos antes dos helpers. check.mjs catalog: PASS; assertions em check.mjs:12-40 comparam grupos, ordem, unicidade, nomes, caminhos e ausencia de paginas e redirecionamentos. PORTAL-09 e PORTAL-29 tambem recebem prova no navegador nas tarefas visuais. Nenhum teste versionado.
+
+### T3 concluída
+
+Build: PASS, 24 documentos. check.mjs helpers: PASS; assertions em check.mjs:41-60 verificam os tres helpers, ordem, caminhos com Sincronizar, busca por seis simbolos, citacoes e ausencia de propriedade de FSincRemoto no processamento. Contratos conferidos por leitura integral dos tres fontes fornecidos, sem execucao de ERP.
