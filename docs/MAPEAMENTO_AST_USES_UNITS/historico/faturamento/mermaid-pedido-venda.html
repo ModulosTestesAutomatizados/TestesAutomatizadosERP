@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagrama Mermaid — Área Pedido de Venda</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background: #fafafa; color: #222; }
+    h1 { font-size: 1.5em; border-bottom: 2px solid #6c8ebf; padding-bottom: 6px; }
+    .info { background: #eef3fb; border-left: 4px solid #6c8ebf; padding: 10px 14px; margin-bottom: 18px; border-radius: 4px; }
+    .mermaid { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 16px; overflow: auto; }
+</style>
+</head>
+<body>
+    <h1>Diagrama Mermaid — Área Pedido de Venda</h1>
+    <div class="info">
+        Árvore de dependências a partir da unit <code>P39_TDD_FAT_PEDIDO_VENDA</code> (raiz),
+        descendo todas as ramificações <code>uses</code>/<code>alias</code> até as folhas.<br>
+        Fontes: <code>D:\TestesAutomatizados\ERP\SourceTDD</code>.
+    </div>
+    <div class="mermaid">
+graph TD
+    %% ============ RAIZ ============
+    P39_TDD_FAT_PEDIDO_VENDA["<b>P39_TDD_FAT_PEDIDO_VENDA</b><br/><i>aplicação pedido venda</i>"]
+    P39_TDD_FAT_DOCUMENTO_FATURA["<b>P39_TDD_FAT_DOCUMENTO_FATURA</b><br/><i>aplicação doc. fatura</i>"]
+
+    %% ============ NÍVEL FAT ============
+    P39_TDD_DOCUMENTO_FATURA_SQL["<b>P39_TDD_DOCUMENTO_FATURA_SQL</b><br/><i>SQL do doc. fatura</i>"]
+    P39_TDD_FAT_DOCUMENTO_FATURA_ITENS["<b>P39_TDD_FAT_DOCUMENTO_FATURA_ITENS</b><br/><i>aplicação itens fatura</i>"]
+    P39_TDD_FAT_VALIDAR_RESULTADO["<b>P39_TDD_FAT_VALIDAR_RESULTADO</b><br/><i>valida resultado FAT</i>"]
+    TDD_DOCUMENTO_FATURA["<b>TDD_DOCUMENTO_FATURA</b><br/><i>externo (banco executa)</i>"]
+
+    %% ============ NÚCLEO / INFRA ============
+    P39_TDD_CASOS_DE_TESTE["<b>P39_TDD_CASOS_DE_TESTE</b><br/><i>core dos casos de teste</i>"]
+    P39_TDD_CONSTANTES["<b>P39_TDD_CONSTANTES</b><br/><i>constantes/contexto</i>"]
+    P39_TDD_PARAMETRO["<b>P39_TDD_PARAMETRO</b><br/><i>gerencia parâmetros</i>"]
+    P39_TDD_PARAMETRO_MAPEAMENTO["<b>P39_TDD_PARAMETRO_MAPEAMENTO</b><br/><i>mapeia nomes de parâmetros</i>"]
+    P39_TDD_CACHE["<b>P39_TDD_CACHE</b><br/><i>cache de consultas</i>"]
+    P39_TDD_ODBC["<b>P39_TDD_ODBC</b><br/><i>operações ODBC 32 bits</i>"]
+    P39_TDD_FUNCOES_JSON["<b>P39_TDD_FUNCOES_JSON</b><br/><i>funções utilitárias JSON</i>"]
+
+    %% ============ ASSERTS / VALIDAÇÃO ============
+    P39_TDD_ASSERTS["<b>P39_TDD_ASSERTS</b><br/><i>asserts de verificação</i>"]
+    P39_TDD_VALIDAR_GENERICO["<b>P39_TDD_VALIDAR_GENERICO</b><br/><i>validação genérica</i>"]
+
+    %% ============ ARESTAS ============
+    P39_TDD_FAT_PEDIDO_VENDA -->|uses| P39_TDD_FAT_DOCUMENTO_FATURA
+
+    P39_TDD_FAT_DOCUMENTO_FATURA -->|alias| P39_TDD_CASOS_DE_TESTE
+    P39_TDD_FAT_DOCUMENTO_FATURA -->|uses| P39_TDD_DOCUMENTO_FATURA_SQL
+    P39_TDD_FAT_DOCUMENTO_FATURA -->|uses| P39_TDD_FUNCOES_JSON
+    P39_TDD_FAT_DOCUMENTO_FATURA -->|alias| P39_TDD_FAT_DOCUMENTO_FATURA_ITENS
+    P39_TDD_FAT_DOCUMENTO_FATURA -->|uses| P39_TDD_FAT_VALIDAR_RESULTADO
+
+    P39_TDD_FAT_DOCUMENTO_FATURA_ITENS -->|uses| TDD_DOCUMENTO_FATURA
+    P39_TDD_FAT_DOCUMENTO_FATURA_ITENS -->|uses| P39_TDD_DOCUMENTO_FATURA_SQL
+
+    P39_TDD_FAT_VALIDAR_RESULTADO -->|uses| P39_TDD_CASOS_DE_TESTE
+    P39_TDD_FAT_VALIDAR_RESULTADO -->|uses| P39_TDD_FUNCOES_JSON
+    P39_TDD_FAT_VALIDAR_RESULTADO -->|uses| P39_TDD_ASSERTS
+    P39_TDD_FAT_VALIDAR_RESULTADO -->|alias| P39_TDD_VALIDAR_GENERICO
+
+    P39_TDD_CASOS_DE_TESTE -->|uses| P39_TDD_CONSTANTES
+    P39_TDD_CASOS_DE_TESTE -->|uses| P39_TDD_PARAMETRO
+    P39_TDD_CASOS_DE_TESTE -->|uses| P39_TDD_CACHE
+
+    P39_TDD_PARAMETRO -->|uses| P39_TDD_PARAMETRO_MAPEAMENTO
+    P39_TDD_PARAMETRO -->|uses| P39_TDD_FUNCOES_JSON
+
+    P39_TDD_CACHE -->|uses| P39_TDD_ODBC
+    P39_TDD_ODBC -->|uses| P39_TDD_CONSTANTES
+
+    P39_TDD_ASSERTS -->|uses| P39_TDD_CASOS_DE_TESTE
+    P39_TDD_VALIDAR_GENERICO -->|uses| P39_TDD_ASSERTS
+
+    </div>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default', flowchart: { useMaxWidth: true } });
+    </script>
+</body>
+</html>

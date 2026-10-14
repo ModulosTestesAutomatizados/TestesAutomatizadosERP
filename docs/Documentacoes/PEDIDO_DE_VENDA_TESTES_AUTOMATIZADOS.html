@@ -1,0 +1,1003 @@
+<!-- Bootstrap CSS - https://getbootstrap.com -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+<!-- Bootstrap JS - https://getbootstrap.com -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+</script>
+
+<!-- Ícones - https://materializecss.com/icons.html -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<script>
+    function ocultar(id) {
+        el = document.getElementById(id);
+        el_icon = document.getElementById('icon-' + id);
+
+        /* Oculta ou mostra o elemento */
+        if (el) {
+            el.classList.toggle("ocultar");
+        }
+
+        /* Ajusta o icone */
+        if (el_icon) {
+            nome_icone = el_icon.innerText;
+            if (nome_icone === "arrow_forward") {
+                el_icon.innerText = "arrow_downward";
+            } else {
+                el_icon.innerText = "arrow_forward";
+            }
+        }
+    }
+</script>
+
+<style>
+    .ocultar {
+        display: none;
+    }
+
+    .titulo {
+        cursor: pointer;
+    }
+
+    .titulo:hover {
+        color: red !important;
+    }
+
+    .titulo,
+    .titulo:hover {
+        transition: all 0.3s;
+    }
+
+    .campo-json {
+        font-size: 0.9rem;
+    }
+
+    code.tag {
+        background: #eef2f6;
+        color: #0d3b66;
+    }
+
+    .badge-l {
+        font-size: .75rem;
+    }
+</style>
+
+<!--
+	Se tiver a classe 'ocultar' usar o ícone 'arrow_downward' ao invés de 'arrow_forward'
+	para que ícone seja alterado corretamente adicionar id. Exemplo: id="icon-definicao", definição é o id do pai
+-->
+
+<!-- Definições inicio -->
+<section>
+
+    <h2 onclick="ocultar('definicao')" class="titulo mt-3 text-primary-emphasis">
+        <i id="icon-definicao" class="material-icons">arrow_downward</i> Definições
+    </h2>
+
+    <div id="definicao" class="m-3 p-3">
+        <p>
+            O <strong>Teste Automatizado do Pedido de Venda</strong> é um processo do módulo
+            <strong>BI – Inteligência de Negócios</strong> do ERP que cria pedidos de venda de forma
+            <strong>automatizada e reprodutível</strong>, a partir de <strong>cenários (casos de teste)
+            gravados em JSON</strong> no banco de dados dedicado de testes
+            (<code>TESTEAUTOMATIZADOMC</code>).
+        </p>
+
+        <p>
+            Todo o processamento executa sobre <strong>units de codificação</strong> (Pascal Script) interpretadas
+            pelo motor <strong>JvInterpreter</strong>. O caso de teste é carregado do banco, o formulário real do
+            ERP (<code>FCadPedidoVenda</code>) é aberto pelo click do menu, os <strong>DataSets são preenchidos
+            programaticamente</strong> e o pedido é gravado com o clique no botão <em>Gravar</em> — sem interação
+            manual do operador.
+        </p>
+
+        <p>O fluxo é sempre o mesmo, com quatro responsibilities bem separadas:</p>
+
+        <ul>
+            <li><strong>Montagem do cenário:</strong> a unit <code>P39_TDD_FAT_DOCUMENTO_FATURA_JSON</code> lê o
+                JSON do caso de teste e o encapsula em um <code>record TEstrutura</code>
+                (<code>Doc</code> / <code>Item</code> / <code>Itens</code>);</li>
+            <li><strong>Preenchimento:</strong> seis units de área (<em>camadas</em>) gravam cada grupo de campos
+                do documento — dados principais, itens, financeiro, entrega, faturamento e frete;</li>
+            <li><strong>Validação:</strong> a unit <code>P39_TDD_VALIDAR_RESULTADO</code> compara o resultado
+                obtido com o <em>resultado esperado</em> gravado no caso de teste, usando a biblioteca de
+                <strong>asserts</strong> (<code>P39_TDD_ASSERTS</code>);</li>
+            <li><strong>Métricas:</strong> tempo por etapa e totais de asserts são gravados pelo
+                <code>P39_TDD_RUNNER</code> nas tabelas <code>HISTORICO_EXECUCAO</code>,
+                <code>METRICAS_TICK_DIFF</code> e <code>METRICAS_ASSERTS</code>.</li>
+        </ul>
+
+        <div class="alert alert-warning" role="alert">
+            <p class="m-3">
+                <i class="material-icons">warning</i>
+                O processo <strong>só executa no cliente</strong>. A unit
+                <code>P39_TDD_FAT_DOCUMENTO_FATURA</code> bloqueia a execução no servidor
+                (<code>ExecutandoNoServidor</code>) e exige o código de cliente TekSystem
+                <code>1000</code>. Não é uma funcionalidade de produção: serve para validar regressões de
+                faturamento de forma repetível.
+            </p>
+        </div>
+
+        <p>
+            A configuração de cada caso de teste fica em duas colunas da tabela <code>CASO_TESTE</code>:
+            <code>CASO_TESTE_CT</code> (o que deve ser <strong>informado</strong>) e
+            <code>RESULTADO_ESPERADO_CT</code> (o que o caso deve <strong>produzir</strong>).
+            Ambas são blobs de texto <code>ISO8859_1</code> em formato <strong>JSON compacto</strong>.
+        </p>
+    </div>
+</section>
+<!-- Definições fim -->
+
+
+<!-- Artefatos inicio -->
+<section>
+
+    <h2 onclick="ocultar('art')" class="titulo mt-3 text-primary-emphasis">
+        <i id="icon-art" class="material-icons">arrow_forward</i> Artefatos
+    </h2>
+
+    <div id="art" class="ocultar mt-3 ms-2">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h3 onclick="ocultar('art-1')" class="titulo text-primary-emphasis">
+                    <i id="icon-art-1" class="material-icons">arrow_downward</i>Units de Codificação
+                </h3>
+
+                <div id="art-1" class="m-3 p-3">
+                    <p>
+                        Todo o fluxo é sustentado por <strong>21 units</strong>. A unit do caso só declara
+                        formulário, DataModule e área — todo o resto é orquestrado pelo núcleo, que por sua vez
+                        delega cada área para uma camada específica.
+                    </p>
+
+                    <table class="table table-sm table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Unit</th>
+                                <th>Linhas</th>
+                                <th>Responsabilidade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-warning">
+                                <td><code>P39_TDD_FAT_PEDIDO_VENDA</code></td>
+                                <td>35</td>
+                                <td><strong>Unit do caso.</strong> <code>main</code> chama <code>Setup</code> e
+                                    <code>Teste</code>. Define <code>FCadPedidoVenda</code>,
+                                    <code>DMCadPedidoVenda</code> e <code>SetArea('PEDIDO DE VENDA')</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><code>P39_TDD_FAT_DOCUMENTO_FATURA</code></td>
+                                <td>292</td>
+                                <td><strong>Núcleo orquestrador.</strong> Setup/teardown do formulário, loop de
+                                    casos de teste, ajuste de parâmetros (com <code>Relogar</code>), acionamento
+                                    dos botões e chamada das camadas.</td>
+                            </tr>
+                            <tr class="table-success">
+                                <td><code>P39_TDD_FAT_DOCUMENTO_FATURA_DADOS_PRINCIPAIS</code></td>
+                                <td>264</td>
+                                <td>Cliente, unidade fabril, tabela de preço, condição de pagamento, prazos e
+                                    descontos.</td>
+                            </tr>
+                            <tr class="table-success">
+                                <td><code>P39_TDD_FAT_DOCUMENTO_FATURA_ITENS</code></td>
+                                <td>239</td>
+                                <td>Inclusão de itens — por lista explícita (<code>itens</code>) ou por tag de
+                                    produto (<code>tag_prodcomum</code>), com detalhamento de variação, cor e
+                                    acabamento.</td>
+                            </tr>
+                            <tr class="table-success">
+                                <td><code>P39_TDD_FAT_DOCUMENTO_FATURA_FINANCEIRO</code></td>
+                                <td>35</td>
+                                <td>Financeira e banco do pagamento.</td>
+                            </tr>
+                            <tr class="table-success">
+                                <td><code>P39_TDD_FAT_DOCUMENTO_FATURA_DADOS_ENTREGA</code></td>
+                                <td>50</td>
+                                <td>Entregar mercadoria, datas de venda/promessa/prev. de faturamento, dias de
+                                    entrega, campanha e parceria.</td>
+                            </tr>
+                            <tr class="table-success">
+                                <td><code>P39_TDD_FAT_DOCUMENTO_FATURA_DADOS_FATURAMENTO</code></td>
+                                <td>17</td>
+                                <td>Transação de venda (precedência JSON › configuração › seção de
+                                    parâmetros).</td>
+                            </tr>
+                            <tr class="table-success">
+                                <td><code>P39_TDD_FAT_DOCUMENTO_FATURA_INFORMACOES_FRETE</code></td>
+                                <td>58</td>
+                                <td>Frete manual/embutido, percentual e valor, e ajustes fiscais de frete
+                                    (tipo 9).</td>
+                            </tr>
+                            <tr class="table-info">
+                                <td><code>P39_TDD_FAT_DOCUMENTO_FATURA_JSON</code></td>
+                                <td>122</td>
+                                <td>Encapsula o JSON do caso em <code>record TEstrutura</code> e expõe os
+                                    <em>wrappers</em> <code>Valor*TagDoc</code> e
+                                    <code>Valor*TagItemConfig</code>.</td>
+                            </tr>
+                            <tr class="table-secondary">
+                                <td><code>P39_TDD_DOCUMENTO_FATURA_SQL</code></td>
+                                <td>—</td>
+                                <td>Consultas de massa de clientes (por característica de pessoa), produtos
+                                    (por tag) e pessoa por código/nome.</td>
+                            </tr>
+                            <tr class="table-primary">
+                                <td><code>P39_TDD_MODULO</code></td>
+                                <td>43</td>
+                                <td><strong>Controle de tela e foco.</strong>
+                                    <code>SetModulo</code>, <code>AbrirTela</code>,
+                                    <code>FocarModulo</code>, <code>TrazerParaFrente</code>.</td>
+                            </tr>
+                            <tr class="table-primary">
+                                <td><code>P39_TDD_CASOS_DE_TESTE</code></td>
+                                <td>211</td>
+                                <td>DataSets de casos, resultado esperado e configuração; carrega módulo, área e
+                                    casos; teardown com <code>Free</code> protegido e erro agregado.</td>
+                            </tr>
+                            <tr class="table-primary">
+                                <td><code>P39_TDD_VALIDAR_RESULTADO</code></td>
+                                <td>484</td>
+                                <td><strong>Validação do resultado esperado.</strong> Compara
+                                    <code>erro</code>, <code>valor</code> e <code>tempo</code>, com cronômetro e
+                                    contagem de erros reais.</td>
+                            </tr>
+                            <tr class="table-primary">
+                                <td><code>P39_TDD_ASSERTS</code></td>
+                                <td>217</td>
+                                <td>Biblioteca de asserts (modelo DUnitX) e registro dos DataSets por
+                                    caso.</td>
+                            </tr>
+                            <tr class="table-primary">
+                                <td><code>P39_TDD_PARAMETRO</code></td>
+                                <td>201</td>
+                                <td>Aplica parâmetros de sistema por caso e executa o <code>Relogar</code>
+                                    (reconexão + recarga da seção).</td>
+                            </tr>
+                            <tr class="table-secondary">
+                                <td><code>P39_TDD_ODBC</code> / <code>P39_TDD_CACHE</code> /
+                                    <code>P39_TDD_CONSTANTES</code> /
+                                    <code>P39_TDD_FUNCOES_JSON</code> /
+                                    <code>P39_TDD_PARAMETRO_MAPEAMENTO</code> /
+                                    <code>P39_TDD_LOGS</code></td>
+                                <td>566</td>
+                                <td>Infraestrutura de apoio: acesso ODBC, cache de informações, constantes e
+                                    tags, leitura de JSON, mapeamento de parâmetros e log.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="alert alert-info" role="alert">
+                        <p class="m-3">
+                            <i class="material-icons">info</i>
+                            O núcleo caiu de <strong>774 para 292 linhas</strong> na refatoração
+                            <em>(issue #12)</em>: cada área do documento passou a ter sua própria unit. As
+                            camadas acessam os <code>var</code> e os <em>helpers</em> do núcleo, o que gera
+                            <strong>dependências circulares intencionais</strong> — o interpretador resolve
+                            <code>uses</code> por nome, sem exigir ordem topológica. Por isso as chamadas
+                            entre camadas são <strong>qualificadas</strong>
+                            (<code>P39_TDD_..._FINANCEIRO._Financeiro</code>), já que o interpretador não aceita
+                            <em>overload</em>.
+                        </p>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <h3 onclick="ocultar('art-2')" class="titulo text-primary-emphasis">
+                    <i id="icon-art-2" class="material-icons">arrow_downward</i>Objetos do ERP mapeados
+                </h3>
+
+                <div id="art-2" class="m-3 p-3">
+                    <p>
+                        O formulário <code>FCadPedidoVenda</code> e o DataModule
+                        <code>DMCadPedidoVenda</code> são resolvidos em runtime. O DataModule é localizado
+                        <strong>dentro do próprio form</strong> por <code>FindComponent</code>, e os DataSets
+                        abaixo são registrados um a um na biblioteca de asserts com
+                        <code>RegistrarDataSet('&lt;DataSet&gt;|&lt;DM&gt;')</code>.
+                    </p>
+
+                    <table class="table table-sm table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Objeto</th>
+                                <th>Tipo</th>
+                                <th>Uso no processo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>CDSCadastro</code></td><td>DataSet</td><td>Cabeçalho do documento: cliente, financeira, banco, entrega de mercadoria, desconto parcial, observação e transação.</td></tr>
+                            <tr><td><code>CDSPedido</code></td><td>DataSet</td><td>Dados do pedido: tabela de preço, condição, prazo, datas, campanha, parceria e frete.</td></tr>
+                            <tr><td><code>CDSItem</code></td><td>DataSet</td><td>Itens incluídos (item, variação, cor, acabamento, quantidade, valor, desconto).</td></tr>
+                            <tr><td><code>CDSFiscal</code></td><td>DataSet</td><td>Parte fiscal do frete.</td></tr>
+                            <tr><td><code>CDSTabela</code></td><td>DataSet</td><td>Consulta de tabela de preço (pesquisa por <code>CODIGO_TABELA</code> ou <code>DESCRICAO_TABELA</code>).</td></tr>
+                            <tr><td><code>CDSCondicaoTabela</code></td><td>DataSet</td><td>Consulta de condição de pagamento.</td></tr>
+                            <tr><td><code>CDSCondicaoDetalhe</code></td><td>DataSet</td><td>Consulta de prazo da condição.</td></tr>
+                            <tr><td><code>CDSPrazos</code></td><td>DataSet</td><td>Prazos manuais informados no caso (separados por <code>/</code>).</td></tr>
+                            <tr><td><code>CDSDescontoPrincipal</code></td><td>DataSet</td><td>Descontos principais do pedido.</td></tr>
+                            <tr><td><code>CDSItemDesconto</code></td><td>DataSet</td><td>Desconto por item (reservado).</td></tr>
+                            <tr><td><code>BotaoIncluir</code> / <code>BotaoGravar</code></td><td>Controle</td><td><code>BotaoIncluirClick</code> abre um novo registro; <code>Click</code> grava o pedido.</td></tr>
+                            <tr><td><code>FRGradeamento</code> / <code>grdItem</code></td><td>Frame / Grade</td><td>Detalhamento de variação, cor e acabamento por item.</td></tr>
+                            <tr><td><code>FPrincipal</code></td><td>Form</td><td>Form principal do ERP — alvo de <code>AbrirTela</code>, <code>FocarModulo</code> e <code>TrazerParaFrente</code>.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <h3 onclick="ocultar('art-3')" class="titulo text-primary-emphasis">
+                    <i id="icon-art-3" class="material-icons">arrow_downward</i>Configuração do módulo
+                </h3>
+
+                <div id="art-3" class="m-3 p-3">
+                    <p>
+                        Os defaults do caso de teste são lidos da tabela
+                        <code>FATURAMENTO_CONFIGURACAO</code> (um único registro, sem chave primária),
+                        carregada em memória por <code>GetConfiguracao</code>. Quando a tag não vier no JSON do
+                        caso, o valor vem daqui.
+                    </p>
+
+                    <table class="table table-sm table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr><th>Campo</th><th>Uso</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>PEDIDO_VENDA_FATCONFIG</code></td><td>Transação de venda padrão do módulo.</td></tr>
+                            <tr><td><code>PESSOA_GERAL_FATCONFIG</code></td><td>Cliente padrão quando o caso não informa nem <code>tag_cliente</code> nem <code>cliente_docfat</code>.</td></tr>
+                            <tr><td><code>PESSOA_SUFRAMA_FATCONFIG</code>, <code>PESSOA_CONSUMIDOR_FATCONFIG</code>, <code>PESSOA_CONS_NFCE_FATCONFIG</code></td><td>Massa de clientes por perfil.</td></tr>
+                            <tr><td><code>PRODUTO_COMUM_FATCONFIG</code>, <code>PRODUTO_ST_FATCONFIG</code>, <code>PRODUTO_DIFERIMENTO_FATCONFIG</code></td><td>Tags de produto usadas na massa de itens.</td></tr>
+                            <tr><td><code>QTD_FIXA_ITEM_FATCONFIG</code>, <code>QTD_MAX_ITEM_FATCONFIG</code></td><td>Quantidade fixa ou aleatória por item quando o caso não informa.</td></tr>
+                            <tr><td><code>VALOR_ITEM_FIXO_FATCONFIG</code>, <code>VLR_MAX_ITEM_FATCONFIG</code></td><td>Valor unitário fixo ou aleatório quando o caso não informa.</td></tr>
+                            <tr><td><code>ASSISTENCIA_FATCONFIG</code>, <code>CONSIGNACAO_FATCONFIG</code>, <code>PEDIDO_NFCE_FATCONFIG</code>, <code>ITEM_ASSISTENCIA_FATCONFIG</code></td><td>Perfis de pedido.</td></tr>
+                            <tr><td><code>TRANSPORTADOR_FATCONFIG</code>, <code>MOTORISTA_FATCONFIG</code>, <code>TIPO_VEICULO_FATCONFIG</code>, <code>VEICULO_FATCONFIG</code></td><td>Dados de transporte.</td></tr>
+                            <tr><td><code>CLASSIFICACAO_NFCE_FATCONFIG</code>, <code>MODELO_NFCE_FATCONFIG</code></td><td>Faturamento NFC-e.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <h3 onclick="ocultar('art-4')" class="titulo text-primary-emphasis">
+                    <i id="icon-art-4" class="material-icons">arrow_downward</i>Bancos utilizados
+                </h3>
+
+                <div id="art-4" class="m-3 p-3">
+                    <table class="table table-sm table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr><th>Banco</th><th>Métodos</th><th>Uso</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Banco do ERP</td>
+                                <td><code>ExecuteScalarP</code>, <code>ExecuteReader</code>,
+                                    <code>ExecuteCommand</code></td>
+                                <td>Consulta de tabela de preço, condição, prazo, pessoa, banco, campanha e
+                                    parceria; e a gravação dos parâmetros de sistema no
+                                    <code>Relogar</code>.</td>
+                            </tr>
+                            <tr>
+                                <td>Banco dedicado de testes<br><small><code>TESTEAUTOMATIZADOMC</code></small></td>
+                                <td><code>TDDReaderODBC</code>, <code>TDDScalarODBC</code>,
+                                    <code>TDDCommandODBC</code></td>
+                                <td>Casos de teste e configurações de módulo/área.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+<!-- Artefatos fim -->
+
+
+<!-- Instruções de uso início -->
+<section>
+
+    <h2 onclick="ocultar('uso')" class="titulo mt-3 text-primary-emphasis">
+        <i id="icon-uso" class="material-icons">arrow_forward</i> Instruções de uso
+    </h2>
+
+    <div id="uso" class="ocultar mt-3 ms-2">
+
+        <!-- Fluxo geral início -->
+        <div class="m-3 p-3">
+            <h3 onclick="ocultar('uso-fluxo')" class="titulo text-primary-emphasis">
+                <i id="icon-uso-fluxo" class="material-icons">arrow_downward</i> Fluxo geral de uso
+            </h3>
+
+            <div id="uso-fluxo" class="container-fluid m-3 p-3">
+                <p>
+                    O caso é disparado pelo <strong>TDD_RUNNER</strong>, que abre a tela do fluxo
+                    (<code>CallBack_AbreTela</code>) e, ao final, grava as métricas da execução. A sequência é:
+                </p>
+
+                <ol>
+                    <li><code>Main</code> da unit do caso chama <strong>Setup</strong> e depois
+                        <strong>Teste</strong>;</li>
+                    <li><strong>Setup</strong> define o formulário e o DataModule, informa a área
+                        <code>PEDIDO DE VENDA</code> e chama <code>Setup_Inicializar</code>;</li>
+                    <li><code>Setup_InicializarObjetos</code> cria os DataSets auxiliares e delega a
+                        <code>P39_TDD_MODULO.SetModulo('FATURAMENTO')</code>, que inicializa a estrutura de
+                        casos de teste, carrega a configuração do módulo e os casos da área;</li>
+                    <li><code>Setup_IniciarFormulario</code> chama <code>AbrirTela('Emisso1Click')</code> — o
+                        pedido <strong>é aberto pelo click real do menu</strong> no <code>FPrincipal</code>, e
+                        não por criação direta do form —, mapeia os 10 DataSets e controles, registra os DataSets
+                        no asserts e mostra a tela;</li>
+                    <li><strong>Teste</strong> chama <code>Teste_Executar</code>, que percorre
+                        <code>CDSCasosTestes</code> — um caso ativo por vez;</li>
+                    <li>para cada caso: monta o cenário, <strong>reloga</strong> se houver parâmetros,
+                        reabre o formulário, inclui o documento e valida o resultado esperado.</li>
+                </ol>
+
+                <div class="alert alert-info" role="alert">
+                    <p class="m-3">
+                        <i class="material-icons">info</i>
+                        O ciclo de tela por caso é proposital: o formulário é destruído com
+                        <code>Free</code> (e não apenas <code>Close</code>) antes do
+                        <code>Relogar</code>, e reaberto em seguida. Isso evita acúmulo de instâncias quando há
+                        muitos casos e garante que o formulário reflita os parâmetros recém-aplicados.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- Fluxo geral fim -->
+
+
+        <!-- Etapas do caso -->
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h3 onclick="ocultar('uso-1')" class="titulo text-primary-emphasis">
+                    <i id="icon-uso-1" class="material-icons">arrow_downward</i> Execução por caso de teste
+                </h3>
+
+                <div id="uso-1" class="m-3 p-3">
+
+                    <h4 onclick="ocultar('uso-1.1')" class="titulo text-primary-emphasis">
+                        <i id="icon-uso-1.1" class="material-icons">arrow_downward</i> Montagem do cenário
+                    </h4>
+
+                    <div id="uso-1.1" class="container-fluid m-3 p-3">
+                        <p><code>SetCasoTeste</code> executa:</p>
+                        <ol>
+                            <li><code>LimparRegistrosCasoTeste</code> — zera o <code>record TEstrutura</code>
+                                anterior;</li>
+                            <li>extrai as seções <code>documento</code>, <code>item</code> e
+                                <code>itens</code> do JSON com <code>GetObjectJson</code> /
+                                <code>GetArrayJsonOrEmpty</code>;</li>
+                            <li>se houver a seção <code>parametros</code>, executa
+                                <code>_AjustarParametros</code>;</li>
+                            <li><code>SetJSON_Caso_Teste</code> publica o cenário para as camadas;</li>
+                            <li><code>ValidarCasoTeste</code> — se <code>documento</code> ou <code>item</code>
+                                estiverem vazios, o caso é marcado como inválido e uma mensagem interna é
+                                enviada ao usuário, sem interromper a execução.</li>
+                        </ol>
+
+                        <div class="alert alert-warning" role="alert">
+                            <p class="m-3">
+                                O JSON precisa estar em formato <strong>compacto</strong>: sem espaço após
+                                <code>:</code> e após <code>,</code>, e sem aspas envolventes. As funções de
+                                leitura do interpretador <strong>falham silenciosamente</strong> quando o JSON
+                                não é estritamente válido — nesse caso a tag simplesmente retorna o valor
+                                padrão, sem erro visível.
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <h4 onclick="ocultar('uso-1.2')" class="titulo text-primary-emphasis">
+                        <i id="icon-uso-1.2" class="material-icons">arrow_downward</i> Ajuste de parâmetros e
+                        Relogar
+                    </h4>
+
+                    <div id="uso-1.2" class="container-fluid m-3 p-3">
+                        <p>
+                            Cada caso pode exigir uma situação de parâmetro do sistema — por exemplo, permitir
+                            pedido automático, mudar a ordem de impressão de itens ou ativar faturamento por
+                            unidade fabril. Esses parâmetros vivem em <code>CONFIG_SISTEMA</code>,
+                            <code>CONFIG_SISTEMA_EMPRESA</code> e <code>PCP_CONFIG</code>.
+                        </p>
+
+                        <ol>
+                            <li>o formulário é destruído e o foco devolvido ao módulo;</li>
+                            <li><code>VerificarParametros</code> lê a seção <code>parametros</code>, compara com a
+                                seção atual e monta o <code>UPDATE</code> apenas dos campos que realmente
+                                mudam;</li>
+                            <li><code>Relogar</code> executa <code>ConectaServidorAplicacao</code> e
+                                <code>CarregaSecaoAtual</code> — <strong>obrigatório</strong>, porque o ERP
+                                mantém a configuração em memória;</li>
+                            <li>no <code>finally</code>, o formulário é reaberto.</li>
+                        </ol>
+
+                        <div class="alert alert-warning" role="alert">
+                            <p class="m-3">
+                                <i class="material-icons">warning</i>
+                                A reconexão do servidor de aplicação reconstrói as telas do módulo e derruba o
+                                foco. Por isso <code>FinalizarFormulario</code> chama
+                                <code>FocarModulo</code> (<code>SetFocus</code> + <code>Repaint</code>) e
+                                <code>TrazerParaFrente</code> (<code>BringToFront</code>) no
+                                <code>FPrincipal</code>. Sem esses dois métodos, o módulo perde o foco a cada
+                                caso de teste.
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <h4 onclick="ocultar('uso-1.3')" class="titulo text-primary-emphasis">
+                        <i id="icon-uso-1.3" class="material-icons">arrow_downward</i> Inclusão do documento
+                    </h4>
+
+                    <div id="uso-1.3" class="container-fluid m-3 p-3">
+                        <p>
+                            A massa de clientes é resolvida por <code>CarregarClientes</code>, com a seguinte
+                            precedência:
+                        </p>
+                        <ol>
+                            <li><code>tag_cliente</code> › característica de pessoa com
+                                <code>VALOR_PESSOACARAC = 'S'</code>;</li>
+                            <li><code>cliente_docfat</code> › pessoa específica;</li>
+                            <li><code>PESSOA_GERAL_FATCONFIG</code> › cliente padrão do módulo.</li>
+                        </ol>
+
+                        <p>Para <strong>cada cliente</strong> da massa, o processo executa:</p>
+                        <ol>
+                            <li><code>BotaoIncluirClick</code> — abre um registro novo no formulário;</li>
+                            <li><code>DADOS_PRINCIPAIS</code> — cliente, unidade fabril, tabela de preço
+                                (por descrição ou código), condição, prazos e descontos;</li>
+                            <li><code>ITENS</code> — lista explícita ou tag de produto;</li>
+                            <li><code>FINANCEIRO</code> — financeira e banco;</li>
+                            <li><code>DADOS_ENTREGA</code> — entrega, datas, campanha e parceria;</li>
+                            <li><code>DADOS_FATURAMENTO</code> — transação;</li>
+                            <li><code>INFORMACOES_FRETE</code> — frete manual/embutido e ajuste fiscal;</li>
+                            <li><code>BotaoGravar.Click</code> — grava o pedido.</li>
+                        </ol>
+
+                        <h5 class="mt-4">Descontos e bloqueios da tabela de preço</h5>
+                        <p>
+                            O desconto principal é informado como <strong>lista separada por vírgula</strong>
+                            (<code>"10.5, 5.3, 3.1"</code>), pois cada valor vira uma linha em
+                            <code>CDSDescontoPrincipal</code>. Antes de lançar, o processo consulta a tabela de
+                            preço: se <code>BLOQUEIADESCONTOMANUAL_TABELA = 'S'</code> ou
+                            <code>PERMITEDESCONTO_TABELA = 'N'</code>, o desconto é <strong>descartado</strong> e
+                            o motivo é registrado no log do processamento.
+                        </p>
+
+                        <h5 class="mt-4">Prazos manuais</h5>
+                        <p>
+                            Se <code>prazo_manual</code> for informado e a condição permitir
+                            (<code>BLOQUEAR_TABELA_COND = 'N'</code>), os prazos são gravados um a um em
+                            <code>CDSPrazos</code>, usando <code>/</code> como separador
+                            (<code>"7/14/21 DIAS"</code>). Caso contrário, usa a prazo-padrão da condição.
+                        </p>
+
+                        <h5 class="mt-4">Precedência da transação de venda</h5>
+                        <ul>
+                            <li>se <code>transacao_docfat</code> for <code>0</code>, a transaction
+                                <strong>não é alterada</strong>;</li>
+                            <li>se <code>PEDIDO_VENDA_FATCONFIG</code> estiver preenchida, ela prevalece;</li>
+                            <li>caso contrário, usa <code>TransacaoVenda</code> da seção de parâmetros.</li>
+                        </ul>
+                    </div>
+
+
+                    <h4 onclick="ocultar('uso-1.4')" class="titulo text-primary-emphasis">
+                        <i id="icon-uso-1.4" class="material-icons">arrow_downward</i> Inclusão de itens
+                    </h4>
+
+                    <div id="uso-1.4" class="container-fluid m-3 p-3">
+                        <p><code>Itens_Incluir</code> tem dois caminhos:</p>
+                        <ul>
+                            <li><strong>Itens específicos</strong> — quando a lista <code>itens</code> tem
+                                itens. Cada item pode informar <code>quantidade</code> e <code>valor</code>
+                                próprios; quando o valor é <code>0</code>, ele é herdado da seção
+                                <code>item</code> e, se ainda assim <code>0</code>, é sorteado dentro dos
+                                limites de configuração;</li>
+                            <li><strong>Itens por tag</strong> — quando <code>tag_prodcomum</code> está
+                                informado. A consulta traz item, variação, cor e acabamento de todos os
+                                produtos ativos da tag, limitado por <code>total_itens</code> quando
+                                informado.</li>
+                        </ul>
+
+                        <p>
+                            Quando o item tem variação, cor ou acabamento, o processo chama
+                            <code>Frame.IncluiDetalhamentoItem</code> no
+                            <code>FRGradeamento</code>; caso contrário, grava quantidade e valor unitário
+                            diretamente em <code>CDSItem</code>. Erros de inclusão são capturados por
+                            <code>try/except</code> e registrados com <code>AssertsFalhou</code>, com
+                            <code>CDSItem.Cancel</code> para não deixar registro residual.
+                        </p>
+                    </div>
+
+
+                    <h4 onclick="ocultar('uso-1.5')" class="titulo text-primary-emphasis">
+                        <i id="icon-uso-1.5" class="material-icons">arrow_downward</i> Validação do resultado
+                        esperado
+                    </h4>
+
+                    <div id="uso-1.5" class="container-fluid m-3 p-3">
+                        <p>
+                            Depois de gravar o pedido, <code>EXECUTADO</code> recebe <code>'S'</code> e
+                            <code>CompararResultadoEsperado</code> é chamado. A unit
+                            <code>P39_TDD_VALIDAR_RESULTADO</code> localiza o resultado esperado pelo
+                            <code>ID</code> do caso e compara três blocos, em qualquer ordem em que apareçam:
+                        </p>
+
+                        <ul>
+                            <li><strong><code>erro</code></strong> — compara a quantidade de erros reais
+                                acumulados com a quantidade esperada, usando
+                                <code>Igual</code> / <code>Maior</code> / <code>Menor</code>;</li>
+                            <li><strong><code>valor</code></strong> — para cada item, localiza o campo em todos
+                                os DataSets registrados no caso e compara. O primeiro DataSet que tenha o
+                                campo é o avaliado;</li>
+                            <li><strong><code>tempo</code></strong> — compara o tempo decorrido na comparação
+                                contra o limite informado, respeitando a unidade
+                                (<code>milissegundo</code>, <code>segundo</code> ou <code>minuto</code>).</li>
+                        </ul>
+
+                        <p>
+                            Cada comparação gera um assert. Ao final,
+                            <code>FinalizarComparacao</code> grava no log se o caso foi validado sem
+                            divergências ou a lista de divergências, e exibe o resumo ao operador.
+                        </p>
+
+                        <div class="alert alert-warning" role="alert">
+                            <p class="m-3">
+                                <i class="material-icons">warning</i>
+                                Quando a operação é <code>Igual</code>, a comparação é feita
+                                <strong>sempre como texto</strong>, mesmo que <code>tipo_campo</code> seja
+                                <code>ftCurrency</code>, <code>ftInteger</code> ou <code>ftDateTime</code>.
+                                Para comparar numericamente com <code>Igual</code>, use
+                                <code>Maior</code>/<code>Menor</code> ou compare o valor já formatado como
+                                texto. Tipos <code>ftString</code> e <code>ftBoolean</code> aceitam somente
+                                <code>Igual</code>.
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <h4 onclick="ocultar('uso-1.6')" class="titulo text-primary-emphasis">
+                        <i id="icon-uso-1.6" class="material-icons">arrow_downward</i> Tratamento de erros e
+                        rastreabilidade
+                    </h4>
+
+                    <div id="uso-1.6" class="container-fluid m-3 p-3">
+                        <ul>
+                            <li><strong>Log do processamento</strong> — cada assert aprovado ou reprovado é
+                                acrescentado via <code>LogDoProcessamentoAdd</code>, e o log completo é exibido ao
+                                final da comparação;</li>
+                            <li><strong>Mensagem interna</strong> — configuração não carregada ou JSON de caso
+                                inválido enviam mensagem interna ao usuário logado, sem interromper a
+                                execução;</li>
+                            <li><strong>Métricas</strong> — o runner cronometra cada etapa
+                                (<code>METRICAS_TICK_DIFF</code>) e consolida os totais de asserts
+                                (<code>METRICAS_ASSERTS</code>) em <code>HISTORICO_EXECUCAO</code>, com status
+                                <code>SUCESSO</code> ou <code>FALHA</code> e a etapa exata da falha;</li>
+                            <li><strong>Teardown resiliente</strong> — cada DataSet é liberado em
+                                <code>try/except</code> e os erros são agregados em uma única mensagem, para que
+                                um único CDS com problema não impeça a liberação dos demais.</li>
+                        </ul>
+                    </div>
+
+
+                    <h4 onclick="ocultar('uso-1.7')" class="titulo text-primary-emphasis">
+                        <i id="icon-uso-1.7" class="material-icons">arrow_downward</i> Pontos de atenção
+                    </h4>
+
+                    <div id="uso-1.7" class="container-fluid m-3 p-3">
+                        <div class="alert alert-danger" role="alert">
+                            <p class="m-3">
+                                <i class="material-icons">error</i>
+                                <strong>1. Identificadores inexistentes em <code>P39_TDD_VALIDAR_RESULTADO</code>.</strong>
+                                A unit chama <code>AssertFalhou</code> e <code>AssertIgualMoeda</code>, mas a
+                                biblioteca <code>P39_TDD_ASSERTS</code> declara <code>AssertsFalhou</code> e
+                                <code>AssertIgualCurrency</code>. Não existe nenhuma declaração de
+                                <code>AssertFalhou</code> nem <code>AssertIgualMoeda</code> em nenhuma unit do
+                                projeto — a comparação por tipo e a contagem de erros ficam impedidas de resolver
+                                esses nomes em tempo de interpretação.
+                            </p>
+                        </div>
+
+                        <div class="alert alert-danger" role="alert">
+                            <p class="m-3">
+                                <i class="material-icons">error</i>
+                                <strong>2. Variável não atribuída na mensagem do assert.</strong>
+                                Em <code>CompararValor</code>, a mensagem usa a variável local
+                                <code>lResultado</code>, mas apenas <code>lResultadoString</code> é atribuída —
+                                o lado direito da comparação aparece vazio na mensagem de falha.
+                            </p>
+                        </div>
+
+                        <div class="alert alert-warning" role="alert">
+                            <p class="m-3">
+                                <i class="material-icons">warning</i>
+                                <strong>3. <code>ShowMessage</code> residuais.</strong> Ha
+                                <code>ShowMessage</code> ativos dentro de
+                                <code>CompararQuantidadeErros</code> e <code>CompararComJSON</code> que
+                                interrompem a execução com caixas de diálogo durante a validação.
+                            </p>
+                        </div>
+
+                        <div class="alert alert-warning" role="alert">
+                            <p class="m-3">
+                                <i class="material-icons">warning</i>
+                                <strong>4. <code>COMPARADO</code> não é gravado.</strong>
+                                <code>CDSCasosTestes.COMPARADO</code> permanece sempre <code>'N'</code>, pois
+                                <code>P39_TDD_VALIDAR_RESULTADO</code> não grava o desfecho da comparação. Não
+                                há, no fluxo, nenhuma forma de filtrar depois pelos casos efetivamente
+                                validados.
+                            </p>
+                        </div>
+
+                        <div class="alert alert-info" role="alert">
+                            <p class="m-3">
+                                <i class="material-icons">info</i>
+                                <strong>5. Cache de sessão do ERP.</strong> Após atualizar uma unit
+                                externamente, feche e reabra a unit no módulo BI antes de executar — a sessão
+                                pode regravar por cima a versão antiga.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+<!-- Instruções de uso fim -->
+
+
+<!-- Instalação e configurações inicio -->
+<section>
+
+    <h2 onclick="ocultar('conf')" class="titulo mt-3 text-primary-emphasis">
+        <i id="icon-conf" class="material-icons">arrow_forward</i> Instalação e configurações
+    </h2>
+
+    <div id="conf" class="ocultar container-fluid m-3 p-3">
+
+        <p>
+            O cadastro do caso de teste é feito na tabela <code>CASO_TESTE</code> do banco dedicado, com o
+            módulo (<code>FATURAMENTO</code>), a área (<code>PEDIDO DE VENDA</code>) e o indicativo de atividade
+            (<code>ATIVO_CT = 'S'</code>). O caso é lido por <code>P39_TDD_CASOS_DE_TESTE</code> e o recorte por
+            módulo/área é aplicado automaticamente.
+        </p>
+
+        <!-- CASO_TESTE_CT -->
+        <h3 class="mt-4">Cenário do caso — <code>CASO_TESTE_CT</code></h3>
+
+        <p>Exemplo completo (item específico, desconto múltiplo e prazo manual):</p>
+
+        <pre class="text-danger campo-json">
+{
+  "documento": {
+    "cliente_docfat": 1125,
+    "tag_cliente": 0,
+    "unidfabril_docfat": 0,
+    "tabela_preco": 0,
+    "descricao_tabela_preco": "TABELA DE PRECOS FOB 2023",
+    "tabelacondicao_docped": 0,
+    "descricao_condicao": "CONDICAO GERAL",
+    "condicaoprazo_docped": 0,
+    "descricao_prazo": "7/14/21 DIAS",
+    "prazo_manual": "",
+    "percdesc_docdescprinc": "10.5, 5.3, 3.1",
+    "vlrdescontoparcial_docfat": 10.5,
+    "financeira_docfat": 0,
+    "banco_docfat": 0,
+    "transacao_docfat": 0,
+    "percfrete_docped": 1.1,
+    "frete_manual_docped": "S",
+    "valorfrete_docped": 1.1,
+    "freteembutido_docped": "N",
+    "entregarmercadoria_docfat": "S",
+    "diasentrega_docped": 5,
+    "parceria_docped": 0,
+    "campanha_docped": 0,
+    "dtvenda_docped": "01/01/2026",
+    "dtpromessaentrega_docped": "15/06/2026",
+    "dtprevisaofaturamento_docped": "30/12/1899"
+  },
+  "item": {
+    "tag_prodcomum": 0,
+    "quantidade": 0,
+    "valor": 0,
+    "desconto": 0.1,
+    "total_itens": 0,
+    "itens": [
+      { "item": 2,    "variacao": 0, "cor": 23, "acabamento": 0, "quantidade": 2, "valor": 355.55, "desconto": 1.1 },
+      { "item": 7,    "variacao": 0, "cor": 14, "acabamento": 0, "quantidade": 3, "valor": 456.99, "desconto": "1.1, 2.1, 2.3, 3.5" },
+      { "item": 49,   "variacao": 0, "cor": 22, "acabamento": 0, "quantidade": 2, "valor": 399.49, "desconto": "1.1, 1.5, 3.4, 4.2" }
+    ]
+  },
+  "parametros": {
+    "ConsideraDiasParaEntregaDupFrete": true,
+    "OrdemImpressaoItemNF": 0,
+    "Fat_PorUnidadeFabril": false
+  }
+}
+        </pre>
+
+        <h4 class="mt-4">Secão <code>documento</code> — descrição dos campos</h4>
+
+        <table class="table table-sm table-bordered align-middle">
+            <thead class="table-light">
+                <tr><th>Campo</th><th>Tipo</th><th>Obrigatório</th><th>Destino no ERP</th><th>Observação</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>cliente_docfat</code></td><td>Integer</td><td>não</td><td><code>CDSCadastro.CLIENTE_DOCFAT</code></td><td>Usado apenas se <code>tag_cliente</code> = 0.</td></tr>
+                <tr><td><code>tag_cliente</code></td><td>Integer</td><td>não</td><td>—</td><td>Característica de pessoa; traz todos os clientes com <code>VALOR_PESSOACARAC = 'S'</code>. Tem precedência sobre o cliente.</td></tr>
+                <tr><td><code>unidfabril_docfat</code></td><td>Integer</td><td>não</td><td><code>CDSCadastro.UNIDFABRIL_DOCFAT</code></td><td>Validado contra <code>PCP_UNIDADEPRODUCAO</code>; ignorado se não existir.</td></tr>
+                <tr><td><code>descricao_tabela_preco</code></td><td>String</td><td>não</td><td><code>CDSPedido.TABELA_DOCPED</code></td><td><strong>Tem precedência</strong> sobre <code>tabela_preco</code> — pesquisa por <code>DESCRICAO_TABELA</code>.</td></tr>
+                <tr><td><code>tabela_preco</code></td><td>Integer</td><td>não</td><td><code>CDSPedido.TABELA_DOCPED</code></td><td>Usado só se a descrição não for informada.</td></tr>
+                <tr><td><code>descricao_condicao</code></td><td>String</td><td>não</td><td><code>CDSPedido.TABELACONDICAO_DOCPED</code></td><td>Se não encontrar por descrição, tenta por código.</td></tr>
+                <tr><td><code>tabelacondicao_docped</code></td><td>Integer</td><td>não</td><td><code>CDSPedido.TABELACONDICAO_DOCPED</code></td><td>—</td></tr>
+                <tr><td><code>descricao_prazo</code></td><td>String</td><td>não</td><td><code>CDSPedido.CONDICAOPRAZO_DOCPED</code></td><td>Pesquisa por <code>DESCRICAO_TABCONDPRAZO</code>.</td></tr>
+                <tr><td><code>condicaoprazo_docped</code></td><td>Integer</td><td>não</td><td><code>CDSPedido.CONDICAOPRAZO_DOCPED</code></td><td>—</td></tr>
+                <tr><td><code>prazo_manual</code></td><td>String</td><td>não</td><td><code>CDSPrazos.PRAZODIAS_DOCPRAZO</code></td><td>Valores separados por <code>/</code>. Só é usado se a condição não bloquear a tabela.</td></tr>
+                <tr><td><code>percdesc_docdescprinc</code></td><td>String</td><td>não</td><td><code>CDSDescontoPrincipal.PERCDESC_DOCDESCPRINC</code></td><td><strong>Lista separada por vírgula</strong> — um desconto por linha. Respeita <code>BLOQUEIADESCONTOMANUAL_TABELA</code> e <code>PERMITEDESCONTO_TABELA</code>.</td></tr>
+                <tr><td><code>vlrdescontoparcial_docfat</code></td><td>Currency</td><td>não</td><td><code>CDSCadastro.VLRDESCONTOPARCIAL_DOCFAT</code></td><td>Aplicado sempre que a seção for processada.</td></tr>
+                <tr><td><code>financeira_docfat</code></td><td>Integer</td><td>não</td><td><code>CDSCadastro.FINANCEIRA_DOCFAT</code></td><td>Validado via <code>GetPessoaPeloCod</code>.</td></tr>
+                <tr><td><code>banco_docfat</code></td><td>Integer</td><td>não</td><td><code>CDSCadastro.BANCO_DOCFAT</code></td><td>Validado contra <code>BANCO</code>.</td></tr>
+                <tr><td><code>entregarmercadoria_docfat</code></td><td>Boolean</td><td>não</td><td><code>CDSCadastro.ENTREGARMERCADORIA_DOCFAT</code></td><td><code>true</code>/<code>false</code> gravados como <code>S</code>/<code>N</code>.</td></tr>
+                <tr><td><code>diasentrega_docped</code></td><td>Integer</td><td>não</td><td><code>CDSPedido.DIASENTREGA_DOCPED</code></td><td>—</td></tr>
+                <tr><td><code>dtvenda_docped</code></td><td>String</td><td>não</td><td><code>CDSPedido.DTVENDA_DOCPED</code></td><td>Formato <code>dd/mm/aaaa</code>.</td></tr>
+                <tr><td><code>dtpromessaentrega_docped</code></td><td>String</td><td>não</td><td><code>CDSPedido.DTPROMESSAENTREGA_DOCPED</code></td><td>Formato <code>dd/mm/aaaa</code>.</td></tr>
+                <tr><td><code>dtprevisaofaturamento_docped</code></td><td>String</td><td>no</td><td><code>CDSPedido.DTPREVISAOFATURAMENTO_DOCPED</code></td><td>Somente aplicado se maior que zero.</td></tr>
+                <tr><td><code>campanha_docped</code></td><td>Integer</td><td>não</td><td><code>CDSPedido.CAMPANHA_DOCPED</code></td><td>Validado contra <code>CAMPANHA</code>.</td></tr>
+                <tr><td><code>parceria_docped</code></td><td>Integer</td><td>não</td><td><code>CDSPedido.PARCERIA_DOCPED</code></td><td>Validado contra <code>PARCERIA</code>.</td></tr>
+                <tr><td><code>percfrete_docped</code></td><td>Currency</td><td>não</td><td><code>CDSPedido.PERCFRETE_DOCPED</code></td><td>Usado quando o frete não é manual.</td></tr>
+                <tr><td><code>valorfrete_docped</code></td><td>Currency</td><td>no</td><td><code>CDSPedido.VALORFRETE_DOCPED</code></td><td>Usado quando o frete é manual.</td></tr>
+                <tr><td><code>frete_manual_docped</code></td><td>Boolean</td><td>no</td><td><code>CDSPedido.FRETE_MANUAL_DOCPED</code></td><td>Define a exclusividade mútua entre percentual e valor.</td></tr>
+                <tr><td><code>freteembutido_docped</code></td><td>Boolean</td><td>não</td><td><code>CDSPedido.FRETEEMBUTIDO_DOCPED</code></td><td>—</td></tr>
+                <tr><td><code>transacao_docfat</code></td><td>Integer</td><td>não</td><td><code>CDSCadastro.TRANSACAO_DOCFAT</code></td><td><code>0</code> = manter a transação atual.</td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert alert-secondary" role="alert">
+            <p class="m-3">
+                <i class="material-icons">info</i>
+                As tags <code>classificacao_docfat</code>, <code>status_docfat</code>,
+                <code>origem_docfat</code>, <code>intermediador_docfat</code>,
+                <code>gerarduplfrete_docped</code> e <code>pagamentoantecipado_docped</code> aparecem em
+                fixtures de caso, mas <strong>não são lidas</strong> pelas camadas atuais. Estão reservadas para
+                testes futuros.
+            </p>
+        </div>
+
+        <h4 class="mt-4">Secão <code>item</code> — descrição dos campos</h4>
+
+        <table class="table table-sm table-bordered align-middle">
+            <thead class="table-light">
+                <tr><th>Campo</th><th>Tipo</th><th>Escopo</th><th>Observação</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>tag_prodcomum</code></td><td>Integer</td><td>todos os itens</td><td>Usado somente quando <code>itens</code> está vazio. Traz todos os produtos ativos da tag, com <code>FIRST</code> limitado por <code>total_itens</code>.</td></tr>
+                <tr><td><code>quantidade</code></td><td>Currency</td><td>todos os itens</td><td>Valor herdado quando o item não informa o seu. Se <code>0</code>, usa <code>QTD_FIXA_ITEM_FATCONFIG</code> ou sorteio até <code>QTD_MAX_ITEM_FATCONFIG</code>.</td></tr>
+                <tr><td><code>valor</code></td><td>Currency</td><td>todos os itens</td><td>Mesma lógica da quantidade, com <code>VALOR_ITEM_FIXO_FATCONFIG</code> / <code>VLR_MAX_ITEM_FATCONFIG</code>.</td></tr>
+                <tr><td><code>desconto</code></td><td>Currency</td><td>todos os itens</td><td>Aceita lista separada por vírgula.</td></tr>
+                <tr><td><code>total_itens</code></td><td>Integer</td><td>consulta por tag</td><td>Traduzido em <code>FIRST N</code> na consulta de produtos.</td></tr>
+                <tr><td><code>itens[].item</code></td><td>Integer</td><td>item</td><td><strong>Obrigatório</strong> — item <code>0</code> ou ausente é ignorado.</td></tr>
+                <tr><td><code>itens[].variacao</code> / <code>cor</code> / <code>acabamento</code></td><td>Integer</td><td>item</td><td>Se qualquer um for maior que zero, o item é gravado via <code>Frame.IncluiDetalhamentoItem</code>.</td></tr>
+                <tr><td><code>itens[].quantidade</code> / <code>valor</code> / <code>desconto</code></td><td>Currency</td><td>item</td><td>Specificam o item; <code>0</code> delega à seção <code>item</code>.</td></tr>
+            </tbody>
+        </table>
+
+        <h4 class="mt-4">Secção <code>parametros</code></h4>
+
+        <p>
+            Cada chave é uma coluna de <code>CONFIG_SISTEMA</code>,
+            <code>CONFIG_SISTEMA_EMPRESA</code> ou <code>PCP_CONFIG</code>. O valor é convertido conforme o
+            tipo: texto entre aspas, inteiro/real sem aspas, booleano <code>true</code>/<code>false</code>
+            convertido para <code>S</code>/<code>N</code>. Somente as chaves cujo valor <strong>difere</strong> do
+            estado atual são gravadas.
+        </p>
+
+        <pre class="campo-json">
+{
+  "ConsideraDiasParaEntregaDupFrete": true,
+  "OrdemImpressaoItemNF": 1,
+  "Fat_PorUnidadeFabril": false,
+  "BloqueiaPedidoAutomaticamente": false
+}
+        </pre>
+
+        <!-- RESULTADO_ESPERADO -->
+        <h3 class="mt-5">Resultado esperado — <code>RESULTADO_ESPERADO_CT</code></h3>
+
+        <p>Contrato consumido por <code>P39_TDD_VALIDAR_RESULTADO</code>:</p>
+
+        <pre class="text-success campo-json">
+{
+  "erro": {
+    "quantidade": 0,
+    "operacao": "Igual"
+  },
+  "valor": [
+    {
+      "campo": "NUMERO_DOCFAT",
+      "operacao": "Maior",
+      "tipo_campo": "ftInteger",
+      "resultado": "0"
+    },
+    {
+      "campo": "VALOR_BRUTO_DOCFAT",
+      "operacao": "Igual",
+      "tipo_campo": "ftCurrency",
+      "resultado": "1000.00"
+    },
+    {
+      "campo": "DTVENDA_DOCPED",
+      "operacao": "Igual",
+      "tipo_campo": "ftDateTime",
+      "resultado": "01/01/2026"
+    }
+  ],
+  "tempo": {
+    "tempo_total": 10000,
+    "tipo_registo": "milissegundo"
+  }
+}
+        </pre>
+
+        <h4 class="mt-4">Descrição dos campos</h4>
+
+        <table class="table table-sm table-bordered align-middle">
+            <thead class="table-light">
+                <tr><th>Campo</th><th>Tipo</th><th>Obrigatório</th><th>Descrição</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>erro.quantidade</code></td><td>Integer</td><td>sim</td><td>Quantidade de erros reais esperada. Negativo = configuração inválida.</td></tr>
+                <tr><td><code>erro.operacao</code></td><td>String</td><td>sim</td><td><code>Igual</code>, <code>Maior</code> ou <code>Menor</code>. Qualquer outro valor gera falha.</td></tr>
+                <tr><td><code>valor[].campo</code></td><td>String</td><td>sim</td><td>Nome do campo a procurar. Vazio gera falha imediata.</td></tr>
+                <tr><td><code>valor[].operacao</code></td><td>String</td><td>sim</td><td><code>Igual</code>, <code>Maior</code>, <code>Menor</code>. Inválida gera falha.</td></tr>
+                <tr><td><code>valor[].tipo_campo</code></td><td>String</td><td>não</td><td><code>ftString</code> (padrão), <code>ftInteger</code>, <code>ftCurrency</code>, <code>ftDateTime</code>, <code>ftBoolean</code>. Tipo desconhecido gera falha.</td></tr>
+                <tr><td><code>valor[].resultado</code></td><td>String</td><td>sim</td><td>Valor esperado, <strong>sempre como texto</strong>. Em datas, <code>dd/mm/aaaa</code>.</td></tr>
+                <tr><td><code>tempo.tempo_total</code></td><td>Integer</td><td>não</td><td>Limite de tempo. <code>&lt;= 0</code> desativa a verificação.</td></tr>
+                <tr><td><code>tempo.tipo_registo</code></td><td>String</td><td>não</td><td><code>milissegundo</code> (fator 1), <code>segundo</code> (1000) ou <code>minuto</code> (60000). A comparação casa por <em>substring</em>.</td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert alert-info" role="alert">
+            <p class="m-3">
+                <i class="material-icons">info</i>
+                A busca do campo percorre <strong>todos</strong> os DataSets registrados com
+                <code>RegistrarDataSet</code> e avalia o <strong>primeiro</strong> em que o campo existir —
+                depois disso interrompe (<code>break</code>). Se o campo não existir em nenhum DataSet
+                registrado, a comparação é silenciosamente ignorada. Garanta que o DataSet esperado esteja
+                registrado.
+            </p>
+        </div>
+
+        <h3 class="mt-5">Regras de formato do JSON</h3>
+
+        <ul>
+            <li>JSON <strong>compacto</strong>: sem espaço após <code>:</code> ou <code>,</code>, e sem aspas
+                envolventes no documento;</li>
+            <li>decimals com <strong>ponto</strong> no JSON (<code>"percfrete_docped":1.1</code>) — a
+                conversão para <code>Currency</code> troca o ponto por vírgula;</li>
+            <li>datas em <strong>texto</strong> no formato <code>dd/mm/aaaa</code>;</li>
+            <li>booleanos como <code>true</code>/<code>false</code> ou <code>"S"</code>/<code>"N"</code>,
+                conforme o campo;</li>
+            <li>as colunas são blobs de texto <code>ISO8859_1</code> — gravar pelo <code>isql</code> exige
+                evitar caracteres fora do <code>WIN1252</code>.</li>
+        </ul>
+
+        <h3 class="mt-5">Cadastro mínimo de um caso de teste</h3>
+
+        <table class="table table-sm table-bordered align-middle">
+            <thead class="table-light">
+                <tr><th>Coluna</th><th>Conteúdo</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>DESCRICAO_CASO_TESTE_CT</code></td><td>Nome do caso — é por ele que o <em>runner</em> localiza a execução.</td></tr>
+                <tr><td><code>MODULO_CT</code> / <code>AREA_CT</code></td><td><code>FATURAMENTO</code> / <code>PEDIDO DE VENDA</code>.</td></tr>
+                <tr><td><code>ATIVO_CT</code></td><td><code>S</code> para o caso entrar no carregamento.</td></tr>
+                <tr><td><code>CASO_TESTE_CT</code></td><td>JSON com <code>documento</code>, <code>item</code> e <code>parametros</code>.</td></tr>
+                <tr><td><code>RESULTADO_ESPERADO_CT</code></td><td>JSON com <code>erro</code>, <code>valor</code> e <code>tempo</code>. Aceita objeto simples ou lista.</td></tr>
+                <tr><td><code>REQUISITO_VERSAO_CT</code></td><td>Versão mínima do requisito — opcional, usada na validação de compatibilidade.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<!-- Instalação e configurações fim -->

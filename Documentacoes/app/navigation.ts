@@ -1,0 +1,36 @@
+import type { IDocumento, IGrupoNavegacao, INavegacaoDocumento } from './models/documentacao.ts';
+
+import { GRUPOS_NAVEGACAO } from './content/navegacao.ts';
+import { rotaDocumento } from './content/validarCatalogo.ts';
+
+export function navegacaoDocumento(pDocumento: IDocumento): INavegacaoDocumento {
+  if (pDocumento.navegacao) return pDocumento.navegacao;
+  const grupo = GRUPOS_NAVEGACAO.find(pG => pG.categoria === pDocumento.categoria);
+  return { grupo: grupo?.id ?? pDocumento.categoria, subgrupo: grupo?.subgrupoPadrao };
+}
+
+// O registro central define os grupos; as páginas mantêm as rotas originais.
+export function criarNavegacao(pDocumentos: IDocumento[]): IGrupoNavegacao[] {
+  const visiveis = pDocumentos.filter(pD => !pD.oculto);
+  const documentos = (pGrupo: string, pSubgrupo?: string) => visiveis.filter(pD => {
+    const nav = navegacaoDocumento(pD);
+    return nav.grupo === pGrupo && nav.subgrupo === pSubgrupo;
+  }).sort((pA, pB) => (pA.navegacao?.ordem ?? 100) - (pB.navegacao?.ordem ?? 100));
+  return GRUPOS_NAVEGACAO.map(pGrupo => ({
+    id: pGrupo.id, titulo: pGrupo.titulo, icone: pGrupo.icone,
+    documentos: documentos(pGrupo.id),
+    grupos: pGrupo.subgrupos?.map(pSub => ({
+      id: `${pGrupo.id}-${pSub.id}`, titulo: pSub.titulo, vazio: pSub.vazio,
+      documentos: documentos(pGrupo.id, pSub.id)
+    }))
+  }));
+}
+
+export function gruposDaRota(pGrupos: IGrupoNavegacao[], pPath: string): string[] {
+  for (const grupo of pGrupos) {
+    if (grupo.documentos?.some(pD => rotaDocumento(pD) === pPath)) return [grupo.id];
+    const caminho = gruposDaRota(grupo.grupos ?? [], pPath);
+    if (caminho.length) return [grupo.id, ...caminho];
+  }
+  return [];
+}
