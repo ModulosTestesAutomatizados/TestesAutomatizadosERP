@@ -152,6 +152,22 @@
       "$0"
     ]
   },
+  "JSON base do caso de teste": {
+    "scope": "typescript",
+    "prefix": "docunitjson",
+    "description": "Inclua em criarDocumentoUnit de um caso: JSON copiável, tabela e fontes das tags.",
+    "body": [
+      "jsonBase: {",
+      "  exemplo: { ${1:objeto}: { ${2:campo}: 0 } },",
+      "  campos: [",
+      "    ['${1:objeto}', 'objeto', '${3:Finalidade do objeto}', '${4:Impacto no teste}'],",
+      "    ['${1:objeto}.${2:campo}', 'número', '${5:Finalidade do campo}', '${6:Validação, padrão ou efeito}']",
+      "  ],",
+      "  observacoes: ['${7:Explique como preencher valores e limitações do modelo}'],",
+      "  fontes: ['${8:docs/assets/caminho/UNIT_CONSUMIDORA.pas}']",
+      "},$0"
+    ]
+  },
   "Estado da documentação": {
     "scope": "typescript",
     "prefix": "docestado",

@@ -46,7 +46,7 @@ Não crie novos HTMLs completos ou novas pastas de documentação na raiz de `Do
 4. Para uma unit, crie `content/units/nome-da-unit.ts` com `docunit`. O modelo organiza responsabilidade, problema resolvido, estados globais, assinaturas, implementação, dependências e limites.
 5. Acrescente métodos e estados com `docunitmetodo` e `docunitestado`. Registre a unit em `content/units/catalogo.ts` com `docregistrounit`.
 6. Para diagramas, use `docmermaid` em `docs/MAPEAMENTO_AST_USES_UNITS/<slug>/<nome>.md` e referencie o arquivo com `docdiagrama`.
-7. Execute check e build e confira a página no preview. Os 18 snippets de `.vscode/documentacao.code-snippets` usam o escopo TypeScript para os módulos; Mermaid usa Markdown. O guia também está em `/#/guias/autoria`.
+7. Execute check e build e confira a página no preview. Os 19 snippets de `.vscode/documentacao.code-snippets` usam o escopo TypeScript para os módulos; Mermaid usa Markdown. O guia também está em `/#/guias/autoria`.
 
 ## Manutenção de seções e estados
 
@@ -55,6 +55,8 @@ Uma página é registrada no catálogo; uma seção é somente um item de `secoe
 O campo `estado` pertence à página inteira, descreve o recurso documentado e precisa ser atualizado pelo autor. As opções são `em-desenvolvimento`, `em-uso`, `legado` e `validado-no-erp`. Use `docestado` para substituir o valor existente; não duplique o campo. `em-uso` não implica homologação nem uso obrigatório pelo IRunner. `validado-no-erp` exige `evidenciaValidacao` com `data`, `versaoERP` e `referencia` reais, tanto em páginas comuns quanto em `criarDocumentoUnit`; `docvalidacao` fornece o modelo. Pendências de uma seção podem ser registradas com `docaviso`.
 
 `doccaso` posiciona uma página em Casos de teste → Legado ou IRunner. `docfonte` acrescenta uma referência e `docaliasartefato` registra uma variante de pesquisa de estado global. O import criado por `docregistro` ou `docregistrounit` ainda precisa ser incluído na lista do respectivo catálogo. Grupos novos fora dos já suportados exigem alterar `navigation.ts`, os tipos e o validador quando aplicável.
+
+Para uma unit de caso de teste, use `docunitjson` dentro de `criarDocumentoUnit`. O campo `jsonBase` contém `exemplo` (objeto JSON), `campos` (caminho, tipo, finalidade e impacto), `observacoes` e `fontes` opcionais. Ele gera a seção JSON base do caso de teste usando o terminal copiável e a tabela compartilhada. Preencha o modelo conforme os consumidores do fonte, registrando valores obrigatórios, padrões e precedência; códigos zero são espaços de preenchimento e não representam registros válidos da base.
 
 As rotas de units usam minúsculas e sublinhados convertidos em hífens: `TDD_IRUNNER` → `/units/tdd-irunner`. Aliases representam variantes documentais dos nomes e não comprovam equivalência das implementações. `ReferenceText` identifica nomes registrados e usa `UnitReference` para produzir links em textos, listas, tabelas, títulos e códigos. Nós Mermaid também podem redirecionar para uma unit. A cópia de códigos preserva o texto literal.
 

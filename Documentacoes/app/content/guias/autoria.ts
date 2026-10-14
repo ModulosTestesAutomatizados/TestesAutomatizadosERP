@@ -48,6 +48,7 @@ export default {
         ['docunit', 'Documento individual com responsabilidades, estados, métodos, implementação e limites'],
         ['docunitmetodo', 'Assinatura, contrato e implementação de uma procedure/function'],
         ['docunitestado', 'Nome, finalidade e ciclo de vida de um estado global'],
+        ['docunitjson', 'JSON base de um caso, tabela de objetos/campos e fontes consumidoras'],
         ['docregistrounit', 'Registro no catálogo único de units e habilitação dos links'],
         ['docaviso', 'Aviso visível com severidade'],
         ['doclista', 'Lista de etapas, responsabilidades ou dependências'],
@@ -58,7 +59,7 @@ export default {
         ['docfonte', 'Entrada da lista fontes com caminho relativo à raiz'],
         ['docaliasartefato', 'Variante de pesquisa para um estado declarado pela unit']
       ] },
-      { tipo: 'paragrafo', texto: 'Os 18 snippets ficam em .vscode/documentacao.code-snippets. Use os prefixos em arquivos TypeScript; docmermaid usa Markdown. Os blocos suportados são paragrafo, lista, tabela, codigo, aviso e mermaid. Conteúdo é texto, não HTML executável. Para strings TypeScript com várias linhas, use crases; escape crases e interpolação quando forem conteúdo do exemplo. O CodeBlock mantém o código literal e selecionável se a cópia automática não estiver disponível.' },
+      { tipo: 'paragrafo', texto: 'Os 19 snippets ficam em .vscode/documentacao.code-snippets. Use os prefixos em arquivos TypeScript; docmermaid usa Markdown. Os blocos suportados são paragrafo, lista, tabela, codigo, aviso e mermaid. Conteúdo é texto, não HTML executável. Para strings TypeScript com várias linhas, use crases; escape crases e interpolação quando forem conteúdo do exemplo. O CodeBlock mantém o código literal e selecionável se a cópia automática não estiver disponível.' },
       { tipo: 'codigo', linguagem: 'typescript', codigo: "{ tipo: 'tabela', colunas: ['Unit', 'Responsabilidade'],\n  linhas: [['TDD_STARTED', 'Preparar o caso corrente']] },\n{ tipo: 'mermaid', fonte: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/TDD_IRUNNER.md',\n  titulo: 'Uses diretos e transitivos' },\n{ tipo: 'aviso', severidade: 'warning', texto: 'Asserts pendentes.' }" }
     ] },
     { id: 'evidencias', titulo: '04 · Estado documental e evidências', blocos: [
@@ -96,6 +97,12 @@ export default {
       { tipo: 'paragrafo', texto: 'O mapa de uses do Runner está em runner/TDD_IRUNNER.md; o inventário sintático, em runner/TDD_IRUNNER.ast.json. Ele registra dependências declaradas, linhas e alcance transitivo, preservando units externas e marcadores dinâmicos. Não é uma AST completa de Delphi.' },
       { tipo: 'paragrafo', texto: 'Ajustar, ampliar, reduzir e mudar a orientação alteram apenas a visualização. O Markdown é a fonte de verdade. Testes e ferramentas auxiliares da LLM são locais e ignorados pelo Git; a manutenção manual dos arquivos Markdown e a execução do portal não dependem desses recursos.' },
       { tipo: 'paragrafo', texto: 'Quando um fonte do inventário AST mudar, revise dependências, linhas e hashes antes de publicar. Os hashes SHA-256 normalizam CRLF para LF. O build detecta mapas desatualizados. Não ignore a falha nem copie hashes de uma versão diferente do fonte.' }
+    ] },
+    { id: 'json-base', titulo: 'JSON base de uma unit de caso de teste', blocos: [
+      { tipo: 'paragrafo', texto: 'Em criarDocumentoUnit, acrescente jsonBase com docunitjson quando a unit representar um caso de teste. exemplo contém um objeto JSON, campos contém linhas com caminho, tipo, finalidade e impacto, observacoes explica preenchimento e limites, e fontes identifica os fontes que consomem as tags. A seção JSON base do caso de teste aparece automaticamente no sumário.' },
+      { tipo: 'codigo', linguagem: 'typescript', codigo: "jsonBase: {\n  exemplo: { documento: { cliente_docfat: 0 }, parametros: {} },\n  campos: [\n    ['documento', 'objeto', 'Dados do documento', 'Consumido pelo núcleo de faturamento.'],\n    ['documento.cliente_docfat', 'inteiro', 'Código do cliente', 'Substitua zero por um cliente da base.'],\n    ['parametros', 'objeto', 'Ajustes do ERP', 'Vazio não solicita alteração de parâmetros.']\n  ],\n  observacoes: ['Fragmento ilustrativo; preencha o contrato completo com base nos fontes.'],\n  fontes: ['docs/assets/casosTestesFaturamento/P39_TDD_FAT_DOCUMENTO_FATURA.pas']\n}," },
+      { tipo: 'paragrafo', texto: 'O criador usa os blocos codigo e tabela existentes: o JSON é formatado com indentação, exibido no terminal e copiado sem comentários ou conteúdo HTML. A tabela deve explicar cada objeto e os campos que alteram o cenário, incluindo obrigatoriedade, padrões, precedência, erros e efeitos sobre os parâmetros.' },
+      { tipo: 'paragrafo', texto: 'Pedido de Venda usa documento, item, item.itens e parametros; o piloto REFACTOR_TDD_FINANCEIRO_PILOTO lê as tags financeiras na raiz e recebe parametros pelo Started. Não reutilize o formato de um caso em outro sem conferir as rotinas consumidoras. Modelos com códigos zero precisam ser preenchidos antes da execução.' }
     ] },
     { id: 'manutencao', titulo: '07 · Criar e modificar seções de uma página', blocos: [
       { tipo: 'lista', itens: [

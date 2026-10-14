@@ -36,6 +36,13 @@ export interface IDocumento {
   evidenciaValidacao?: { data: string; versaoERP: string; referencia: string };
   navegacao?: { grupo: 'casos'; subgrupo: 'legado' | 'irunner'; ordem?: number };
 }
+export type TValorJson = string | number | boolean | null | TValorJson[] | { [pChave: string]: TValorJson };
+export interface IJsonBaseCaso {
+  exemplo: Record<string, TValorJson>;
+  campos: [string, string, string, string][];
+  observacoes?: string[];
+  fontes?: string[];
+}
 export interface IDadosUnit {
   nome: string;
   aliases?: string[];
@@ -46,6 +53,7 @@ export interface IDadosUnit {
   problema: string;
   estado?: TEstado;
   evidenciaValidacao?: IDocumento['evidenciaValidacao'];
+  jsonBase?: IJsonBaseCaso;
   estados?: [string, string, string][];
   metodos?: [string, string, string][];
   implementacao?: string[];
