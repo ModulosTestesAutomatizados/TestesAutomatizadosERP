@@ -35,7 +35,7 @@ begin
     'procedure TearDown_DestruirObjetos'                                                                                   + #13 +
     '  - Declarada no final; cancela edições e fecha telas sem destruir CDS compartilhados.'                               + #13 +
     'TEARDOWN no campo FNomeMetodoAtual mantém a interrupção do lote se a limpeza falhar.'                                 + #13 +
-    'Logs usam RegistrarLogEmModoDebug e DelimitadorLog, condicionados a FModoDebug.'                                      + #13 +
+    'Logs usam RegistrarLogEmModoDebug e DelimitadorLog, com captura independente de FModoDebug.'                           + #13 +
     'Resultados e comparações pertencem à etapa de asserts, que não é implementada nesta unit.'                            + #13 +
     'FExibirInstrucoes controla a exibição destas instruções.'                                                             + #13 +
     '====================================================================================================================';
@@ -283,7 +283,9 @@ begin
 
     if not CDSSelecao.Active then CDSSelecao.Open;
 
-    CDSSelecao.EmptyDataSet;
+    CDSSelecao.First;
+    while not CDSSelecao.IsEmpty do
+      CDSSelecao.Delete;
     CDSSelecao.Insert;
     CDSSelecao.FieldByName('Codigo').AsInteger := lFornecedor;
     CDSSelecao.FieldByName('Descricao').AsString := '';

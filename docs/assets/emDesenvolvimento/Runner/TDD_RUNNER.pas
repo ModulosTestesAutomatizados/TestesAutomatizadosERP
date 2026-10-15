@@ -48,6 +48,7 @@ var
   // Para as métricas
   FMetricasAsserts     :TMetricasAsserts;
   FCDSMetricasTickDiff :TClientDataSet;
+  FTempoBaseTick       :Double;
   FNomeMetodoAtual     :string;
   FEtapaAtual          :integer;
   FContextoCasoTeste   :TContextoCasoTeste;
@@ -60,14 +61,15 @@ begin
     'Métodos de preparação:'                                                                                               + #13 +
     'function SetupCasosTestes(const pDescricaoModulo, pDescricaoArea :string) :Boolean'                                   + #13 +
     '  - Carrega os casos ativos do módulo/área uma vez antes do loop da casca.'                                           + #13 +
-    'procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste :string)'                              + #13 +
+    'procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea :string)'                                                   + #13 +
     '  - Reinicia histórico, erros e etapa; prepara o contexto do registro corrente sem mover o cursor.'                   + #13 +
     '====================================================================================================================' + #13 +
     'Métodos de métricas:'                                                                                                 + #13 +
     'procedure InicializarMetricasTickDiff / LiberarMetricasTickDiff'                                                      + #13 +
     '  - Cria os tempos de uma tentativa e libera seu CDS pelos métodos existentes.'                                       + #13 +
     'procedure RegistrarTick(pPontoTick :integer; pNomeMetodo :string)'                                                    + #13 +
-    '  - Registra início (0) e fim (1) de cada método; mantém o cálculo por TickDiff.'                                     + #13 +
+    '  - Registra tempos relativos à tentativa; zero no fim identifica uma métrica aberta.'                                + #13 +
+    '  - Trata a virada do contador e valida o limite Integer antes de gravar o CDS.'                                      + #13 +
     'function PreencherComZeros(pValor :Cardinal; pTamanho :Integer) :string'                                              + #13 +
     'function FormatarTickDiff(pTempoMs :Cardinal) :string'                                                                + #13 +
     '  - Métodos de apoio à formatação das durações.'                                                                      + #13 +
@@ -83,14 +85,14 @@ end;
 {$region Setup Casos de Testes}
 { ================================================================
   CARGA DO CONJUNTO DE CASOS DE TESTE
-    - Chamada pela Main da casca antes da iteracao dos casos
+    - Chamada pela Main da casca antes da iteração dos casos
   ================================================================ }
 function SetupCasosTestes(const pDescricaoModulo, pDescricaoArea :string) :Boolean;
 begin
   Result := False;
 
   if (Trim(pDescricaoModulo) = '') or (Trim(pDescricaoArea) = '') then
-    raise Exception.Create('Modulo e area devem ser informados para carregar os casos de teste.');
+    raise Exception.Create('Módulo e área devem ser informados para carregar os casos de teste.');
 
   CallBack_Mensagem(ClassOwner, '[SETUP CASOS DE TESTE INICIADO]');
   {P39_TDD_LOGS.}DelimitadorLog('SETUP CASOS DE TESTE');
@@ -116,7 +118,7 @@ begin
 
     {P39_TDD_LOGS.}RegistrarLogEmModoDebug(
       'Estrutura de casos de teste inicializada' + #13 +
-      'Modulo/Area configurados'                 + #13 +
+      'Módulo/Área configurados'                 + #13 +
       'Casos de teste carregados'
     );
 
@@ -135,27 +137,33 @@ end;
 { ================================================================
   CONTEXTO INDIVIDUAL DO REGISTRO CORRENTE DO CDS GLOBAL
     - Chamada por Run para preparar cada tentativa
-    - Reinicia historico, status, erros, etapa e dados do caso anterior
+    - Reinicia histórico, status, erros, etapa e dados do caso anterior
     - Define o contexto sem carregar casos ou mover o cursor
   ================================================================ }
-procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste :string);
+procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea :string);
 begin
   FHistoricoExecucao.AutoIncHistorico  := 0;
-  FHistoricoExecucao.AutoIncCasoTeste  := CDSCasosTestes.FieldByName('ID').AsInteger;
+  FHistoricoExecucao.AutoIncCasoTeste  := 0;
   FHistoricoExecucao.VersaoExecucao    := '';
-  FHistoricoExecucao.RequisitoVersao   := CDSCasosTestes.FieldByName('REQUISITOVERSAO').AsString;
+  FHistoricoExecucao.RequisitoVersao   := '';
   FHistoricoExecucao.StatusExecucao    := '';
   FHistoricoExecucao.EtapaFalha        := 0;
   FHistoricoExecucao.MensagemErro      := '';
   FHistoricoExecucao.LogsProcessamento := '';
 
-  FNomeMetodoAtual                      := '';
+  FNomeMetodoAtual                      := 'PREPARAÇÃO DO CASO';
   FEtapaAtual                           := 0;
   FCasoTesteAtualId                     := 0;
   FCasoTesteAtualJson                   := '';
+
   FContextoCasoTeste.DescricaoModulo    := pDescricaoModulo;
   FContextoCasoTeste.DescricaoArea      := pDescricaoArea;
-  FContextoCasoTeste.DescricaoCasoTeste := pDescricaoCasoTeste;
+  FContextoCasoTeste.DescricaoCasoTeste := '';
+
+  // Todo o estado anterior foi reiniciado antes de consultar o registro.
+  FHistoricoExecucao.AutoIncCasoTeste := CDSCasosTestes.FieldByName('ID').AsInteger;
+  FHistoricoExecucao.RequisitoVersao := CDSCasosTestes.FieldByName('REQUISITOVERSAO').AsString;
+  FContextoCasoTeste.DescricaoCasoTeste := CDSCasosTestes.FieldByName('DESCRICAO').AsString;
 end;
 {$endregion}
 
@@ -175,6 +183,8 @@ procedure InicializarMetricasTickDiff;
 begin
   LiberarMetricasTickDiff;
   FEtapaAtual := 0;
+  // Double recebe o Cardinal nativo sem converter o uptime para Integer.
+  FTempoBaseTick := GetTickCount;
 
   FCDSMetricasTickDiff := TClientDataSet.Create;
   FCDSMetricasTickDiff.FieldDefs.Add('ETAPA_CASO_TESTE', ftInteger, 0, False);
@@ -221,12 +231,20 @@ end;
 
 procedure RegistrarTick(pPontoTick :integer; pNomeMetodo :string);
 var
-  lTempoTick, lTempoTotal :Cardinal;
+  lTempoTick, lTempoTotal :Integer;
+  lTempoDecorrido         :Double;
   lPontoTick              :string;
   lVerificaFindKey        :Boolean;
 begin
-  // O registro de início e fim, não aplica formatação para permitir o uso de TickDiff.
-  lTempoTick := GetTickCount;
+  // Recebe o Cardinal bruto em Double e só converte o tempo relativo validado.
+  lTempoDecorrido := GetTickCount;
+  lTempoDecorrido := lTempoDecorrido - FTempoBaseTick;
+  if lTempoDecorrido < 0 then
+    lTempoDecorrido := lTempoDecorrido + 4294967296.0;
+  if lTempoDecorrido > 2147483646 then
+    raise Exception.Create('Tempo da tentativa excedeu o limite Integer das métricas.');
+  // Zero continua reservado para uma métrica em aberto.
+  lTempoTick := lTempoDecorrido + 1;
 
   pNomeMetodo := UpperCase(pNomeMetodo);
 

@@ -27,7 +27,7 @@ begin
   {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_IRUNNER', lInstrucoes);
 end;
 
-// Define a unica unit cujo Teste sera chamado por Run para cada caso.
+// Define a única unit cujo Teste será chamado por Run para cada caso.
 procedure SetTDDUnit(pUnit :string);
 begin
   FTDDUnit := Trim(pUnit);
@@ -51,7 +51,7 @@ var
   lMetodo :string;
 begin
   if Trim(FTDDUnit) = '' then
-    raise Exception.Create('Nenhuma Unit para uses informada! Impossivel executar o teste.');
+    raise Exception.Create('Nenhuma Unit para uses informada! Impossível executar o teste.');
   if not Assigned(FParamsCasosTeste) then
     raise Exception.Create('Módulo e área devem ser informados.');
   if FParamsCasosTeste.Count <> 2 then
@@ -72,12 +72,14 @@ begin
     lLS.Add('        {P39_TDD_RUNNER.}RegistrarTick(1, ''' + lMetodo + ''');');
 
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__USES_UNITS__', FTDDUnit);
+    FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__MODO_DEBUG__', iif(FModoDebug, 'True', 'False'));
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__PARAMETROS_CASO_TESTE__', FParamsCasosTeste.CommaText);
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, ',', ', ');
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__CHAMADAS_METODOS__ // Identacao incorreta propositalmente!', lLS.Text);
 
     {P39_TDD_LOGS.}DelimitadorLog('CÓDIGO GERADO - TDD_IRUNNER.Executar');
     {P39_TDD_LOGS.}RegistrarLogEmModoDebug(FUnitInterpretar.Text);
+
     Interpretar(FUnitInterpretar.Text);
   finally
     lLS.Free;

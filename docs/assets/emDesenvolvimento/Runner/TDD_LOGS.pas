@@ -50,6 +50,8 @@ begin
   if FModoDebug then
   begin
     FLogsCasoTeste.Add(pLog + #13);
+    // Mostrar na tela:
+    MostrarLogTexto('[DEBUG]' + #13 + pLog);
   end;
 end;
 {$endregion}

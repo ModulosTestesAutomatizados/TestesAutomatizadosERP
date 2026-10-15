@@ -16,7 +16,7 @@ export default criarDocumentoUnit({
   metodos: [
     ['procedure Main', 'Exibir instruções.', 'Usa TDD_LOGS.MostrarInstrucoesUnit.'],
     ['function SetupCasosTestes(const pDescricaoModulo, pDescricaoArea: string): Boolean', 'Carregar os casos ativos uma vez para o lote.', 'Valida módulo/área, chama SetModulo e SetArea, limpa datasets existentes e chama CarregarCasosTeste. Erros são relançados com contexto.'],
-    ['procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste: string)', 'Reiniciar o contexto individual.', 'Zera histórico, método e etapa, lê o ID/requisito corrente e redefine as descrições. Não carrega casos nem move o cursor.'],
+    ['procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea: string)', 'Reiniciar o contexto individual.', 'Zera o estado anterior antes de ler o ID, requisito e descrição do registro corrente. Não carrega casos nem move o cursor.'],
     ['procedure InicializarMetricasTickDiff', 'Criar o dataset de tempos da tentativa.', 'Libera a estrutura anterior, define campos e índice NOME_METODO e desabilita controles e LogChanges.'],
     ['procedure LiberarMetricasTickDiff', 'Liberar o dataset de métricas.', 'Executa Free quando Assigned e registra diagnóstico em modo debug.'],
     ['procedure RegistrarTick(pPontoTick: integer; pNomeMetodo: string)', 'Registrar início (0) ou fim (1).', 'Normaliza o nome em maiúsculas. O início rejeita duplicidade e incrementa a etapa; o fim localiza o registro aberto e calcula TickDiff. Pontos inválidos ou ausência de início propagam erro.'],

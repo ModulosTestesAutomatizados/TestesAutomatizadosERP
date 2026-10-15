@@ -7,12 +7,13 @@ begin
     'procedure RegistrarMetricas'                                                                                          + #13 +
     '  - Insere o histórico de FHistoricoExecucao e obtém o ID retornado.'                                                 + #13 +
     '  - Persiste os registros de FCDSMetricasTickDiff vinculados ao histórico dessa tentativa.'                           + #13 +
+    '  - Encerra ticks abertos e tenta gravar o histórico mesmo se esse encerramento falhar.'                              + #13 +
     '====================================================================================================================' + #13 +
     'Contrato de persistência:'                                                                                            + #13 +
     'Run fornece o contexto; Finished copia os logs em memória imediatamente antes do INSERT.'                             + #13 +
     'Erros continuam propagados pelos tratamentos existentes; não há repetição automática de INSERT.'                      + #13 +
     'A persistência de asserts permanece comentada e será implementada por outro desenvolvedor.'                           + #13 +
-    'Finished não acrescenta logs da persistência; salva somente as mensagens acumuladas pelo caso.'                       + #13 +
+    'Falhas de encerramento e persistência são registradas; o diagnóstico preserva a causa anterior.'                     + #13 +
     'FExibirInstrucoes controla a exibição destas instruções.'                                                             + #13 +
     '====================================================================================================================';
   {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_FINISHED', lInstrucoes);
@@ -20,8 +21,43 @@ end;
 
 {$region 'Persistência'}
 procedure RegistrarMetricas;
-var lSQL :string;
+var lSQL, lMetodoAntesFinished, lErroEncerramento, lErroPersistencia :string;
 begin
+  lMetodoAntesFinished := FNomeMetodoAtual;
+  lErroEncerramento := '';
+  try
+    {P39_TDD_LOGS.}DelimitadorLog('ENCERRAMENTO DOS TEMPOS');
+    if Assigned(FCDSMetricasTickDiff) then
+    begin
+      FCDSMetricasTickDiff.First;
+      while not FCDSMetricasTickDiff.Eof do
+      begin
+        if FCDSMetricasTickDiff.FieldByName('TEMPO_FIM').AsInteger = 0 then
+          RegistrarTick(1, FCDSMetricasTickDiff.FieldByName('NOME_METODO').AsString);
+        FCDSMetricasTickDiff.Next;
+      end;
+    end;
+  except
+    on Ex: Exception do
+    begin
+      lErroEncerramento := 'Falha ao encerrar os tempos: ' + Ex.Message;
+      {P39_TDD_LOGS.}RegistrarLogEmModoDebug(lErroEncerramento);
+      if FHistoricoExecucao.StatusExecucao <> 'VERSAO_INCOMPATIVEL' then
+        FHistoricoExecucao.StatusExecucao := 'FALHA';
+      if Trim(FHistoricoExecucao.MensagemErro) = '' then
+      begin
+        FHistoricoExecucao.MensagemErro := lErroEncerramento;
+        FHistoricoExecucao.EtapaFalha := FEtapaAtual;
+      end;
+    end;
+  end;
+
+  {P39_TDD_LOGS.}DelimitadorLog('FINISHED');
+  FNomeMetodoAtual := 'FINISHED';
+  // Copia no ponto de persistência, antes que Run limpe a lista da tentativa.
+  if Assigned(FLogsCasoTeste) then
+    FHistoricoExecucao.LogsProcessamento := FLogsCasoTeste.Text;
+
   try
     lSQL := 'INSERT INTO HISTORICO_EXECUCAO ('                    + #13 +
       '  AUTOINC_CASO_TESTE_HE,'                                  + #13 +
@@ -126,8 +162,24 @@ begin
   except
     on Ex: Exception do
     begin
-      raise;
+      lErroPersistencia := 'Falha no caso ID ' + IntToStr(FHistoricoExecucao.AutoIncCasoTeste) +
+        ', método FINISHED: ' + Ex.Message;
+      {P39_TDD_LOGS.}RegistrarLogEmModoDebug(lErroPersistencia);
+      if Assigned(FLogsCasoTeste) then
+        FHistoricoExecucao.LogsProcessamento := FLogsCasoTeste.Text;
+      if (lErroEncerramento <> '') and (FHistoricoExecucao.MensagemErro <> lErroEncerramento) then
+        lErroPersistencia := lErroEncerramento + #13 + lErroPersistencia;
+      if Trim(FHistoricoExecucao.MensagemErro) <> '' then
+        raise Exception.Create(FHistoricoExecucao.MensagemErro + #13 + lErroPersistencia);
+      raise Exception.Create(lErroPersistencia);
     end;
+  end;
+  FNomeMetodoAtual := lMetodoAntesFinished;
+  if lErroEncerramento <> '' then
+  begin
+    if (Trim(FHistoricoExecucao.MensagemErro) <> '') and (FHistoricoExecucao.MensagemErro <> lErroEncerramento) then
+      raise Exception.Create(FHistoricoExecucao.MensagemErro + #13 + lErroEncerramento);
+    raise Exception.Create(lErroEncerramento);
   end;
 end;
 {$endregion}
