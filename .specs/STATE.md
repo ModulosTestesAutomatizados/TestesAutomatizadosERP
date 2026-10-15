@@ -20,9 +20,10 @@ SetarCasoTeste recebe somente módulo e área. O usuário confirmou que o fluxo 
 
 ## Handoff
 
-- Feature: `.specs/features/irunner-casca-enxuta/spec.md`.
-- Branch: `refactor/tdd-runner`; baseline: `e47d2a4`.
-- Implementação local: quatro fontes Pascal reorganizados; dois helpers removidos; casca de 223 para 183 linhas.
-- Verificação: gate local e sondas anteriores aprovados; revisão TLC independente PASS local, 10/10 critérios e 5/5 mutações detectadas.
-- Próximo passo operacional: revisar o diff e disponibilizar as quatro units no ERP para validação nativa.
-- Sem stage/commit nesta iteração, conforme instrução do usuário.
+- Feature atual: `.specs/features/irunner-asserts-modulo/spec.md`, aprovada e implementada localmente.
+- Baseline atual observado: `0303da9 chore(rename): alterações nos nomes de units simulando etiquetas`; árvore limpa antes desta proposta. O snapshot anterior em e47d2a4 é histórico, não o baseline atual.
+- O usuário adicionou P39_TDD_VALIDAR_RESULTADO e aprovou a direção de integrar asserts/módulo, remover FDescModulo duplicado e manter STARTED como aprovada.
+- Especificação atual: 25 requisitos, sete tarefas concluídas. Nomes/uses corrigidos; MODULO sem contexto duplicado; ASSERTS com evidências/cópias por caso; validador somente comparações; métricas agregadas persistidas por FINISHED. RegistrarErroReal foi movido do validador para RUN_ASSERTS.
+- Verificação: 16 grupos do autor, cinco independentes e 3/3 mutações detectadas em cópias temporárias. PASS local em validation.md; nenhum gate representa execução ERP/ODBC.
+- Próximo passo: o usuário disponibilizar o conjunto coerente de fontes no ambiente de teste e observar as capturas Data/RecNo, os datasets ativos após Save e as métricas/logs reais. Sem escrita em banco, stage ou commit nesta iteração. Documentação do portal não foi alterada.
+- Feature anterior: `.specs/features/irunner-casca-enxuta/spec.md`; sua validação local não comprova os requisitos desta nova iteração nem a execução nativa dos novos nomes.
