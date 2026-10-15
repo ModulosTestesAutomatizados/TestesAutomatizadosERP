@@ -1,43 +1,3 @@
-{
-  Unit de asserts inspirada no DUnitX (Assert igualdade, verdadeiro/falso,
-  lista vazia, texto) adaptada ao interpretador do ERP (JvInterpreter).
-
-  Diferente do DUnitX (que usa classes e RTTI), aqui cada assert:
-    - nao lanca excecao: registra PASS / FAIL acumulado (FResultados);
-    - retorna Boolean (True = passou), permitindo uso em `if AssertX(...)`.
-
-  No final, `AssertsResumo` devolve o total de pass/fail e a listagem, e
-  `AssertsOk` indica se todos passaram.
-
-  Metodos exportados:
-    - function AssertsPassou(pDescricao: String): Boolean
-      + Registra um assert bem-sucedido. Retorna sempre True.
-    - function AssertsFalhou(pDescricao, pDetalhe: String): Boolean
-      + Registra um assert reprovado. Retorna sempre False.
-    - function AssertIgual(pEsperado, pObtido: String; pDescricao: String): Boolean
-      + Compara igualdade de texto (String).
-    - function AssertIgualInteiro(pEsperado, pObtido: Integer; pDescricao: String): Boolean
-      + Compara igualdade numerica (Integer).
-    - function AssertIgualCurrency(pEsperado, pObtido: Currency; pCasas: Integer; pDescricao: String): Boolean
-      + Compara igualdade monetaria com arredondamento em pCasas.
-    - function AssertVerdadeiro(pCondicao: Boolean; pDescricao: String): Boolean
-      + Exige condicao True.
-    - function AssertFalso(pCondicao: Boolean; pDescricao: String): Boolean
-      + Exige condicao False.
-    - function AssertListaVazia(pLista: TStringList; pDescricao: String): Boolean
-      + Exige lista sem itens.
-    - function AssertContem(pTexto, pSubstring: String; pDescricao: String): Boolean
-      + Exige que pTexto contenha pSubstring (case-insensitive).
-    - procedure AssertsZerar
-      + Reinicia contadores/acumulados.
-    - function AssertsTotal, AssertsPass, AssertsFail: Integer
-      + Totais de asserts executados / aprovados / reprovados.
-    - function AssertsOk: Boolean
-      + True quando nao houve falha.
-    - function AssertsResumo: String
-      + Texto com total, pass, fail e lista de falhas.
-}
-
 uses P39_TDD_CASOS_DE_TESTE;
 
 {$Region 'Constantes'}
@@ -52,12 +12,13 @@ var
   FAssertsPass:  Integer;
   FAssertsFail:  Integer;
   FFalhas: TStringList;
+  FDataSets: TStringList;
 {$endRegion}
 
 procedure Main;
 var lInstrucoes: String;
 begin
-  P39_TDD_CASOS_DE_TESTE.Main; // Documentacao das units do uses
+ // P39_TDD_CASOS_DE_TESTE.Main; // Documentacao das units do uses
 
   lInstrucoes :=
     'Unit de asserts (modelo DUnitX) para uso no interpretador.' + #13 +
@@ -72,8 +33,28 @@ end;
 
 procedure InicializarAcumulo;
 begin
-  if FFalhas = nil then
+  if not Assigned(FFalhas) then
+  begin
     FFalhas := TStringList.Create;
+    FFalhas.Clear;
+  end;
+
+  if not Assigned(FDataSets) then
+  begin
+    FDataSets := TStringList.Create;
+    FDataSets.CLear;
+  end;
+end;
+
+// Informar DataSet | DM
+Procedure RegistrarDataSet(pDataSetName: String);
+begin
+  InicializarAcumulo;
+
+  if FDataSets.IndexOf(pDataSetName) > -1 then
+    Exit;
+
+  FDataSets.Add(pDataSetName);  
 end;
 
 function RegistrarResultado(pPassou: Boolean; pMsg: String): Boolean;
@@ -219,9 +200,12 @@ end;
 function AssertsResumo: String;
 var I: Integer;
 begin
-  Result := 'Asserts: total=' + IntToStr(FAssertsTotal) +
-    ', pass=' + IntToStr(FAssertsPass) +
-    ', fail=' + IntToStr(FAssertsFail);
+  Result := '-----------------------------' + #13 +
+    'Asserts:' + #13 + 
+    'total=' + IntToStr(FAssertsTotal) + #13 +
+    'pass=' + IntToStr(FAssertsPass) + #13 +
+    'fail=' + IntToStr(FAssertsFail) + #13 + 
+    '--------------------------------------';
 
   if FAssertsFail > 0 then
   begin

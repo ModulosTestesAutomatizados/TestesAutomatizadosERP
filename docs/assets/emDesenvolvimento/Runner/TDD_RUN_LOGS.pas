@@ -50,7 +50,6 @@ begin
   if FModoDebug then
   begin
     FLogsCasoTeste.Add(pLog + #13);
-    // Mostrar na tela:
     MostrarLogTexto('[DEBUG]' + #13 + pLog);
   end;
 end;
@@ -59,7 +58,10 @@ end;
 {$region Mostrar Instruções}
 procedure MostrarInstrucoesUnit(pNomeUnitInstrucao, pInstrucoes :string);
 begin
-  if Trim(pNomeUnitInstrucao) = '' then raise Exception.Create('Nome da unit não informado para exibir as instruções.');
-  if FExibirInstrucoes then MostrarLogTexto(pInstrucoes, 'Instruções ' + pNomeUnitInstrucao);
+  if Trim(pNomeUnitInstrucao) = '' then
+  	raise Exception.Create('Nome da unit não informado para exibir as instruções.');
+
+  if FExibirInstrucoes then
+  	MostrarLogTexto(pInstrucoes, 'Instruções ' + pNomeUnitInstrucao);
 end;
 {$endregion}

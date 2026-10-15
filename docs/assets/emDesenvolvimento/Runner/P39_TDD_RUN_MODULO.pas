@@ -1,4 +1,4 @@
-﻿uses P39_TDD_CASOS_DE_TESTE;
+uses P39_TDD_CASOS_DE_TESTE, P39_TDD_VALIDAR_RESULTADO;
 
 const
   cFP = 'FPrincipal';
@@ -24,7 +24,7 @@ end;
 procedure AbrirTela(pEventoClickMenu:String);
 begin
   if not FModuloDefinido then
-    raise exception.Create(MensagemPersonalizada + 'Modulo NÃ£o informado!');
+    raise exception.Create(MensagemPersonalizada + 'Modulo Não informado!');
     
   FP := FormCriadoPeloNome(cFP);
   
