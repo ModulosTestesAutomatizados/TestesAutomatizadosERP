@@ -283,7 +283,9 @@ begin
 
     if not CDSSelecao.Active then CDSSelecao.Open;
 
-    CDSSelecao.EmptyDataSet;
+    CDSSelecao.First;
+    while not CDSSelecao.IsEmpty do
+      CDSSelecao.Delete;
     CDSSelecao.Insert;
     CDSSelecao.FieldByName('Codigo').AsInteger := lFornecedor;
     CDSSelecao.FieldByName('Descricao').AsString := '';

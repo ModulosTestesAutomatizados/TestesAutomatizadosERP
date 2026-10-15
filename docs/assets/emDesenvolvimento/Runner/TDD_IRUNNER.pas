@@ -72,12 +72,14 @@ begin
     lLS.Add('        {P39_TDD_RUNNER.}RegistrarTick(1, ''' + lMetodo + ''');');
 
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__USES_UNITS__', FTDDUnit);
+    FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__MODO_DEBUG__', iif(FModoDebug, 'True', 'False'));
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__PARAMETROS_CASO_TESTE__', FParamsCasosTeste.CommaText);
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, ',', ', ');
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__CHAMADAS_METODOS__ // Identacao incorreta propositalmente!', lLS.Text);
 
     {P39_TDD_LOGS.}DelimitadorLog('CÓDIGO GERADO - TDD_IRUNNER.Executar');
     {P39_TDD_LOGS.}RegistrarLogEmModoDebug(FUnitInterpretar.Text);
+
     Interpretar(FUnitInterpretar.Text);
   finally
     lLS.Free;

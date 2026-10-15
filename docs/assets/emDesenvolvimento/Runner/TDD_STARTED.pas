@@ -33,13 +33,12 @@ begin
     '  - Aceita requisito vazio; valida a versão mínima quando informada e registra incompatibilidade.'                    + #13 +
     'procedure AplicarParametrosDoCasoTeste'                                                                               + #13 +
     '  - Aplica a seção opcional de parâmetros; ausência ou objeto vazio não altera o sistema.'                              + #13 +
-    'function ObterParametrosDoCasoTeste(pJson :string) :string'                                                           + #13 +
-    '  - Lê somente a seção de parâmetros da raiz e rejeita JSON ou seção inválidos.'                                         + #13 +
+    '  - Lê somente a seção de parâmetros da raiz e rejeita JSON ou seção inválidos.'                                     + #13 +
     '====================================================================================================================' + #13 +
     'Contrato de execução:'                                                                                                + #13 +
     'Started é chamada por Run após SetarCasoTeste; a carga do lote permanece em SetupCasosTestes.'                        + #13 +
     'FCasoTesteAtualId e FCasoTesteAtualJson são compartilhados com a unit de Teste.'                                      + #13 +
-    'Os tempos são registrados pelos métodos existentes; logs são capturados mesmo sem FModoDebug.'                       + #13 +
+    'Os tempos são registrados pelos métodos existentes; a captura dos logs respeita FModoDebug.'                        + #13 +
     'FExibirInstrucoes controla a exibição destas instruções.'                                                             + #13 +
     '====================================================================================================================';
   {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_STARTED', lInstrucoes);
@@ -50,15 +49,15 @@ end;
   APLICAÇÃO DE PARÂMETROS DO SISTEMA PARA EXECUTAR O TESTE
     - Está sendo cronometrado em sua chamada por Started
   ================================================================ }
-function ObterParametrosDoCasoTeste(pJson :string) :string;
+procedure AplicarParametrosDoCasoTeste;
 var
-  lTexto :string;
+  lTexto, lParametrosJson :string;
   lObj :TJSONObject;
   lPair :TJSONPair;
   lIndice :Integer;
 begin
-  Result := '';
-  lTexto := Trim(pJson);
+  lParametrosJson := '';
+  lTexto := Trim(FCasoTesteAtualJson);
   if lTexto = '' then
     Exit;
   if Copy(lTexto, 1, 1) <> '{' then
@@ -75,24 +74,17 @@ begin
     for lIndice := 0 to lObj.Count - 1 do
     begin
       lPair := ExecutarMetodoDeObjeto(lObj, 'GetPair', [lIndice]);
-      if GetPairName(lPair) = 'parametros' then
+      if (GetPairName(lPair) = 'parametros') and (lParametrosJson = '') then
       begin
-        Result := Trim(GetPairValue(lPair));
-        if Copy(Result, 1, 1) <> '{' then
+        lParametrosJson := Trim(GetPairValue(lPair));
+        if Copy(lParametrosJson, 1, 1) <> '{' then
           raise Exception.Create('A seção de parâmetros deve ser um objeto JSON.');
-        Exit;
       end;
     end;
   finally
     if Assigned(lObj) then
       lObj.Free;
   end;
-end;
-
-procedure AplicarParametrosDoCasoTeste;
-var lParametrosJson :string;
-begin
-  lParametrosJson := ObterParametrosDoCasoTeste(FCasoTesteAtualJson);
   if (Trim(lParametrosJson) <> '') and (Trim(lParametrosJson) <> '{}') then
   begin
     {P39_TDD_LOGS.}RegistrarLogEmModoDebug(

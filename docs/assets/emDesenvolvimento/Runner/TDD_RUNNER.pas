@@ -61,7 +61,7 @@ begin
     'Métodos de preparação:'                                                                                               + #13 +
     'function SetupCasosTestes(const pDescricaoModulo, pDescricaoArea :string) :Boolean'                                   + #13 +
     '  - Carrega os casos ativos do módulo/área uma vez antes do loop da casca.'                                           + #13 +
-    'procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste :string)'                              + #13 +
+    'procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea :string)'                                                   + #13 +
     '  - Reinicia histórico, erros e etapa; prepara o contexto do registro corrente sem mover o cursor.'                   + #13 +
     '====================================================================================================================' + #13 +
     'Métodos de métricas:'                                                                                                 + #13 +
@@ -69,7 +69,6 @@ begin
     '  - Cria os tempos de uma tentativa e libera seu CDS pelos métodos existentes.'                                       + #13 +
     'procedure RegistrarTick(pPontoTick :integer; pNomeMetodo :string)'                                                    + #13 +
     '  - Registra tempos relativos à tentativa; zero no fim identifica uma métrica aberta.'                                + #13 +
-    'function CalcularTickRelativo(pTempoTick, pTempoBase :Double) :Integer'                                               + #13 +
     '  - Trata a virada do contador e valida o limite Integer antes de gravar o CDS.'                                      + #13 +
     'function PreencherComZeros(pValor :Cardinal; pTamanho :Integer) :string'                                              + #13 +
     'function FormatarTickDiff(pTempoMs :Cardinal) :string'                                                                + #13 +
@@ -141,25 +140,30 @@ end;
     - Reinicia histórico, status, erros, etapa e dados do caso anterior
     - Define o contexto sem carregar casos ou mover o cursor
   ================================================================ }
-procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste :string);
+procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea :string);
 begin
   FHistoricoExecucao.AutoIncHistorico  := 0;
-  FHistoricoExecucao.AutoIncCasoTeste  := CDSCasosTestes.FieldByName('ID').AsInteger;
+  FHistoricoExecucao.AutoIncCasoTeste  := 0;
   FHistoricoExecucao.VersaoExecucao    := '';
-  FHistoricoExecucao.RequisitoVersao   := CDSCasosTestes.FieldByName('REQUISITOVERSAO').AsString;
+  FHistoricoExecucao.RequisitoVersao   := '';
   FHistoricoExecucao.StatusExecucao    := '';
   FHistoricoExecucao.EtapaFalha        := 0;
   FHistoricoExecucao.MensagemErro      := '';
   FHistoricoExecucao.LogsProcessamento := '';
 
-  FNomeMetodoAtual                      := '';
+  FNomeMetodoAtual                      := 'PREPARAÇÃO DO CASO';
   FEtapaAtual                           := 0;
   FCasoTesteAtualId                     := 0;
   FCasoTesteAtualJson                   := '';
 
   FContextoCasoTeste.DescricaoModulo    := pDescricaoModulo;
   FContextoCasoTeste.DescricaoArea      := pDescricaoArea;
-  FContextoCasoTeste.DescricaoCasoTeste := pDescricaoCasoTeste;
+  FContextoCasoTeste.DescricaoCasoTeste := '';
+
+  // Todo o estado anterior foi reiniciado antes de consultar o registro.
+  FHistoricoExecucao.AutoIncCasoTeste := CDSCasosTestes.FieldByName('ID').AsInteger;
+  FHistoricoExecucao.RequisitoVersao := CDSCasosTestes.FieldByName('REQUISITOVERSAO').AsString;
+  FContextoCasoTeste.DescricaoCasoTeste := CDSCasosTestes.FieldByName('DESCRICAO').AsString;
 end;
 {$endregion}
 
@@ -202,18 +206,6 @@ end;
   CRONÔMETRO PARA MÉTRICAS DE TEMPO DAS EXECUÇÕES NOS TESTES
   Formatação e registro de marcadores Início e Fim por execução
   ================================================================ }
-function CalcularTickRelativo(pTempoTick, pTempoBase :Double) :Integer;
-var lTempoDecorrido :Double;
-begin
-  lTempoDecorrido := pTempoTick - pTempoBase;
-  if lTempoDecorrido < 0 then
-    lTempoDecorrido := lTempoDecorrido + 4294967296.0;
-  // Reserva zero para TEMPO_FIM em aberto, inclusive no mesmo tick do início.
-  if lTempoDecorrido > 2147483646 then
-    raise Exception.Create('Tempo da tentativa excedeu o limite Integer das métricas.');
-  Result := lTempoDecorrido + 1;
-end;
-
 function PreencherComZeros(pValor :Cardinal; pTamanho :Integer) :string;
 begin
   Result := IntToStr(pValor);
@@ -240,11 +232,19 @@ end;
 procedure RegistrarTick(pPontoTick :integer; pNomeMetodo :string);
 var
   lTempoTick, lTempoTotal :Integer;
+  lTempoDecorrido         :Double;
   lPontoTick              :string;
   lVerificaFindKey        :Boolean;
 begin
-  // Somente o tempo relativo validado atravessa os adapters AsInteger/TickDiff.
-  lTempoTick := CalcularTickRelativo(GetTickCount, FTempoBaseTick);
+  // Recebe o Cardinal bruto em Double e só converte o tempo relativo validado.
+  lTempoDecorrido := GetTickCount;
+  lTempoDecorrido := lTempoDecorrido - FTempoBaseTick;
+  if lTempoDecorrido < 0 then
+    lTempoDecorrido := lTempoDecorrido + 4294967296.0;
+  if lTempoDecorrido > 2147483646 then
+    raise Exception.Create('Tempo da tentativa excedeu o limite Integer das métricas.');
+  // Zero continua reservado para uma métrica em aberto.
+  lTempoTick := lTempoDecorrido + 1;
 
   pNomeMetodo := UpperCase(pNomeMetodo);
 
