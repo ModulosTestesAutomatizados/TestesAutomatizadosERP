@@ -1,4 +1,4 @@
-import documentos from './content/catalogo.ts';
+import documentos from './catalogo/index.ts';
 
 export function criarRouter() {
   const router = VueRouter.createRouter({

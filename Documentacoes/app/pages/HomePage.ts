@@ -1,5 +1,5 @@
 import RedirectCard from '../components/RedirectCard.ts';
-import documentos from '../content/catalogo.ts';
+import documentos from '../catalogo/index.ts';
 
 export default Vue.defineComponent({
   components: { RedirectCard },

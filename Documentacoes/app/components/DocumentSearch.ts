@@ -1,5 +1,5 @@
-import documentos from '../content/catalogo.ts';
-import { rotaDocumento } from '../content/validarCatalogo.ts';
+import documentos from '../catalogo/index.ts';
+import { rotaDocumento } from '../catalogo/validarCatalogo.ts';
 import { criarBusca } from '../search.ts';
 const buscar = criarBusca(documentos);
 

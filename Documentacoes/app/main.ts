@@ -1,6 +1,6 @@
 import AppLayout from './components/AppLayout.ts';
-import documentos from './content/catalogo.ts';
-import { validarCatalogo } from './content/validarCatalogo.ts';
+import documentos from './catalogo/index.ts';
+import { validarCatalogo } from './catalogo/validarCatalogo.ts';
 import { criarRouter } from './router.ts';
 
 export async function iniciar() {

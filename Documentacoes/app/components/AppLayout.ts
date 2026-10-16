@@ -1,4 +1,4 @@
-import documentos from '../content/catalogo.ts';
+import documentos from '../catalogo/index.ts';
 import { criarNavegacao, gruposDaRota } from '../navigation.ts';
 import DocumentSearch from './DocumentSearch.ts';
 import navigationGroup from './NavigationGroup.ts';

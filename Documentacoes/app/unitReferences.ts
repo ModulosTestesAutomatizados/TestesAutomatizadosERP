@@ -1,6 +1,6 @@
-import type { IDocumento, IReferenciaUnit } from './models/documentacao.ts';
+import type { IDocumento, IReferenciaUnit } from './contracts/documentacao.ts';
 
-import units from './content/units/catalogo.ts';
+import units from './catalogo/units.ts';
 
 export const slugUnit = (pNome: string): string => pNome.toLowerCase().replace(/_/g, '-');
 const nomes = new Map<string, IDocumento>();

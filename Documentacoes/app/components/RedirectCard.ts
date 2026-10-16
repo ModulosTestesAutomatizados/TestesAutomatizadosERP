@@ -1,6 +1,6 @@
-import type { IDocumento } from '../models/documentacao.ts';
+import type { IDocumento } from '../contracts/documentacao.ts';
 
-import { estados, rotaDocumento } from '../content/validarCatalogo.ts';
+import { estados, rotaDocumento } from '../catalogo/validarCatalogo.ts';
 import { contextoDocumento } from '../navigation.ts';
 
 // Navegação reutilizável; o catálogo determina conteúdo e destino.

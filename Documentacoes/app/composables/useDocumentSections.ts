@@ -1,5 +1,5 @@
 // Destaque da seção em leitura e navegação por links compartilháveis.
-import type { IDocumento } from '../models/documentacao.ts';
+import type { IDocumento } from '../contracts/documentacao.ts';
 import type { ComputedRef } from 'vue';
 export function useDocumentSections(pDocumento: ComputedRef<IDocumento | undefined>) {
   const route = VueRouter.useRoute();

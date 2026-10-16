@@ -3,8 +3,8 @@ import DocumentToc from '../components/DocumentToc.ts';
 import ReferenceText from '../components/ReferenceText.ts';
 import { useDocumentSections } from '../composables/useDocumentSections.ts';
 import { fonteRepositorio } from '../config.ts';
-import documentos from '../content/catalogo.ts';
-import { estados } from '../content/validarCatalogo.ts';
+import documentos from '../catalogo/index.ts';
+import { estados } from '../catalogo/validarCatalogo.ts';
 import NotFoundPage from './NotFoundPage.ts';
 
 export default Vue.defineComponent({

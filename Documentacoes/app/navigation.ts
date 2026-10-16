@@ -1,7 +1,7 @@
-import type { IDocumento, IGrupoNavegacao, INavegacaoDocumento } from './models/documentacao.ts';
+import type { IDocumento, IGrupoNavegacao, INavegacaoDocumento } from './contracts/documentacao.ts';
 
-import { GRUPOS_NAVEGACAO } from './content/navegacao.ts';
-import { rotaDocumento } from './content/validarCatalogo.ts';
+import { GRUPOS_NAVEGACAO } from './catalogo/grupos.ts';
+import { rotaDocumento } from './catalogo/validarCatalogo.ts';
 
 export function navegacaoDocumento(pDocumento: IDocumento): INavegacaoDocumento {
   if (pDocumento.navegacao) return pDocumento.navegacao;

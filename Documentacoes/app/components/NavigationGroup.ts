@@ -1,6 +1,6 @@
-import type { IGrupoNavegacao } from '../models/documentacao.ts';
+import type { IGrupoNavegacao } from '../contracts/documentacao.ts';
 
-import { rotaDocumento } from '../content/validarCatalogo.ts';
+import { rotaDocumento } from '../catalogo/validarCatalogo.ts';
 
 // Um grupo expansível pode conter documentos e outros grupos.
 const navigationGroup = Vue.defineComponent({

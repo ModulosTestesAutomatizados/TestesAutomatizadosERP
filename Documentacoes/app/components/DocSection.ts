@@ -1,4 +1,4 @@
-import type { ISecao } from '../models/documentacao.ts';
+import type { ISecao } from '../contracts/documentacao.ts';
 
 import DocBlocks from './DocBlocks.ts';
 import ReferenceText from './ReferenceText.ts';

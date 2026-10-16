@@ -62,7 +62,7 @@ T7 → T8
 **Depends on**: T1
 **Requirement**: ARCH-01, ARCH-02, ARCH-04, ARCH-05, ARCH-07, UX-04.
 **Done when**:
-- [ ] Teste local compara baseline e verifica referências, menu e relevância; tipos aprovados para o grafo atual.
+- [x] Teste local compara baseline e verifica referências, menu e relevância; tipos aprovados para o grafo atual.
 **Tests**: unit
 **Gate**: quick
 **Commit**: refactor(docs): organiza registro editorial em slices

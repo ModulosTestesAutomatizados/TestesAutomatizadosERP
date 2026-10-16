@@ -1,4 +1,4 @@
-import type { TBloco } from '../models/documentacao.ts';
+import type { TBloco } from '../contracts/documentacao.ts';
 
 import CodeBlock from './CodeBlock.ts';
 import DocNotice from './DocNotice.ts';
