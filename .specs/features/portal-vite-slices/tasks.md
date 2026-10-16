@@ -33,13 +33,13 @@ Diretrizes: usuário pediu testes proporcionais e não versionados; .gitignore i
 
 T1 → T2 → T3
 
-### Phase 2: Conteúdo canônico
+### Phase 2: Autoria independente
 
-T4 → T5 → T6
+T7
 
-### Phase 3: Autoria e entrega
+### Phase 3: Conteúdo canônico e entrega
 
-T7 → T8
+T4 → T5 → T6 → T8
 
 ## Task Breakdown
 
@@ -119,10 +119,10 @@ T7 → T8
 
 **Where**: .agents/skills/contribuir-documentacao/
 **What**: Criar skill e alinhar guia/snippets à estrutura final, com expansão de exemplos representativos.
-**Depends on**: T6
+**Depends on**: T3
 **Requirement**: AUTHOR-01, AUTHOR-02, AUTHOR-03, AUTHOR-04.
 **Done when**:
-- [ ] Exemplos de SFC, documento/unit, grupo/estado/JSON/diagrama passam pelos contratos e tipos; guia e skill usam paths reais sem APIs CDN.
+- [x] Exemplos de SFC, documento/unit, grupo/estado/JSON/diagrama passam pelos contratos e tipos; guia e skill usam paths reais sem APIs CDN.
 **Tests**: integration
 **Gate**: build
 **Commit**: docs: ensina contribuicao com slices sfc e snippets
@@ -131,7 +131,7 @@ T7 → T8
 
 **Where**: .specs/features/portal-vite-slices/
 **What**: Consolidar cobertura/evidências e conferir artefato Pages desktop/mobile, contratos e preservação dos fontes antes do verificador independente.
-**Depends on**: T7
+**Depends on**: T6, T7
 **Requirement**: AUTHOR-05 e integração dos 32 critérios/DOC-01..18.
 **Done when**:
 - [ ] Gates finais registrados sem tools/testes versionados; relatório e handoff fiéis ao resultado, seguidos por revisão independente e sensor.
@@ -141,7 +141,7 @@ T7 → T8
 
 ## Diagram-Definition Cross-Check
 
-T1→T2→T3; T4→T5→T6; T7→T8 conferem com Depends on. Dependências entre fases T3→T4 e T6→T7 respeitam a ordem.
+T1→T2→T3; T4→T5→T6→T8 conferem com Depends on. T7 depende de T3; T8 também depende de T7. Autoria foi antecipada porque independe dos fontes Pascal pendentes; o bundle da tarefa não declara verificação editorial de T6.
 
 ## Granularidade e compilação
 

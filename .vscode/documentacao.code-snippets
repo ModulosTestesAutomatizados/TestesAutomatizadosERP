@@ -4,7 +4,7 @@
     "prefix": "docpagina",
     "description": "Documento modular do portal TDD; registre uma vez no catálogo.",
     "body": [
-      "import type { IDocumento } from '../../models/documentacao.ts';",
+      "import type { IDocumento } from '${19:../../../../contracts/documentacao.ts}';",
       "",
       "export default {",
       "  slug: '${1:novo-caso}', categoria: '${2|estrutura,guias,documentos|}',",
@@ -64,9 +64,9 @@
   "Documento individual de unit": {
     "scope": "typescript",
     "prefix": "docunit",
-    "description": "Unit canônica: mesmo nome P39_TDD_ no fonte, título, menu e rota.",
+    "description": "Unit canônica: nome real do fonte no título/menu, distinguindo referências remotas.",
     "body": [
-      "import { criarDocumentoUnit } from './criarDocumentoUnit.ts';",
+      "import { criarDocumentoUnit } from '${19:../../../../contracts/criarDocumentoUnit.ts}';",
       "export default criarDocumentoUnit({",
       "  nome: '${1:P39_TDD_NOVA_UNIT}',",
       "  tipoArtefato: '${18|unit,processamento|}',",
@@ -106,10 +106,10 @@
   "Registro de unit": {
     "scope": "typescript",
     "prefix": "docregistrounit",
-    "description": "Import em content/units/catalogo.ts; use o nome canônico do arquivo TypeScript.",
+    "description": "Import em index.ts público da slice; use o nome canônico do arquivo TypeScript.",
     "body": [
-      "import ${1:novaUnit} from './${2:p39-tdd-nova-unit}.ts';",
-      "// Acrescente ${1:novaUnit} à lista units abaixo.",
+      "import ${1:novaUnit} from './conteudo/${2:p39-tdd-nova-unit}.ts';",
+      "// Acrescente ${1:novaUnit} ao array exportado pelo index.ts da slice.",
       "$0"
     ]
   },
@@ -150,8 +150,8 @@
     "prefix": "docregistro",
     "description": "Import para catalogo.ts; acrescente o identificador à lista documentos.",
     "body": [
-      "import ${1:novaPagina} from './${2:estrutura/novo-fluxo}.ts';",
-      "// Acrescente ${1:novaPagina} à lista documentos abaixo.",
+      "import ${1:novaPagina} from './conteudo/${2:novo-fluxo}.ts';",
+      "// Acrescente ${1:novaPagina} ao array exportado pelo index.ts da slice.",
       "$0"
     ]
   },
@@ -225,7 +225,7 @@
   "Grupo de navegação": {
     "scope": "typescript",
     "prefix": "docgrupo",
-    "description": "Inclua em GRUPOS_NAVEGACAO de app/content/navegacao.ts; páginas escolhem estes IDs.",
+    "description": "Inclua em GRUPOS_NAVEGACAO de app/catalogo/grupos.ts; documentos escolhem esses IDs.",
     "body": [
       "{ id: '${1:novo-grupo}', titulo: '${2:Novo grupo}', icone: '${3:mdi-folder-outline}',",
       "  subgrupos: [{ id: '${4:geral}', titulo: '${5:Geral}' }] },$0"
@@ -234,9 +234,26 @@
   "Subgrupo de navegação": {
     "scope": "typescript",
     "prefix": "docsubgrupo",
-    "description": "Inclua no array subgrupos do grupo em content/navegacao.ts.",
+    "description": "Inclua no array subgrupos do grupo em app/catalogo/grupos.ts.",
     "body": [
       "{ id: '${1:novo-subgrupo}', titulo: '${2:Novo subgrupo}' },$0"
+    ]
+  },
+  "Componente Vue da feature": {
+    "scope": "vue",
+    "prefix": "doccomponente",
+    "description": "SFC na slice responsável, com script setup TypeScript e props tipadas.",
+    "body": [
+      "<template>",
+      "  <v-sheet>",
+      "    {{ titulo }}",
+      "  </v-sheet>",
+      "</template>",
+      "",
+      "<script setup lang=\"ts\">",
+      "defineProps<{ titulo: string }>();",
+      "${0}",
+      "</script>"
     ]
   }
 }
