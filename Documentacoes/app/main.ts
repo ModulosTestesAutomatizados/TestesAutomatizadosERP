@@ -1,4 +1,6 @@
 // Falha pré-montagem independente de Vue.
+import { temaInicial } from './components/portal/preferenciaTema.ts';
+document.documentElement.dataset.tema = temaInicial();
 function exibirFalha() {
   const status = document.getElementById('portal-status');
   if (!status) return;

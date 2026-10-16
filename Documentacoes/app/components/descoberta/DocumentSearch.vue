@@ -2,22 +2,27 @@
   <div
     class="document-search"
     @focusout="aoSair">
-    <div class="search-input"><v-icon
-      icon="mdi-magnify"
-      size="20"
-      aria-hidden="true"/><input
+    <v-text-field
       v-model="consulta"
-      :aria-expanded="aberta && !!consulta.trim()"
+      :aria-expanded="aberta && !!consulta?.trim()"
       type="search"
       placeholder="Buscar documentação…"
       aria-label="Buscar documentação"
       aria-controls="search-results"
+      clearIcon="mdi-close-circle"
+      prependInnerIcon="mdi-magnify"
+      variant="outlined"
+      density="compact"
+      class="search-field"
+      clearable
+      hideDetails
       @focus="aberta = true"
-      @input="aberta = true"
+      @update:modelValue="aberta = !!consulta?.trim()"
+      @click:clear="aberta = false"
       @keydown.enter.prevent="abrirPrimeiro"
-      @keydown.esc="aberta = false"/></div>
+      @keydown.esc="aberta = false"/>
     <div
-      v-if="aberta && consulta.trim()"
+      v-if="aberta && consulta?.trim()"
       id="search-results"
       class="search-results"><div
                              class="search-caption"
@@ -44,8 +49,8 @@ import { rotaDocumento } from '../../contracts/identidade.ts';
 import { criarBusca } from './search.ts';
 const props = defineProps<{ documentos: IDocumento[] }>();
 const buscar = criarBusca(props.documentos);
-const consulta = ref(''), aberta = ref(false);
-const resultados = computed(() => buscar(consulta.value).slice(0, 8));
+const consulta = ref<string | null>(''), aberta = ref(false);
+const resultados = computed(() => buscar(consulta.value ?? '').slice(0, 8));
 const route = useRoute();
 const router = useRouter();
 watch(() => route.path, () => { aberta.value = false; });

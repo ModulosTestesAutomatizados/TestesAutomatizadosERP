@@ -16,8 +16,15 @@
            @click="drawer = !drawer"/>
       <RouterLink
         to="/"
-        class="brand"><span class="brand-mark">T</span><span>TDD <strong>ERP</strong></span></RouterLink>
+        class="brand"
+        aria-label="TDD ERP, início"><span class="brand-mark">T</span><span>TDD <strong>ERP</strong></span></RouterLink>
       <v-spacer/><DocumentSearch :documentos="documentos"/>
+      <v-btn
+        :icon="escuro ? 'mdi-white-balance-sunny' : 'mdi-weather-night'"
+        :aria-label="escuro ? 'Ativar tema claro' : 'Ativar tema escuro'"
+        :aria-pressed="escuro"
+        class="theme-toggle"
+        @click="alternarTema"/>
     </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
@@ -68,9 +75,11 @@ import type { IDocumento } from '../../contracts/documentacao.ts';
 
 import { criarNavegacao, DocumentSearch, gruposDaRota, NavigationGroup } from '../descoberta/index.ts';
 import PortalLoading from './PortalLoading.vue';
+import { useTema } from './useTema.ts';
 
 const props = defineProps({ documentos: { type: Array as import('vue').PropType<IDocumento[]>, required: true }, carregando: Boolean, bloqueado: Boolean, falha: Boolean });
 defineEmits(['pronto']);
+const { escuro, alternarTema } = useTema();
 const { mobile } = useDisplay();
 const drawer = ref(!mobile.value);
 const route = useRoute();

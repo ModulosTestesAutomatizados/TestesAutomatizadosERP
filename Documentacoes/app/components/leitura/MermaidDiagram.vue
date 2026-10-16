@@ -54,12 +54,13 @@
 </template>
 
 <script setup lang="ts">
+import { computed, onBeforeUnmount,onMounted, ref, watch } from 'vue';
+import { useTheme } from 'vuetify';
+
+import CodeBlock from './CodeBlock.vue';
 import { carregarMermaid, lerDiagrama, proximoDiagrama } from './diagrams.ts';
 import { useReferenciasUnits } from './useReferenciasUnits.ts';
 const { partesReferencia, rotaUnit } = useReferenciasUnits();
-import { computed, onBeforeUnmount,onMounted, ref, watch } from 'vue';
-
-import CodeBlock from './CodeBlock.vue';
 
 function vincularUnits(pRoot: Element): void {
   for (const node of pRoot.querySelectorAll('.node')) {
@@ -72,6 +73,7 @@ function vincularUnits(pRoot: Element): void {
   }
 }
 const props = defineProps({ fonte: { type: String, required: true }, titulo: { type: String, default: 'Diagrama' } });
+const tema = useTheme();
 const svg = ref(''), source = ref(''), error = ref(false), loading = ref(true);
 const viewport = ref<HTMLDivElement | null>(null), orientacao = ref(''), zoom = ref(100);
 const dimensoes = ref({ largura: 1, altura: 1 }), largura = ref(600);
@@ -91,6 +93,7 @@ async function renderizar() {
         const code = orientacao.value && fluxo.value
           ? source.value.replace(/^(\s*(?:flowchart|graph)\s+)(TD|TB|BT|LR|RL)\b/, '$1' + orientacao.value) : source.value;
         const mermaid = await carregarMermaid();
+        mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', flowchart: { htmlLabels: false }, theme: tema.current.value.dark ? 'dark' : 'neutral' });
         container = document.createElement('div'); container.className = 'diagram-render-container'; document.body.append(container);
         const result = await mermaid.render(proximoDiagrama(), code, container);
         if (current !== generation) return;
@@ -116,6 +119,7 @@ async function carregarFonte() {
     }
 watch(() => props.fonte, carregarFonte, { immediate: true });
 watch(orientacao, () => { if (source.value) { zoom.value = 100; renderizar(); } });
+watch(() => tema.current.value.dark, () => { if (source.value) renderizar(); });
 onMounted(() => {
       observer = new ResizeObserver(pEntries => { largura.value = Math.max(1, pEntries[0].contentRect.width); });
       if (viewport.value) observer.observe(viewport.value);
