@@ -10,7 +10,7 @@ O usuário atualizou docs/assets e confirmou estes arquivos como a versão mais 
 - A descrição do registro financeiro em RegistrosCasosTestes agora é TDD_FIN_FINANCEIRO, assim como o cenário; o pacote anterior citava TDD_FINANCEIRO como chave de cadastro.
 - Os mapeamentos usam novamente MAPEAR_COMPONENTES no sentido do código e o nome de arquivo contém MAPEAMENTO_COMPONENTES (nos arquivos: P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO/RECEBIMENTO). Títulos e menu usam os nomes reais completos, sem abreviação.
 - P39_TDD_PARAMETRO é o arquivo local atual, substituindo o plural da documentação anterior. RUN_MODULO assume apenas telas/foco; SetModulo e seu estado pertencem a CASOS_DE_TESTE.
-- RegistrarLogEmModoDebug atual adiciona a mensagem e chama MostrarLogTexto com debug ativo, apesar de instrução antiga citar ausência de log nativo. O corpo executável prevalece.
+- TDD_RUN_LOGS declara RegistrarLog(pLog :string): sempre acumula pLog + #13 em FLogsCasoTeste; FModoDebug controla somente MostrarLogTexto. Chamadas a RegistrarLogEmModoDebug nos demais fontes são divergências de API ainda pendentes no Pascal.
 - O cabeçalho do molde ainda menciona ASSERTS reservado, mas o corpo chama CompararResultadoEsperado e AssertsOk; a documentação descreve o corpo executável.
 
 ## Limites preservados
@@ -20,3 +20,6 @@ FLogsCasoTeste é liberado sem nil ao encerrar o lote. Data/RecNo e efeitos nati
 ## Novos moldes
 
 O diretório físico fornecido é docs/assets/snippets (com dois p). Main e os três JSONs padrões serão expostos como fontes copiáveis; os três JSONs padrões receberão exceções específicas no gitignore por serem moldes compartilhados. JSONs de massa pessoais permanecem ignorados. Nenhum desses exemplos será executado pelo frontend.
+
+
+Atualização observada durante a implementação: TDD_RUN_LOGS passou a RegistrarLog com acumulação incondicional e exibição condicionada a FModoDebug. Páginas/assinaturas e hashes foram atualizados após leitura do novo corpo. Chamadas antigas em outros Pascal são relatadas como divergência de API, sem reescrever os fontes.

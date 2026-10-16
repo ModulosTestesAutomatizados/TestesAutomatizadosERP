@@ -110,7 +110,7 @@ T4 → T5 → T6 → T8
 **Depends on**: T5
 **Requirement**: VITE-05, VITE-06, VITE-08, TDD-05; DOC-15, DOC-18.
 **Done when**:
-- [ ] Check/build completo passam; rejeição de fonte/hash incorreto demonstrada em cópia; recursos servem sob prefixo, nenhum conteúdo privado copiado.
+- [x] Check/build completo passam; rejeição de fonte/hash incorreto demonstrada em cópia; recursos servem sob prefixo, nenhum conteúdo privado copiado.
 **Tests**: integration
 **Gate**: build
 **Commit**: build(docs): valida fontes canonicas no portal vite
@@ -146,3 +146,17 @@ T1→T2→T3; T4→T5→T6→T8 conferem com Depends on. T7 depende de T3; T8 ta
 ## Granularidade e compilação
 
 T2 é uma única transformação do registro editorial, preservada por comparação de baseline. T3 é a migração do grafo compilável da aplicação; separar componentes de seu compilador deixaria o portal sem entry point utilizável. T4/T5 são mudanças editoriais coesas, preservando o leitor. Caminhos Where indicam donos; arquivos consumidores necessários à integração são listados no diário de execução de cada tarefa. Não se trata de oito componentes independentes.
+
+## Evidência T6
+
+Check e build Vite passaram. Asset-gate local rejeita alteração de hash, caminho com capitalização errada e fonte ausente, publicando somente assets permitidos. Smoke do artefato no prefixo Pages carrega os Mermaids canônicos, renderiza todos os diagramas do fluxo, links e controles sem CDN. O workflow existente já chama check/build e usa a saída Vite; suas restrições de publicação permanecem.
+
+Inventários runner e sincronização foram regenerados com linhas, hashes e uses locais. Referências remotas não resolvidas e carga dinâmica são explícitas. Atualização posterior de TDD_RUN_LOGS fornecida pelo usuário foi incorporada sem alterar seus bytes: RegistrarLog acumula sempre e FModoDebug controla exibição. Chamadas antigas nos demais Pascal são limitações documentadas.
+
+| Critério | Evidência local e asserção | Resultado |
+| --- | --- | --- |
+| T6: integridade e cópia restrita | tools/vite-migration/asset-gate.mjs:25, assert.rejects por hash; linhas 27/29 por capitalização/ausência; linha 23 compara chaves publicadas | Passou |
+| T6: recursos sob base | tools/vite-migration/native.mjs:64, SVGs renderizados = diagramas registrados; linha 65 fallback = 0; linha 76 requisições externas/erros = [] | Passou |
+| T6: compilação | npm run check e npm run build --prefix Documentacoes, saídas zero | Passou |
+
+As verificações derivam de VITE-05/08, TDD-05 e done-when T6; não executam ERP. Os scripts citados permanecem ignorados conforme instrução do usuário. A revisão independente T8 ainda deve confrontar os 32 critérios.

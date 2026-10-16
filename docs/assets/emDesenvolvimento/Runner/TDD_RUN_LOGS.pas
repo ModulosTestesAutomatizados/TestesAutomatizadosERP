@@ -3,9 +3,6 @@ var
   // Registro em memoria; Run controlara Clear por caso e o lote liberara a lista.
   FLogsCasoTeste :TStringList;
 
-{ ================================================================
-  MAIN / INSTRUÇÕES
-  ================================================================ }
 procedure Main;
 var lInstrucoes :string;
 begin
@@ -13,15 +10,15 @@ begin
     '====================================================================================================================' + #13 +
     'Estado compartilhado:'                                                                                                + #13 +
     'FModoDebug :Boolean'                                                                                                  + #13 +
-    '  - Habilita somente o registro de mensagens em FLogsCasoTeste.'                                                      + #13 +
+    '  - Habilita a exibição das mensagens; o registro em FLogsCasoTeste ocorre sempre.'                                   + #13 +
     'FExibirInstrucoes :Boolean'                                                                                           + #13 +
     '  - Habilita a exibição das instruções, independentemente de FModoDebug.'                                             + #13 +
     'FLogsCasoTeste :TStringList'                                                                                          + #13 +
     '  - Armazena mensagens do caso corrente; Run limpa por tentativa e o lote libera a lista.'                            + #13 +
     '====================================================================================================================' + #13 +
     'Métodos de registro:'                                                                                                 + #13 +
-    'procedure RegistrarLogEmModoDebug(pLog :string)'                                                                      + #13 +
-    '  - Cria a lista se necessário; com debug ativo adiciona pLog + #13, sem log nativo.'                                 + #13 +
+    'procedure RegistrarLog(pLog :string)'                                                                                 + #13 +
+    '  - Sempre adiciona pLog + #13; com debug ativo também exibe a mensagem na tela.'                                     + #13 +
     'procedure DelimitadorLog(pTitulo :string)'                                                                            + #13 +
     '  - Registra separador, título e separador para agrupar mensagens da etapa.'                                          + #13 +
     '====================================================================================================================' + #13 +
@@ -35,23 +32,22 @@ end;
 {$region RegistroLogs}
 procedure DelimitadorLog(pTitulo :string);
 begin
-  RegistrarLogEmModoDebug(
+  RegistrarLog(
     '====================================================================================================================' + #13 +
     pTitulo                                                                                                                + #13 +
     '====================================================================================================================' + #13
   );
 end;
 
-procedure RegistrarLogEmModoDebug(pLog :string);
+procedure RegistrarLog(pLog :string);
 begin
   if not Assigned(FLogsCasoTeste) then
     FLogsCasoTeste := TStringList.Create;
 
+  FLogsCasoTeste.Add(pLog + #13);
+
   if FModoDebug then
-  begin
-    FLogsCasoTeste.Add(pLog + #13);
     MostrarLogTexto('[DEBUG]' + #13 + pLog);
-  end;
 end;
 {$endregion}
 

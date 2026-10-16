@@ -1,8 +1,8 @@
 import { criarDocumentoUnit } from '../../../../contracts/criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
   "nome": "TDD_RUN_LOGS",
-  "resumo": "Acumular e exibir diagnósticos condicionados ao debug e controlar instruções separadamente.",
-  "responsabilidade": "Acumular e exibir diagnósticos condicionados ao debug e controlar instruções separadamente.",
+  "resumo": "Acumular mensagens em memória e controlar a exibição por debug; instruções têm controle separado.",
+  "responsabilidade": "Acumular mensagens em memória e controlar a exibição por debug; instruções têm controle separado.",
   "problema": "Separar captura de mensagens, instruções e ponto de snapshot para persistência.",
   "fonte": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_LOGS.pas",
   "estado": "em-desenvolvimento",
@@ -20,7 +20,7 @@ export default criarDocumentoUnit({
   "estados": [
     [
       "FModoDebug: Boolean",
-      "Habilita captura/exibição de diagnósticos em RUN_LOGS.",
+      "Habilita somente a exibição das mensagens; o registro em memória ocorre sempre.",
       "Configurado pelo processamento e transmitido ao programa gerado."
     ],
     [
@@ -37,34 +37,35 @@ export default criarDocumentoUnit({
   "metodos": [
     [
       "procedure Main;",
-      "Apresenta as instruções conforme FExibirInstrucoes; quando é entrada do molde/processamento, executa também a orquestração descrita abaixo.",
-      "Implementação no fonte, linha 9. Atribuições e fluxo locais seguem o contrato descrito acima."
+      "Apresenta as instruções da unit conforme FExibirInstrucoes.",
+      "Implementação no fonte atual, linha 6."
     ],
     [
       "procedure DelimitadorLog(pTitulo :string);",
       "Registra separador, título e separador para agrupar mensagens da etapa.",
-      "Implementação no fonte, linha 36. Operações chamadas: RegistrarLogEmModoDebug."
+      "Implementação no fonte atual, linha 33."
     ],
     [
-      "procedure RegistrarLogEmModoDebug(pLog :string);",
-      "Cria a lista se necessário; com debug ativo adiciona pLog + #13, sem log nativo.",
-      "Implementação no fonte, linha 45. Operações chamadas: Assigned, Add, MostrarLogTexto."
+      "procedure RegistrarLog(pLog :string);",
+      "Sempre adiciona pLog + #13; com debug ativo também exibe a mensagem na tela.",
+      "Implementação no fonte atual, linha 42."
     ],
     [
       "procedure MostrarInstrucoesUnit(pNomeUnitInstrucao, pInstrucoes :string);",
       "Exige o nome da unit e exibe as instruções apenas quando FExibirInstrucoes está ativo.",
-      "Implementação no fonte, linha 59. Operações chamadas: Trim, Create, MostrarLogTexto."
+      "Implementação no fonte atual, linha 55."
     ]
   ],
   "implementacao": [
-    "RegistrarLogEmModoDebug garante FLogsCasoTeste; somente com FModoDebug ativo adiciona pLog + #13 e chama MostrarLogTexto. O corpo atual também exibe a mensagem nativa; o texto antigo que dizia sem log nativo não descreve essa chamada.",
-    "FExibirInstrucoes controla MostrarInstrucoesUnit independentemente do modo debug. DelimitadorLog agrupa mensagens por etapa.",
-    "Run limpa a lista por tentativa; TDD_RUN_FINISHED faz o snapshot antes do INSERT. O lote libera a lista, e uso externo ao lote deve cuidar do descarte."
+    "RegistrarLog garante FLogsCasoTeste e sempre adiciona pLog + #13. FModoDebug controla somente a exibição por MostrarLogTexto.",
+    "DelimitadorLog usa RegistrarLog para registrar separador/título. FExibirInstrucoes controla MostrarInstrucoesUnit independentemente do debug.",
+    "Run limpa mensagens por caso; FINISHED faz snapshot antes do INSERT; lote libera a lista. O corpo atual de LOGS substituiu RegistrarLogEmModoDebug por RegistrarLog."
   ],
   "dependencias": [],
   "limites": [
     "Fonte local e documentação não comprovam cadastro remoto instalado ou homologação no ERP. APIs do host e efeitos financeiros precisam de evidência própria.",
     "A casca atual libera FLogsCasoTeste no encerramento sem atribuir nil. A reexecução no mesmo contexto permanece uma limitação conhecida; não declarar a suíte toda aprovada.",
-    "O uses TDD_VALIDAR_RESULTADO em TDD_RUN_RUNNER ainda difere do arquivo P39_TDD_RUN_VALIDAR_RESULTADO. A citação documental resolve o assunto, mas não comprova que esse identificador está instalado no interpretador."
+    "O uses TDD_VALIDAR_RESULTADO em TDD_RUN_RUNNER ainda difere do arquivo P39_TDD_RUN_VALIDAR_RESULTADO. A citação documental resolve o assunto, mas não comprova que esse identificador está instalado no interpretador.",
+    "RegistrarLogEmModoDebug foi substituído por RegistrarLog(pLog :string), sem parâmetro para controlar captura: FModoDebug decide apenas a exibição. Ainda há chamadas antigas em TDD_RUN_IRUNNER, TDD_RUN_RUNNER, TDD_RUN_UNIT_BASE_IRUNNER, TDD_RUN_STARTED, TDD_RUN_FINISHED, P39_TDD_RUN_ASSERTS, P39_TDD_RUN_VALIDAR_RESULTADO, TDD_FIN_FINANCEIRO e no exemplo EXAMPLE_RESULTADO_UNIT_PARA_INTERPRETAR. Essas chamadas exigem atualização no trabalho Pascal; esta documentação não certifica compilação desse conjunto no ERP."
   ]
 });

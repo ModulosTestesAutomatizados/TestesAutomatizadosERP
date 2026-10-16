@@ -1,15 +1,13 @@
-# Responsabilidades do fluxo interpretado
-
-Documentação: Estrutura e fluxo de IRunner.Executar. Este arquivo é a fonte do diagrama exibido pelo portal.
+# Responsabilidades do fluxo
 
 ```mermaid
-flowchart TD
-  IRunner["P39_TDD_IRUNNER: configuração e montagem"] --> Base["BASE_UNIT: Main, ExecutarLote e Run"]
-  Base --> Runner["P39_TDD_RUNNER: lote, contexto e cronômetro"]
-  Runner --> Casos["CASOS_DE_TESTE: datasets dos casos ativos"]
-  Base --> Started["P39_TDD_STARTED: versão, JSON e parâmetros"]
-  Started --> Teste["Unit Teste: operações do caso corrente"]
-  Teste --> Finished["P39_TDD_FINISHED: histórico e tempos"]
-  Logs["P39_TDD_LOGS: mensagens e instruções"] -.-> Base
-  Apoio["CACHE, PARAMETRO, ODBC, JSON e CONSTANTES"] -.-> Casos
+flowchart LR
+ TDD_RUN_IRUNNER["TDD_RUN_IRUNNER · gerar"] --> TDD_RUN_UNIT_BASE_IRUNNER["TDD_RUN_UNIT_BASE_IRUNNER · orquestrar"]
+ TDD_RUN_UNIT_BASE_IRUNNER --> TDD_RUN_RUNNER["TDD_RUN_RUNNER · contexto e ticks"]
+ TDD_RUN_UNIT_BASE_IRUNNER --> TDD_RUN_STARTED["TDD_RUN_STARTED · preparar"]
+ TDD_RUN_UNIT_BASE_IRUNNER --> P39_TDD_RUN_VALIDAR_RESULTADO["P39_TDD_RUN_VALIDAR_RESULTADO · comparar"]
+ P39_TDD_RUN_VALIDAR_RESULTADO --> P39_TDD_RUN_ASSERTS["P39_TDD_RUN_ASSERTS · acumular e capturar"]
+ TDD_RUN_UNIT_BASE_IRUNNER --> TDD_RUN_FINISHED["TDD_RUN_FINISHED · persistir"]
+ TDD_RUN_FINISHED -. "snapshot" .-> TDD_RUN_LOGS["TDD_RUN_LOGS · mensagens"]
+ TDD_RUN_RUNNER --> P39_TDD_CASOS_DE_TESTE["P39_TDD_CASOS_DE_TESTE · lote"]
 ```

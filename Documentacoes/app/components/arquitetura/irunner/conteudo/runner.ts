@@ -270,12 +270,17 @@ export default {
       "blocos": [
         {
           "tipo": "mermaid",
+          "fonte": "docs/MAPEAMENTO_AST_USES_UNITS/runner/persistencia-modelo.md",
+          "titulo": "Modelo de histórico e métricas"
+        },
+        {
+          "tipo": "mermaid",
           "fonte": "docs/MAPEAMENTO_AST_USES_UNITS/runner/persistencia.md",
           "titulo": "Histórico e métricas por tentativa"
         },
         {
           "tipo": "paragrafo",
-          "texto": "FModoDebug controla captura/exibição em TDD_RUN_LOGS; FExibirInstrucoes controla instruções independentemente. O corpo atual de RegistrarLogEmModoDebug adiciona mensagens e chama MostrarLogTexto quando debug está ativo. FINISHED copia FLogsCasoTeste.Text imediatamente antes do INSERT."
+          "texto": "RegistrarLog sempre acumula mensagens em TDD_RUN_LOGS; FModoDebug controla somente sua exibição e FExibirInstrucoes controla instruções independentemente. Outros fontes ainda podem citar RegistrarLogEmModoDebug, que não é mais declarado na unit atual; essas chamadas exigem alinhamento no código TDD. FINISHED copia FLogsCasoTeste.Text imediatamente antes do INSERT."
         },
         {
           "tipo": "paragrafo",
