@@ -123,7 +123,8 @@ npm run preview --prefix Documentacoes` },
       { tipo: 'paragrafo', texto: 'A pipeline valida PRs. Após merge na master, publica o artefato estático no Pages. Nenhum servidor Node é necessário em produção. Testes/ferramentas temporários de agentes ficam ignorados; a documentação e configurações necessárias ao build são versionadas.' }
     ] },
     { id: 'skill', titulo: 'Contribuição assistida por agente', blocos: [
-      { tipo: 'paragrafo', texto: 'A skill contribuir-documentacao, em .agents/skills/contribuir-documentacao/SKILL.md, orienta a criação/manutenção de páginas, grupos e componentes conforme este guia. Ela referencia os contratos e snippets atuais do projeto e não altera as regras Pascal do ERP.' }
+      { tipo: 'paragrafo', texto: 'A skill contribuir-documentacao, em .agents/skills/contribuir-documentacao/SKILL.md, orienta a criação/manutenção de páginas, grupos e componentes conforme este guia. Ela referencia os contratos e snippets atuais do projeto e não altera as regras Pascal do ERP.' },
+      { tipo: 'paragrafo', texto: 'O guia Consultar com agentes de IA explica a exportação llms.txt/JSON/Markdown e a skill consultar-documentacao-tdd. O build inclui automaticamente documentos públicos e seus símbolos; mantenha esses dados completos no catálogo e não edite arquivos gerados manualmente.' }
     ] }
   ]
 } satisfies IDocumento;

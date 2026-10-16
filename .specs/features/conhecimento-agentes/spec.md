@@ -51,7 +51,7 @@ Código contendo cercas Markdown, pipes em tabelas, aliases sem normalizar o nom
 | KNOW-03 | Consulta | Execute | Implemented |
 | KNOW-04 | Consulta | Execute | Implemented |
 | KNOW-05 | Consulta | Execute | Implemented |
-| KNOW-06 | Consulta | Execute | Pending |
+| KNOW-06 | Consulta | Execute | Implemented |
 | KNOW-07 | Consulta | Execute | Pending |
 
 ## Success Criteria
@@ -67,3 +67,5 @@ Uma consulta a RegistrarLog ou FModoDebug encontra a unit proprietária no JSON 
 Referências: https://llmstxt.org/; API de plugins e substituição BASE_URL da documentação oficial do Vite. Context7 não exposto nesta sessão; fallback para as fontes oficiais após leitura do código.
 
 Entrega 1: projeção pura e integração ao plugin, descoberta via HTML e ESLint também sobre config/*.ts. Check/build, fixture de todos os blocos e conferência HTTP dos documentos/links/âncoras passaram. A fixture demonstra versão determinística/alterada, exclusão de ocultos, cercas contendo backticks, alias e asset ausente. Ferramentas em Documentacoes/tools/vite-migration permanecem ignoradas. Sem alteração nos fontes Pascal ou Mermaids.
+
+Entrega 2: skill consultar-documentacao-tdd e guia /guias/agentes publicados no catálogo local; autoria e READMEs alinhados. As duas skills passam quick_validate. Check/build e HTTP passaram com 28 Markdown e 73 links locais; dev serve JSON bruto com MIME correto. Guia distingue fonte local/publicada, aliases/donos, contentVersion e evidência ERP.
