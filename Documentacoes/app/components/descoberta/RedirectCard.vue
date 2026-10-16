@@ -1,13 +1,5 @@
-import type { IDocumento } from '../contracts/documentacao.ts';
-
-import { estados, rotaDocumento } from '../catalogo/validarCatalogo.ts';
-import { contextoDocumento } from '../navigation.ts';
-
-// Navegação reutilizável; o catálogo determina conteúdo e destino.
-export default Vue.defineComponent({
-  props: { documento: { type: Object as import('vue').PropType<IDocumento>, required: true } },
-  setup: () => ({ estados, rotaDocumento, contextoDocumento }),
-  template: `  <v-card
+<template>
+  <v-card
     :to="rotaDocumento(documento)"
     :aria-label="'Abrir ' + documento.titulo"
     class="redirect-card"
@@ -32,5 +24,15 @@ export default Vue.defineComponent({
         class="card-arrow mt-auto pt-6"
         aria-hidden="true">→</div>
     </v-card-text>
-  </v-card>`
-});
+  </v-card>
+</template>
+
+<script setup lang="ts">
+import type { IDocumento } from '../../contracts/documentacao.ts';
+
+import { estados, rotaDocumento } from '../../contracts/identidade.ts';
+import { contextoDocumento } from './navigation.ts';
+
+defineProps({ documento: { type: Object as import('vue').PropType<IDocumento>, required: true } });
+
+</script>

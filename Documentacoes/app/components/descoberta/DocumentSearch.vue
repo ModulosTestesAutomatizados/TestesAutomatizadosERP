@@ -1,22 +1,7 @@
-import documentos from '../catalogo/index.ts';
-import { rotaDocumento } from '../catalogo/validarCatalogo.ts';
-import { criarBusca } from '../search.ts';
-const buscar = criarBusca(documentos);
-
-// Busca sem servidor; o índice é montado uma vez do conteúdo do catálogo.
-export default Vue.defineComponent({
-  setup() {
-    const consulta = Vue.ref(''), aberta = Vue.ref(false);
-    const resultados = Vue.computed(() => buscar(consulta.value).slice(0, 8));
-    const route = VueRouter.useRoute();
-    const router = VueRouter.useRouter();
-    Vue.watch(() => route.path, () => { aberta.value = false; });
-    function abrirPrimeiro() { if (resultados.value.length) { router.push(rotaDocumento(resultados.value[0].documento)); aberta.value = false; } }
-    return { consulta, aberta, resultados, rotaDocumento, abrirPrimeiro };
-  },
-  template: `  <div
+<template>
+  <div
     class="document-search"
-    @focusout="pEvent => { if (!pEvent.currentTarget.contains(pEvent.relatedTarget)) aberta = false; }">
+    @focusout="aoSair">
     <div class="search-input"><v-icon
       icon="mdi-magnify"
       size="20"
@@ -46,5 +31,24 @@ export default Vue.defineComponent({
         :key="simbolo.tipo + simbolo.nome"
         class="search-symbol">{{ simbolo.tipo === 'estado' ? 'Estado global' : 'Procedure/function' }}: {{ simbolo.nome }}</span></RouterLink></li></ul>
     </div>
-  </div>`
-});
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
+import type { IDocumento } from '../../contracts/documentacao.ts';
+
+import { rotaDocumento } from '../../contracts/identidade.ts';
+import { criarBusca } from './search.ts';
+const props = defineProps<{ documentos: IDocumento[] }>();
+const buscar = criarBusca(props.documentos);
+const consulta = ref(''), aberta = ref(false);
+const resultados = computed(() => buscar(consulta.value).slice(0, 8));
+const route = useRoute();
+const router = useRouter();
+watch(() => route.path, () => { aberta.value = false; });
+function aoSair(pEvent: FocusEvent) { if (!(pEvent.currentTarget as HTMLElement).contains(pEvent.relatedTarget as Node | null)) aberta.value = false; }
+function abrirPrimeiro() { if (resultados.value.length) { router.push(rotaDocumento(resultados.value[0].documento)); aberta.value = false; } }
+</script>

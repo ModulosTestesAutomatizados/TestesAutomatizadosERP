@@ -1,5 +1,5 @@
 // Índice local ponderado: título/unit/assinaturas têm maior peso que o corpo.
-import type { IDocumento, IResultadoBusca, TBloco } from './contracts/documentacao.ts';
+import type { IDocumento, IResultadoBusca, TBloco } from '../../contracts/documentacao.ts';
 const stopwords = new Set(['a', 'o', 'as', 'os', 'de', 'do', 'da', 'dos', 'das', 'e', 'em', 'um', 'uma', 'para', 'por', 'com', 'que', 'no', 'na', 'nos', 'nas']);
 export const normalizar = (pTexto: unknown): string => String(pTexto ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 function tokens(pTexto: string): string[] {

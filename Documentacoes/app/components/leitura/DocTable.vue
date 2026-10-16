@@ -1,9 +1,5 @@
-import ReferenceText from './ReferenceText.ts';
-// Tabela de referência com citações de units e scroll restrito ao bloco.
-export default Vue.defineComponent({
-  components: { ReferenceText },
-  props: { colunas: Array as import('vue').PropType<string[]>, linhas: Array as import('vue').PropType<string[][]> },
-  template: `  <div
+<template>
+  <div
     class="table-scroll"
     tabindex="0"
     aria-label="Tabela de referência com rolagem horizontal"><v-table density="comfortable">
@@ -16,5 +12,12 @@ export default Vue.defineComponent({
       :key="index"><td
       v-for="(celula, cell) in linha"
       :key="cell"><ReferenceText :texto="celula"/></td></tr></tbody>
-  </v-table></div>`
-});
+  </v-table></div>
+</template>
+
+<script setup lang="ts">
+import ReferenceText from './ReferenceText.vue';
+
+defineProps<{ colunas: string[]; linhas: string[][] }>();
+
+</script>

@@ -1,21 +1,20 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Documentação técnica dos testes automatizados do ERP: arquitetura, casos e autoria.">
-  <title>Documentação TDD | TDD ERP</title>
+  <meta name="theme-color" content="#2454c6">
   <link rel="icon" type="image/png" href="./Documentacoes/app/assets/faviconTDD.png">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@4.2.3/dist/vuetify.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="./Documentacoes/app/styles/portal.css">
+  <title>Documentação TDD | TDD ERP</title>
 </head>
 <body>
-  <!-- portal-status-start -->
-  <div id="portal-status" class="portal-status" role="status">Para visualizar a documentação, execute npm run dev --prefix Documentacoes e abra o endereço informado no terminal.</div>
-  <!-- portal-status-end -->
-  <div id="app"></div>
-  <noscript><style>.portal-boot { display: none; }</style><p>Ative o JavaScript para acessar a documentação.</p></noscript>
-  <!-- portal-entry -->
+  <div id="portal-status" class="portal-boot" role="status" aria-label="Carregando documentação" aria-busy="true">
+    <div class="portal-boot-header" aria-hidden="true"><span class="brand-mark">T</span><span>TDD <strong>ERP</strong></span></div>
+    <div class="portal-boot-placeholder" aria-hidden="true"><span></span><span></span><span></span></div>
+  </div>
+  <div id="app" inert></div>
+  <noscript><style>.portal-boot { display: none; }</style>Ative o JavaScript para consultar a documentação.</noscript>
+  <script type="module" src="./Documentacoes/app/main.ts"></script>
 </body>
 </html>

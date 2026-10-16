@@ -1,13 +1,5 @@
-import type { IGrupoNavegacao } from '../contracts/documentacao.ts';
-
-import { rotaDocumento } from '../catalogo/validarCatalogo.ts';
-
-// Um grupo expansível pode conter documentos e outros grupos.
-const navigationGroup = Vue.defineComponent({
-  name: 'NavigationGroup',
-  props: { grupo: { type: Object as import('vue').PropType<IGrupoNavegacao>, required: true } },
-  setup: () => ({ rotaDocumento }),
-  template: `  <v-list-group
+<template>
+  <v-list-group
     :value="grupo.id"
     class="navigation-group">
     <template #activator="{ props, isOpen }"><v-list-item
@@ -39,6 +31,14 @@ const navigationGroup = Vue.defineComponent({
         :title="doc.titulo"
         class="navigation-document"/></template>
     </v-tooltip>
-  </v-list-group>`
-});
-export default navigationGroup;
+  </v-list-group>
+</template>
+
+<script setup lang="ts">
+import type { IGrupoNavegacao } from '../../contracts/documentacao.ts';
+
+import { rotaDocumento } from '../../contracts/identidade.ts';
+
+defineProps({ grupo: { type: Object as import('vue').PropType<IGrupoNavegacao>, required: true } });
+
+</script>

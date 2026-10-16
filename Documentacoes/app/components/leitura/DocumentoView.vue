@@ -1,21 +1,6 @@
-import DocSection from '../components/DocSection.ts';
-import DocumentToc from '../components/DocumentToc.ts';
-import ReferenceText from '../components/ReferenceText.ts';
-import { useDocumentSections } from '../composables/useDocumentSections.ts';
-import { fonteRepositorio } from '../config.ts';
-import documentos from '../catalogo/index.ts';
-import { estados } from '../catalogo/validarCatalogo.ts';
-import NotFoundPage from './NotFoundPage.ts';
+<template>
 
-export default Vue.defineComponent({
-  components: { DocSection, DocumentToc, NotFoundPage, ReferenceText },
-  setup() {
-    const route = VueRouter.useRoute();
-    const documento = Vue.computed(() => documentos.find(pDoc => pDoc.slug === route.params.slug && pDoc.categoria === route.params.categoria));
-    const { ativa } = useDocumentSections(documento);
-    return { documento, estados, fonteRepositorio, ativa };
-  },
-  template: `  <div
+  <div
     v-if="documento"
     class="document-layout"><article><header class="document-header"><RouterLink
                                                                      to="/"
@@ -49,5 +34,20 @@ export default Vue.defineComponent({
       :to="documento.referenciaAnterior">Consultar a documentação anterior preservada</RouterLink></footer>
   </article><DocumentToc
     :documento="documento"
-    :ativa="ativa"/></div><NotFoundPage v-else/>`
-});
+    :ativa="ativa"/></div>
+
+</template>
+<script setup lang="ts">
+import { computed } from 'vue';
+
+import type { IDocumento } from '../../contracts/documentacao.ts';
+
+import { fonteRepositorio } from '../../config.ts';
+import { estados } from '../../contracts/identidade.ts';
+import DocSection from './DocSection.vue';
+import DocumentToc from './DocumentToc.vue';
+import ReferenceText from './ReferenceText.vue';
+import { useDocumentSections } from './useDocumentSections.ts';
+const props = defineProps<{ documento: IDocumento }>();
+const { ativa } = useDocumentSections(computed(() => props.documento));
+</script>

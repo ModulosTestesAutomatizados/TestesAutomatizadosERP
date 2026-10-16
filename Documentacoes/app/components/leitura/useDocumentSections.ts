@@ -1,9 +1,12 @@
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+
 // Destaque da seção em leitura e navegação por links compartilháveis.
-import type { IDocumento } from '../contracts/documentacao.ts';
+import type { IDocumento } from '../../contracts/documentacao.ts';
 import type { ComputedRef } from 'vue';
 export function useDocumentSections(pDocumento: ComputedRef<IDocumento | undefined>) {
-  const route = VueRouter.useRoute();
-  const ativa = Vue.ref('');
+  const route = useRoute();
+  const ativa = ref('');
   let frame: number | undefined;
   function atualizar() {
     if (!pDocumento.value) return;
@@ -18,15 +21,15 @@ export function useDocumentSections(pDocumento: ComputedRef<IDocumento | undefin
   }
   function aoRolar() { if (!frame) frame = requestAnimationFrame(() => { frame = undefined; atualizar(); }); }
   async function irParaSecao() {
-    await Vue.nextTick();
+    await nextTick();
     const secao = pDocumento.value?.secoes.find(pS => pS.id === route.query.secao);
     if (secao) {
       ativa.value = secao.id;
       document.getElementById(`${pDocumento.value?.slug}-${secao.id}`)?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
     } else atualizar();
   }
-  Vue.watch(() => route.query.secao, irParaSecao, { flush: 'post' });
-  Vue.onMounted(() => { window.addEventListener('scroll', aoRolar, { passive: true }); irParaSecao(); });
-  Vue.onBeforeUnmount(() => { window.removeEventListener('scroll', aoRolar); if (frame) cancelAnimationFrame(frame); });
+  watch(() => route.query.secao, irParaSecao, { flush: 'post' });
+  onMounted(() => { window.addEventListener('scroll', aoRolar, { passive: true }); irParaSecao(); });
+  onBeforeUnmount(() => { window.removeEventListener('scroll', aoRolar); if (frame) cancelAnimationFrame(frame); });
   return { ativa };
 }

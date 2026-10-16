@@ -74,7 +74,7 @@ T7 → T8
 **Depends on**: T2
 **Requirement**: VITE-01, VITE-02, VITE-03, VITE-04, VITE-07, ARCH-06, UX-01, UX-02, UX-03, UX-05.
 **Done when**:
-- [ ] Check e bundle Vite passam; smoke do grafo SFC preserva UX sem CDN; verificação de fontes editoriais continua pendente de T4..T6, não é declarada aprovada neste bundle.
+- [x] Check e bundle Vite passam; smoke do grafo SFC preserva UX sem CDN; verificação de fontes editoriais continua pendente de T4..T6, não é declarada aprovada neste bundle.
 **Tests**: integration
 **Gate**: full
 **Commit**: feat(docs): migra interface para vue sfc e vite

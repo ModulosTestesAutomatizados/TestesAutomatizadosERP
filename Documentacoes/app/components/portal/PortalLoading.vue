@@ -1,20 +1,5 @@
-// Carregamento inicial: skeleton e scrim; aviso de recarga somente em caso de falha.
-export default Vue.defineComponent({
-  props: {
-    ativo: { type: Boolean, required: true },
-    erro: Boolean,
-    documento: Boolean
-  },
-  emits: ['finalizado'],
-  setup(props) {
-    const movimentoReduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const recarregar = Vue.ref<{ $el: HTMLElement }>();
-    Vue.watch(() => props.erro, async pErro => {
-      if (pErro) { await Vue.nextTick(); recarregar.value?.$el.focus(); }
-    });
-    return { movimentoReduzido, recarregar, recarregarPagina: () => window.location.reload() };
-  },
-  template: `  <v-fade-transition>
+<template>
+  <v-fade-transition>
     <div
       v-if="ativo"
       :data-layout="documento ? 'documento' : 'cards'"
@@ -81,5 +66,23 @@ export default Vue.defineComponent({
         color="primary"
         @click="recarregarPagina">Recarregar página</v-btn>
     </v-sheet>
-  </v-overlay>`
-});
+  </v-overlay>
+</template>
+
+<script setup lang="ts">
+
+import { nextTick,ref, watch } from 'vue';
+
+const props = defineProps({
+    ativo: { type: Boolean, required: true },
+    erro: Boolean,
+    documento: Boolean
+  });
+defineEmits(['finalizado']);
+const movimentoReduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const recarregar = ref<{ $el: HTMLElement }>();
+watch(() => props.erro, async pErro => {
+      if (pErro) { await nextTick(); recarregar.value?.$el.focus(); }
+    });
+const recarregarPagina = () => window.location.reload();
+</script>

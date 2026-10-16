@@ -1,36 +1,13 @@
-import AppLayout from './components/AppLayout.ts';
-import documentos from './catalogo/index.ts';
-import { validarCatalogo } from './catalogo/validarCatalogo.ts';
-import { criarRouter } from './router.ts';
-
-export async function iniciar() {
-  const erros = validarCatalogo(documentos);
-  if (erros.length) throw new Error(erros.join('\n'));
-  const carregando = Vue.ref(true), bloqueado = Vue.ref(true), falha = Vue.ref(false);
-  let finalizar: () => void;
-  const finalizado = new Promise<void>(pResolve => { finalizar = pResolve; });
-  const app = Vue.createApp({ render: () => Vue.h(AppLayout, { carregando: carregando.value, bloqueado: bloqueado.value, falha: falha.value, onPronto: () => finalizar() }) });
-  const router = criarRouter();
-  app.use(Vuetify.createVuetify({ theme: { defaultTheme: 'documentacao', themes: { documentacao: { dark: false,
-    colors: { primary: '#2454C6', secondary: '#5D6475', background: '#F7F8FC', surface: '#FFFFFF', 'on-background': '#17233C', 'on-surface': '#17233C' } } } },
-    defaults: { VBtn: { style: 'text-transform:none;letter-spacing:0' } } }));
-  app.use(router);
-  app.mount('#app');
-  await Vue.nextTick();
-  document.getElementById('app')?.removeAttribute('inert');
-  document.getElementById('portal-status')?.remove();
-  const inicio = performance.now();
-  try {
-    await router.isReady();
-    await Vue.nextTick();
-    await new Promise<void>(pResolve => setTimeout(pResolve, Math.max(0, 650 - (performance.now() - inicio))));
-    carregando.value = false;
-    await finalizado;
-    bloqueado.value = false;
-    await Vue.nextTick();
-  } catch (error) {
-    falha.value = true;
-    await Vue.nextTick();
-    throw error;
-  }
+// Falha pré-montagem independente de Vue.
+function exibirFalha() {
+  const status = document.getElementById('portal-status');
+  if (!status) return;
+  status.className = 'portal-boot portal-boot-error';
+  status.setAttribute('role', 'alert'); status.removeAttribute('aria-busy');
+  status.replaceChildren();
+  const texto = document.createElement('p'); texto.textContent = 'Não foi possível carregar a documentação.';
+  const botao = document.createElement('button'); botao.textContent = 'Recarregar página';
+  botao.onclick = () => window.location.reload(); status.append(texto, botao); botao.focus();
 }
+window.addEventListener('vite:preloadError', exibirFalha);
+import('./iniciar.ts').then(pModulo => pModulo.iniciar()).catch(exibirFalha);

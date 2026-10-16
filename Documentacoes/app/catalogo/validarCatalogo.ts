@@ -1,11 +1,10 @@
 // Contrato compartilhado pelo portal e pelo validador de publicação.
-import type { IDocumento, TCategoria, TEstado } from '../contracts/documentacao.ts';
+import type { IDocumento, TCategoria } from '../contracts/documentacao.ts';
 
+import { estados } from '../contracts/identidade.ts';
 import { GRUPOS_NAVEGACAO } from './grupos.ts';
 export const categorias: TCategoria[] = ['estrutura', 'documentos', 'guias', 'units'];
-export const estados: Record<TEstado, string> = { legado: 'Contrato anterior', 'em-uso': 'Em uso', 'em-desenvolvimento': 'Em desenvolvimento', 'validado-no-erp': 'Validado no ERP' };
 const preenchido = (pValue: unknown): pValue is string => typeof pValue === 'string' && pValue.trim().length > 0;
-export const rotaDocumento = (pDocumento: IDocumento): string => `/${pDocumento.categoria}/${pDocumento.slug}`;
 
 export function validarCatalogo(pDocumentos: IDocumento[]): string[] {
   const erros: string[] = [], slugs = new Set<string>(), nomesUnits = new Set<string>();

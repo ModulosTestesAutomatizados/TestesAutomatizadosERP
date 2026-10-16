@@ -1,6 +1,8 @@
 // Contrato editorial único para a documentação de UMA unit.
 import type { IDadosUnit, IDocumento, ISecao, ISimbolo } from './documentacao.ts';
 
+import { slugUnit } from './identidade.ts';
+
 function nomeMetodo(pAssinatura: string): string {
   const nome = pAssinatura.match(/(?:procedure|function)\s+([A-Za-z_0-9]+)/i)?.[1];
   if (!nome) throw new Error(`Assinatura inválida: ${pAssinatura}`);
@@ -9,7 +11,7 @@ function nomeMetodo(pAssinatura: string): string {
 
 export function criarDocumentoUnit({ nome: pNome, tipoArtefato: pTipoArtefato = 'unit', aliases: pAliases = [], aliasesArtefatos: pAliasesArtefatos = {}, resumo: pResumo, fonte: pFonte, responsabilidade: pResponsabilidade, problema, estado: pEstado = 'em-uso', evidenciaValidacao: pEvidenciaValidacao, jsonBase: pJsonBase, navegacao: pNavegacao, estados: pEstados = [], metodos: pMetodos = [], implementacao: pImplementacao = [], dependencias: pDependencias = [], limites: pLimites = [] }: IDadosUnit): IDocumento {
   return {
-    slug: pNome.toLowerCase().replace(/_/g, '-'), categoria: 'units', titulo: pNome,
+    slug: slugUnit(pNome), categoria: 'units', titulo: pNome,
     unit: pNome, tipoArtefato: pTipoArtefato, aliases: pAliases, resumo: pResumo, estado: pEstado, evidenciaValidacao: pEvidenciaValidacao, navegacao: pNavegacao,
     fontes: [pFonte, ...(pJsonBase?.fontes ?? [])].map(pCaminho => ({ caminho: pCaminho })),
     simbolos: [
