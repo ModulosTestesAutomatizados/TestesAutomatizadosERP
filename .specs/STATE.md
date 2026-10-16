@@ -13,16 +13,12 @@ As decisões e o handoff da estabilização anterior foram preservados integralm
 
 ## Handoff
 
-- **Feature:** .specs/features/portal-vite-slices/
-- **Phase / Task:** T1–T8 concluídas localmente. Verificador independente PASS em validation.md, 32/32 AC + DOC-01..18; validate_state sem erros.
-- **Completed:** 27 documentos em slices; SFC/script setup TypeScript/Vite; Vue/Router/Vuetify 4.2.6/Mermaid/MDI via npm; conteúdo atual Runner/asserts/módulo/validador/sincronização; quatro moldes canônicos; AST/Mermaids reconciliados; plugin de integridade/cópia; guia/snippets/skill; tema claro/escuro e clearable.
-- **Verification:** check/build e scripts ignorados editorial, sync-check, asset-gate, snippets e native passaram. Smoke sob prefixo Pages sem CDN incluiu moldes/retry, diagramas/links/zoom/orientação, tema salvo, busca, loading, rota/refresh, mobile e falhas. Actions/Linux e ERP não executados.
-- **Sources:** Usuário atualizou assets e confirmou LOGS novo. RegistrarLog sempre acumula e FModoDebug controla exibição. Chamadas antigas em outras units são divergência documentada. Manifesto de bytes anterior difere somente nesse LOGS fornecido pelo usuário. Outros limites em reconciliacao-fontes.md.
-- **Next step:** Publicação por PR autorizada pelo usuário; atualizar o PR #26 desta branch e aguardar revisão/merge. A autorização não inclui merge automático.
-- **Branch / worktree:** TestesAutomatizadosERP-docs, somente este worktree. Sem ERP, banco, TekStore ou novas branches.
-- **Dev:** http://127.0.0.1:5173/TestesAutomatizadosERP/ (conferir processo se necessário).
-- **Commits:** 48204f2 plano, dd8ca50 slices, d6ab199 SFC/Vite, cf1acae autoria, e00b368 Runner, 8d3f769 JSON/moldes, 3ec6b8f assets canônicos, 3cef3aa temas/clearable, 5615968 moldes/autoria. Evidência T8 segue no commit deste registro.
-
-Revisão final: range 5999145..a8a2a0d; sete scripts locais e check/build próprios passaram. Sensor de rejeição de hash morto em cópia isolada, porcelain idêntico. Sem Linux/Actions/ERP ou instalação limpa. Uma mensagem de diagnóstico com path antigo ficou como observação cosmética no parecer. Preview reiniciado em 5173, sessão exec 77811.
-
-Preparação da publicação: correção posterior da busca remove o outline quadrado, mantém borda de 1px e clearable, e desativa autocomplete. Integrada origin/master f41677b (PR #27): variantes de nomes e contratos antigos comparadas com os fontes atuais fornecidos pelo usuário, que foram preservados integralmente no resultado. Nenhum diff em docs/assets contra HEAD anterior à integração. STATE da estabilização preservado no snapshot referenciado acima. Check e build passaram novamente após resolver os conflitos.
+- **Feature:** .specs/features/conhecimento-agentes/spec.md.
+- **Phase:** três entregas locais implementadas; revisão independente TLC final pendente. Não declarar PASS antes de validation.md e validate_state.
+- **Completed:** llms.txt, knowledge/index.json (schemaVersion/contentVersion), Markdown por documento público; códigos/cânones/citações/estados/símbolos/fontes preservados; base Vite, plugin dev/build e rel describedby; skill consultar-documentacao-tdd e guia /guias/agentes. ESLint passa também sobre config/*.ts.
+- **Verification:** check/build, fixture knowledge.mjs e HTTP knowledge-http.mjs passaram (28 Markdown, 73 links locais, âncoras e conhecimento LOGS). Asset-gate e git-index-paths passaram; duas skills validadas; dev JSON bruto HTTP 200. Testes/tools ignorados. Nenhum diff em Pascal ou Mermaids.
+- **Next step:** revisão independente dos sete KNOW-01..07 e sensor em cópia ignorada; consolidar parecer. Envio desta extensão ao remoto ainda não realizado.
+- **Branch/worktree:** TestesAutomatizadosERP-docs, somente este worktree. Sem ERP, SQL, novas dependências, branches ou worktrees.
+- **Publicação anterior:** PR #26 atualizado até ab4a2d8 após integrar master/PR #27; build Ubuntu com npm ci/check/build passou. Correção de capitalização Sincronizar incorporada. Nenhum merge/deploy feito pelo agente. Esse PASS Linux antecede a extensão de conhecimento.
+- **Dev:** http://127.0.0.1:5173/TestesAutomatizadosERP/; /knowledge/index.json confirmado com 28 documentos.
+- **Commits da extensão:** 31affb1 exportação; 807089d skill/guia; relatório e evidências no commit deste registro. Escopo e fontes da migração anterior preservados em portal-vite-slices/validation.md e reconciliacao-fontes.md.
