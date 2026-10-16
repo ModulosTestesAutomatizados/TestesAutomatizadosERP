@@ -39,7 +39,7 @@ flowchart LR
 ### Variante remota no `uses`
 
 - A unit usa **`P39_TDD_REGISTRAR_CASO_TESTE`** (variante remota/global do ERP). A
-  variante local `TDD_REGISTRAR_CASO_TESTE` (sem prefixo) não existe como unit global e
+  variante local `P39_TDD_REGISTRAR_CASO_TESTE` (sem prefixo) não existe como unit global e
   causaria erro de resolução de `uses` no interpretador.
 - Quem usa `TDD_CARREGAR_CASO_TESTE` enxerga `TDDReaderODBC` e `MensagemPersonalizada`
   de forma transitiva (herança de `uses`).

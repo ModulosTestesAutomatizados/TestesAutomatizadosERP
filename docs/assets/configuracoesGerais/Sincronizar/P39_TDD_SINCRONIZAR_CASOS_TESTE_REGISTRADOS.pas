@@ -1,4 +1,4 @@
-﻿uses TDD_REGISTRAR_CASO_TESTE;
+uses TDD_REGISTRAR_CASO_TESTE;
 
 var FSincRemoto :Boolean;
 
@@ -22,7 +22,7 @@ begin
     'O formato esperado do parâmetro de REQUISITO_VERSAO em RegistrosCasosTestes é: ''xxx.yy''.'                               + #13 +
     'RegistrosCasosTestes utiliza CarregarConteudoUnit, o booleano true adiciona o prefixo remoto ao nome das units.'          + #13 +
     '====================================================================================================================';
-  {P39_TDD_REGISTRAR_CASO_TESTE -> P39_TDD_ODBC -> P39_TDD_CONSTANTES -> P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS', lInstrucoes);
+  {P39_TDD_REGISTRAR_CASO_TESTE -> P39_TDD_ODBC -> P39_TDD_CONSTANTES -> P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS', lInstrucoes);
 end;
 
 procedure Sincronizar;
@@ -39,9 +39,9 @@ end;
 
 procedure RegistrosCasosTestes(pSincRemoto :boolean);
 begin
-  // --------------- DESCRIÇÃO DO MÓDULO ------ DESCRIÇÃO DA AREA ------ DESCRIÇÃO CASO TESTE --------------------------------- REQUISITO_VERSAO ------ UNIT TIPO JSON COM OS DADOS DO CASOS DE TESTE ------ CAMPOS DISPONÍVEIS ------ RESULTADO ESPERADO ------------------------------------ CONTROLE PARA SINCRONIZAR COM REMOTO/LOCAL.
-  RegistrarCasoTeste('FINANCEIRO',              'FINANCEIRO',            'TDD_FINANCEIRO',                                      '160.00',               'TDD_JSON_FINANCEIRO',                               '',                       '',                                                     pSincRemoto);
-  RegistrarCasoTeste('FATURAMENTO',             'PEDIDO DE VENDA',       'PEDIDO COM DESCONTO PERCENTUAL',                      '',                     'TDD_JSON_PEDIDO_DESCONTO_PERCENTUAL',               '',                       'TDD_JSON_BASE_RESULTADO_ESPERADO',                     pSincRemoto);
-  RegistrarCasoTeste('FATURAMENTO',             'PEDIDO DE VENDA',       'PEDIDO POR UNIDADE FABRIL',                           '',                     'TDD_JSON_PEDIDO_UNIDADE_FABRIL',                    '',                       'TDD_JSON_BASE_RESULTADO_ESPERADO',                     pSincRemoto);
-  RegistrarCasoTeste('FATURAMENTO',             'PEDIDO DE VENDA',       'PEDIDO COM SEQUENCIA NOS ITENS',                      '',                     'TDD_JSON_PEDIDO_SEQUENCIA_ITENS',                   '',                       'TDD_JSON_BASE_RESULTADO_ESPERADO',                     pSincRemoto);
+  // --------------- DESCRIÇÃO DO MÓDULO ------ DESCRIÇÃO DA AREA ------ DESCRIÇÃO CASO TESTE --------------------------------- REQUISITO_VERSAO ------ UNIT TIPO JSON COM OS DADOS DO CASOS DE TESTE ------ CONTROLE PARA SINCRONIZAR COM REMOTO/LOCAL.
+  RegistrarCasoTeste('FINANCEIRO',              'FINANCEIRO',            'TDD_FIN_FINANCEIRO',                                  '160.00',               'TDD_FIN_FINANCEIRO_JSON',                           pSincRemoto);
+  RegistrarCasoTeste('FATURAMENTO',             'PEDIDO DE VENDA',       'PEDIDO COM DESCONTO PERCENTUAL',                      '',                     'TDD_JSON_PEDIDO_DESCONTO_PERCENTUAL',               pSincRemoto);
+  RegistrarCasoTeste('FATURAMENTO',             'PEDIDO DE VENDA',       'PEDIDO POR UNIDADE FABRIL',                           '',                     'TDD_JSON_PEDIDO_UNIDADE_FABRIL',                    pSincRemoto);
+  RegistrarCasoTeste('FATURAMENTO',             'PEDIDO DE VENDA',       'PEDIDO COM SEQUENCIA NOS ITENS',                      '',                     'TDD_JSON_PEDIDO_SEQUENCIA_ITENS',                   pSincRemoto);
 end;

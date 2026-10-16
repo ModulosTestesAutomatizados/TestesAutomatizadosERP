@@ -28,10 +28,10 @@
         <mxCell id="lane_map" value="Mapeamentos de Tela" style="swimlane;horizontal=0;startSize=30;fillColor=#fff0e6;strokeColor=#d6b656;" vertex="1" parent="1">
           <mxGeometry x="0" y="240" width="1000" height="100" as="geometry"/>
         </mxCell>
-        <mxCell id="map_receb" value="P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO&#xa;(local 26)" style="rounded=1;whiteSpace=wrap;fillColor=#fce4ec;" vertex="1" parent="lane_map">
+        <mxCell id="map_receb" value="P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO&#xa;(local 26)" style="rounded=1;whiteSpace=wrap;fillColor=#fce4ec;" vertex="1" parent="lane_map">
           <mxGeometry x="20" y="40" width="380" height="40" as="geometry"/>
         </mxCell>
-        <mxCell id="map_pag" value="P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO&#xa;(Tek Store 2911)" style="rounded=1;whiteSpace=wrap;fillColor=#fce4ec;" vertex="1" parent="lane_map">
+        <mxCell id="map_pag" value="P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO&#xa;(Tek Store 2911)" style="rounded=1;whiteSpace=wrap;fillColor=#fce4ec;" vertex="1" parent="lane_map">
           <mxGeometry x="420" y="40" width="400" height="40" as="geometry"/>
         </mxCell>
         <mxCell id="lane_sync" value="Sincronização do Cenário" style="swimlane;horizontal=0;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
@@ -46,7 +46,7 @@
         <mxCell id="lane_next" value="Próxima Iteração (estudo)" style="swimlane;horizontal=0;startSize=30;fillColor=#f9f9f9;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
           <mxGeometry x="0" y="480" width="1000" height="100" as="geometry"/>
         </mxCell>
-        <mxCell id="parametro" value="P39_TDD_PARAMETRO&#xa;(Tek Store 2969)" style="rounded=1;whiteSpace=wrap;fillColor=#f9f9f9;strokeColor=#999999;fontColor=#666;" vertex="1" parent="lane_next">
+        <mxCell id="parametro" value="P39_TDD_PARAMETROS&#xa;(Tek Store 2969)" style="rounded=1;whiteSpace=wrap;fillColor=#f9f9f9;strokeColor=#999999;fontColor=#666;" vertex="1" parent="lane_next">
           <mxGeometry x="20" y="40" width="150" height="40" as="geometry"/>
         </mxCell>
         <mxCell id="param_map" value="P39_TDD_PARAMETRO_MAPEAMENTO&#xa;(Tek Store 2970)" style="rounded=1;whiteSpace=wrap;fillColor=#f9f9f9;strokeColor=#999999;fontColor=#666;" vertex="1" parent="lane_next">

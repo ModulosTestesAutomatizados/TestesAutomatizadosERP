@@ -1,28 +1,28 @@
-# Estado do trabalho TLC
+# STATE
 
 ## Decisions
 
-### AD-001: Reutilizar os métodos existentes do IRunner
+Nenhuma decisao AD de projeto foi registrada como aprovada nesta entrega. As restricoes confirmadas pelo usuario e as propostas locais estao em `.specs/features/tdd-irunner-lote-json/context.md` e `spec.md`. A especificacao historica do MVP permanece preservada e nao comprova a implementacao nos arquivos atuais em Runner.
 
-Não criar wrappers de preparação, falha, encerramento ou limpeza nesta iteração. O cálculo relativo pertence a RegistrarTick; a leitura dos parâmetros pertence a AplicarParametrosDoCasoTeste; o contexto pertence a SetarCasoTeste; o fechamento de métricas e a persistência pertencem a RegistrarMetricas. A casca mantém a ordem, os finally e o controle do lote.
+### AD-001 — frontend documental Vue/Vite
 
-### AD-002: Um checkpoint, próxima iteração sem commit
+Status: active. Aprovada pela revisão da especificação e autorização de implementação em 2026-10-16. Usar SFC com script setup TypeScript, dependências npm e build estático Vite para Pages. Organizar slices dentro de app/components, preservando a hierarquia editorial e leitor comum dirigido por dados. Publicação documental é o contexto; grupos de assuntos não são automaticamente bounded contexts. Não alterar regras Pascal nesta migração.
+### Proveniência da integração do PR #27
 
-O usuário solicitou o checkpoint `e47d2a4` antes da reorganização. As alterações de irunner-casca-enxuta, sua especificação e suas evidências ficam fora do index e sem novo commit. Não executar push ou gravação no banco.
-
-### AD-003: Preservar debug e distinguir validação local de ERP
-
-TDD_LOGS mantém a captura condicionada a FModoDebug. As sondas locais executam um subconjunto do fonte Pascal traduzido com fronteiras ERP substituídas; não são compilação Pascal nem evidência de persistência real. A confirmação no JvInterpreter é uma etapa separada.
-
-### AD-004: Contexto sempre obtido do registro corrente
-
-SetarCasoTeste recebe somente módulo e área. O usuário confirmou que o fluxo sempre itera o lote; a descrição não é mais argumento nem alternativa opcional, sendo lida do CDS após a reinicialização segura do contexto.
+As decisões e o handoff da estabilização anterior foram preservados integralmente em `.specs/features/portal-vite-slices/referencias/estabilizacao/STATE-pr27.md`. São históricos: o contrato posterior de LOGS fornecido pelo usuário substitui a captura condicionada a debug descrita naquele snapshot. A entrega Vue/Vite preserva os fontes atuais reconciliados e a autorização de publicação por PR recebida nesta sessão.
 
 ## Handoff
 
-- Feature: `.specs/features/irunner-casca-enxuta/spec.md`.
-- Branch: `refactor/tdd-runner`; baseline: `e47d2a4`.
-- Implementação local: quatro fontes Pascal reorganizados; dois helpers removidos; casca de 223 para 183 linhas.
-- Verificação: gate local e sondas anteriores aprovados; revisão TLC independente PASS local, 10/10 critérios e 5/5 mutações detectadas.
-- Próximo passo operacional: revisar o diff e disponibilizar as quatro units no ERP para validação nativa.
-- Sem stage/commit nesta iteração, conforme instrução do usuário.
+- **Feature:** .specs/features/portal-vite-slices/
+- **Phase / Task:** T1–T8 concluídas localmente. Verificador independente PASS em validation.md, 32/32 AC + DOC-01..18; validate_state sem erros.
+- **Completed:** 27 documentos em slices; SFC/script setup TypeScript/Vite; Vue/Router/Vuetify 4.2.6/Mermaid/MDI via npm; conteúdo atual Runner/asserts/módulo/validador/sincronização; quatro moldes canônicos; AST/Mermaids reconciliados; plugin de integridade/cópia; guia/snippets/skill; tema claro/escuro e clearable.
+- **Verification:** check/build e scripts ignorados editorial, sync-check, asset-gate, snippets e native passaram. Smoke sob prefixo Pages sem CDN incluiu moldes/retry, diagramas/links/zoom/orientação, tema salvo, busca, loading, rota/refresh, mobile e falhas. Actions/Linux e ERP não executados.
+- **Sources:** Usuário atualizou assets e confirmou LOGS novo. RegistrarLog sempre acumula e FModoDebug controla exibição. Chamadas antigas em outras units são divergência documentada. Manifesto de bytes anterior difere somente nesse LOGS fornecido pelo usuário. Outros limites em reconciliacao-fontes.md.
+- **Next step:** Publicação por PR autorizada pelo usuário; atualizar o PR #26 desta branch e aguardar revisão/merge. A autorização não inclui merge automático.
+- **Branch / worktree:** TestesAutomatizadosERP-docs, somente este worktree. Sem ERP, banco, TekStore ou novas branches.
+- **Dev:** http://127.0.0.1:5173/TestesAutomatizadosERP/ (conferir processo se necessário).
+- **Commits:** 48204f2 plano, dd8ca50 slices, d6ab199 SFC/Vite, cf1acae autoria, e00b368 Runner, 8d3f769 JSON/moldes, 3ec6b8f assets canônicos, 3cef3aa temas/clearable, 5615968 moldes/autoria. Evidência T8 segue no commit deste registro.
+
+Revisão final: range 5999145..a8a2a0d; sete scripts locais e check/build próprios passaram. Sensor de rejeição de hash morto em cópia isolada, porcelain idêntico. Sem Linux/Actions/ERP ou instalação limpa. Uma mensagem de diagnóstico com path antigo ficou como observação cosmética no parecer. Preview reiniciado em 5173, sessão exec 77811.
+
+Preparação da publicação: correção posterior da busca remove o outline quadrado, mantém borda de 1px e clearable, e desativa autocomplete. Integrada origin/master f41677b (PR #27): variantes de nomes e contratos antigos comparadas com os fontes atuais fornecidos pelo usuário, que foram preservados integralmente no resultado. Nenhum diff em docs/assets contra HEAD anterior à integração. STATE da estabilização preservado no snapshot referenciado acima. Check e build passaram novamente após resolver os conflitos.

@@ -1,4 +1,4 @@
-﻿uses P39_TDD_PARAMETRO_MAPEAMENTO, P39_TDD_FUNCOES_JSON;
+uses P39_TDD_PARAMETRO_MAPEAMENTO, P39_TDD_FUNCOES_JSON;
 
 const
     cTipoString = 0;
@@ -13,7 +13,7 @@ procedure Main;
 var lInstrucoes :string;
 begin
   lInstrucoes := '';
-  {P39_TDD_PARAMETRO_MAPEAMENTO -> P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_PARAMETRO', lInstrucoes);
+  {P39_TDD_PARAMETRO_MAPEAMENTO -> P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_PARAMETRO', lInstrucoes);
 end;
 
 function GetSQLParametro:String;

@@ -1,0 +1,213 @@
+# Implementação da iteração
+
+## Execution Protocol
+
+Usar tlc-spec-driven: uma entrega verificável por commit, atualizar este registro antes de cada commit. Aprovação do usuário autoriza implementação e commits locais. Nenhum push ou deploy nesta etapa. Implementação sequencial neste worktree; verificador independente no encerramento.
+
+## Test Coverage Matrix
+
+Diretrizes: especificação aprovada, pedido de verificações proporcionais e proibição de versionar testes/tools. Comandos de qualidade extraídos de `Documentacoes/package.json`.
+
+| Code Layer | Required Test Type | Coverage Expectation | Location Pattern | Run Command |
+| --- | --- | --- | --- | --- |
+| Identidades e referências | integration | Tabela de migração, integridade dos nomes dinâmicos e preservação da lógica | tools locais ignorados | python Documentacoes/tools/portal-iteration/migrate.py --check |
+| Catálogo e navegação | integration | Árvore exata, páginas removidas, unicidade e ancestrais | tools locais ignorados | node Documentacoes/tools/portal-iteration/check.mjs catalog |
+| Helpers | integration | Contratos dos três fontes, símbolos buscáveis e links | tools locais ignorados | node Documentacoes/tools/portal-iteration/check.mjs helpers |
+| Apresentação | e2e | Loading/pronto/erro, truncamento, foco, mobile e scroll | tools locais ignorados | node Documentacoes/tools/portal-iteration/browser.mjs |
+| Autoria e publicação estática | integration | Snippets válidos, catálogo compilado e prefixo Pages | tools locais ignorados | node Documentacoes/tools/portal-iteration/check.mjs final |
+
+## Gate Check Commands
+
+| Gate Level | When to Use | Command |
+| --- | --- | --- |
+| Quick | Migração antes da retirada de documentos obsoletos | python Documentacoes/tools/portal-iteration/migrate.py --check + npm run typecheck --prefix Documentacoes |
+| Full | Catálogo e helpers | npm run build --prefix Documentacoes + comando da camada na matriz |
+| Build | Apresentação e encerramento | npm run check --prefix Documentacoes + npm run build --prefix Documentacoes + verificação local da tarefa |
+
+## Execution Plan
+
+### Phase 1: Migração e conteúdo
+
+```text
+T1 → T2 → T3
+```
+
+### Phase 2: Apresentação e autoria
+
+```text
+T3 → T4 → T5 → T6 → T7
+```
+
+### Phase 3: Correção do inventário na revisão
+
+```text
+T7 → T8
+```
+
+## Task Breakdown
+
+### T1: Migrar identidades dos artefatos
+
+**What**: Aplicar a tabela de nomes em fontes, referências editoriais e grafos, sem mudar lógica.
+**Where**: inventário de artefatos e referências da migração em design.md
+**Depends on**: None
+**Requirement**: PORTAL-26, PORTAL-27, PORTAL-28, PORTAL-30
+**Tools**: filesystem, Git; skills TLC e Vue nas referências editoriais.
+**Done when**:
+- [x] Nomes antigos migrados e literais dinâmicos coerentes; diff Pascal limitado à nomenclatura.
+- [x] Inventário AST e hashes correspondem aos arquivos atuais; verificação de migração e typecheck passam.
+**Tests**: integration
+**Gate**: quick
+**Commit**: refactor(docs): padroniza identidades dos artefatos TDD
+
+### T2: Aplicar a árvore e remover páginas antigas
+
+**What**: Substituir a navegação pelo mapa aprovado e excluir documentos e rotas obsoletos.
+**Where**: catálogo de documentação e registro central de navegação
+**Depends on**: T1
+**Requirement**: PORTAL-06, PORTAL-07, PORTAL-08, PORTAL-09, PORTAL-10, PORTAL-22, PORTAL-29
+**Tools**: filesystem, Git; TLC.
+**Done when**:
+- [x] Árvore e ordem correspondem ao mapa para as 19 units existentes; três helpers entram em T3.
+- [x] Páginas antigas e redirecionamentos excluídos; catálogo e rotas de unit canônicas coerentes.
+- [x] Build e verificação de catálogo passam.
+**Tests**: integration
+**Gate**: full
+**Commit**: refactor(docs): reorganiza navegacao e remove paginas obsoletas
+
+### T3: Documentar o contrato de sincronização
+
+**What**: Integrar as três documentações individuais de sincronização e os fontes fornecidos.
+**Where**: contrato editorial de units de sincronização
+**Depends on**: T2
+**Requirement**: PORTAL-11, PORTAL-12, PORTAL-13, PORTAL-14, PORTAL-15, PORTAL-16, PORTAL-24
+**Tools**: filesystem, Git; TLC.
+**Done when**:
+- [x] Três páginas descrevem estados, assinaturas, efeitos e limites conforme os fontes, sem executar Pascal.
+- [x] Busca e citações resolvem os símbolos; catálogo final de 24 documentos e build passam.
+**Tests**: integration
+**Gate**: full
+**Commit**: docs: documenta helpers de sincronizacao de casos
+
+### T4: Apresentar loading de tela inteira
+
+**What**: Substituir o status do artefato por overlay com estados loading, pronto e erro.
+**Where**: inicialização estática do portal
+**Depends on**: T3
+**Requirement**: PORTAL-01, PORTAL-02, PORTAL-03, PORTAL-04, PORTAL-05
+**Tools**: filesystem, navegador local; TLC e Vue.
+**Done when**:
+- [x] Overlay cobre viewport sem depender de CDN, some após montagem e oferece recarga em erro.
+- [x] Movimento reduzido e instrução do índice fonte preservados; checks locais passam.
+**Tests**: e2e
+**Gate**: build
+**Commit**: feat(docs): adiciona overlay de carregamento inicial
+
+### T5: Ajustar a leitura do drawer
+
+**What**: Truncar nomes com texto completo acessível e adicionar respiro inferior.
+**Where**: apresentação do componente NavigationGroup
+**Depends on**: T4
+**Requirement**: PORTAL-17, PORTAL-18, PORTAL-19
+**Tools**: filesystem, navegador local; TLC e Vue.
+**Done when**:
+- [x] Nomes em uma linha com ellipsis e tooltip em hover/foco; pelo menos 48 px após o último item.
+- [x] Verificação desktop/mobile e qualidade passam.
+**Tests**: e2e
+**Gate**: build
+**Commit**: fix(docs): melhora leitura e espaco final do drawer
+
+### T6: Ocultar barras mantendo rolagem
+
+**What**: Ocultar scrollbar e preservar rolagem e foco dos contêineres.
+**Where**: estilos de rolagem do portal
+**Depends on**: T5
+**Requirement**: PORTAL-20, PORTAL-21
+**Tools**: filesystem, navegador local; TLC.
+**Done when**:
+- [x] Página, drawer, terminal, tabelas e diagramas rolam sem barras visuais.
+- [x] Roda/teclado e rolagem horizontal continuam funcionais; verificação local passa.
+**Tests**: e2e
+**Gate**: build
+**Commit**: style(docs): oculta barras preservando a rolagem
+
+### T7: Atualizar autoria e concluir validação estática
+
+**What**: Alinhar guia, exemplos e snippets à nomenclatura e navegação novas.
+**Where**: guia de contribuição e seus snippets
+**Depends on**: T6
+**Requirement**: PORTAL-23, PORTAL-25, PORTAL-31
+**Tools**: filesystem, navegador local; TLC e entregas.
+**Done when**:
+- [x] Guia e snippets usam nomes canônicos e grupos válidos; guia explica atualização dos cadastros externos.
+- [x] Lint, tipos, build e navegação sob prefixo Pages passam; iniciar revisão independente TLC.
+**Tests**: integration
+**Gate**: build
+**Commit**: docs: atualiza autoria para o catalogo canonico
+
+### T8: Excluir literais Pascal do inventário de uses
+
+**What**: Corrigir o grafo canônico para considerar apenas cláusulas uses reais.
+**Where**: inventário canônico de dependências do Runner
+**Depends on**: T7
+**Requirement**: PORTAL-28
+**Tools**: filesystem; TLC.
+**Done when**:
+- [x] Grafo de P39_TDD_IRUNNER possui somente P39_TDD_LOGS como uses direto; palavras de mensagens não geram nós.
+- [x] Regressão local falha antes da correção e passa depois; build preserva hashes atuais.
+**Tests**: integration
+**Gate**: full
+**Commit**: fix(docs): exclui literais Pascal do grafo de uses
+
+## Diagram-Definition Cross-Check
+
+| Task | Depends On | Diagram Shows | Status |
+| --- | --- | --- | --- |
+| T1 | None | início | Match |
+| T2 | T1 | T1 → T2 | Match |
+| T3 | T2 | T2 → T3 | Match |
+| T4 | T3 | início da fase após T3 | Match |
+| T5 | T4 | T4 → T5 | Match |
+| T6 | T5 | T5 → T6 | Match |
+| T7 | T6 | T6 → T7 | Match |
+| T8 | T7 | T7 → T8 | Match |
+
+## Test Co-location Validation
+
+T1–T3 e T7 usam integration; T4–T6 usam e2e. Todas as verificações são locais, ignoradas e acompanham a tarefa correspondente. Não há suíte versionada nem alterações nos scripts npm de produto.
+
+## Evidências por tarefa
+
+Registrar comando, resultado e localização das verificações ao concluir cada tarefa. A validação independente final terá relatório próprio em validation.md.
+
+### T1 concluída
+
+`python Documentacoes/tools/portal-iteration/migrate.py --check`: PASS, 21 fontes alterados apenas por nomes; baseline dos fontes fornecidos preservado localmente. `npm run typecheck --prefix Documentacoes`: PASS. Asserções locais em `migrate.py:38` comparam conteúdo normalizado contra a migração aprovada; os literais dinâmicos são verificados nas linhas seguintes. Cobertura: PORTAL-26/27/28/30; nenhuma alteração de regra Pascal. Os três fontes novos e a retirada dos fontes antigos de sincronização integram esta migração de identidade; suas páginas entram em T3.
+
+### T2 concluída
+
+Build: PASS, 21 documentos antes dos helpers. check.mjs catalog: PASS; assertions em check.mjs:12-40 comparam grupos, ordem, unicidade, nomes, caminhos e ausencia de paginas e redirecionamentos. PORTAL-09 e PORTAL-29 tambem recebem prova no navegador nas tarefas visuais. Nenhum teste versionado.
+
+### T3 concluída
+
+Build: PASS, 24 documentos. check.mjs helpers: PASS; assertions em check.mjs:41-60 verificam os tres helpers, ordem, caminhos com Sincronizar, busca por seis simbolos, citacoes e ausencia de propriedade de FSincRemoto no processamento. Contratos conferidos por leitura integral dos tres fontes fornecidos, sem execucao de ERP.
+
+### T4 concluída
+
+npm run check e build: PASS. browser.mjs loading: PASS; assertions em browser.mjs:37-66 verificam viewport 1280x800, nome acessivel, reduced motion, inercia inicial, liberacao apos montagem e falha/timeout com recarga. Distribuicoes locais das mesmas versoes CDN usadas sem mocks de comportamento. Apenas ferramentas ignoradas.
+
+### T5 concluída
+
+npm run check e build: PASS. browser.mjs drawer: PASS; assertions em browser.mjs:69-87 verificam item visivel via rota profunda, tooltip por hover e foco, nowrap/ellipsis, padding minimo de 48px e paginas antigas ausentes. Mobile 360px sem overflow horizontal; capturas locais desktop.png e mobile.png.
+
+### T6 concluída
+
+npm run check e build: PASS. browser.mjs scroll: PASS; assertions em browser.mjs:92-108 conferem scrollbar-width none, terminal e tabela por ArrowRight, drawer expandido por PageDown e roda e pagina por roda. Corrigida a camada de overflow da tabela para que o wrapper focavel receba a rolagem. Nenhum teste versionado.
+
+### T7 concluída
+
+npm run check, build e check.mjs final: PASS, 24 documentos. snippets.mjs: PASS, 22 snippets e expansoes pagina/unit compiladas em strict; assertions verificam nome unificado, ausencia de subgrupos obsoletos e instrucao de atualizar os cadastros externos. browser.mjs final: PASS sob /TestesAutomatizadosERP/, desktop/mobile; migrate.py --check: PASS preservando logica Pascal. Revisao independente TLC iniciada apos este commit.
+
+### T8 concluída
+
+Regressao check.mjs:12 falhou antes da correcao, listando cinco palavras de mensagem como dependencias. Apos mascarar strings e comentarios em conjunto, check.mjs final e build: PASS. Inventario agora com 18 nos (17 locais e um marcador dinamico) e 21 arestas reais, hashes Pascal inalterados. Nenhum fonte Pascal ou teste versionado foi alterado nesta correcao.

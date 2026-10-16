@@ -1,9 +1,9 @@
-unit TDD_BASE_UNIT_IRUNNER;
 
-uses TDD_RUNNER, TDD_FINANCEIRO;
+
+uses TDD_RUN_RUNNER, TDD_FIN_FINANCEIRO;
 
 { ================================================================
-  TDD_BASE_UNIT_IRUNNER - MOLDE DO FLUXO INTERPRETADO
+  TDD_RUN_UNIT_BASE_IRUNNER - MOLDE DO FLUXO INTERPRETADO
   Main chama ExecutarLote com o módulo e a área configurados.
   ExecutarLote carrega uma vez,  controla First/Run/Next e libera o lote.
   Falhas individuais são acumuladas e apresentadas depois do encerramento.
@@ -36,9 +36,8 @@ begin
   lCasosFalhos := 0;
   lFalhas := '';
   try
-    // A carga pertence ao lote.
-    // Somente este loop avança o CDS global.
-    {TDD_RUNNER.}SetupCasosTestes(pDescricaoModulo, pDescricaoArea);
+    // A carga pertence ao lote. Somente este loop avança o CDS global.
+    {TDD_RUN_RUNNER.}SetupCasosTestes(pDescricaoModulo, pDescricaoArea);
     try
       CDSCasosTestes.First;
       while not CDSCasosTestes.Eof do
@@ -58,8 +57,8 @@ begin
         CDSCasosTestes.Next;
       end;
     finally
-      {TDD_LOGS.}DelimitadorLog('RESUMO DO LOTE');
-      {TDD_LOGS.}RegistrarLogEmModoDebug(
+      {TDD_RUN_LOGS.}DelimitadorLog('RESUMO DO LOTE');
+      {TDD_RUN_LOGS.}RegistrarLogEmModoDebug(
         '| Carregados: ' + IntToStr(CDSCasosTestes.RecordCount) + #13 +
         '| Tentados:   ' + IntToStr(lTentados) + #13 +
         '| Falhos:     ' + IntToStr(lCasosFalhos)
@@ -72,8 +71,18 @@ begin
       TearDown_FinalizarParametros;
       Cache_TearDown_LimparInformacoes;
       TearDown_Finalizar_CasosTeste;
+      AssertsZerar;
+      FFalhas.Free;
+      FFalhas := nil;
+      FResultados.Free;
+      FResultados := nil;
+      FDataSets.Free;
+      FDataSets := nil;
       if Assigned(FLogsCasoTeste) then
+      begin
         FLogsCasoTeste.Free;
+        FLogsCasoTeste := nil;
+      end;
     except
       on Ex: Exception do
         raise Exception.Create('Falha ao limpar os recursos do lote: ' + Ex.Message);
@@ -95,7 +104,7 @@ begin
   FLogsCasoTeste.Clear;
   try
     try
-      {TDD_LOGS.}DelimitadorLog('PREPARAÇÃO DO CASO');
+      {TDD_RUN_LOGS.}DelimitadorLog('PREPARAÇÃO DO CASO');
       // SetarCasoTeste reinicia o estado e usa o registro corrente do lote.
       SetarCasoTeste(FDescModulo, FDescArea);
       FNomeMetodoAtual := 'INICIALIZAR METRICAS';
@@ -107,32 +116,42 @@ begin
         CallBack_AbreTela('Run');
         CallBack_AbreTela(ClassOwner);
         try
-          {TDD_LOGS.}DelimitadorLog('STARTED');
+          {TDD_RUN_LOGS.}DelimitadorLog('STARTED');
           FNomeMetodoAtual := 'STARTED';
           RegistrarTick(0, 'STARTED');
-          {TDD_STARTED.}Started;
+          {TDD_RUN_STARTED.}Started;
           RegistrarTick(1, 'STARTED');
 
-          {TDD_LOGS.}DelimitadorLog('IRUNNER');
+          {TDD_RUN_LOGS.}DelimitadorLog('IRUNNER');
           FNomeMetodoAtual := 'IRUNNER';
           RegistrarTick(0, 'IRUNNER');
 
-        {P39_TDD_LOGS.}DelimitadorLog('Teste');
+        {P39_TDD_RUN_LOGS.}DelimitadorLog('Teste');
         CallBack_Mensagem(ClassOwner, 'Teste');
-        {P39_TDD_RUNNER.}RegistrarTick(0, 'Teste');
-        {TDD_FINANCEIRO.}Teste;
-        {P39_TDD_RUNNER.}RegistrarTick(1, 'Teste');
-
+        {P39_TDD_RUN_RUNNER.}RegistrarTick(0, 'Teste');
+        {TDD_FIN_FINANCEIRO.}Teste;
+        {P39_TDD_RUN_RUNNER.}RegistrarTick(1, 'Teste');
 
           RegistrarTick(1, 'IRUNNER');
 
-          {TDD_LOGS.}DelimitadorLog('ASSERTS');
+          {TDD_RUN_LOGS.}DelimitadorLog('ASSERTS');
           FNomeMetodoAtual := 'ASSERTS';
+          if FCDSMetricasTickDiff.FindKey(['IRUNNER']) then
+            FTempoExecucaoMs := FCDSMetricasTickDiff.FieldByName('TEMPO_TOTAL').AsInteger;
           RegistrarTick(0, 'ASSERTS');
-          //{P39_TDD_ASSERTS.} //PENDENTE O USE CASE DE ASSERTS;
+          CompararResultadoEsperado;
           RegistrarTick(1, 'ASSERTS');
 
-          FHistoricoExecucao.StatusExecucao := 'SUCESSO';
+          if AssertsOk then
+            FHistoricoExecucao.StatusExecucao := 'SUCESSO'
+          else
+          begin
+            FHistoricoExecucao.StatusExecucao := 'FALHA';
+            FHistoricoExecucao.EtapaFalha := FEtapaAtual;
+            FHistoricoExecucao.MensagemErro := 'Falha no caso ID ' + IntToStr(FHistoricoExecucao.AutoIncCasoTeste) +
+              ',  método ASSERTS: ' + AssertsResumo;
+            RegistrarLogEmModoDebug(FHistoricoExecucao.MensagemErro);
+          end;
         except
           on Ex: Exception do
           begin
@@ -141,7 +160,7 @@ begin
             FHistoricoExecucao.EtapaFalha := FEtapaAtual;
             if FHistoricoExecucao.StatusExecucao <> 'VERSAO_INCOMPATIVEL' then
               FHistoricoExecucao.StatusExecucao := 'FALHA';
-            {TDD_LOGS.}RegistrarLogEmModoDebug(FHistoricoExecucao.MensagemErro);
+            {TDD_RUN_LOGS.}RegistrarLogEmModoDebug(FHistoricoExecucao.MensagemErro);
 
             // Falhas do teste ficam no histórico; preparação/limpeza insegura interrompe.
             if (FNomeMetodoAtual = 'TEARDOWN') or
@@ -163,7 +182,7 @@ begin
       begin
         lErroDaExecucao := 'Falha no caso ID ' + IntToStr(FHistoricoExecucao.AutoIncCasoTeste) + #13 +
           'Método: ' + FNomeMetodoAtual + ': ' + #13 + Ex.Message;
-        {TDD_LOGS.}RegistrarLogEmModoDebug(lErroDaExecucao);
+        {TDD_RUN_LOGS.}RegistrarLogEmModoDebug(lErroDaExecucao);
         if FHistoricoExecucao.StatusExecucao <> 'VERSAO_INCOMPATIVEL' then
           FHistoricoExecucao.StatusExecucao := 'FALHA';
         if Trim(FHistoricoExecucao.MensagemErro) = '' then
@@ -180,7 +199,7 @@ begin
       // Sem um ID válido não há FK segura para criar o histórico.
       if FHistoricoExecucao.AutoIncCasoTeste > 0 then
       begin
-        {TDD_FINISHED.}RegistrarMetricas;
+        {TDD_RUN_FINISHED.}RegistrarMetricas;
       end;
     finally
       FLogsCasoTeste.Clear;
@@ -188,4 +207,3 @@ begin
   end;
 end;
 {$endregion}
-end.
