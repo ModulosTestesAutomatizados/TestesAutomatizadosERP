@@ -4,7 +4,7 @@
 
 Usar tlc-spec-driven; tarefas sequenciais, gates e commit local por entrega. Usuário aprovou spec e autorizou implementação. Sem push/deploy nesta autorização. Oito entregas coesas, executadas inline; migração do grafo SFC e bundler precisa ser atômica para que o app compile sem dois runtimes.
 
-**Design:** design.md. **Status:** In Progress.
+**Design:** design.md. **Status:** Complete local; revisão independente PASS em validation.md, sem publicação.
 
 ## Test Coverage Matrix
 
@@ -170,3 +170,5 @@ O contrato novo de LOGS tem assinatura conferida contra Pascal e símbolos; Regi
 Requisitos simples posteriores foram aplicados diretamente: temas claro/escuro Vuetify, persistência guardada e preferência do sistema; busca VTextField clearable com null tratado. Vuetify foi atualizado à versão estável 4.2.6 conforme pedido de latest, com check e smoke aprovados. Mermaid acompanha o tema; tipografia e identidade foram preservadas.
 
 O artefato contém apenas entrada/chunks/fontes/favicon, diagramas/inventários e os quatro moldes selecionados. Não inclui .specs nem árvore Pascal privada. O workflow existente já valida e publica a saída correta. Não houve execução do Actions ou homologação Linux nesta sessão; capitalização por segmentos e hashes CRLF/LF são validados localmente. Revisão TLC independente inicia após este commit; status de implementação não equivale a parecer PASS.
+
+Fechamento: revisão independente PASS em validation.md, range 5999145..a8a2a0d. Check/build, sete scripts e sensor 1/1 passaram. validate_state retornou zero erros. Limites Linux/Actions/ERP e observação cosmética constam no parecer. Nenhum tool/teste foi versionado.

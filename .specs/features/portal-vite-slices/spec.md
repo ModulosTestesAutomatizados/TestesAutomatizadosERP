@@ -1,6 +1,6 @@
 # Portal Vue com Vite, slices por feature e contratos TDD atuais
 
-**Status:** implementação local concluída; revisão independente pendente.
+**Status:** implementação e revisão independente concluídas localmente; sem publicação.
 **Data:** 2026-10-16. **Porte:** complexo; execução autorizada após revisão da especificação.
 
 ## Problem Statement
@@ -149,38 +149,38 @@ A estabilização do IRunner também alterou nomes, responsabilidades, métricas
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| VITE-01 | Ferramentas | Execute | Implemented |
-| VITE-02 | Ferramentas | Execute | Implemented |
-| VITE-03 | Ferramentas | Execute | Implemented |
-| VITE-04 | Ferramentas | Execute | Implemented |
-| VITE-05 | Ferramentas | Execute | Implemented |
-| VITE-06 | Ferramentas | Execute | Implemented |
-| VITE-07 | Ferramentas | Execute | Implemented |
-| VITE-08 | Ferramentas | Execute | Implemented |
-| ARCH-01 | Organização | Execute | Implemented |
-| ARCH-02 | Organização | Execute | Implemented |
-| ARCH-03 | Organização | Execute | Implemented |
-| ARCH-04 | Organização | Execute | Implemented |
-| ARCH-05 | Organização | Execute | Implemented |
-| ARCH-06 | Organização | Execute | Implemented |
-| ARCH-07 | Organização | Execute | Implemented |
-| ARCH-08 | Organização | Execute | Implemented |
-| UX-01 | Preservação | Execute | Implemented |
-| UX-02 | Preservação | Execute | Implemented |
-| UX-03 | Preservação | Execute | Implemented |
-| UX-04 | Preservação | Execute | Implemented |
-| UX-05 | Preservação | Execute | Implemented |
-| TDD-01 | Contratos atuais | Execute | Implemented |
-| TDD-02 | Contratos atuais | Execute | Implemented |
-| TDD-03 | Contratos atuais | Execute | Implemented |
-| TDD-04 | Contratos atuais | Execute | Implemented |
-| TDD-05 | Contratos atuais | Execute | Implemented |
-| TDD-06 | Contratos atuais | Execute | Implemented |
-| AUTHOR-01 | Contribuição | Execute | Implemented |
-| AUTHOR-02 | Contribuição | Execute | Implemented |
-| AUTHOR-03 | Contribuição | Execute | Implemented |
-| AUTHOR-04 | Contribuição | Execute | Implemented |
-| AUTHOR-05 | Contribuição | Execute | Implemented |
+| VITE-01 | Ferramentas | Execute | Verified local |
+| VITE-02 | Ferramentas | Execute | Verified local |
+| VITE-03 | Ferramentas | Execute | Verified local |
+| VITE-04 | Ferramentas | Execute | Verified local |
+| VITE-05 | Ferramentas | Execute | Verified local |
+| VITE-06 | Ferramentas | Execute | Verified local |
+| VITE-07 | Ferramentas | Execute | Verified local |
+| VITE-08 | Ferramentas | Execute | Verified local |
+| ARCH-01 | Organização | Execute | Verified local |
+| ARCH-02 | Organização | Execute | Verified local |
+| ARCH-03 | Organização | Execute | Verified local |
+| ARCH-04 | Organização | Execute | Verified local |
+| ARCH-05 | Organização | Execute | Verified local |
+| ARCH-06 | Organização | Execute | Verified local |
+| ARCH-07 | Organização | Execute | Verified local |
+| ARCH-08 | Organização | Execute | Verified local |
+| UX-01 | Preservação | Execute | Verified local |
+| UX-02 | Preservação | Execute | Verified local |
+| UX-03 | Preservação | Execute | Verified local |
+| UX-04 | Preservação | Execute | Verified local |
+| UX-05 | Preservação | Execute | Verified local |
+| TDD-01 | Contratos atuais | Execute | Verified local |
+| TDD-02 | Contratos atuais | Execute | Verified local |
+| TDD-03 | Contratos atuais | Execute | Verified local |
+| TDD-04 | Contratos atuais | Execute | Verified local |
+| TDD-05 | Contratos atuais | Execute | Verified local |
+| TDD-06 | Contratos atuais | Execute | Verified local |
+| AUTHOR-01 | Contribuição | Execute | Verified local |
+| AUTHOR-02 | Contribuição | Execute | Verified local |
+| AUTHOR-03 | Contribuição | Execute | Verified local |
+| AUTHOR-04 | Contribuição | Execute | Verified local |
+| AUTHOR-05 | Contribuição | Execute | Verified local |
 
 **Coverage:** 32 critérios próprios; 18 critérios documentais incorporados rastreados em incorporacao-irunner.md. T1–T8 executadas localmente; revisão independente registrada separadamente em validation.md antes de declarar a feature verificada.
 

@@ -2,7 +2,7 @@
 
 ## Realização
 
-Portal migrado para Vue SFC/script setup TypeScript, dependências npm e Vite, com organização por feature e leitor compartilhado. Atualizados contratos do IRunner, estados/métricas, sincronização, nomes e referências conforme os fontes recebidos. Moldes canônicos podem ser copiados diretamente da documentação. Temas claro/escuro e limpeza nativa da busca estão disponíveis. Gates locais passaram; revisão independente final ainda pendente neste registro.
+Portal migrado para Vue SFC/script setup TypeScript, dependências npm e Vite, com organização por feature e leitor compartilhado. Atualizados contratos do IRunner, estados/métricas, sincronização, nomes e referências conforme os fontes recebidos. Moldes canônicos podem ser copiados diretamente da documentação. Temas claro/escuro e limpeza nativa da busca estão disponíveis. Gates locais e revisão independente final passaram: 32 critérios próprios, DOC-01..18 e sensor de integridade 1/1. Parecer completo em validation.md, com limites explícitos.
 
 ## Fontes modificados
 
