@@ -138,6 +138,8 @@ pre { overflow: auto; font: 12px/1.9 Consolas, "Courier New", monospace; padding
 .document-search { position: relative; width: min(360px, 40vw); margin-right: 24px; }
 .search-field .v-field { background: var(--portal-raised); border-radius: 7px; font-size: 13px; }
 .search-field .v-field__input { min-width: 0; }
+.search-field input:focus-visible { outline: none; }
+.search-field .v-field--focused .v-field__outline { --v-field-border-width: 1px; }
 .theme-toggle { margin-right: 16px; flex: 0 0 auto; }
 .search-results { position: absolute; right: 0; top: calc(100% + 10px); width: min(500px, calc(100vw - 32px)); max-height: 65vh; overflow-y: auto; background: var(--portal-surface); border: 1px solid var(--portal-border); border-radius: 9px; box-shadow: 0 12px 36px #17233c24; }
 .search-caption { padding: 14px 16px 8px; font-size: 11px; color: var(--portal-muted); }

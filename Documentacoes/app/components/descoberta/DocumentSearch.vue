@@ -6,6 +6,7 @@
       v-model="consulta"
       :aria-expanded="aberta && !!consulta?.trim()"
       type="search"
+      autocomplete="off"
       placeholder="Buscar documentação…"
       aria-label="Buscar documentação"
       aria-controls="search-results"
