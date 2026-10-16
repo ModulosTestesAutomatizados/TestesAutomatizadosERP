@@ -73,22 +73,21 @@ var
   lIndice,
   lCodigoModulo,
   lCodigoCasoTeste,
-  lCodigoArea :integer;
+  lCodigoArea        :integer;
   lFonte,
   lJsonCasoTeste,
   lJsonCamposDisponiveis,
   lJsonResultadoEsperado,
   lNome,
-  lSeparador  :string;
-  lObjeto     :TJSONObject;
-  lPar        :TJSONPair;
+  lSeparador         :string;
+  lObjeto            :TJSONObject;
+  lPar               :TJSONPair;
 begin
   lCodigoCasoTeste := SincronizarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste);
   if lCodigoCasoTeste < 0 then
     Exit;
 
-  lFonte := CarregarConteudoUnit(pUnitJsonCasoTeste, pSincRemoto);
-  // Toda validação e leitura dos mínimos ocorre antes de qualquer escrita SQL.
+  lFonte                 := CarregarConteudoUnit(pUnitJsonCasoTeste, pSincRemoto);
   lJsonResultadoEsperado := ObterObjetoConfiguracao(lFonte, 'resultadoEsperado', 'P39_TDD_ASSERTS_JSON_MINIMO', false);
   lJsonCamposDisponiveis := ObterObjetoConfiguracao(lFonte, 'camposDisponiveis', 'P39_TDD_CAMPOS_DISPONIVEIS_JSON_MINIMO', true);
   lObjeto                := TJSONObject.ParseJSONValue(lFonte);
@@ -127,9 +126,9 @@ begin
   FCasoTeste.Area              := lCodigoArea;
   FCasoTeste.Descricao         := pDescricaoCasoTeste;
   FCasoTeste.RequisitoVersao   := pRequisitoVersao;
-  FCasoTeste.CasoTeste         := lJsonCasoTeste;
-  FCasoTeste.CamposDisponiveis := lJsonCamposDisponiveis;
-  FCasoTeste.ResultadoEsperado := lJsonResultadoEsperado;
+  FCasoTeste.CasoTeste         := JSONFormatado(lJsonCasoTeste);
+  FCasoTeste.CamposDisponiveis := JSONFormatado(lJsonCamposDisponiveis);
+  FCasoTeste.ResultadoEsperado := JSONFormatado(lJsonResultadoEsperado);
 
   // Debug fora do IRunner, se utilizado precisa implementar o .Free no estado dos logs mantidos por FLogsCasoTeste.
   // {P39_TDD_RUN_LOGS.}RegistrarLogEmModoDebug('Valor atribuido ao Caso de Teste:' + #13 + JSONFormatado(FCasoTeste.CasoTeste));
@@ -155,9 +154,8 @@ begin
 
   try
     Result := CodificacaoUnit(pNomeUnit);
-  except
-    on Ex: Exception do
-      raise Exception.Create('Falha ao carregar a unit JSON ' + pNomeUnit + ': ' + #13 + Ex.Message);
+  except on Ex: Exception do
+    raise Exception.Create('Falha ao carregar a unit JSON ' + pNomeUnit + ': ' + #13 + Ex.Message);
   end;
 
   if Trim(Result) = '' then
