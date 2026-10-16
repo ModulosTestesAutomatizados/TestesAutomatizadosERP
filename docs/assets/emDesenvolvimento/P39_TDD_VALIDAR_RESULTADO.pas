@@ -232,11 +232,11 @@ end;
 
 procedure FinalizarComparacao(pValidado: Boolean);
 begin
-  RegistrarLogEmModoDebug(AssertsResumo);
+  {P39_TDD_RUN_LOGS.}RegistrarLogEmModoDebug(AssertsResumo);
 end;
 
 procedure CompararComJSON(pJSON: String);
-var lObjeto: TJSONObject;
+var lObjeto, lConfiguracao: TJSONObject;
   lPar: TJSONPair;
   lIndice, lTotalAntes: Integer;
   lNome, lValor: String;
@@ -249,6 +249,31 @@ begin
     if not Assigned(lObjeto) then
       raise Exception.Create('Resultado esperado inválido.');
     try
+      // Registros novos preservam a tag; registros anteriores têm as seções na raiz.
+      for lIndice := 0 to lObjeto.Count - 1 do
+      begin
+        lPar := ExecutarMetodoDeObjeto(lObjeto, 'GetPair', [lIndice]);
+        if GetPairName(lPar) = 'resultadoEsperado' then
+        begin
+          lValor := GetPairValue(lPar);
+          if Copy(Trim(lValor), 1, 1) <> '{' then
+            raise Exception.Create('A propriedade resultadoEsperado deve ser um objeto.');
+
+          lConfiguracao := TJSONObject.ParseJSONValue(lValor);
+          if not Assigned(lConfiguracao) then
+            raise Exception.Create('Objeto resultadoEsperado inválido.');
+
+          lObjeto.Free;
+          lObjeto := lConfiguracao;
+          Break;
+        end;
+      end;
+
+      if lObjeto.Count = 0 then
+      begin
+        {P39_TDD_RUN_LOGS.}RegistrarLogEmModoDebug('SEM_VALIDACAO: objeto de resultado esperado vazio.');
+        Exit;
+      end;
       for lIndice := 0 to lObjeto.Count - 1 do
       begin
         lPar := ExecutarMetodoDeObjeto(lObjeto, 'GetPair', [lIndice]);
@@ -277,7 +302,7 @@ begin
   if CDSResultadoEsperado.FindKey([FCasoTesteAtualId]) then
     FResultadoEsperadoCaso := CDSResultadoEsperado.FieldByName('RESULTADO_ESPERADO').AsString;
   if Trim(FResultadoEsperadoCaso) = '' then
-    RegistrarLogEmModoDebug('SEM_VALIDACAO: resultado esperado não configurado para o caso.')
+    {P39_TDD_RUN_LOGS.}RegistrarLogEmModoDebug('SEM_VALIDACAO: resultado esperado não configurado para o caso.')
   else
     CompararComJSON(FResultadoEsperadoCaso);
 end;
