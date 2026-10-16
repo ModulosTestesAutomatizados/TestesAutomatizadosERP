@@ -23,3 +23,5 @@ O diretório físico fornecido é docs/assets/snippets (com dois p). Main e os t
 
 
 Atualização observada durante a implementação: TDD_RUN_LOGS passou a RegistrarLog com acumulação incondicional e exibição condicionada a FModoDebug. Páginas/assinaturas e hashes foram atualizados após leitura do novo corpo. Chamadas antigas em outros Pascal são relatadas como divergência de API, sem reescrever os fontes.
+
+Refinamento posterior recebido durante a revisão: a exibição usa MostrarLogTexto(pLog, '[DEBUG]'), passando o título separadamente. O texto armazenado continua pLog + #13, sem depender de FModoDebug. Ambos os inventários que incluem LOGS foram atualizados após conferir esse diff.

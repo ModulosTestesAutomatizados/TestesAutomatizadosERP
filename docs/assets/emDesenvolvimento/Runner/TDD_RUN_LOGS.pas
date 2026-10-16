@@ -47,7 +47,7 @@ begin
   FLogsCasoTeste.Add(pLog + #13);
 
   if FModoDebug then
-    MostrarLogTexto('[DEBUG]' + #13 + pLog);
+    MostrarLogTexto(pLog, '[DEBUG]');
 end;
 {$endregion}
 
