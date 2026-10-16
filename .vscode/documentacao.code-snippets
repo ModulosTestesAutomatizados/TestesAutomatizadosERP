@@ -255,5 +255,13 @@
       "${0}",
       "</script>"
     ]
+  },
+  "Molde canônico copiável": {
+    "scope": "typescript",
+    "prefix": "doccodigofonte",
+    "description": "Bloco que lê o arquivo canônico em docs/assets/snippets, validado e publicado pelo build.",
+    "body": [
+      "{ tipo: 'codigo-fonte', fonte: 'docs/assets/snippets/${1:TDD_CASO_TESTE_MODELO_JSON.json}', linguagem: '${2:json}' },$0"
+    ]
   }
 }

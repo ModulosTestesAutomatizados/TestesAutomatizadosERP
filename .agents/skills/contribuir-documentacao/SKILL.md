@@ -23,6 +23,8 @@ Para uma unit, documente responsabilidade, problema resolvido, estados globais e
 
 Para casos/configurações, use JSON literal copiável e tabela que explique objetos/campos e impacto no teste. Identifique valores que precisam ser preenchidos. Exemplos versionados não podem depender de arquivos JSON pessoais ignorados. Confira a fonte Pascal ou evidência reconciliada antes de afirmar o contrato; relate diferenças em vez de alterar código TDD para fazer a documentação parecer correta.
 
+Para moldes compartilhados em docs/assets/snippets, use doccodigofonte (bloco codigo-fonte). O build publica o arquivo canônico e o leitor reutiliza o terminal com cópia; não duplique o texto em outra string editável. Os modelos atuais estão em Contribuir → Moldes.
+
 ## Diagramas e build
 
 Mantenha os Mermaids em `docs/MAPEAMENTO_AST_USES_UNITS/<slug-do-documento>/` e referencie o Markdown por bloco. Não mantenha uma segunda string Mermaid no componente. Ao atualizar dependências, confira paths, capitalização, edges e hashes do inventário a partir dos fontes; distingue uses de carga dinâmica e estado compartilhado.

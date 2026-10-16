@@ -54,3 +54,7 @@ Mermaids permanecem canônicos em `docs/MAPEAMENTO_AST_USES_UNITS/<slug>/`. Exem
 `PortalLoading.vue` usa overlay e skeleton nativos, sem card ou indicador circular central durante a carga. O skeleton representa cards ou artigo, espera a rota inicial e permanece ao menos 650 ms, com saída de 240 ms. Movimento reduzido é respeitado. Status acessível é visualmente oculto; recarga visível aparece em falhas. Navegações posteriores não repetem o atraso inicial. Antes do módulo inicial há um placeholder estático independente de Vue.
 
 O favicon fornecido fica em `assets/faviconTDD.png`; o Vite resolve seu endereço e o inclui no artefato. Tipografia, cores e CSS homologados são mantidos em `styles/portal.css`.
+
+O botão do header alterna os temas claro e escuro do Vuetify. A preferência é salva quando o navegador permite; sem preferência explícita, vale o tema do sistema. A busca usa VTextField com clearable, mantendo o índice de relevância existente.
+
+Para exibir um molde diretamente da fonte canônica, use `{ tipo: 'codigo-fonte', fonte: 'docs/assets/snippets/ARQUIVO.json', linguagem: 'json' }`. O build valida e publica o mesmo arquivo; CodigoFonte o lê e reutiliza o terminal copiável. Consulte `/guias/moldes` para os quatro moldes disponíveis.

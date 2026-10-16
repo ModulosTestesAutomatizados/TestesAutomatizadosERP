@@ -106,7 +106,7 @@ defineProps<{ mensagem: string }>();
         'docpagina, docunit e docregistrounit/docregistro: documento e export público da slice.',
         'docsecao, doccodigo, doctabela, doclista e docaviso: blocos do leitor.',
         'docunitmetodo, docunitestado, docaliasartefato: assinatura e estado pesquisável.',
-        'docunitjson: exemplo JSON com tabela de campos e observações.',
+        'docunitjson: exemplo JSON com tabela de campos e observações. doccodigofonte lê o molde canônico de docs/assets/snippets e reutiliza o terminal copiável, sem duplicar seu conteúdo no documento.',
         'docgrupo, docsubgrupo, docnavegacao e doccaso: posicionamento no menu.',
         'docestado e docvalidacao: estado documental e evidência identificável.',
         'docmermaid e docdiagrama: fonte canônica e referência.',
