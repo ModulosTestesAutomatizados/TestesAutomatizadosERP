@@ -29,7 +29,7 @@ begin
     'procedure MostrarInstrucoesUnit(pNomeUnitInstrucao, pInstrucoes :string)'                                             + #13 +
     '  - Exige o nome da unit e exibe as instruções apenas quando FExibirInstrucoes está ativo.'                           + #13 +
     '====================================================================================================================';
-  {P39_TDD_LOGS.}MostrarInstrucoesUnit('P39_TDD_LOGS', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_RUN_LOGS', lInstrucoes);
 end;
 
 {$region RegistroLogs}
@@ -50,6 +50,7 @@ begin
   if FModoDebug then
   begin
     FLogsCasoTeste.Add(pLog + #13);
+    MostrarLogTexto('[DEBUG]' + #13 + pLog);
   end;
 end;
 {$endregion}
@@ -57,7 +58,10 @@ end;
 {$region Mostrar Instruções}
 procedure MostrarInstrucoesUnit(pNomeUnitInstrucao, pInstrucoes :string);
 begin
-  if Trim(pNomeUnitInstrucao) = '' then raise Exception.Create('Nome da unit não informado para exibir as instruções.');
-  if FExibirInstrucoes then MostrarLogTexto(pInstrucoes, 'Instruções ' + pNomeUnitInstrucao);
+  if Trim(pNomeUnitInstrucao) = '' then
+  	raise Exception.Create('Nome da unit não informado para exibir as instruções.');
+
+  if FExibirInstrucoes then
+  	MostrarLogTexto(pInstrucoes, 'Instruções ' + pNomeUnitInstrucao);
 end;
 {$endregion}

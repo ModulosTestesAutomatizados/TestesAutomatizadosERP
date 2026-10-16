@@ -1,71 +1,309 @@
-import type { IDocumento, TBloco } from '../../../../contracts/documentacao.ts';
-const pastaRunner = 'docs/assets/emDesenvolvimento/Runner/';
-const paragrafo = (pTexto: string): TBloco => ({ tipo: 'paragrafo', texto: pTexto });
-const aviso = (pTexto: string): TBloco => ({ tipo: 'aviso', severidade: 'warning', texto: pTexto });
-
+import type { IDocumento } from '../../../../contracts/documentacao.ts';
 export default {
-  slug: 'runner', categoria: 'estrutura', titulo: 'IRunner.Executar',
-  resumo: 'Da montagem do código ao lote de casos: responsabilidades, uses, estado compartilhado, logs e métricas.',
-  estado: 'em-desenvolvimento',
-  fontes: [
-    ...['P39_TDD_IRUNNER', 'P39_TDD_RUNNER', 'P39_TDD_BASE_UNIT_IRUNNER', 'P39_TDD_STARTED', 'P39_TDD_FINISHED', 'P39_TDD_LOGS', 'P39_TDD_FIN_PROCESSAMENTO'].map(pNome => ({ caminho: `${pastaRunner}${pNome}.pas` })),
-    { caminho: 'docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas' },
-    { caminho: 'docs/assets/emDesenvolvimento/P39_TDD_FIN_PAGAMENTO_RECEBIMENTO.pas' },
-    { caminho: 'docs/MER.md' }, { caminho: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/P39_TDD_IRUNNER.md' }, { caminho: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/P39_TDD_IRUNNER.ast.json' }
+  "slug": "runner",
+  "categoria": "estrutura",
+  "titulo": "IRunner.Executar",
+  "resumo": "Da geração do programa ao lote, capturas, asserts e persistência: contratos atuais e fronteiras de responsabilidade.",
+  "estado": "em-desenvolvimento",
+  "navegacao": {
+    "grupo": "estrutura",
+    "ordem": 0
+  },
+  "fontes": [
+    {
+      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_IRUNNER.pas"
+    },
+    {
+      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_UNIT_BASE_IRUNNER.pas"
+    },
+    {
+      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_RUNNER.pas"
+    },
+    {
+      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_STARTED.pas"
+    },
+    {
+      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_FINISHED.pas"
+    },
+    {
+      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_LOGS.pas"
+    },
+    {
+      "caminho": "docs/assets/emDesenvolvimento/Runner/P39_TDD_RUN_ASSERTS.pas"
+    },
+    {
+      "caminho": "docs/assets/emDesenvolvimento/Runner/P39_TDD_RUN_MODULO.pas"
+    },
+    {
+      "caminho": "docs/assets/emDesenvolvimento/P39_TDD_RUN_VALIDAR_RESULTADO.pas"
+    },
+    {
+      "caminho": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas"
+    },
+    {
+      "caminho": "docs/assets/emDesenvolvimento/Runner/P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO.pas"
+    },
+    {
+      "caminho": "docs/assets/emDesenvolvimento/TDD_FIN_FINANCEIRO.pas"
+    },
+    {
+      "caminho": "docs/MAPEAMENTO_AST_USES_UNITS/runner/TDD_RUN_IRUNNER.ast.json"
+    }
   ],
-  secoes: [
-    { id: 'contrato', titulo: '01 · Contrato de entrada', blocos: [
-      paragrafo('IRunner monta um programa interpretado para uma única unit com entrada Teste sem parâmetros. SetTDDUnit define essa unit; AddParamsRun recebe exatamente dois valores, módulo e área, escritos como literais Pascal. Executar preenche o molde e chama Interpretar uma vez. A carga do lote e o cursor dos casos pertencem ao molde, não à unit Teste.'),
-      { tipo: 'codigo', linguagem: 'pascal', codigo: "uses P39_TDD_IRUNNER;\n\nprocedure ExecutarIRunner;\nbegin\n  SetTDDUnit('P39_TDD_FIN_PAGAMENTO_RECEBIMENTO');\n  AddParamsRun('''FINANCEIRO''');\n  AddParamsRun('''FINANCEIRO''');\n  Executar;\nend;" },
-      aviso('TDD_ASSERTS e a persistência de METRICAS_ASSERTS continuam pendentes. SUCESSO indica que o caminho implementado terminou sem exceção; não certifica aprovação funcional dos asserts.'),
-      paragrafo('Nomenclatura: BASE_UNIT é P39_TDD_BASE_UNIT_IRUNNER.pas. O artefato de casos referido como TDD_CASOS_DE_TESTES está disponível como P39_TDD_CASOS_DE_TESTE.pas, no singular. Os nomes reais dos fontes são preservados nos links.')
-    ] },
-    { id: 'responsabilidades', titulo: '02 · Responsabilidades e fronteiras', blocos: [
-      { tipo: 'mermaid', titulo: 'Responsabilidades do fluxo interpretado', fonte: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/responsabilidades.md' },
-      paragrafo('IRunner monta; o molde orquestra; Runner prepara o contexto e mede; Started prepara o registro corrente; Teste executa o cenário; Finished persiste a tentativa. LOGS e as dependências de preparação oferecem os artefatos compartilhados. Este desenho representa responsabilidades; as relações uses estão no grafo específico abaixo.')
-    ] },
-    { id: 'montagem', titulo: '03 · Como Executar preenche o molde', nivel: 3, blocos: [
-      { tipo: 'lista', itens: [
-        'Valida FTDDUnit não vazia, lista de parâmetros inicializada e exatamente dois parâmetros.',
-        "Obtém CodificacaoUnit('P39_TDD_BASE_UNIT_IRUNNER') e mantém o texto em FUnitInterpretar.",
-        'Substitui __USES_UNITS__ pela unit definida, __PARAMETROS_CASO_TESTE__ pelos literais módulo/área e __CHAMADAS_METODOS__ pelo bloco de chamada de Teste.',
-        'A chamada gerada envolve Teste com callback, delimitador de logs e RegistrarTick(0/1).',
-        'Registra o código gerado em modo debug e executa Interpretar(FUnitInterpretar.Text).',
-        'O finally libera as listas temporárias e a lista de parâmetros.'
-      ] },
-      aviso('O molde tem marcadores e não deve ser executado isoladamente. Os fontes fazem Free sem zerar todas as referências; não há evidência local de reentrância ou de chamadas sucessivas de Executar seguras no mesmo contexto do host.')
-    ] },
-    { id: 'uses', titulo: '04 · Grafo AST dos uses', blocos: [
-      paragrafo('O mapa é gerado de uma árvore sintática do subconjunto uses: comentários e strings são reconhecidos para evitar relações falsas; cada aresta conserva arquivo e linha. O inventário registra cláusulas, nós e alcance transitivo. Não é uma AST completa de Delphi nem prova de resolução pelo ERP.'),
-      paragrafo('Setas sólidas representam dependências diretas; a sequência de setas expõe herança transitiva. Setas pontilhadas representam CodificacaoUnit e o marcador da unit Teste. Azul identifica fonte local, cinza dependência externa/não resolvida e amarelo marcador dinâmico. Prefixos P39_TDD e TDD permanecem distintos.'),
-      { tipo: 'mermaid', fonte: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/P39_TDD_IRUNNER.md', titulo: 'Dependências declaradas e montagem dinâmica' },
-      paragrafo('Os arquivos e linhas de cada relação estão no mapa Markdown e no inventário P39_TDD_IRUNNER.ast.json, disponíveis nas fontes ao final desta página. O desenho mantém a visão das dependências sem repetir todas as arestas em uma tabela.'),
-      paragrafo('P39_TDD_FINISHED não declara uses, mas acessa globais e funções do contexto interpretado. Esses acessos são documentados como compartilhamento de estado, não como dependências estáticas inventadas. O piloto financeiro é uma raiz separada do inventário: SetTDDUnit o insere dinamicamente no molde.')
-    ] },
-    { id: 'lote', titulo: '05 · Fluxo do lote e da tentativa', blocos: [
-      { tipo: 'mermaid', titulo: 'Da entrada à persistência', fonte: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/lote.md' },
-      paragrafo('SetupCasosTestes define módulo/área e carrega os casos uma vez. ExecutarLote é o único dono de First/Next. Run reinicia o contexto, cria o dataset de tempos, abre callbacks, executa Started e o Teste da unit configurada. O finally fecha os tempos ainda abertos e tenta persistir antes do fechamento das telas.'),
-      paragrafo('Started aceita requisito de versão vazio; quando informado, exige versão igual ou superior. Lê o JSON do registro corrente, obtém o bloco parametros e chama VerificarParametros. Os parâmetros aplicados são configuração do ERP; finalizar os datasets não implica restaurar os valores anteriores.')
-    ] },
-    { id: 'falhas', titulo: '06 · Falhas, continuidade e limpeza', nivel: 3, blocos: [
-      { tipo: 'mermaid', titulo: 'Decisão após uma exceção', fonte: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/falhas.md' },
-      paragrafo('Falhas de Teste podem permitir continuidade depois da persistência. Incompatibilidade de versão preserva VERSAO_INCOMPATIVEL e pode permitir o próximo registro. As outras falhas em STARTED e as falhas de TEARDOWN propagam e interrompem o lote. Preparação, persistência e fechamento também podem propagar erros.'),
-      paragrafo('Se a limpeza do lote falhar, o bloco interrompe o encerramento e não garante executar as liberações seguintes.'),
-      aviso('Persistência é uma tentativa no finally; não há retry automático ou garantia de transação única entre histórico e todos os tempos. Um erro pode deixar registros parciais. O fonte usa VERSAO_INCOMPATIVEL; o MER e materiais legados podem usar INCOMPATIVEL_VERSAO.')
-    ] },
-    { id: 'estado', titulo: '07 · Estados globais e execuções variáveis', blocos: [
-      paragrafo('Os artefatos globais são reutilizados pelo fluxo interpretado. A variação entre casos vem do registro corrente, do JSON e da configuração módulo/área; a unit de Teste continua a mesma dentro de um lote. Compartilhamento de estado não equivale a execução concorrente ou isolamento.'),
-      { tipo: 'mermaid', titulo: 'Estado do lote e estado de uma tentativa', fonte: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/estado.md' },
-      paragrafo('FHistoricoExecucao e FContextoCasoTeste são reiniciados por tentativa. FCasoTesteAtualId e FCasoTesteAtualJson são preenchidos em Started. FCDSMetricasTickDiff é recriado por caso; FEtapaAtual e FNomeMetodoAtual identificam a execução e a etapa de falha.'),
-      paragrafo('FLogsCasoTeste recebe Clear no início e no fim de Run e Free no lote. FModoDebug controla mensagens; FExibirInstrucoes controla instruções independentemente. CDSModulos, CDSAreas e os parâmetros permanecem disponíveis no lote. A configuração persistida no ERP não é restaurada automaticamente.'),
-      paragrafo('No piloto financeiro, Teste valida FCasoTesteAtualJson e executa duplicata receber, duplicata pagar, borderô receber e borderô pagar. As tags variam por registro. O finally próprio marca TEARDOWN, registra seu tempo e encerra objetos/telas do caso, sem destruir os datasets compartilhados do lote.'),
-      { tipo: 'lista', itens: ['Trocar o módulo/área muda a seleção dos casos carregados.', 'Trocar SetTDDUnit muda a implementação de Teste inserida no molde.', 'Variar o JSON do registro modifica entradas e parâmetros do caso sem duplicar o Runner.', 'Units legadas que carregam casos e avançam seu próprio cursor precisam de adaptação antes de entrar nesse contrato.'] }
-    ] },
-    { id: 'metricas', titulo: '08 · Logs, tempos e persistência', blocos: [
-      { tipo: 'mermaid', titulo: 'Da medição à persistência', fonte: 'docs/MAPEAMENTO_AST_USES_UNITS/runner/metricas.md' },
-      paragrafo('RegistrarTick normaliza o nome em maiúsculas. O início usa GetTickCount e rejeita duplicidade; o fim procura o registro com TEMPO_FIM = 0 e calcula TickDiff e a duração formatada. O ID retornado do histórico vincula todos os tempos da tentativa.'),
-      paragrafo('O snapshot de logs é atribuído por Run imediatamente antes de RegistrarMetricas. O resumo do lote é produzido fora da tentativa, depois dos históricos individuais; não presumir que esse resumo foi salvo em cada histórico. A configuração de acesso ao banco dedicado pertence a CONSTANTES/ODBC; a documentação não se conecta ao banco.'),
-      aviso('O tempo da etapa ASSERTS mede apenas o trecho reservado, não uma comparação implementada. Os nomes das etapas são chaves de busca de métricas por tentativa. Nenhuma execução no ERP foi feita para homologar este conteúdo.')
-    ] }
+  "secoes": [
+    {
+      "id": "contrato",
+      "titulo": "Contrato de entrada",
+      "blocos": [
+        {
+          "tipo": "paragrafo",
+          "texto": "P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO configura uma única unit com procedure Teste sem parâmetros, informa módulo e área como literais Pascal e chama TDD_RUN_IRUNNER.Executar. A interpretação ocorre uma vez; a casca percorre os registros do lote."
+        },
+        {
+          "tipo": "codigo",
+          "linguagem": "pascal",
+          "codigo": "SetTDDUnit('TDD_FIN_FINANCEIRO');\nAddParamsRun('''FINANCEIRO''');\nAddParamsRun('''FINANCEIRO''');\nExecutar;"
+        },
+        {
+          "tipo": "paragrafo",
+          "texto": "O exemplo depende do cadastro das units no interpretador. Nome local, identificador no uses e referência remota P39_ são registrados separadamente; um alias no portal não instala uma variante remota."
+        }
+      ]
+    },
+    {
+      "id": "responsabilidades",
+      "titulo": "Responsabilidades e fronteiras",
+      "blocos": [
+        {
+          "tipo": "mermaid",
+          "fonte": "docs/MAPEAMENTO_AST_USES_UNITS/runner/responsabilidades.md",
+          "titulo": "Donos das responsabilidades"
+        },
+        {
+          "tipo": "tabela",
+          "colunas": [
+            "Unit",
+            "Responsabilidade",
+            "Artefatos próprios/consumidos"
+          ],
+          "linhas": [
+            [
+              "TDD_RUN_IRUNNER",
+              "Montagem e Interpretar uma vez",
+              "FTDDUnit, FParamsCasosTeste, FUnitInterpretar"
+            ],
+            [
+              "TDD_RUN_UNIT_BASE_IRUNNER",
+              "Lote, cursor, Run, continuidade e limpeza",
+              "Consome contexto compartilhado; não declara globais próprios"
+            ],
+            [
+              "TDD_RUN_RUNNER",
+              "Preparação do caso e ticks",
+              "FHistoricoExecucao, FContextoCasoTeste, FMetricasAsserts, FCDSMetricasTickDiff"
+            ],
+            [
+              "TDD_RUN_STARTED",
+              "Versão e aplicação de parâmetros",
+              "Registro corrente e parâmetros do ERP"
+            ],
+            [
+              "P39_TDD_RUN_ASSERTS",
+              "Contadores, resultados, erros reais e clones",
+              "FAssertsTotal/Pass/Fail, FFalhas, FResultados, FDataSets, FErrosReais"
+            ],
+            [
+              "P39_TDD_RUN_VALIDAR_RESULTADO",
+              "Interpretação de critérios JSON",
+              "Consome capturas/tempo e acumula por RUN_ASSERTS"
+            ],
+            [
+              "TDD_RUN_FINISHED",
+              "Consolidação e persistência, incluindo snapshot dos logs",
+              "Consome records/métricas, preenche AutoIncHistorico"
+            ],
+            [
+              "TDD_RUN_LOGS",
+              "Mensagens em debug e instruções separadas",
+              "FModoDebug, FExibirInstrucoes, FLogsCasoTeste"
+            ],
+            [
+              "P39_TDD_CASOS_DE_TESTE",
+              "Módulo/área e datasets do lote",
+              "FModulo, FDescModulo, CDSCasosTestes, CDSResultadoEsperado"
+            ],
+            [
+              "P39_TDD_RUN_MODULO",
+              "Telas por menu e foco",
+              "FP; consome contexto de CASOS_DE_TESTE"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "geracao",
+      "titulo": "Geração do programa interpretado",
+      "blocos": [
+        {
+          "tipo": "paragrafo",
+          "texto": "Executar lê CodificacaoUnit('TDD_RUN_UNIT_BASE_IRUNNER') e substitui quatro marcadores: __USES_UNITS__, __PARAMETROS_CASO_TESTE__, __CHAMADAS_METODOS__ e __MODO_DEBUG__. A chamada Teste gerada recebe delimitadores, callback e ticks; o cenário não deve controlar o cursor."
+        },
+        {
+          "tipo": "paragrafo",
+          "texto": "O modo debug é transmitido ao programa gerado. FUnitInterpretar e FParamsCasosTeste são liberadas e recebem nil no finally; FTDDUnit permanece selecionada."
+        },
+        {
+          "tipo": "mermaid",
+          "fonte": "docs/MAPEAMENTO_AST_USES_UNITS/runner/geracao.md",
+          "titulo": "Carga dinâmica e montagem"
+        }
+      ]
+    },
+    {
+      "id": "uses",
+      "titulo": "Grafo AST dos uses",
+      "blocos": [
+        {
+          "tipo": "mermaid",
+          "fonte": "docs/MAPEAMENTO_AST_USES_UNITS/runner/TDD_RUN_IRUNNER.md",
+          "titulo": "Dependências reais do conjunto Runner"
+        },
+        {
+          "tipo": "paragrafo",
+          "texto": "O inventário registra roots, caminhos, linhas, hashes e edges extraídos das cláusulas uses, mascarando comentários e literais Pascal. Dependências dinâmicas de CodificacaoUnit/SetTDDUnit e estados compartilhados aparecem em mapas separados."
+        },
+        {
+          "tipo": "paragrafo",
+          "texto": "Variantes sem P39_ só apontam para um arquivo local quando há candidato inequívoco, identificado como variante de referência no inventário; isso não comprova cadastro remoto. O uses TDD_VALIDAR_RESULTADO de TDD_RUN_RUNNER permanece não resolvido pelo nome dos arquivos locais; o validador atual tem nome P39_TDD_RUN_VALIDAR_RESULTADO."
+        }
+      ]
+    },
+    {
+      "id": "lote",
+      "titulo": "Lote e tentativa individual",
+      "blocos": [
+        {
+          "tipo": "mermaid",
+          "fonte": "docs/MAPEAMENTO_AST_USES_UNITS/runner/lote.md",
+          "titulo": "Controle do lote e cursor"
+        },
+        {
+          "tipo": "mermaid",
+          "fonte": "docs/MAPEAMENTO_AST_USES_UNITS/runner/tentativa.md",
+          "titulo": "Started, Teste, capturas, asserts e finalização"
+        },
+        {
+          "tipo": "paragrafo",
+          "texto": "ExecutarLote faz SetupCasosTestes uma vez e controla First/Run/Next. SetarCasoTeste recebe somente módulo e área, zera histórico/métricas/contexto e AssertsZerar antes de ler ID, REQUISITOVERSAO e DESCRICAO do registro corrente."
+        },
+        {
+          "tipo": "paragrafo",
+          "texto": "No financeiro, Teste valida dados, executa quatro operações e captura os datasets após gravar. Seu finally faz TEARDOWN antes de retornar. A etapa ASSERTS da casca então compara clones que continuam disponíveis em FDataSets."
+        }
+      ]
+    },
+    {
+      "id": "asserts",
+      "titulo": "Asserts, validação e estados do resultado",
+      "blocos": [
+        {
+          "tipo": "paragrafo",
+          "texto": "RegistrarResultado retorna Boolean e acumula PASS/FAIL. FResultados contém aprovados e reprovados; FFalhas guarda somente reprovações. AssertsOk determina SUCESSO ou FALHA em Run; erro de versão preserva VERSAO_INCOMPATIVEL."
+        },
+        {
+          "tipo": "paragrafo",
+          "texto": "RegistrarDataSet copia Data e RecNo de DataSet|DM sem editar/liberar o original. A captura seguinte da mesma chave substitui a anterior. cds/dm desambiguam campos; ausência, ambiguidade, NULL ou conversão inválida não devem aprovar zero/falso silenciosamente."
+        },
+        {
+          "tipo": "paragrafo",
+          "texto": "O validador compara obtido > esperado em Maior e obtido < esperado em Menor. Ele consome FErrosReais e FTempoExecucaoMs; não possui cronômetro próprio, não reinicia asserts, não mostra diálogos nem controla ScriptDeTestesEmExecucao."
+        },
+        {
+          "tipo": "paragrafo",
+          "texto": "CompararComJSON aceita resultadoEsperado como wrapper nos registros novos e seções erro/valor/tempo na raiz nos antigos. {} ou resultado ausente sinaliza SEM_VALIDACAO e preserva as verificações explícitas já acumuladas; o mínimo remoto é resolvido na sincronização, não no runner."
+        }
+      ]
+    },
+    {
+      "id": "falhas",
+      "titulo": "Falhas, continuidade e encerramento",
+      "blocos": [
+        {
+          "tipo": "mermaid",
+          "fonte": "docs/MAPEAMENTO_AST_USES_UNITS/runner/falhas.md",
+          "titulo": "Propagação e persistência parcial"
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Falha ordinária do Teste ou reprovação de assert pode permitir outro caso se a finalização passar. Preparação, TEARDOWN inseguro, callbacks e persistência têm caminhos de propagação que podem interromper o lote.",
+            "Run tenta RegistrarMetricas no finally quando existe ID válido, inclusive diante de falha anterior; só depois limpa a lista de logs.",
+            "A causa anterior é preservada nos diagnósticos de finalização. O prefixo MensagemPersonalizada fica centralizado em Main.",
+            "O resumo dos casos falhos é apresentado depois da limpeza e dos históricos individuais. Não é automaticamente salvo em cada histórico. Sucesso do lote não produz esse raise de resumo."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "estado",
+      "titulo": "Estados globais e execuções variáveis",
+      "blocos": [
+        {
+          "tipo": "paragrafo",
+          "texto": "O cursor e os datasets pertencem ao lote, enquanto histórico, contexto, contadores, capturas e ticks são reiniciados por caso. Não transportar resultado do caso anterior para o seguinte; consumidores não devem recarregar o lote ou avançar o cursor."
+        },
+        {
+          "tipo": "mermaid",
+          "fonte": "docs/MAPEAMENTO_AST_USES_UNITS/runner/estados.md",
+          "titulo": "Produtores, consumidores e ciclo de vida"
+        },
+        {
+          "tipo": "paragrafo",
+          "texto": "Os parâmetros aplicados ao ERP não são automaticamente restaurados ao liberar datasets. A casca libera FLogsCasoTeste ao encerrar sem atribuir nil; reexecução no mesmo contexto continua sendo um limite que exige correção/evidência de outra iteração."
+        }
+      ]
+    },
+    {
+      "id": "persistencia",
+      "titulo": "Logs, métricas e persistência",
+      "blocos": [
+        {
+          "tipo": "mermaid",
+          "fonte": "docs/MAPEAMENTO_AST_USES_UNITS/runner/persistencia.md",
+          "titulo": "Histórico e métricas por tentativa"
+        },
+        {
+          "tipo": "paragrafo",
+          "texto": "FModoDebug controla captura/exibição em TDD_RUN_LOGS; FExibirInstrucoes controla instruções independentemente. O corpo atual de RegistrarLogEmModoDebug adiciona mensagens e chama MostrarLogTexto quando debug está ativo. FINISHED copia FLogsCasoTeste.Text imediatamente antes do INSERT."
+        },
+        {
+          "tipo": "paragrafo",
+          "texto": "RegistrarTick trabalha com base relativa Double, trata a volta Cardinal com 4294967296.0, rejeita relativo maior que 2147483646 e soma 1 porque zero indica fim em aberto. FINISHED encerra ticks pendentes pelo próprio RegistrarTick(1, nome)."
+        },
+        {
+          "tipo": "paragrafo",
+          "texto": "TDD_RUN_FINISHED insere HISTORICO_EXECUCAO com RETURNING, uma linha agregada de METRICAS_ASSERTS e linhas de METRICAS_TICK_DIFF. Os asserts incluem total zero/parciais, etapa, tempo, aprovados/falhos e esperado/obtido de FResultadoEsperadoCaso/FResultados.Text. O campo de logs é LOGS_PROCESSAMENTO_HE."
+        },
+        {
+          "tipo": "paragrafo",
+          "texto": "Não há retry automático nem garantia de transação única para histórico e filhos; pode haver persistência parcial. Banco indisponível impede prometer logs salvos. Consulte também docs/MER.md e o contrato da unit."
+        }
+      ]
+    },
+    {
+      "id": "parametros",
+      "titulo": "Parâmetros e limites nativos",
+      "blocos": [
+        {
+          "tipo": "paragrafo",
+          "texto": "TDD_RUN_STARTED usa TJSONObject/GetPair/GetPairName/GetPairValue. parametros ausente ou objeto vazio não aplica alterações; seção com tipo incorreto falha. GetValueJson não deve ser usado para extrair objeto inteiro: a sonda nativa observou Conversion from TJSONObject to string is not supported, e propriedade ausente também pode lançar."
+        },
+        {
+          "tipo": "paragrafo",
+          "texto": "A captura Data/RecNo, índices/filtros e disponibilidade após gravar precisam de validação no ERP. Testes locais com doubles e resultado {} não comprovam compilação no JvInterpreter nem efeitos financeiros universais."
+        }
+      ]
+    }
   ]
 } satisfies IDocumento;

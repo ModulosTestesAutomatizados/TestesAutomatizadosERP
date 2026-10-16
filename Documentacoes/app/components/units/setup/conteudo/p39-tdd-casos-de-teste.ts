@@ -1,34 +1,144 @@
 import { criarDocumentoUnit } from '../../../../contracts/criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
-  navegacao: { grupo: 'units', subgrupo: 'setup', ordem: 0 },
-  nome: 'P39_TDD_CASOS_DE_TESTE', resumo: 'Datasets e seleção dos registros usados pelo lote de casos.',
-  aliasesArtefatos: { CDSCasosTestes: ['FCDSCasosTestes'] },
-  fonte: 'docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas',
-  responsabilidade: 'Inicializar datasets de casos e referência, obter identificadores de módulo/área e carregar os casos ativos do banco dedicado.',
-  problema: 'Mantém a seleção e os dados compartilhados de cenários fora da unit Teste; permite executar registros diferentes com os mesmos artefatos do Runner.',
-  estados: [
-    ['CDSCasosTestes: TClientDataSet', 'ID, módulo, área, descrição, requisito, JSON e flags', 'Carregado no setup; cursor pertence ao molde'],
-    ['CDSResultadoEsperado: TClientDataSet', 'ID e JSON esperado por cenário', 'Carregado junto dos casos e liberado no lote'],
-    ['CDSCamposDisponiveis / CDSConfiguracao: TClientDataSet', 'Estruturas de referência e configuração', 'Criadas no setup; liberadas no teardown'],
-    ['FModulo / FArea: Integer', 'Identificadores da seleção', 'Definidos por SetModulo e SetArea'],
-    ['FDescModulo / FDescArea: String', 'Nomes da seleção atual', 'Mantidos durante o lote'],
-    ['FEstruturaCasoTesteIniciada: Boolean', 'Indicar preparação dos datasets', 'True no setup; False no teardown']
+  "nome": "P39_TDD_CASOS_DE_TESTE",
+  "resumo": "Manter módulo, área e datasets de casos, resultados esperados, campos e configuração.",
+  "responsabilidade": "Manter módulo, área e datasets de casos, resultados esperados, campos e configuração.",
+  "problema": "Carregar o lote e compartilhar contexto entre units sem delegar esse estado ao módulo visual.",
+  "fonte": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas",
+  "estado": "em-desenvolvimento",
+  "tipoArtefato": "unit",
+  "aliases": [],
+  "navegacao": {
+    "grupo": "units",
+    "subgrupo": "setup",
+    "ordem": 0
+  },
+  "estados": [
+    [
+      "CDSCasosTestes: TClientDataSet",
+      "Casos carregados e cursor compartilhado.",
+      "CarregarCasosTeste popula; somente o lote avança First/Run/Next; teardown libera."
+    ],
+    [
+      "CDSResultadoEsperado: TClientDataSet",
+      "Resultado esperado por ID do caso.",
+      "Carga espelha RESULTADO_ESPERADO_CT; runner/validador consomem; teardown libera."
+    ],
+    [
+      "CDSCamposDisponiveis: TClientDataSet",
+      "Configuração dos campos disponíveis por caso.",
+      "Populada na carga e liberada no encerramento da estrutura."
+    ],
+    [
+      "CDSConfiguracao: TClientDataSet",
+      "Configurações do módulo.",
+      "CarregarConfiguracoes consulta SQL por módulo; estrutura do lote gerencia o dataset."
+    ],
+    [
+      "FModulo: Integer",
+      "Identificador do módulo de casos.",
+      "SetModulo resolve pelo cache antes da carga e uso de RUN_MODULO."
+    ],
+    [
+      "FArea: Integer",
+      "Identificador da área.",
+      "SetArea resolve antes de CarregarCasosTeste."
+    ],
+    [
+      "FDescModulo: String",
+      "Descrição do módulo ativo.",
+      "SetModulo preenche; lote e RUN_MODULO consomem."
+    ],
+    [
+      "FDescArea: String",
+      "Descrição da área ativa.",
+      "SetArea preenche; usada ao preparar o caso corrente."
+    ],
+    [
+      "FEstruturaCasoTesteIniciada: Boolean",
+      "Indica datasets do lote inicializados.",
+      "Setup marca; carga verifica; teardown encerra estrutura."
+    ]
   ],
-  metodos: [
-    ['procedure Main', 'Encaminhar instruções.', 'Chama MostrarInstrucoesUnit; o texto local está vazio.'],
-    ['procedure SetModulo(Value: String)', 'Configurar o módulo.', 'Resolve ModuloPeloNome no cache e conserva a descrição.'],
-    ['procedure SetArea(Value: String)', 'Configurar a área.', 'Resolve AreaPeloNome no cache e conserva a descrição.'],
-    ['procedure CarregarCasosTeste', 'Carregar a seleção configurada.', 'Inicializa a estrutura se necessário, valida módulo/área e encaminha a CarregarCasosTestes.'],
-    ['procedure CarregarCasosTestes(Modulo, Area: Integer)', 'Consultar os casos ativos.', 'Monta SQLCasosTestes com ATIVO_CT, módulo e área, lê via TDDReaderODBC e preenche os datasets. Resultado vazio gera exceção.'],
-    ['procedure PreencheInformacoesDataSets(CDSTemp: TClientDataSet; Modulo, Area: Integer)', 'Transferir registros para os datasets compartilhados.', 'Percorre o dataset temporário, evita ID duplicado por FindKey e inicializa EXECUTADO/COMPARADO como N.'],
-    ['procedure ConfigurarDataSets', 'Definir campos e índices.', 'Cria as estruturas de CDSCasosTestes e CDSResultadoEsperado e indexa por ID.'],
-    ['procedure CarregarConfiguracoes', 'Ler a configuração do módulo.', 'Seleciona o SQL de Faturamento ou Financeiro e atribui a leitura a CDSConfiguracao.Data.'],
-    ['function GetConfiguracao: OleVariant', 'Retornar os dados de configuração disponíveis.', 'Retorna null quando não há estrutura atribuída; caso contrário, retorna Data.'],
-    ['function GetCasosTeste: OleVariant', 'Retornar os dados dos casos disponíveis.', 'Verifica Assigned, Active e IsEmpty antes de retornar CDSCasosTestes.Data.'],
-    ['procedure Setup_Inicializar_CasosTeste', 'Preparar os recursos compartilhados.', 'Cria quatro datasets, configura campos, carrega cache e inicializa parâmetros; ativa a flag de estrutura.'],
-    ['procedure TearDown_Finalizar_CasosTeste', 'Liberar os datasets.', 'Tenta liberar cada estrutura, agrega os erros e redefine a flag; erros agregados são propagados.']
+  "metodos": [
+    [
+      "procedure Main;",
+      "Apresenta as instruções conforme FExibirInstrucoes; quando é entrada do molde/processamento, executa também a orquestração descrita abaixo.",
+      "Implementação no fonte, linha 13. Atribuições e fluxo locais seguem o contrato descrito acima."
+    ],
+    [
+      "procedure CarregarConfiguracoes;",
+      "Operação CarregarConfiguracoes do contrato desta unit; usa os parâmetros e retorno da assinatura, com os estados compartilhados descritos nesta página.",
+      "Implementação no fonte, linha 20. Operações chamadas: TDDReaderODBC."
+    ],
+    [
+      "procedure SetModulo(Value: String);",
+      "Resolve FModulo pelo cache e registra FDescModulo para os consumidores.",
+      "Implementação no fonte, linha 35. Operações chamadas: ModuloPeloNome."
+    ],
+    [
+      "procedure SetArea(Value: String);",
+      "Resolve FArea pelo cache e registra FDescArea para o lote.",
+      "Implementação no fonte, linha 41. Operações chamadas: AreaPeloNome."
+    ],
+    [
+      "procedure CarregarCasosTeste;",
+      "Operação CarregarCasosTeste do contrato desta unit; usa os parâmetros e retorno da assinatura, com os estados compartilhados descritos nesta página.",
+      "Implementação no fonte, linha 47. Atribuições e fluxo locais seguem o contrato descrito acima."
+    ],
+    [
+      "procedure CarregarCasosTestes(Modulo, Area: Integer);",
+      "Operação CarregarCasosTestes do contrato desta unit; usa os parâmetros e retorno da assinatura, com os estados compartilhados descritos nesta página.",
+      "Implementação no fonte, linha 57. Operações chamadas: CallBack_AbreTela, CallBack_Mensagem, if, Trim, Create, GetModulo."
+    ],
+    [
+      "procedure PreencheInformacoesDataSets(CDSTemp: TClientDataSet; Modulo, Area: Integer);",
+      "Operação PreencheInformacoesDataSets do contrato desta unit; usa os parâmetros e retorno da assinatura, com os estados compartilhados descritos nesta página.",
+      "Implementação no fonte, linha 103. Operações chamadas: CallBack_Mensagem, FindKey, FieldByName."
+    ],
+    [
+      "procedure ConfigurarDataSets;",
+      "Operação ConfigurarDataSets do contrato desta unit; usa os parâmetros e retorno da assinatura, com os estados compartilhados descritos nesta página.",
+      "Implementação no fonte, linha 138. Atribuições e fluxo locais seguem o contrato descrito acima."
+    ],
+    [
+      "function GetConfiguracao: OleVariant;",
+      "Operação GetConfiguracao do contrato desta unit; usa os parâmetros e retorno da assinatura, com os estados compartilhados descritos nesta página.",
+      "Implementação no fonte, linha 164. Atribuições e fluxo locais seguem o contrato descrito acima."
+    ],
+    [
+      "function GetCasosTeste: OleVariant;",
+      "Operação GetCasosTeste do contrato desta unit; usa os parâmetros e retorno da assinatura, com os estados compartilhados descritos nesta página.",
+      "Implementação no fonte, linha 172. Atribuições e fluxo locais seguem o contrato descrito acima."
+    ],
+    [
+      "procedure Setup_Inicializar_CasosTeste;",
+      "Operação Setup_Inicializar_CasosTeste do contrato desta unit; usa os parâmetros e retorno da assinatura, com os estados compartilhados descritos nesta página.",
+      "Implementação no fonte, linha 184. Atribuições e fluxo locais seguem o contrato descrito acima."
+    ],
+    [
+      "procedure TearDown_Finalizar_CasosTeste;",
+      "Operação TearDown_Finalizar_CasosTeste do contrato desta unit; usa os parâmetros e retorno da assinatura, com os estados compartilhados descritos nesta página.",
+      "Implementação no fonte, linha 196. Atribuições e fluxo locais seguem o contrato descrito acima."
+    ]
   ],
-  implementacao: ['P39_TDD_RUNNER.SetupCasosTestes faz a carga do lote. P39_TDD_STARTED apenas lê o registro corrente.', 'ExecutarLote de P39_TDD_BASE_UNIT_IRUNNER controla First e Next.', 'A carga prepara os dados esperados; não implementa a etapa TDD_ASSERTS.'],
-  dependencias: ['Uses diretos: P39_TDD_CONSTANTES, P39_TDD_PARAMETROS e P39_TDD_CACHE.'],
-  limites: ['Não atribuir a esta unit a responsabilidade de executar os cenários ou aprovar asserts.', 'O nome real do arquivo é singular: CASOS_DE_TESTE.']
+  "implementacao": [
+    "SetModulo/SetArea preenchem FModulo/FArea e as descrições usando o cache. CarregarCasosTeste inicia estruturas, valida contexto e carrega o conjunto de casos.",
+    "CDSCasosTestes é o cursor controlado por ExecutarLote. CDSResultadoEsperado guarda ID e RESULTADO_ESPERADO_CT; CDSCamposDisponiveis e CDSConfiguracao mantêm projeções de configuração.",
+    "Setup_Inicializar_CasosTeste e TearDown_Finalizar_CasosTeste gerenciam datasets do lote. RUN_MODULO consome o contexto para operar telas, sem assumir a carga ou a propriedade desses dados."
+  ],
+  "dependencias": [
+    "P39_TDD_CONSTANTES: cláusula uses do fonte.",
+    "P39_TDD_PARAMETRO: cláusula uses do fonte.",
+    "P39_TDD_CACHE: cláusula uses do fonte."
+  ],
+  "limites": [
+    "Fonte local e documentação não comprovam cadastro remoto instalado ou homologação no ERP. APIs do host e efeitos financeiros precisam de evidência própria.",
+    "Não confundir a limpeza dos datasets com restauração de parâmetros ERP."
+  ],
+  "aliasesArtefatos": {
+    "CDSCasosTestes": [
+      "FCDSCasosTestes"
+    ]
+  }
 });

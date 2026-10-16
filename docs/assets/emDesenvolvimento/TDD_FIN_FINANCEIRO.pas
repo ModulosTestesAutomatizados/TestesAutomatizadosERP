@@ -1,5 +1,5 @@
-uses  P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO,
-      P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO;
+uses  P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO,
+      P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO;
 
 const
   cFormReceber    = 'FCadReceber';
@@ -35,11 +35,11 @@ begin
     'procedure TearDown_DestruirObjetos'                                                                                   + #13 +
     '  - Declarada no final; cancela edições e fecha telas sem destruir CDS compartilhados.'                               + #13 +
     'TEARDOWN no campo FNomeMetodoAtual mantém a interrupção do lote se a limpeza falhar.'                                 + #13 +
-    'Logs usam RegistrarLogEmModoDebug e DelimitadorLog, condicionados a FModoDebug.'                                      + #13 +
+    'Logs usam RegistrarLogEmModoDebug e DelimitadorLog, com captura independente de FModoDebug.'                          + #13 +
     'Resultados e comparações pertencem à etapa de asserts, que não é implementada nesta unit.'                            + #13 +
     'FExibirInstrucoes controla a exibição destas instruções.'                                                             + #13 +
     '====================================================================================================================';
-  {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_FINANCEIRO', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_FIN_FINANCEIRO', lInstrucoes);
 end;
 
 procedure ValidarCasoTeste;
@@ -80,21 +80,21 @@ procedure Teste;
 begin
   try
     ValidarCasoTeste;
-    {P39_TDD_LOGS.}RegistrarLogEmModoDebug('Inclusão da duplicata a receber.');
+    {P39_TDD_RUN_LOGS.}RegistrarLogEmModoDebug('Inclusão da duplicata a receber.');
     try _IncluirDuplicata(0);
     except on Ex: Exception do raise Exception.Create('[Fluxo] Duplicata receber: ' + Ex.Message); end;
-    {P39_TDD_LOGS.}RegistrarLogEmModoDebug('Inclusão da duplicata a pagar.');
+    {P39_TDD_RUN_LOGS.}RegistrarLogEmModoDebug('Inclusão da duplicata a pagar.');
     try _IncluirDuplicata(1);
     except on Ex: Exception do raise Exception.Create('[Fluxo] Duplicata pagar: ' + Ex.Message); end;
-    {P39_TDD_LOGS.}RegistrarLogEmModoDebug('Inclusão do borderô de recebimento.');
+    {P39_TDD_RUN_LOGS.}RegistrarLogEmModoDebug('Inclusão do borderô de recebimento.');
     try _IncluirBordero(0);
     except on Ex: Exception do raise Exception.Create('[Fluxo] Bordero receber: ' + Ex.Message); end;
-    {P39_TDD_LOGS.}RegistrarLogEmModoDebug('Inclusão do borderô de pagamento.');
+    {P39_TDD_RUN_LOGS.}RegistrarLogEmModoDebug('Inclusão do borderô de pagamento.');
     try _IncluirBordero(1);
     except on Ex: Exception do raise Exception.Create('[Fluxo] Bordero pagar: ' + Ex.Message); end;
   finally
     // O campo de fase distingue falha de limpeza de falha do teste.
-    {P39_TDD_LOGS.}DelimitadorLog('TEARDOWN');
+    {P39_TDD_RUN_LOGS.}DelimitadorLog('TEARDOWN');
     FNomeMetodoAtual := 'TEARDOWN';
     RegistrarTick(0, FNomeMetodoAtual);
     TearDown_DestruirObjetos;
@@ -168,6 +168,7 @@ begin
 
   ExecutarMetodoDeObjeto(lFDuplicatas, 'BotaoGravarClick', [nil]);
 
+  {P39_TDD_RUN_ASSERTS.}RegistrarDataSet('CDSCadastro|' + lNomeDM);
   lFDuplicatas.Close;
 end;
 
@@ -182,10 +183,10 @@ begin
   begin
     lEtapa := 'mapear componentes';
     try
-      {P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO.}MapearBordero;
+      {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}MapearBordero;
 
       lEtapa := 'incluir bordero';
-      {P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO.}IncluirBordero;
+      {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}IncluirBordero;
 
       lEtapa := 'obter pessoa';
       lPessoa := {P39_TDD_FUNCOES_JSON.}ValorInteiroTag(FCasoTesteAtualJson, 'PESSOA_DUP', 0);
@@ -193,7 +194,7 @@ begin
       lEtapa := 'preparar cadastro';
       try if CDSCadastroRecebimento.State <> 1 then CDSCadastroRecebimento.Cancel; except end;
       if CDSCadastroRecebimento.State < 2 then
-        {P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO.}IncluirBordero;
+        {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}IncluirBordero;
 
       lEtapa := 'definir cliente';
       edtCliente.SetFocus;
@@ -201,7 +202,7 @@ begin
       edtNovoBanco.SetFocus;
 
       lEtapa := 'filtrar titulos';
-      {P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO.}Filtrar;
+      {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}Filtrar;
       PageControl1.ActivePage := TSReceber;
 
       lEtapa := 'marcar contas a receber';
@@ -244,7 +245,8 @@ begin
       CDSComplementosRecebimento.Post;
 
       lEtapa := 'gravar bordero';
-      {P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO.}GravarBordero;
+      {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.}GravarBordero;
+      {P39_TDD_RUN_ASSERTS.}RegistrarDataSet('CDSCadastro|DMCadBorderoAcerto');
 
       // O fechamento pertence a TearDown_DestruirObjetos.
     except
@@ -260,8 +262,8 @@ begin
     if not Assigned(fBorderoPagamento) then
       raise Exception.Create('Formulario de bordero de pagamento nao encontrado.');
     fBorderoPagamento.Show;
-    {P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO.}MapearComponentesBorderoPagamento;
-    {P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO.}IniciarCDSCadastroBordero;
+    {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO.}MapearComponentesBorderoPagamento;
+    {TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO.}IniciarCDSCadastroBordero;
 
     try if CDSCadastroPagamento.State <> 1 then CDSCadastroPagamento.Cancel; except end;
     ExecutarMetodoDeObjeto(fBorderoPagamento, 'BotaoIncluirClick', [nil]);
@@ -283,7 +285,9 @@ begin
 
     if not CDSSelecao.Active then CDSSelecao.Open;
 
-    CDSSelecao.EmptyDataSet;
+    CDSSelecao.First;
+    while not CDSSelecao.IsEmpty do
+      CDSSelecao.Delete;
     CDSSelecao.Insert;
     CDSSelecao.FieldByName('Codigo').AsInteger := lFornecedor;
     CDSSelecao.FieldByName('Descricao').AsString := '';
@@ -300,7 +304,7 @@ begin
     if CDSPagarPagamento.IsEmpty then
       RegistrarLogEmModoDebug('[Etapa 4] Filtro contas a pagar vazio para pessoa ' + IntToStr(lFornecedor))
     else
-      {P39_TDD_LOGS.}RegistrarLogEmModoDebug('Títulos a pagar encontrados: ' + IntToStr(CDSPagarPagamento.RecordCount));
+      {P39_TDD_RUN_LOGS.}RegistrarLogEmModoDebug('Títulos a pagar encontrados: ' + IntToStr(CDSPagarPagamento.RecordCount));
 
     if not CDSPagarPagamento.IsEmpty then
     begin
@@ -324,7 +328,7 @@ begin
     CDSComplementoPagamento.Post;
 
     ExecutarMetodoDeObjeto(fBorderoPagamento, 'BotaoGravarClick', [nil]);
-
+    {P39_TDD_RUN_ASSERTS.}RegistrarDataSet('CDSCadastro|DMCadBorderoPagamento');
     // O fechamento pertence a TearDown_DestruirObjetos.
   end;
 end;

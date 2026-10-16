@@ -1,4 +1,4 @@
-﻿uses P39_TDD_CONSTANTES, P39_TDD_PARAMETROS, P39_TDD_CACHE;
+uses P39_TDD_CONSTANTES, P39_TDD_PARAMETRO, P39_TDD_CACHE;
 
 var 
   CDSCasosTestes: TClientDataSet;
@@ -14,7 +14,7 @@ procedure Main;
 var lInstrucoes :string;
 begin
   lInstrucoes := '';
-  {P39_TDD_CONSTANTES -> P39_TDD_LOGS.}MostrarInstrucoesUnit('P39_TDD_CASOS_DE_TESTE', lInstrucoes);
+  {P39_TDD_CONSTANTES -> P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_CASOS_DE_TESTE', lInstrucoes);
 end;
 
 procedure CarregarConfiguracoes;

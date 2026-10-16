@@ -1,4 +1,4 @@
-﻿uses P39_TDD_LOGS;
+uses P39_TDD_RUN_LOGS;
 
 type
   TVersao = record
@@ -21,7 +21,7 @@ procedure Main;
 var lInstrucoes :string;
 begin
   lInstrucoes := '';
-  {P39_TDD_LOGS.}MostrarInstrucoesUnit('P39_TDD_CONSTANTES', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_CONSTANTES', lInstrucoes);
 end;
 
 function GetVersao:TVersao;

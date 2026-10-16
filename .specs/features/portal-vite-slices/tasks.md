@@ -86,7 +86,7 @@ T4 → T5 → T6 → T8
 **Depends on**: T3
 **Requirement**: TDD-01, TDD-02, TDD-03, TDD-06; DOC-01..09, DOC-14, DOC-16..17.
 **Done when**:
-- [ ] Fontes reconciliados, conteúdo/asserts/estados/métricas cobertos por evidência; check e gate editorial passam sem alterar Pascal.
+- [x] Fontes reconciliados, conteúdo/asserts/estados/métricas cobertos por evidência; check e gate editorial passam sem alterar Pascal.
 **Tests**: integration
 **Gate**: full
 **Commit**: docs: atualiza responsabilidades do runner estabilizado

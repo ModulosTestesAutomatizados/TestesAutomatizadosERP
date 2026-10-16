@@ -54,3 +54,7 @@ Os três modelos integrais estão no snapshot de inventário: financeiro, assert
 ## Ordem proposta
 
 Fechar abordagem e baseline → migrar ferramentas/SFCs mantendo semântica da baseline → reconciliar contratos TDD → atualizar páginas, busca/citações e grafos → atualizar autoria/snippets/skill → validar conjunto. É uma sequência de planejamento, não tasks aprovadas nem execução iniciada.
+
+## Reconciliação posterior: fontes atualizados pelo usuário
+
+A confirmação posterior do usuário torna docs/assets atual a referência de código. Ver reconciliacao-fontes.md. DOC-10/11/13 passam a preservar o formato atual: raiz do caso com objetos nomeados recompostos e wrappers nas colunas específicas, validador compatível com wrapper e raiz histórica. A chave de cadastro financeiro atual é TDD_FIN_FINANCEIRO. Os três JSONs de docs/assets/snippets são moldes compartilhados versionáveis; não são as massas pessoais ignoradas do pacote anterior. Os snapshots de proveniência permanecem intactos como histórico.

@@ -1,4 +1,4 @@
-﻿uses P39_TDD_LOGS;
+uses P39_TDD_RUN_LOGS;
 
 type
   TMapeamentoParametro = record
@@ -23,7 +23,7 @@ procedure Main;
 var lInstrucoes :string;
 begin
   lInstrucoes := '';
-  {P39_TDD_LOGS.}MostrarInstrucoesUnit('P39_TDD_PARAMETRO_MAPEAMENTO', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_PARAMETRO_MAPEAMENTO', lInstrucoes);
 end;
 
 function GetTabela(pCampo: String): String;
