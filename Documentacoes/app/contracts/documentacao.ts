@@ -5,6 +5,7 @@ export type TBloco =
   | { tipo: 'lista'; itens: string[] }
   | { tipo: 'tabela'; colunas: string[]; linhas: string[][] }
   | { tipo: 'codigo'; codigo: string; linguagem?: string }
+  | { tipo: 'codigo-fonte'; fonte: string; linguagem?: string }
   | { tipo: 'aviso'; texto: string; severidade: 'info' | 'warning' | 'error' | 'success' }
   | { tipo: 'mermaid'; fonte: string; titulo: string };
 export interface ISecao {

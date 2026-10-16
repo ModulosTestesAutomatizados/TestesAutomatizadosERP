@@ -98,7 +98,7 @@ T4 → T5 → T6 → T8
 **Depends on**: T4
 **Requirement**: TDD-02, TDD-04; DOC-10..13.
 **Done when**:
-- [ ] Tabela cobre ausente/vazio/tipo inválido; exemplos completos são copiáveis, versionados e não dependem de massa ignorada; check e teste editorial passam.
+- [x] Tabela cobre ausente/vazio/tipo inválido; exemplos completos são copiáveis, versionados e não dependem de massa ignorada; check e teste editorial passam.
 **Tests**: integration
 **Gate**: full
 **Commit**: docs: documenta fonte json unica e defaults da sincronizacao

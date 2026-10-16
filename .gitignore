@@ -13,6 +13,9 @@ Documentacoes/tools/
 !Documentacoes/config/*.json
 !.vscode/settings.json
 !docs/MAPEAMENTO_AST_USES_UNITS/**/*.ast.json
+!docs/assets/snippets/TDD_ASSERTS_JSON_MINIMO.json
+!docs/assets/snippets/TDD_CAMPOS_DISPONIVEIS_JSON_MINIMO.json
+!docs/assets/snippets/TDD_CASO_TESTE_MODELO_JSON.json
 Documentacoes/node_modules/
 Documentacoes/.pages-output/
 Documentacoes/.build/

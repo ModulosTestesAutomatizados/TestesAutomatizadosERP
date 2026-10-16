@@ -1,2 +1,3 @@
-import doc0 from './conteudo/autoria.ts';
-export default [doc0];
+import autoria from './conteudo/autoria.ts';
+import moldes from './conteudo/moldes.ts';
+export default [autoria, moldes];

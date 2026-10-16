@@ -14,6 +14,10 @@
       v-else-if="bloco.tipo === 'codigo'"
       :codigo="bloco.codigo"
       :linguagem="bloco.linguagem"/>
+    <CodigoFonte
+      v-else-if="bloco.tipo === 'codigo-fonte'"
+      :fonte="bloco.fonte"
+      :linguagem="bloco.linguagem"/>
     <DocNotice
       v-else-if="bloco.tipo === 'aviso'"
       :texto="bloco.texto"
@@ -29,6 +33,7 @@
 import type { TBloco } from '../../contracts/documentacao.ts';
 
 import CodeBlock from './CodeBlock.vue';
+import CodigoFonte from './CodigoFonte.vue';
 import DocNotice from './DocNotice.vue';
 import DocTable from './DocTable.vue';
 import MermaidDiagram from './MermaidDiagram.vue';

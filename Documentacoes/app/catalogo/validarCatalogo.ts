@@ -61,10 +61,11 @@ export function validarCatalogo(pDocumentos: IDocumento[]): string[] {
       if (secao.nivel !== undefined && ![2, 3, 4].includes(secao.nivel)) erro('secoes.nivel', 'use 2, 3 ou 4');
       if (!Array.isArray(secao.blocos)) { erro('blocos', 'deve ser uma lista'); continue; }
       for (const bloco of secao.blocos) {
-        if (!bloco || !['paragrafo', 'lista', 'tabela', 'codigo', 'aviso', 'mermaid'].includes(bloco.tipo)) { erro('blocos.tipo', 'desconhecido'); continue; }
+        if (!bloco || !['paragrafo', 'lista', 'tabela', 'codigo', 'codigo-fonte', 'aviso', 'mermaid'].includes(bloco.tipo)) { erro('blocos.tipo', 'desconhecido'); continue; }
         if ((bloco.tipo === 'paragrafo' || bloco.tipo === 'aviso') && !preenchido(bloco.texto)) erro('blocos.texto', 'obrigatório');
         if (bloco.tipo === 'aviso' && !['info', 'warning', 'error', 'success'].includes(bloco.severidade)) erro('blocos.severidade', 'desconhecida');
         if (bloco.tipo === 'codigo' && !preenchido(bloco.codigo)) erro('blocos.codigo', 'obrigatório');
+        if (bloco.tipo === 'codigo-fonte' && !/^docs\/assets\/snippets\/[A-Za-z0-9_.-]+\.(pas|json)$/.test(bloco.fonte)) erro('blocos.fonte', 'referencie um molde em docs/assets/snippets');
         if (bloco.tipo === 'mermaid' && ('codigo' in bloco || !new RegExp(`^docs/MAPEAMENTO_AST_USES_UNITS/${doc.slug}/[A-Za-z0-9_.-]+\\.md$`).test(bloco.fonte ?? ''))) erro('blocos.mermaid', 'referencie um Markdown no subdiretório canônico do documento, sem código inline');
         if (bloco.tipo === 'lista' && (!Array.isArray(bloco.itens) || bloco.itens.some(pI => !preenchido(pI)))) erro('blocos.itens', 'lista inválida');
         if (bloco.tipo === 'tabela') {

@@ -73,5 +73,129 @@ export default criarDocumentoUnit({
     "Fonte local e documentação não comprovam cadastro remoto instalado ou homologação no ERP. APIs do host e efeitos financeiros precisam de evidência própria.",
     "A casca atual libera FLogsCasoTeste no encerramento sem atribuir nil. A reexecução no mesmo contexto permanece uma limitação conhecida; não declarar a suíte toda aprovada.",
     "O uses TDD_VALIDAR_RESULTADO em TDD_RUN_RUNNER ainda difere do arquivo P39_TDD_RUN_VALIDAR_RESULTADO. A citação documental resolve o assunto, mas não comprova que esse identificador está instalado no interpretador."
-  ]
+  ],
+  "jsonBase": {
+    "exemplo": {
+      "EMPRESA_DUP": 1,
+      "TIPODOC_DUP": 11,
+      "QUALIFICACAO_DUP": 1,
+      "PESSOA_DUP": 0,
+      "VALOR_DUP": 0,
+      "GRUPORESULTADO_DUPGR": 0,
+      "CONTA_BORD": 5,
+      "PESSOANOTACREDITO_BORD": 3256,
+      "PRAZOVENCIMENTO_DUP": 30,
+      "parametros": {
+        "NecessarioAutorizarPagamentos": false,
+        "NecessarioAutorizarAdiantamentos": false,
+        "ObrigatorioGrupoResultadoDiferenteDeZeroNaDuplicata": true,
+        "OcultarDuplicataPagarSalario": false,
+        "BloquearLancamentoBorderoQualificacao0Todas": false,
+        "BorderoExigirPreenchimentoRegraIntegracaoContabil": false
+      }
+    },
+    "campos": [
+      [
+        "EMPRESA_DUP",
+        "número",
+        "Empresa do ambiente.",
+        "Precisa corresponder à empresa atual."
+      ],
+      [
+        "TIPODOC_DUP",
+        "número",
+        "Tipo de documento.",
+        "Segue validação já existente no financeiro."
+      ],
+      [
+        "QUALIFICACAO_DUP",
+        "número",
+        "Qualificação opcional da duplicata.",
+        "Lida como tag opcional pelo cenário."
+      ],
+      [
+        "PESSOA_DUP",
+        "número",
+        "Pessoa/fornecedor da duplicata.",
+        "Preencher ID válido; zero do modelo é rejeitado."
+      ],
+      [
+        "VALOR_DUP",
+        "número",
+        "Valor da duplicata.",
+        "Preencher valor positivo; zero não é massa válida."
+      ],
+      [
+        "GRUPORESULTADO_DUPGR",
+        "número",
+        "Grupo de resultado.",
+        "Preencher ID válido segundo as regras do teste."
+      ],
+      [
+        "CONTA_BORD",
+        "número",
+        "Conta do borderô.",
+        "Obrigatória para operações; não usa configuração padrão do módulo."
+      ],
+      [
+        "PESSOANOTACREDITO_BORD",
+        "número",
+        "Pessoa opcional da nota de crédito.",
+        "Aplicada quando o valor é positivo; conferir massa do ambiente."
+      ],
+      [
+        "PRAZOVENCIMENTO_DUP",
+        "número",
+        "Prazo opcional de vencimento.",
+        "Usado no cálculo da data pelo cenário."
+      ],
+      [
+        "parametros",
+        "objeto",
+        "Ajustes do ERP antes do Teste.",
+        "Started aplica o objeto; não há restauração automática."
+      ],
+      [
+        "parametros.NecessarioAutorizarPagamentos",
+        "booleano",
+        "Parâmetro ERP por nome.",
+        "VerificarParametros altera o ambiente conforme o caso; conferir escopo e permissões do ERP."
+      ],
+      [
+        "parametros.NecessarioAutorizarAdiantamentos",
+        "booleano",
+        "Parâmetro ERP por nome.",
+        "VerificarParametros altera o ambiente conforme o caso; conferir escopo e permissões do ERP."
+      ],
+      [
+        "parametros.ObrigatorioGrupoResultadoDiferenteDeZeroNaDuplicata",
+        "booleano",
+        "Parâmetro ERP por nome.",
+        "VerificarParametros altera o ambiente conforme o caso; conferir escopo e permissões do ERP."
+      ],
+      [
+        "parametros.OcultarDuplicataPagarSalario",
+        "booleano",
+        "Parâmetro ERP por nome.",
+        "VerificarParametros altera o ambiente conforme o caso; conferir escopo e permissões do ERP."
+      ],
+      [
+        "parametros.BloquearLancamentoBorderoQualificacao0Todas",
+        "booleano",
+        "Parâmetro ERP por nome.",
+        "VerificarParametros altera o ambiente conforme o caso; conferir escopo e permissões do ERP."
+      ],
+      [
+        "parametros.BorderoExigirPreenchimentoRegraIntegracaoContabil",
+        "booleano",
+        "Parâmetro ERP por nome.",
+        "VerificarParametros altera o ambiente conforme o caso; conferir escopo e permissões do ERP."
+      ]
+    ],
+    "observacoes": [
+      "Modelo fornecido para preenchimento, não massa positiva pronta. PESSOA_DUP, VALOR_DUP e GRUPORESULTADO_DUPGR estão zerados e ValidarCasoTeste os rejeita.",
+      "Números e IDs dos demais campos são exemplos do modelo; validar valores no ambiente antes de executar.",
+      "O exemplo não define resultadoEsperado: a sincronização usa o mínimo remoto. Definir resultadoEsperado: {} explicitamente desativa esse fallback e mantém apenas as verificações explícitas."
+    ]
+  }
 });

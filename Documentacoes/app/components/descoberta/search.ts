@@ -10,6 +10,7 @@ function textoBloco(pBloco: TBloco): string {
   switch (pBloco.tipo) {
     case 'paragrafo': case 'aviso': return pBloco.texto;
     case 'codigo': return pBloco.codigo;
+    case 'codigo-fonte': return pBloco.fonte;
     case 'lista': return pBloco.itens.join(' ');
     case 'tabela': return [...pBloco.colunas, ...pBloco.linhas.flat()].join(' ');
     case 'mermaid': return pBloco.titulo;

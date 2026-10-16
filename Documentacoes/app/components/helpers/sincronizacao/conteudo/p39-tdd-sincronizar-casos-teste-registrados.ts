@@ -1,200 +1,60 @@
-import type { IDocumento } from '../../../../contracts/documentacao.ts';
-export default {
-  "slug": "p39-tdd-sincronizar-casos-teste-registrados",
-  "categoria": "units",
-  "titulo": "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS",
-  "unit": "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS",
+import type { ISecao } from '../../../../contracts/documentacao.ts';
+
+import { criarDocumentoUnit } from '../../../../contracts/criarDocumentoUnit.ts';
+const documento = criarDocumentoUnit({
+  "nome": "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS",
+  "resumo": "Enumerar registros atuais e orquestrar a sincronização por meio de RegistrarCasoTeste.",
+  "responsabilidade": "Enumerar registros atuais e orquestrar a sincronização por meio de RegistrarCasoTeste.",
+  "problema": "Separar cadastro/sincronização da execução do caso e manter configuração portável.",
+  "fonte": "docs/assets/configuracoesGerais/sincronizar/P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS.pas",
+  "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
-  "aliases": [],
-  "resumo": "Mantém a seleção local/remota e a lista de casos enviados ao registrador.",
-  "estado": "em-uso",
   "navegacao": {
     "grupo": "helpers",
     "subgrupo": "sincronizacao",
     "ordem": 1
   },
-  "fontes": [
-    {
-      "caminho": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS.pas"
-    }
+  "aliases": [
+    "TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS"
   ],
-  "simbolos": [
-    {
-      "nome": "FSincRemoto",
-      "tipo": "estado",
-      "secao": "estados",
-      "aliases": []
-    },
-    {
-      "nome": "Main",
-      "tipo": "metodo",
-      "assinatura": "procedure Main"
-    },
-    {
-      "nome": "Sincronizar",
-      "tipo": "metodo",
-      "assinatura": "procedure Sincronizar"
-    },
-    {
-      "nome": "RegistrosCasosTestes",
-      "tipo": "metodo",
-      "assinatura": "procedure RegistrosCasosTestes(pSincRemoto: boolean)"
-    }
+  "estados": [
+    [
+      "FSincRemoto: Boolean",
+      "Seleciona fonte remota ou local.",
+      "Configurado pelo processamento; consumido em Sincronizar/RegistrosCasosTestes."
+    ]
   ],
-  "secoes": [
-    {
-      "id": "responsabilidade",
-      "titulo": "Responsabilidade e problema resolvido",
-      "blocos": [
-        {
-          "tipo": "paragrafo",
-          "texto": "Percorrer as chamadas de registro definidas em código e apresentar feedback do processo de sincronização."
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Concentrar a relação de casos e o ambiente de origem sem reproduzir o SQL de cadastro."
-        }
-      ]
-    },
-    {
-      "id": "estados",
-      "titulo": "Estados globais",
-      "blocos": [
-        {
-          "tipo": "tabela",
-          "colunas": [
-            "Estado / tipo",
-            "Finalidade",
-            "Ciclo de vida"
-          ],
-          "linhas": [
-            [
-              "FSincRemoto: Boolean",
-              "Seleciona leitura remota quando true; false seleciona os nomes locais.",
-              "Declarado nesta unit e consumido por Sincronizar. O fonte não o inicializa explicitamente nem o restaura ao encerrar. P39_TDD_PROCESSAMENTO_SINCRONIZACAO atribui True antes de chamar Sincronizar."
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "metodos",
-      "titulo": "Procedures e functions",
-      "blocos": [
-        {
-          "tipo": "paragrafo",
-          "texto": "As assinaturas abaixo pertencem ao fonte referenciado. Cada entrada descreve sua responsabilidade e a forma de implementação."
-        }
-      ]
-    },
-    {
-      "id": "main",
-      "titulo": "Main",
-      "nivel": 3,
-      "blocos": [
-        {
-          "tipo": "codigo",
-          "linguagem": "pascal",
-          "codigo": "procedure Main;"
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Mostrar as instruções do sincronizador."
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Chama MostrarInstrucoesUnit com o contrato de FSincRemoto e das duas rotinas de sincronização. Não chama Sincronizar."
-        }
-      ]
-    },
-    {
-      "id": "sincronizar",
-      "titulo": "Sincronizar",
-      "nivel": 3,
-      "blocos": [
-        {
-          "tipo": "codigo",
-          "linguagem": "pascal",
-          "codigo": "procedure Sincronizar;"
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Executar a lista com feedback visual."
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Abre o callback, informa o carregamento e chama RegistrosCasosTestes(FSincRemoto). Fecha a tela de callback em finally. Depois apresenta a mensagem de conclusão; uma exceção propaga e impede essa mensagem."
-        }
-      ]
-    },
-    {
-      "id": "registroscasostestes",
-      "titulo": "RegistrosCasosTestes",
-      "nivel": 3,
-      "blocos": [
-        {
-          "tipo": "codigo",
-          "linguagem": "pascal",
-          "codigo": "procedure RegistrosCasosTestes(pSincRemoto: boolean);"
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Definir e registrar os quatro casos atuais."
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Chama P39_TDD_REGISTRAR_CASO_TESTE.RegistrarCasoTeste em sequência para Financeiro e três cenários de pedido de venda. Encaminha pSincRemoto para cada chamada. Os nomes das units JSON são informados sem o prefixo remoto."
-        }
-      ]
-    },
-    {
-      "id": "implementacao",
-      "titulo": "Como a unit é implementada",
-      "blocos": [
-        {
-          "tipo": "lista",
-          "itens": [
-            "A lista atual contém TDD_FINANCEIRO com requisito 160.00 e três pedidos: desconto percentual, unidade fabril e sequência nos itens.",
-            "Os pedidos usam TDD_JSON_BASE_RESULTADO_ESPERADO. Campos disponíveis são informados como nome vazio nos quatro registros e se tornam {} no registrador.",
-            "O formato de requisito de versão xxx.yy aparece nas instruções. A lista usa string vazia nos três pedidos; o sincronizador não valida esse formato.",
-            "cPrefixoSincRemoto é acrescentado somente por CarregarConteudoUnit no registrador; não altere os nomes JSON da lista para repetir esse prefixo.",
-            "A mensagem final não distingue inserts, updates confirmados e updates recusados. Recusar um update permite continuar a lista; uma exceção interrompe as chamadas restantes.",
-            "FSincRemoto continua com o último valor atribuído. Não há transação global nem reversão dos casos já sincronizados."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "dependencias",
-      "titulo": "Dependências e integração",
-      "blocos": [
-        {
-          "tipo": "lista",
-          "itens": [
-            "Uses direto: P39_TDD_REGISTRAR_CASO_TESTE, que resolve JSONs e persistência via P39_TDD_ODBC.",
-            "CallBack_AbreTela, CallBack_Mensagem, CallBack_FechaTela e ClassOwner são recursos do host ERP.",
-            "P39_TDD_PROCESSAMENTO_SINCRONIZACAO configura o estado e inicia a execução."
-          ]
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "O nome canônico identifica o arquivo Pascal e a página. O fonte vinculado é a evidência local; confira o cadastro e a versão da unit instalada no ERP antes de executar."
-        }
-      ]
-    },
-    {
-      "id": "limites",
-      "titulo": "Limites e observações",
-      "blocos": [
-        {
-          "tipo": "lista",
-          "itens": [
-            "A lista é explícita no Pascal; esta documentação não adiciona nem sincroniza registros.",
-            "Não há isolamento de FSincRemoto entre execuções no mesmo contexto.",
-            "A disponibilidade das units JSON e os nomes cadastrados no ERP/TekStore exigem validação no ambiente de execução."
-          ]
-        }
-      ]
-    }
+  "metodos": [
+    [
+      "procedure Main;",
+      "Enumerar registros atuais e orquestrar a sincronização por meio de RegistrarCasoTeste.",
+      "Declaração no fonte, linha 5. Sincronizar abre callback, chama RegistrosCasosTestes(FSincRemoto), fecha callback no finally e apresenta conclusão somente após retorno."
+    ],
+    [
+      "procedure Sincronizar;",
+      "Adiciona um callback para feedback ao usuário com finalidade de acompanhamento do processo. Chamada para RegistrosCasosTestes.",
+      "Declaração no fonte, linha 28. Sincronizar abre callback, chama RegistrosCasosTestes(FSincRemoto), fecha callback no finally e apresenta conclusão somente após retorno."
+    ],
+    [
+      "procedure RegistrosCasosTestes(pSincRemoto :boolean);",
+      "Registrar cada um dos casos de teste com suas respectivas informações sem considerar o prefixo do ambiente remoto. Utilização em sequência do método {TDD_REGISTRAR_CASO_TESTE.}RegistrarCasoTeste.",
+      "Declaração no fonte, linha 40. Sincronizar abre callback, chama RegistrosCasosTestes(FSincRemoto), fecha callback no finally e apresenta conclusão somente após retorno."
+    ]
+  ],
+  "implementacao": [
+    "Sincronizar abre callback, chama RegistrosCasosTestes(FSincRemoto), fecha callback no finally e apresenta conclusão somente após retorno.",
+    "RegistrosCasosTestes faz quatro chamadas de seis argumentos: financeiro, desconto percentual do pedido, unidade fabril e sequência dos itens. Cada caso usa uma única fonte JSON.",
+    "O registro financeiro atual usa descrição TDD_FIN_FINANCEIRO, requisito 160.00 e fonte TDD_FIN_FINANCEIRO_JSON. A descrição e a fonte não são a mesma coisa que o nome remoto instalado; pSincRemoto controla o prefixo da leitura.",
+    "Os exemplos P39_TDD_JSON_PEDIDO_*.pas do repositório contêm Pascal. Não tratá-los como JSON puro nem afirmar que sua migração remota já ocorreu. Expectativas específicas devem ficar em resultadoEsperado da respectiva fonte."
+  ],
+  "dependencias": [
+    "TDD_REGISTRAR_CASO_TESTE: cláusula uses do fonte."
+  ],
+  "limites": [
+    "Sem execução de SQL, TekStore ou ERP pela documentação. Arquivos e aliases não comprovam nomes remotos instalados.",
+    "Fontes inválidos não são substituídos silenciosamente; escrita pode ser parcial, sem atomicidade global ou retry automático."
   ]
-} satisfies IDocumento;
+});
+const secoesAdicionais: ISecao[] = [];
+documento.secoes.push(...secoesAdicionais);
+export default documento;

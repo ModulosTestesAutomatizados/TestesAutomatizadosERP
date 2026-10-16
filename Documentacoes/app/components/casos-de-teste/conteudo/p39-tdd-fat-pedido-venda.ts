@@ -159,7 +159,7 @@ export default {
             "Preencha os identificadores zero com códigos válidos para a base utilizada. A lista de exemplo contém um produto ainda não preenchido; ele será ignorado pelo fonte até receber um código.",
             "Para usar produtos por tag, esvazie item.itens e informe uma tag_prodcomum válida. Os números de quantidade e valor são exemplos, sem declaração de homologação.",
             "parametros deve ser um objeto JSON, inclusive quando vazio. Este contrato usa seu próprio cursor em Teste_Executar e não está adaptado ao cursor por registro do IRunner.",
-            "RegistrarDataSet e CompararResultadoEsperado permanecem comentados no núcleo; o JSON base não habilita a comparação por asserts."
+            "O cenário de faturamento vinculado tem integração própria e deve ser conferido no seu fonte. A casca atual do IRunner implementa ASSERTS; fornecer um JSON não comprova captura nativa ou integração equivalente deste cenário."
           ]
         }
       ]

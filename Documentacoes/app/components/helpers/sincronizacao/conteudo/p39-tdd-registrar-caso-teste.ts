@@ -1,407 +1,187 @@
-import type { IDocumento } from '../../../../contracts/documentacao.ts';
-export default {
-  "slug": "p39-tdd-registrar-caso-teste",
-  "categoria": "units",
-  "titulo": "P39_TDD_REGISTRAR_CASO_TESTE",
-  "unit": "P39_TDD_REGISTRAR_CASO_TESTE",
+import type { ISecao } from '../../../../contracts/documentacao.ts';
+
+import { criarDocumentoUnit } from '../../../../contracts/criarDocumentoUnit.ts';
+const documento = criarDocumentoUnit({
+  "nome": "P39_TDD_REGISTRAR_CASO_TESTE",
+  "resumo": "Resolver a fonte JSON única e registrar ou atualizar o caso no banco dedicado.",
+  "responsabilidade": "Resolver a fonte JSON única e registrar ou atualizar o caso no banco dedicado.",
+  "problema": "Separar cadastro/sincronização da execução do caso e manter configuração portável.",
+  "fonte": "docs/assets/configuracoesGerais/sincronizar/P39_TDD_REGISTRAR_CASO_TESTE.pas",
+  "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
-  "aliases": [],
-  "resumo": "Lê os JSONs das units e registra ou atualiza um caso no banco dedicado ao TDD.",
-  "estado": "em-uso",
   "navegacao": {
     "grupo": "helpers",
     "subgrupo": "sincronizacao",
     "ordem": 0
   },
-  "fontes": [
-    {
-      "caminho": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_REGISTRAR_CASO_TESTE.pas"
-    }
+  "aliases": [
+    "TDD_REGISTRAR_CASO_TESTE"
   ],
-  "simbolos": [
-    {
-      "nome": "FCasoTeste",
-      "tipo": "estado",
-      "secao": "estados",
-      "aliases": []
-    },
-    {
-      "nome": "Main",
-      "tipo": "metodo",
-      "assinatura": "procedure Main"
-    },
-    {
-      "nome": "RegistrarCasoTeste",
-      "tipo": "metodo",
-      "assinatura": "procedure RegistrarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste, pRequisitoVersao, pUnitJsonCasoTeste, pUnitJsonCamposDisponiveis, pUnitJsonResultadoEsperado: string; pSincRemoto: boolean)"
-    },
-    {
-      "nome": "CarregarConteudoUnit",
-      "tipo": "metodo",
-      "assinatura": "function CarregarConteudoUnit(pNomeUnit: string; pSincRemoto: boolean): string"
-    },
-    {
-      "nome": "SincronizarCasoTeste",
-      "tipo": "metodo",
-      "assinatura": "procedure SincronizarCasoTeste"
-    },
-    {
-      "nome": "QuestionarParaRodarUpdateCasoTeste",
-      "tipo": "metodo",
-      "assinatura": "procedure QuestionarParaRodarUpdateCasoTeste(pCodigoCasoTeste: integer)"
-    },
-    {
-      "nome": "InsertCasoTeste",
-      "tipo": "metodo",
-      "assinatura": "procedure InsertCasoTeste"
-    },
-    {
-      "nome": "RegistroFallbackBase",
-      "tipo": "metodo",
-      "assinatura": "function RegistroFallbackBase(pSqlSelect, pSqlInsert: string; pParametrosSql: OleVariant; pAtivarFallback: boolean): integer"
-    },
-    {
-      "nome": "RegistroFallbackModulo",
-      "tipo": "metodo",
-      "assinatura": "function RegistroFallbackModulo(pDescricaoModulo: string; pAtivarFallback: boolean): integer"
-    },
-    {
-      "nome": "RegistroFallbackArea",
-      "tipo": "metodo",
-      "assinatura": "function RegistroFallbackArea(pCodigoModulo: integer; pDescricaoArea: string; pAtivarFallback: boolean): integer"
-    }
+  "estados": [
+    [
+      "FCasoTeste: TCasoTeste",
+      "Campos do registro que será persistido.",
+      "Preenchido após resolver/validar fonte e contexto; consumido por Insert/Atualizar."
+    ]
   ],
-  "secoes": [
-    {
-      "id": "responsabilidade",
-      "titulo": "Responsabilidade e problema resolvido",
-      "blocos": [
-        {
-          "tipo": "paragrafo",
-          "texto": "Montar FCasoTeste, localizar ou criar módulo e área e persistir o caso de teste com comandos parametrizados."
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Centralizar o cadastro dos casos vindos de fontes locais ou remotos, sem duplicar as regras de insert e confirmação de atualização."
-        }
-      ]
-    },
-    {
-      "id": "estados",
-      "titulo": "Estados globais",
-      "blocos": [
-        {
-          "tipo": "tabela",
-          "colunas": [
-            "Estado / tipo",
-            "Finalidade",
-            "Ciclo de vida"
-          ],
-          "linhas": [
-            [
-              "FCasoTeste: TCasoTeste",
-              "Record com módulo, área, descrição, versão e os três conteúdos JSON do caso.",
-              "Reutilizado a cada chamada de RegistrarCasoTeste. A unit não o limpa após inserir, atualizar, cancelar ou falhar. Não é o record do caso corrente preparado pelo Started."
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "campos-registro",
-      "titulo": "Campos de TCasoTeste",
-      "blocos": [
-        {
-          "tipo": "tabela",
-          "colunas": [
-            "Campo",
-            "Tipo",
-            "Finalidade",
-            "Impacto no cadastro"
-          ],
-          "linhas": [
-            [
-              "Modulo",
-              "integer",
-              "Código do módulo.",
-              "Compõe a chave de busca do caso e o campo MODULO_CT."
-            ],
-            [
-              "Area",
-              "integer",
-              "Código da área dentro do módulo.",
-              "Compõe a chave de busca e o campo AREA_CT."
-            ],
-            [
-              "Descricao",
-              "string",
-              "Descrição do caso.",
-              "Compõe a chave de busca e DESCRICAO_CASO_TESTE_CT."
-            ],
-            [
-              "RequisitoVersao",
-              "string",
-              "Versão mínima informada pelo cadastro.",
-              "Persistida em REQUISITO_VERSAO_CT, sem validação nesta unit."
-            ],
-            [
-              "CasoTeste",
-              "string",
-              "Conteúdo da unit JSON do cenário.",
-              "Persistido em CASO_TESTE_CT; alimenta os dados do teste quando o caso for carregado."
-            ],
-            [
-              "CamposDisponiveis",
-              "string",
-              "Conteúdo da unit com campos disponíveis.",
-              "Persistido em CAMPOS_DISPONIVEIS_CT; nome vazio ou leitura inválida resulta em {}."
-            ],
-            [
-              "ResultadoEsperado",
-              "string",
-              "Conteúdo da unit de resultado esperado.",
-              "Persistido em RESULTADO_ESPERADO_CT; cadastrar o conteúdo não implementa asserts."
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "id": "metodos",
-      "titulo": "Procedures e functions",
-      "blocos": [
-        {
-          "tipo": "paragrafo",
-          "texto": "As assinaturas abaixo pertencem ao fonte referenciado. Cada entrada descreve sua responsabilidade e a forma de implementação."
-        }
-      ]
-    },
-    {
-      "id": "main",
-      "titulo": "Main",
-      "nivel": 3,
-      "blocos": [
-        {
-          "tipo": "codigo",
-          "linguagem": "pascal",
-          "codigo": "procedure Main;"
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Exibir as instruções da unit."
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Chama MostrarInstrucoesUnit pelo contexto de P39_TDD_ODBC e suas dependências. Não registra casos."
-        }
-      ]
-    },
-    {
-      "id": "registrarcasoteste",
-      "titulo": "RegistrarCasoTeste",
-      "nivel": 3,
-      "blocos": [
-        {
-          "tipo": "codigo",
-          "linguagem": "pascal",
-          "codigo": "procedure RegistrarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste, pRequisitoVersao, pUnitJsonCasoTeste, pUnitJsonCamposDisponiveis, pUnitJsonResultadoEsperado: string; pSincRemoto: boolean);"
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Orquestrar o cadastro de um caso."
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Cria três TStringList, carrega os conteúdos, obtém módulo e área com fallback habilitado, preenche FCasoTeste e chama SincronizarCasoTeste. O finally libera as listas; não restaura o record global nem desfaz gravações anteriores."
-        }
-      ]
-    },
-    {
-      "id": "carregarconteudounit",
-      "titulo": "CarregarConteudoUnit",
-      "nivel": 3,
-      "blocos": [
-        {
-          "tipo": "codigo",
-          "linguagem": "pascal",
-          "codigo": "function CarregarConteudoUnit(pNomeUnit: string; pSincRemoto: boolean): string;"
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Ler o conteúdo de uma unit JSON."
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Inicia Result com {}. Nome vazio retorna esse objeto. Se pSincRemoto for true, acrescenta cPrefixoSincRemoto antes de CodificacaoUnit. Qualquer exceção de leitura é silenciada e mantém {}. O conteúdo retornado não é validado como JSON."
-        }
-      ]
-    },
-    {
-      "id": "sincronizarcasoteste",
-      "titulo": "SincronizarCasoTeste",
-      "nivel": 3,
-      "blocos": [
-        {
-          "tipo": "codigo",
-          "linguagem": "pascal",
-          "codigo": "procedure SincronizarCasoTeste;"
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Decidir entre inclusão e atualização."
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Consulta CASO_TESTE pela combinação descrição, módulo e área. Código maior que zero chama QuestionarParaRodarUpdateCasoTeste; caso contrário chama InsertCasoTeste. A decisão depende dos dados do record global."
-        }
-      ]
-    },
-    {
-      "id": "questionarpararodarupdatecasoteste",
-      "titulo": "QuestionarParaRodarUpdateCasoTeste",
-      "nivel": 3,
-      "blocos": [
-        {
-          "tipo": "codigo",
-          "linguagem": "pascal",
-          "codigo": "procedure QuestionarParaRodarUpdateCasoTeste(pCodigoCasoTeste: integer);"
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Solicitar confirmação antes de sobrescrever um caso."
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Mostra MessageDlg com Sim/Não. Apenas mrYes executa UPDATE parametrizado dos sete campos usando o código como filtro. Recusar retorna sem alterar o caso existente; não retorna um indicador de cancelamento ao chamador."
-        }
-      ]
-    },
-    {
-      "id": "insertcasoteste",
-      "titulo": "InsertCasoTeste",
-      "nivel": 3,
-      "blocos": [
-        {
-          "tipo": "codigo",
-          "linguagem": "pascal",
-          "codigo": "procedure InsertCasoTeste;"
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Inserir o caso com os dados de FCasoTeste."
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Executa INSERT em CASO_TESTE via P39_TDD_ODBC.TDDCommandODBCP. AUTOINC_CT é atribuído pela trigger do banco. JSONs são parâmetros sem QuotedStr para não introduzir aspas literais no conteúdo."
-        }
-      ]
-    },
-    {
-      "id": "registrofallbackbase",
-      "titulo": "RegistroFallbackBase",
-      "nivel": 3,
-      "blocos": [
-        {
-          "tipo": "codigo",
-          "linguagem": "pascal",
-          "codigo": "function RegistroFallbackBase(pSqlSelect, pSqlInsert: string; pParametrosSql: OleVariant; pAtivarFallback: boolean): integer;"
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Consultar um identificador e opcionalmente criar o registro ausente."
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Usa TDDScalarODBCP, converte o retorno para string e trata vazio ou zero como ausência. Com fallback ativo executa INSERT com RETURNING; sem fallback lança exceção. O resultado final usa StrToIntDef com zero como padrão."
-        }
-      ]
-    },
-    {
-      "id": "registrofallbackmodulo",
-      "titulo": "RegistroFallbackModulo",
-      "nivel": 3,
-      "blocos": [
-        {
-          "tipo": "codigo",
-          "linguagem": "pascal",
-          "codigo": "function RegistroFallbackModulo(pDescricaoModulo: string; pAtivarFallback: boolean): integer;"
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Resolver o código do módulo pela descrição."
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Prepara SELECT e INSERT com RETURNING em MODULO e delega a RegistroFallbackBase. Acrescenta contexto à mensagem em caso de exceção."
-        }
-      ]
-    },
-    {
-      "id": "registrofallbackarea",
-      "titulo": "RegistroFallbackArea",
-      "nivel": 3,
-      "blocos": [
-        {
-          "tipo": "codigo",
-          "linguagem": "pascal",
-          "codigo": "function RegistroFallbackArea(pCodigoModulo: integer; pDescricaoArea: string; pAtivarFallback: boolean): integer;"
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Resolver a área dentro de um módulo."
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "Prepara SELECT por descrição e módulo e INSERT com RETURNING em AREA. Delega o controle de criação ao booleano pAtivarFallback."
-        }
-      ]
-    },
-    {
-      "id": "implementacao",
-      "titulo": "Como a unit é implementada",
-      "blocos": [
-        {
-          "tipo": "lista",
-          "itens": [
-            "TCasoTeste é o tipo do record global FCasoTeste. A tabela abaixo descreve os campos e seus efeitos na persistência.",
-            "Os parâmetros pUnitJsonCasoTeste, pUnitJsonCamposDisponiveis e pUnitJsonResultadoEsperado são nomes de unidades de codificação, não o JSON literal.",
-            "RegistrarCasoTeste habilita a criação de módulo e área antes de verificar se o caso já existe. Cancelar o UPDATE do caso não desfaz essas criações.",
-            "REQUISITO_VERSAO_CT recebe a string fornecida; esta unit não compara a versão com o ERP. O consumidor do caso faz essa verificação.",
-            "A unit não abre uma transação para todo o processo nem garante rollback de operações anteriores."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "dependencias",
-      "titulo": "Dependências e integração",
-      "blocos": [
-        {
-          "tipo": "lista",
-          "itens": [
-            "Uses direto: P39_TDD_ODBC. cPrefixoSincRemoto e os helpers de instrução vêm do contexto compartilhado de suas dependências.",
-            "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS chama RegistrarCasoTeste em sequência."
-          ]
-        },
-        {
-          "tipo": "paragrafo",
-          "texto": "O nome canônico identifica o arquivo Pascal e a página. O fonte vinculado é a evidência local; confira o cadastro e a versão da unit instalada no ERP antes de executar."
-        }
-      ]
-    },
-    {
-      "id": "limites",
-      "titulo": "Limites e observações",
-      "blocos": [
-        {
-          "tipo": "lista",
-          "itens": [
-            "Não há execução nem homologação no ERP comprovada por esta documentação.",
-            "Falhas de leitura podem persistir {} no lugar do conteúdo esperado. Confira os nomes e o ambiente antes de sincronizar.",
-            "O record global permanece com o último conteúdo atribuído; chamadas concorrentes ou reentrantes não têm isolamento implementado."
-          ]
-        }
-      ]
-    }
+  "metodos": [
+    [
+      "procedure Main;",
+      "Resolver a fonte JSON única e registrar ou atualizar o caso no banco dedicado.",
+      "Declaração no fonte, linha 16. Usa o record FCasoTeste e os helpers de leitura/SQL conforme o fluxo de implementação."
+    ],
+    [
+      "procedure RegistrarCasoTeste( pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste, pRequisitoVersao, pUnitJsonCasoTeste :string; pSincRemoto :boolean );",
+      "Orquestra seis argumentos, confirmação, validação da fonte, defaults e escrita das projeções.",
+      "Declaração no fonte, linha 64. Usa o record FCasoTeste e os helpers de leitura/SQL conforme o fluxo de implementação."
+    ],
+    [
+      "function CarregarConteudoUnit(pNomeUnit :string; pSincRemoto :boolean) :string;",
+      "Trata o controle de sincronizar com fontes do remoto ou locais. Carrega o conteúdo obrigatório; falhas de leitura não são convertidas em json vazio.",
+      "Declaração no fonte, linha 146. Usa o record FCasoTeste e os helpers de leitura/SQL conforme o fluxo de implementação."
+    ],
+    [
+      "function ObterObjetoConfiguracao(pJson, pPropriedade, pUnitFallback :string; pFallbackSeVazio :boolean) :string;",
+      "Resolve objetos explícitos ou a propriedade de uma unit remota mínima, conforme a política de vazio.",
+      "Declaração no fonte, linha 165. Usa o record FCasoTeste e os helpers de leitura/SQL conforme o fluxo de implementação."
+    ],
+    [
+      "function SincronizarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste :string) :integer;",
+      "Camada de validação se o caso de teste já existe no banco de dados. Confirma antes de carregar fontes; retorna -1 para recusa, 0 para novo ou o código para atualização.",
+      "Declaração no fonte, linha 245. Usa o record FCasoTeste e os helpers de leitura/SQL conforme o fluxo de implementação."
+    ],
+    [
+      "procedure AtualizarCasoTeste(pCodigoCasoTeste :integer);",
+      "SQL de update do caso de teste e execução de {P39_TDD_ODBC.}TDDCommandODBCP passando os parâmetros via FCasoTeste.",
+      "Declaração no fonte, linha 278. Usa o record FCasoTeste e os helpers de leitura/SQL conforme o fluxo de implementação."
+    ],
+    [
+      "procedure InsertCasoTeste;",
+      "SQL de insert do caso de teste e execução de {P39_TDD_ODBC.}TDDCommandODBCP passando os parâmetros via FCasoTeste.",
+      "Declaração no fonte, linha 304. Usa o record FCasoTeste e os helpers de leitura/SQL conforme o fluxo de implementação."
+    ],
+    [
+      "function RegistroFallbackBase(pSqlSelect, pSqlInsert :string; pParametrosSql :OleVariant; pAtivarFallback :boolean) :integer;",
+      "Orquestra execuções de consulta que podem vir a gerar um registro de insert. Depende de que as SQLs de insert contenha a cláusula returning ao final da sql. Quando pAtivarFallback for false, essa unit apenas encontra o que já existe e retorna raise se não encontrar.",
+      "Declaração no fonte, linha 339. Usa o record FCasoTeste e os helpers de leitura/SQL conforme o fluxo de implementação."
+    ],
+    [
+      "function RegistroFallbackModulo(pDescricaoModulo :string; pAtivarFallback :boolean) :integer;",
+      "Monta as SQLs de select e insert com returning para chamar RegistroFallbackBase com fallback ativado.",
+      "Declaração no fonte, linha 365. Usa o record FCasoTeste e os helpers de leitura/SQL conforme o fluxo de implementação."
+    ],
+    [
+      "function RegistroFallbackArea(pCodigoModulo :integer; pDescricaoArea :string; pAtivarFallback :boolean) :integer;",
+      "Monta as SQLs de select e insert com returning para chamar RegistroFallbackBase com fallback ativado.",
+      "Declaração no fonte, linha 382. Usa o record FCasoTeste e os helpers de leitura/SQL conforme o fluxo de implementação."
+    ]
+  ],
+  "implementacao": [
+    "RegistrarCasoTeste recebe seis argumentos: descrição do módulo, área, caso, requisito de versão, nome da fonte JSON e pSincRemoto. SincronizarCasoTeste consulta a identidade antes da leitura; -1 significa recusa do usuário, 0 significa novo registro e ID positivo significa atualização.",
+    "CarregarConteudoUnit lê CodificacaoUnit. Para fonte remota acrescenta P39_ apenas se necessário. Mínimos usam nomes remotos exatos mesmo quando o caso é local; erro de leitura ou conteúdo vazio não vira {} silenciosamente.",
+    "ObterObjetoConfiguracao resolve resultadoEsperado e camposDisponiveis antes dos fallbacks SQL de módulo/área. Propriedade reservada null, array ou escalar é inválida. Falta de fonte/mínimo obrigatório ou JSON inválido propaga erro antes das gravações.",
+    "No corpo atual, propriedades reservadas da raiz são retiradas da entrada e recompostas com os objetos resolvidos. CASO_TESTE_CT mantém dados, parametros, camposDisponiveis e resultadoEsperado na raiz. CAMPOS_DISPONIVEIS_CT e RESULTADO_ESPERADO_CT mantêm os respectivos wrappers nomeados. Homônimas aninhadas permanecem nos dados; não criar wrapper duplo.",
+    "RegistroFallbackModulo/Area resolve cadastros depois da validação JSON. FCasoTeste recebe as projeções formatadas e InsertCasoTeste ou AtualizarCasoTeste usa parâmetros ODBC. A consulta inicial não equivale a uma gravação; não há garantia de transação única global ou retry."
+  ],
+  "dependencias": [
+    "P39_TDD_ODBC: cláusula uses do fonte.",
+    "P39_TDD_FUNCOES_JSON: cláusula uses do fonte."
+  ],
+  "limites": [
+    "Sem execução de SQL, TekStore ou ERP pela documentação. Arquivos e aliases não comprovam nomes remotos instalados.",
+    "Fontes inválidos não são substituídos silenciosamente; escrita pode ser parcial, sem atomicidade global ou retry automático."
   ]
-} satisfies IDocumento;
+});
+const secoesAdicionais: ISecao[] = [
+  {
+    "id": "defaults",
+    "titulo": "Defaults e estados de entrada",
+    "blocos": [
+      {
+        "tipo": "tabela",
+        "colunas": [
+          "Entrada",
+          "Resultado"
+        ],
+        "linhas": [
+          [
+            "resultadoEsperado ausente",
+            "Ler P39_TDD_ASSERTS_JSON_MINIMO e preservar a tag resultadoEsperado."
+          ],
+          [
+            "resultadoEsperado: {} explícito",
+            "Preservar objeto vazio; não buscar mínimo. Na execução, SEM_VALIDACAO preserva asserts explícitos."
+          ],
+          [
+            "resultadoEsperado preenchido",
+            "Preservar a configuração explícita."
+          ],
+          [
+            "camposDisponiveis ausente ou {}",
+            "Usar P39_TDD_CAMPOS_DISPONIVEIS_JSON_MINIMO; o corpo atual {} é válido e resulta na tag camposDisponiveis vazia."
+          ],
+          [
+            "camposDisponiveis preenchido",
+            "Preservar objeto explícito, sem mínimo."
+          ],
+          [
+            "Reservada null, array ou escalar",
+            "Falhar: deve ser objeto. Não tratar como ausência."
+          ],
+          [
+            "Fonte/mínimo obrigatório indisponível, inválido ou vazio",
+            "Propagar antes dos fallbacks SQL e da escrita."
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "projecoes",
+    "titulo": "O que cada coluna recebe",
+    "blocos": [
+      {
+        "tipo": "tabela",
+        "colunas": [
+          "Destino",
+          "Conteúdo atual",
+          "Consumidor"
+        ],
+        "linhas": [
+          [
+            "CASO_TESTE_CT",
+            "Dados do caso + parametros + objetos resolvidos camposDisponiveis e resultadoEsperado na raiz.",
+            "CDSCasosTestes / TDD_RUN_STARTED / cenário"
+          ],
+          [
+            "CAMPOS_DISPONIVEIS_CT",
+            "{\"camposDisponiveis\": {...}}",
+            "CDSCamposDisponiveis"
+          ],
+          [
+            "RESULTADO_ESPERADO_CT",
+            "{\"resultadoEsperado\": {...}}",
+            "CDSResultadoEsperado / P39_TDD_RUN_VALIDAR_RESULTADO"
+          ]
+        ]
+      },
+      {
+        "tipo": "paragrafo",
+        "texto": "Os registros anteriores podem guardar as seções erro/valor/tempo diretamente na raiz. O comparador atual aceita esse formato e o wrapper novo; não é necessário criar uma segunda camada resultadoEsperado."
+      }
+    ]
+  },
+  {
+    "id": "fluxo",
+    "titulo": "Fluxo de confirmação e gravação",
+    "blocos": [
+      {
+        "tipo": "mermaid",
+        "fonte": "docs/MAPEAMENTO_AST_USES_UNITS/p39-tdd-registrar-caso-teste/fonte-unica.md",
+        "titulo": "Fonte única, defaults e projeções"
+      }
+    ]
+  }
+];
+documento.secoes.push(...secoesAdicionais);
+export default documento;
