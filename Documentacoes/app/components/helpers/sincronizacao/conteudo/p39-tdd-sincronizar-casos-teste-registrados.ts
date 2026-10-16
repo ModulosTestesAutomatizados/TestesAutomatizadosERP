@@ -6,7 +6,7 @@ const documento = criarDocumentoUnit({
   "resumo": "Enumerar registros atuais e orquestrar a sincronização por meio de RegistrarCasoTeste.",
   "responsabilidade": "Enumerar registros atuais e orquestrar a sincronização por meio de RegistrarCasoTeste.",
   "problema": "Separar cadastro/sincronização da execução do caso e manter configuração portável.",
-  "fonte": "docs/assets/configuracoesGerais/sincronizar/P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS.pas",
+  "fonte": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "navegacao": {

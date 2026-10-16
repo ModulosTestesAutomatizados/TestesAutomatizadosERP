@@ -6,7 +6,7 @@ const documento = criarDocumentoUnit({
   "resumo": "Configurar a origem e iniciar a sincronização dos casos cadastrados.",
   "responsabilidade": "Configurar a origem e iniciar a sincronização dos casos cadastrados.",
   "problema": "Separar cadastro/sincronização da execução do caso e manter configuração portável.",
-  "fonte": "docs/assets/configuracoesGerais/sincronizar/P39_TDD_PROCESSAMENTO_SINCRONIZACAO.pas",
+  "fonte": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_PROCESSAMENTO_SINCRONIZACAO.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "processamento",
   "navegacao": {
