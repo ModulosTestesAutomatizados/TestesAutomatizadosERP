@@ -4,13 +4,17 @@
 
 Nenhuma decisao AD de projeto foi registrada como aprovada nesta entrega. As restricoes confirmadas pelo usuario e as propostas locais estao em `.specs/features/tdd-irunner-lote-json/context.md` e `spec.md`. A especificacao historica do MVP permanece preservada e nao comprova a implementacao nos arquivos atuais em Runner.
 
+### AD-001 — frontend documental Vue/Vite
+
+Status: active. Aprovada pela revisão da especificação e autorização de implementação em 2026-10-16. Usar SFC com script setup TypeScript, dependências npm e build estático Vite para Pages. Organizar slices dentro de app/components, preservando a hierarquia editorial e leitor comum dirigido por dados. Publicação documental é o contexto; grupos de assuntos não são automaticamente bounded contexts. Não alterar regras Pascal nesta migração.
 ## Handoff
 
-- **Feature:** .specs/features/portal-loading-vuetify/
-- **Phase / Task:** Implementação e revisão independente TLC concluídas: PASS, 8/8 critérios.
-- **Completed:** Loading com overlay e skeleton nativos Vuetify por tipo de página, sem card central ou progresso circular após revisão visual do usuário, mínimo de 650 ms e saída de 240 ms; movimento reduzido respeitado. Migração retirada do portal e movida para docs/assets/emDesenvolvimento/MIGRACAO_NOMES_UNITS_TDD.md. Favicon JPEG incluído nos assets da aplicação.
-- **Verification:** Lint, templates, tipos, build de 24 documentos e cenários de navegador aprovados. Sensor independente detectou remoção do tempo mínimo. Ferramentas e testes continuam locais e ignorados. Evidências e limites em validation.md.
-- **Preview:** http://127.0.0.1:57929/TestesAutomatizadosERP/ continua em execução.
-- **Next step:** Revisão do usuário no preview; publicação somente quando autorizada. Nenhum push ou deploy nesta etapa.
-- **Runtime limits:** Sem execução de ERP, banco ou TekStore. Disponibilidade da CDN pública e UAT humana não comprovadas pelos testes locais.
-- **Branch / worktree:** TestesAutomatizadosERP-docs, somente este worktree.
+- **Feature:** .specs/features/portal-vite-slices/
+- **Phase / Task:** T1–T8 implementadas localmente, aguardando revisão independente TLC final. Não declarar feature verificada antes de validation.md PASS e validate_state.
+- **Completed:** 27 documentos em slices; SFC/script setup TypeScript/Vite; Vue/Router/Vuetify 4.2.6/Mermaid/MDI via npm; conteúdo atual Runner/asserts/módulo/validador/sincronização; quatro moldes canônicos; AST/Mermaids reconciliados; plugin de integridade/cópia; guia/snippets/skill; tema claro/escuro e clearable.
+- **Verification:** check/build e scripts ignorados editorial, sync-check, asset-gate, snippets e native passaram. Smoke sob prefixo Pages sem CDN incluiu moldes/retry, diagramas/links/zoom/orientação, tema salvo, busca, loading, rota/refresh, mobile e falhas. Actions/Linux e ERP não executados.
+- **Sources:** Usuário atualizou assets e confirmou LOGS novo. RegistrarLog sempre acumula e FModoDebug controla exibição. Chamadas antigas em outras units são divergência documentada. Manifesto de bytes anterior difere somente nesse LOGS fornecido pelo usuário. Outros limites em reconciliacao-fontes.md.
+- **Next step:** Verificador fresco por spec/commit range; sensor somente em cópias temporárias (sem worktree, stash ou mudança Pascal). Corrigir gaps se houver, no máximo três ciclos; validar estado e consolidar resultado.
+- **Branch / worktree:** TestesAutomatizadosERP-docs, somente este worktree. Sem push/PR/deploy, ERP, banco, TekStore ou novas branches.
+- **Dev:** http://127.0.0.1:5173/TestesAutomatizadosERP/ (conferir processo se necessário).
+- **Commits:** 48204f2 plano, dd8ca50 slices, d6ab199 SFC/Vite, cf1acae autoria, e00b368 Runner, 8d3f769 JSON/moldes, 3ec6b8f assets canônicos, 3cef3aa temas/clearable, 5615968 moldes/autoria. Evidência T8 segue no commit deste registro.

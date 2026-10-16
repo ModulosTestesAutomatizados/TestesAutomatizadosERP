@@ -1,6 +1,6 @@
 # Portal Vue com Vite, slices por feature e contratos TDD atuais
 
-**Status:** aprovada pelo usuário; implementação local em andamento.
+**Status:** implementação local concluída; revisão independente pendente.
 **Data:** 2026-10-16. **Porte:** complexo; execução autorizada após revisão da especificação.
 
 ## Problem Statement
@@ -149,40 +149,40 @@ A estabilização do IRunner também alterou nomes, responsabilidades, métricas
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| VITE-01 | Ferramentas | Specify | Pending |
-| VITE-02 | Ferramentas | Specify | Pending |
-| VITE-03 | Ferramentas | Specify | Pending |
-| VITE-04 | Ferramentas | Specify | Pending |
-| VITE-05 | Ferramentas | Specify | Pending |
-| VITE-06 | Ferramentas | Specify | Pending |
-| VITE-07 | Ferramentas | Specify | Pending |
-| VITE-08 | Ferramentas | Specify | Pending |
-| ARCH-01 | Organização | Specify | Pending |
-| ARCH-02 | Organização | Specify | Pending |
-| ARCH-03 | Organização | Specify | Pending |
-| ARCH-04 | Organização | Specify | Pending |
-| ARCH-05 | Organização | Specify | Pending |
-| ARCH-06 | Organização | Specify | Pending |
-| ARCH-07 | Organização | Specify | Pending |
-| ARCH-08 | Organização | Specify | Pending |
-| UX-01 | Preservação | Specify | Pending |
-| UX-02 | Preservação | Specify | Pending |
-| UX-03 | Preservação | Specify | Pending |
-| UX-04 | Preservação | Specify | Pending |
-| UX-05 | Preservação | Specify | Pending |
-| TDD-01 | Contratos atuais | Specify | Pending |
-| TDD-02 | Contratos atuais | Specify | Pending |
-| TDD-03 | Contratos atuais | Specify | Pending |
-| TDD-04 | Contratos atuais | Specify | Pending |
-| TDD-05 | Contratos atuais | Specify | Pending |
-| TDD-06 | Contratos atuais | Specify | Pending |
-| AUTHOR-01 | Contribuição | Specify | Pending |
-| AUTHOR-02 | Contribuição | Specify | Pending |
-| AUTHOR-03 | Contribuição | Specify | Pending |
-| AUTHOR-04 | Contribuição | Specify | Pending |
-| AUTHOR-05 | Contribuição | Specify | Pending |
+| VITE-01 | Ferramentas | Execute | Implemented |
+| VITE-02 | Ferramentas | Execute | Implemented |
+| VITE-03 | Ferramentas | Execute | Implemented |
+| VITE-04 | Ferramentas | Execute | Implemented |
+| VITE-05 | Ferramentas | Execute | Implemented |
+| VITE-06 | Ferramentas | Execute | Implemented |
+| VITE-07 | Ferramentas | Execute | Implemented |
+| VITE-08 | Ferramentas | Execute | Implemented |
+| ARCH-01 | Organização | Execute | Implemented |
+| ARCH-02 | Organização | Execute | Implemented |
+| ARCH-03 | Organização | Execute | Implemented |
+| ARCH-04 | Organização | Execute | Implemented |
+| ARCH-05 | Organização | Execute | Implemented |
+| ARCH-06 | Organização | Execute | Implemented |
+| ARCH-07 | Organização | Execute | Implemented |
+| ARCH-08 | Organização | Execute | Implemented |
+| UX-01 | Preservação | Execute | Implemented |
+| UX-02 | Preservação | Execute | Implemented |
+| UX-03 | Preservação | Execute | Implemented |
+| UX-04 | Preservação | Execute | Implemented |
+| UX-05 | Preservação | Execute | Implemented |
+| TDD-01 | Contratos atuais | Execute | Implemented |
+| TDD-02 | Contratos atuais | Execute | Implemented |
+| TDD-03 | Contratos atuais | Execute | Implemented |
+| TDD-04 | Contratos atuais | Execute | Implemented |
+| TDD-05 | Contratos atuais | Execute | Implemented |
+| TDD-06 | Contratos atuais | Execute | Implemented |
+| AUTHOR-01 | Contribuição | Execute | Implemented |
+| AUTHOR-02 | Contribuição | Execute | Implemented |
+| AUTHOR-03 | Contribuição | Execute | Implemented |
+| AUTHOR-04 | Contribuição | Execute | Implemented |
+| AUTHOR-05 | Contribuição | Execute | Implemented |
 
-**Coverage:** 32 critérios próprios; 18 critérios documentais incorporados rastreados em incorporacao-irunner.md. Nenhuma tarefa de implementação criada ou marcada como concluída.
+**Coverage:** 32 critérios próprios; 18 critérios documentais incorporados rastreados em incorporacao-irunner.md. T1–T8 executadas localmente; revisão independente registrada separadamente em validation.md antes de declarar a feature verificada.
 
 ## Success Criteria
 

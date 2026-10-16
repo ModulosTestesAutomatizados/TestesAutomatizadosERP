@@ -134,7 +134,7 @@ T4 → T5 → T6 → T8
 **Depends on**: T6, T7
 **Requirement**: AUTHOR-05 e integração dos 32 critérios/DOC-01..18.
 **Done when**:
-- [ ] Gates finais registrados sem tools/testes versionados; relatório e handoff fiéis ao resultado, seguidos por revisão independente e sensor.
+- [x] Gates finais registrados sem tools/testes versionados; relatório e handoff fiéis ao resultado, seguidos por revisão independente e sensor.
 **Tests**: integration
 **Gate**: build
 **Commit**: docs: registra verificacao da migracao do portal
@@ -160,3 +160,13 @@ Inventários runner e sincronização foram regenerados com linhas, hashes e use
 | T6: compilação | npm run check e npm run build --prefix Documentacoes, saídas zero | Passou |
 
 As verificações derivam de VITE-05/08, TDD-05 e done-when T6; não executam ERP. Os scripts citados permanecem ignorados conforme instrução do usuário. A revisão independente T8 ainda deve confrontar os 32 critérios.
+
+## Evidência T8 e requisitos adicionais
+
+Gates locais: ESLint/vue-tsc/tsc-config, build Vite completo, editorial.mjs, sync-check.mjs, asset-gate.mjs e snippets.mjs passaram. native.mjs executa um smoke integrado do artefato no prefixo Pages com requests externas bloqueadas: skeleton/inert, 27 cards, rota e refresh, busca, clearable, tema salvo, terminal, mobile/movimento reduzido, 404 interna e falha inicial. Na mesma passagem confere quatro moldes, recuperação de leitura, todos os diagramas do fluxo, links, orientação e zoom. Esses testes não são versionados nem executam o ERP.
+
+O contrato novo de LOGS tem assinatura conferida contra Pascal e símbolos; RegistrarLog encontra TDD_RUN_LOGS como primeiro resultado. FModoDebug encontra a página proprietária. O manifesto de bytes recebido permanece idêntico, exceto LOGS atualizado pelo próprio usuário e incorporado após leitura.
+
+Requisitos simples posteriores foram aplicados diretamente: temas claro/escuro Vuetify, persistência guardada e preferência do sistema; busca VTextField clearable com null tratado. Vuetify foi atualizado à versão estável 4.2.6 conforme pedido de latest, com check e smoke aprovados. Mermaid acompanha o tema; tipografia e identidade foram preservadas.
+
+O artefato contém apenas entrada/chunks/fontes/favicon, diagramas/inventários e os quatro moldes selecionados. Não inclui .specs nem árvore Pascal privada. O workflow existente já valida e publica a saída correta. Não houve execução do Actions ou homologação Linux nesta sessão; capitalização por segmentos e hashes CRLF/LF são validados localmente. Revisão TLC independente inicia após este commit; status de implementação não equivale a parecer PASS.
