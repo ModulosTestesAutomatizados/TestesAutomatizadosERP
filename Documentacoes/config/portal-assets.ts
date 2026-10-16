@@ -1,10 +1,13 @@
+import type { IDocumento } from '../app/contracts/documentacao.ts';
+import type { Plugin } from 'vite';
+
 import { createHash } from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import type { Plugin } from 'vite';
+
 import documentos from '../app/catalogo/index.ts';
 import { validarCatalogo } from '../app/catalogo/validarCatalogo.ts';
-import type { IDocumento } from '../app/contracts/documentacao.ts';
+import { gerarConhecimento } from './knowledge.ts';
 
 interface INoInventario { file?: string; sha256?: string }
 export const inventarios = [
@@ -61,17 +64,25 @@ export async function prepararAssets(pRoot: string, pDocumentos: IDocumento[] = 
 
 export function portalAssets(pRoot: string): Plugin {
   let assets = new Map<string, Buffer>();
+  let base = '/';
   return {
     name: 'portal-documentacao-assets',
-    async buildStart() { assets = await prepararAssets(pRoot); },
+    configResolved(pConfig) { base = pConfig.base; },
+    async buildStart() {
+      assets = await prepararAssets(pRoot);
+      const conhecimento = gerarConhecimento(documentos, assets, base);
+      for (const [caminho, conteudo] of conhecimento) assets.set(caminho, conteudo);
+    },
     configureServer(pServer) {
       pServer.middlewares.use(async (pRequest, pResponse, pNext) => {
         const url = new URL(pRequest.url ?? '/', 'http://localhost');
-        const caminho = url.pathname.replace(/^\/TestesAutomatizadosERP\//, '').replace(/^\//, '');
+        const caminho = url.pathname.startsWith(base) ? url.pathname.slice(base.length) : url.pathname.replace(/^\//, '');
         if (!assets.has(caminho)) return pNext();
         try {
-          const conteudo = await lerArquivo(pRoot, caminho);
-          pResponse.setHeader('Content-Type', caminho.endsWith('.json') ? 'application/json; charset=utf-8' : 'text/plain; charset=utf-8');
+          const gerado = caminho === 'llms.txt' || caminho.startsWith('knowledge/');
+          const conteudo = gerado ? assets.get(caminho)! : await lerArquivo(pRoot, caminho);
+          const tipo = caminho.endsWith('.json') ? 'application/json' : caminho.endsWith('.md') ? 'text/markdown' : 'text/plain';
+          pResponse.setHeader('Content-Type', `${tipo}; charset=utf-8`);
           pResponse.end(conteudo);
         } catch {
           pResponse.statusCode = 404; pResponse.end('Fonte indisponível');

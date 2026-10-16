@@ -18,6 +18,8 @@ Dev atualiza SFCs durante a edição; preview serve somente o build em `Document
 
 `portal-assets.ts` valida catálogo, existência e capitalização exatas das fontes, blocos Mermaid e hashes dos inventários AST. Os hashes normalizam somente CRLF para LF para conferir Windows e Linux. O plugin publica apenas diagramas referenciados, inventários registrados e moldes canônicos utilizados pelos blocos `codigo-fonte`, além de `.nojekyll`. Não copia `.specs`, ferramentas ou toda a árvore Pascal.
 
+Depois desses gates, `knowledge.ts` gera llms.txt, índice JSON e Markdown para os documentos públicos. A projeção não lê diretórios arbitrários: recebe somente catálogo e assets preparados pelo plugin. Links respeitam `base` do Vite; código mantém seu conteúdo literal e usa cercas suficientemente longas. O dev serve arquivos gerados como texto/Markdown/JSON, sem transformação de módulos. O preview serve a saída estática normal; a pipeline existente já publica esses arquivos.
+
 `package.json` e `package-lock.json` definem o build reproduzível. Testes/ferramentas temporários permanecem ignorados. Os três JSONs compartilhados de `docs/assets/snippets` são exceções explícitas; massas JSON pessoais continuam ignoradas.
 
 O workflow valida PRs e publica somente push em `master` ou execução manual na `master`. Os filtros cobrem `index.html`, `Documentacoes/**`, `docs/assets/**`, `docs/MAPEAMENTO_AST_USES_UNITS/**` e o próprio workflow. Publica `.pages-output` com rotas hash. Pages deve usar GitHub Actions como origem; não precisa de Node no navegador.
