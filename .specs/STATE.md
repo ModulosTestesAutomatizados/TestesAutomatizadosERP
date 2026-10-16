@@ -20,10 +20,10 @@ SetarCasoTeste recebe somente módulo e área. O usuário confirmou que o fluxo 
 
 ## Handoff
 
-- Feature atual: `.specs/features/irunner-asserts-modulo/spec.md`, aprovada e implementada localmente.
-- Baseline atual observado: `0303da9 chore(rename): alterações nos nomes de units simulando etiquetas`; árvore limpa antes desta proposta. O snapshot anterior em e47d2a4 é histórico, não o baseline atual.
-- O usuário adicionou P39_TDD_VALIDAR_RESULTADO e aprovou a direção de integrar asserts/módulo, remover FDescModulo duplicado e manter STARTED como aprovada.
-- Especificação atual: 25 requisitos, sete tarefas concluídas. Nomes/uses corrigidos; MODULO sem contexto duplicado; ASSERTS com evidências/cópias por caso; validador somente comparações; métricas agregadas persistidas por FINISHED. RegistrarErroReal foi movido do validador para RUN_ASSERTS.
-- Verificação: 16 grupos do autor, cinco independentes e 3/3 mutações detectadas em cópias temporárias. PASS local em validation.md; nenhum gate representa execução ERP/ODBC.
-- Próximo passo: o usuário disponibilizar o conjunto coerente de fontes no ambiente de teste e observar as capturas Data/RecNo, os datasets ativos após Save e as métricas/logs reais. Sem escrita em banco, stage ou commit nesta iteração. Documentação do portal não foi alterada.
-- Feature anterior: `.specs/features/irunner-casca-enxuta/spec.md`; sua validação local não comprova os requisitos desta nova iteração nem a execução nativa dos novos nomes.
+- Feature atual: `.specs/features/sincronizacao-fonte-unica/spec.md`, implementação local concluída e revisão independente PASS local.
+- Baseline observado: `db20fe6`, com alterações prévias do usuário em fontes compartilhados e no exemplo. Essas alterações foram preservadas; nenhum stage/commit desta sessão.
+- Decisões do usuário: resultadoEsperado ausente usa P39_TDD_ASSERTS_JSON_MINIMO; {} explícito não acrescenta asserts e registra SEM_VALIDACAO; camposDisponiveis ausente ou vazio usa a nova P39_TDD_CAMPOS_DISPONIVEIS_JSON_MINIMO, atualmente {}.
+- Implementado: método único ObterObjetoConfiguracao, leitura estrita, assinatura RegistrarCasoTeste com seis argumentos, quatro consumidores atualizados, projeção dos objetos reservados fora do caso e validador aceitando objeto vazio. STARTED não alterada.
+- Testes da feature: nove grupos do autor, quatro independentes e 3/3 mutações detectadas. Revisão dos onze requisitos em validation.md. Não executam ERP/ODBC.
+- Regressão anterior observada: gate irunner-asserts-modulo tem 15 grupos aprovados e falha na reexecução porque o HEAD libera FLogsCasoTeste sem nil. Teste preservado; limpeza fora deste escopo. Cinco adversariais anteriores aprovados.
+- Próximo passo: disponibilizar o conjunto coerente no ERP para confirmação nativa. Sem escrita em banco, sincronização efetiva ou documentação do portal. JSONs locais continuam ignorados pela regra *.json existente.

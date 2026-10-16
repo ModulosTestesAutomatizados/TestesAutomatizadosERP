@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 const root=process.cwd(),base=fs.mkdtempSync(path.join(os.tmpdir(),'irunner-verifier-'));
 const cases=[
- ['maior-inclusivo','docs/assets/configuracoesGerais/P39_TDD_VALIDAR_RESULTADO.pas','pValorReal > pValorEsperado','pValorReal >= pValorEsperado'],
+ ['maior-inclusivo','docs/assets/emDesenvolvimento/P39_TDD_VALIDAR_RESULTADO.pas','pValorReal > pValorEsperado','pValorReal >= pValorEsperado'],
  ['status-incondicional','docs/assets/emDesenvolvimento/Runner/TDD_RUN_UNIT_BASE_IRUNNER.pas','if AssertsOk then','if True then'],
  ['descarta-relatorio','docs/assets/emDesenvolvimento/Runner/TDD_RUN_FINISHED.pas','FMetricasAsserts.ResultadoObtido := FResultados.Text;','FMetricasAsserts.ResultadoObtido := \'\';'],
 ];
