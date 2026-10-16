@@ -14,9 +14,9 @@ export function dataset(rows=[]){return {rows:structuredClone(rows),RecNo:1,Acti
 function json(value){return {value,get Count(){return Array.isArray(value)?value.length:Object.keys(value).length;},pairs:Object.entries(value),Items(i){return json(value[i]);},get ToJson(){return JSON.stringify(value);},Free(){this.freed=true;}};}
 export function environment(){
   const log=[],histories=[],assertRows=[],tickRows=[],sources={};
-  const api={FAssertsTotal:0,FAssertsPass:0,FAssertsFail:0,FErrosReais:0,FTempoExecucaoMs:0,FFalhas:null,FDataSets:null,FResultados:null,FModoDebug:true,FLogsCasoTeste:list(),FEtapaAtual:0,FNomeMetodoAtual:'',FTempoBaseTick:2834258000,GetTickCount:2834258010,FCasoTesteAtualId:28,FCasoTesteAtualJson:'{}',FDescModulo:'FINANCEIRO',FDescArea:'FINANCEIRO',FModulo:1,FContextoCasoTeste:{},FHistoricoExecucao:{AutoIncCasoTeste:28,MensagemErro:'',StatusExecucao:''},FMetricasAsserts:{},
+  const api={FAssertsTotal:0,FAssertsPass:0,FAssertsFail:0,FErrosReais:0,FTempoExecucaoMs:0,FFalhas:null,FDataSets:null,FResultados:null,FModoDebug:true,FLogsCasoTeste:list(),FLogsPreparacao:'',FEtapaAtual:0,FNomeMetodoAtual:'',FTempoBaseTick:2834258000,GetTickCount:2834258010,FCasoTesteAtualId:28,FCasoTesteAtualJson:'{}',FDescModulo:'FINANCEIRO',FDescArea:'FINANCEIRO',FModulo:1,FContextoCasoTeste:{},FHistoricoExecucao:{AutoIncCasoTeste:28,MensagemErro:'',StatusExecucao:''},FMetricasAsserts:{},
     cPulada:'ASSERTS: PULADO - ',cFalha:'ASSERTS: FALHOU - ',cOperacaoIgual:0,cOperacaoMaior:1,cOperacaoMenor:2,
-    Trim:s=>s.trim(),UpperCase:s=>s.toUpperCase(),LowerCase:s=>s.toLowerCase(),Length:s=>s.length,IntToStr:String,CurrToStr:String,FloatToStr:String,VarToStr:v=>String(v??''),Pos:(a,b)=>b.indexOf(a)+1,Copy:(s,start,len)=>s.slice(start-1,start-1+len),Troca:(s,a,b)=>s.split(a).join(b),CorteAte:(s,c)=>s.includes(c)?s.slice(0,s.indexOf(c)):s,CorteApos:(s,c)=>s.includes(c)?s.slice(s.indexOf(c)+1):'',Assigned:v=>v!=null,iif:(c,a,b)=>c?a:b,VarArrayOf:v=>v,Round:Math.round,TickDiff:(a,b)=>b-a,
+    JSONFormatado:s=>JSON.stringify(JSON.parse(s),null,2),Trim:s=>s.trim(),UpperCase:s=>s.toUpperCase(),LowerCase:s=>s.toLowerCase(),Length:s=>s.length,IntToStr:String,CurrToStr:String,FloatToStr:String,VarToStr:v=>String(v??''),QuotedStr:v=>"'"+v.replaceAll("'","''")+"'",Pos:(a,b)=>b.indexOf(a)+1,Copy:(s,start,len)=>s.slice(start-1,start-1+len),Troca:(s,a,b)=>s.split(a).join(b),CorteAte:(s,c)=>s.includes(c)?s.slice(0,s.indexOf(c)):s,CorteApos:(s,c)=>s.includes(c)?s.slice(s.indexOf(c)+1):'',Assigned:v=>v!=null,iif:(c,a,b)=>c?a:b,VarArrayOf:v=>v,Round:Math.round,TickDiff:(a,b)=>b-a,
     Exception:{Create:error},TStringList:{get Create(){return list();}},TClientDataSet:Object.defineProperty(v=>v,'Create',{get:()=>dataset()}),
     StrToInt:s=>{if(!/^[+-]?\d+$/.test(s.trim())||+s>2147483647||+s< -2147483648)throw error('Inteiro inválido');return +s;},
     StrToFloat:s=>{if(!/^[+-]?(?:\d+(?:[.,]\d*)?|[.,]\d+)$/.test(s.trim()))throw error('Número inválido');return +s.replace(',','.');},
@@ -24,7 +24,7 @@ export function environment(){
     TJSONObject:{ParseJSONValue:s=>{try{return json(JSON.parse(s));}catch{return null;}}},TJSONArray:v=>v,
     ExecutarMetodoDeObjeto:(obj,m,args)=>{if(m==='GetPair')return obj.pairs[args[0]];throw error(m);},GetPairName:p=>p[0],GetPairValue:p=>JSON.stringify(p[1]),
     GetValueJson:(text,tag)=>{const v=JSON.parse(text)[tag];if(v===undefined)throw error('Tag ausente: '+tag);if(v!==null&&typeof v==='object')throw error('Objeto não é escalar');return v==null?'':String(v);},
-    RegistrarLogEmModoDebug:text=>{if(api.FModoDebug){api.FLogsCasoTeste.Add(text);log.push(text);}},DelimitadorLog:text=>api.RegistrarLogEmModoDebug(text),
+    RegistrarLog:text=>{api.FLogsCasoTeste.Add(text);log.push(text);},DelimitadorLog:text=>api.RegistrarLog(text),
     TDDScalarODBCP:(sql,params)=>{if(api.failHistory)throw error('histórico indisponível');histories.push([...params]);return 96;},
     TDDCommandODBCP:(sql,params)=>{if(sql.includes('METRICAS_ASSERTS')){if(api.failAsserts)throw error('asserts indisponível');assertRows.push([...params]);}else tickRows.push([...params]);},
   };

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {environment,dataset} from './ambiente.mjs';
 const e=environment(),a=e.api;
 e.load('docs/assets/emDesenvolvimento/Runner/P39_TDD_RUN_ASSERTS.pas',['InicializarAcumulo','RegistrarDataSet','RegistrarResultado','AssertsPassou','AssertsFalhou','AssertsZerar','AssertsTotal','AssertsPass','AssertsFail','AssertsOk','AssertsResumo']);
-e.load('docs/assets/emDesenvolvimento/P39_TDD_VALIDAR_RESULTADO.pas',['GetOperacao','AplicarOperacaoNumerica','OperacaoDescricao','CompararCampoPorTipo','CompararValor','ConverterParaCurrency']);
+e.load('docs/assets/emDesenvolvimento/P39_TDD_RUN_VALIDAR_RESULTADO.pas',['GetOperacao','AplicarOperacaoNumerica','OperacaoDescricao','CompararCampoPorTipo','CompararValor','ConverterParaCurrency']);
 for(const type of ['ftInteger','ftCurrency','ftDateTime']){
   const value=type==='ftDateTime'?'2026-10-15':'10';
   for(const op of [1,2]){a.AssertsZerar();a.CompararCampoPorTipo(type,value,value,op,'limite');assert.equal(a.AssertsOk,false,`${type}: limite igual não satisfaz maior/menor`);}

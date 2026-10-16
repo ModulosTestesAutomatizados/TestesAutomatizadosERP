@@ -38,7 +38,7 @@ function setup(){
 {
  const e=setup(),a=e.api;
  e.load('docs/assets/emDesenvolvimento/Runner/P39_TDD_RUN_ASSERTS.pas',['InicializarAcumulo','RegistrarResultado','AssertsPassou','AssertsFalhou','AssertsZerar','AssertsTotal','AssertsPass','AssertsFail','AssertsOk','AssertsResumo']);
- e.load('docs/assets/emDesenvolvimento/P39_TDD_VALIDAR_RESULTADO.pas',['GetOperacao','AplicarOperacaoNumerica','OperacaoDescricao','CompararQuantidadeErros','CompararValores','CompararTempo','FinalizarComparacao','CompararComJSON']);
+ e.load('docs/assets/emDesenvolvimento/P39_TDD_RUN_VALIDAR_RESULTADO.pas',['GetOperacao','AplicarOperacaoNumerica','OperacaoDescricao','CompararQuantidadeErros','CompararValores','CompararTempo','FinalizarComparacao','CompararComJSON']);
  a.AssertsZerar();a.AssertsPassou('verificação explícita');
  a.CompararComJSON('{"resultadoEsperado":{"erro":{"quantidade":0,"operacao":"Igual"}}}');assert.deepEqual([a.AssertsTotal,a.AssertsPass,a.AssertsFail],[2,2,0]);
  a.CompararComJSON('{"resultadoEsperado":{}}');assert.deepEqual([a.AssertsTotal,a.AssertsPass,a.AssertsFail],[2,2,0]);

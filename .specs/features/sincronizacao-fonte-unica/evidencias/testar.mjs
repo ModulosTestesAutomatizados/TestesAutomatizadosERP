@@ -4,7 +4,7 @@ import {environment,error} from '../../irunner-asserts-modulo/evidencias/ambient
 import {compile} from '../../irunner-asserts-modulo/evidencias/pascal.mjs';
 const root=process.env.RUN_TEST_ROOT??process.cwd();
 const registration='docs/assets/configuracoesGerais/Sincronizar/P39_TDD_REGISTRAR_CASO_TESTE.pas';
-const validation='docs/assets/emDesenvolvimento/P39_TDD_VALIDAR_RESULTADO.pas';
+const validation='docs/assets/emDesenvolvimento/P39_TDD_RUN_VALIDAR_RESULTADO.pas';
 const read=p=>fs.readFileSync(path.join(root,p),'utf8');
 const group=process.argv[2];let checks=0;
 function test(g,name,fn){if(group&&group!==g)return;fn();checks++;console.log('PASS '+name);}
