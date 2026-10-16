@@ -1,4 +1,4 @@
-uses P39_TDD_ODBC, TDD_LOGS, TDD_STARTED, TDD_FINISHED;
+uses TDD_RUN_STARTED, TDD_RUN_MODULO, TDD_VALIDAR_RESULTADO, TDD_RUN_FINISHED;
 
 type
   THistoricoExecucao  = record
@@ -27,7 +27,7 @@ type
   TMetricasAsserts     = record
     //AutoIncHistorico :integer; // FK
     EtapaCasoTeste     :integer;
-    TempoTotal         :Cardinal;
+    TempoTotal         :Integer;
     AssertsTotal       :integer;
     AssertsAprovados   :integer;
     AssertsFalhos      :integer;
@@ -56,30 +56,35 @@ var
 procedure Main;
 var lInstrucoes :string;
 begin
-  lInstrucoes := 'Unit responsável pela carga do lote, contexto individual e métricas de tempo.'                           + #13 +
-    '====================================================================================================================' + #13 +
-    'Métodos de preparação:'                                                                                               + #13 +
-    'function SetupCasosTestes(const pDescricaoModulo, pDescricaoArea :string) :Boolean'                                   + #13 +
-    '  - Carrega os casos ativos do módulo/área uma vez antes do loop da casca.'                                           + #13 +
-    'procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea :string)'                                                   + #13 +
-    '  - Reinicia histórico, erros e etapa; prepara o contexto do registro corrente sem mover o cursor.'                   + #13 +
-    '====================================================================================================================' + #13 +
-    'Métodos de métricas:'                                                                                                 + #13 +
-    'procedure InicializarMetricasTickDiff / LiberarMetricasTickDiff'                                                      + #13 +
-    '  - Cria os tempos de uma tentativa e libera seu CDS pelos métodos existentes.'                                       + #13 +
-    'procedure RegistrarTick(pPontoTick :integer; pNomeMetodo :string)'                                                    + #13 +
-    '  - Registra tempos relativos à tentativa; zero no fim identifica uma métrica aberta.'                                + #13 +
-    '  - Trata a virada do contador e valida o limite Integer antes de gravar o CDS.'                                      + #13 +
-    'function PreencherComZeros(pValor :Cardinal; pTamanho :Integer) :string'                                              + #13 +
-    'function FormatarTickDiff(pTempoMs :Cardinal) :string'                                                                + #13 +
-    '  - Métodos de apoio à formatação das durações.'                                                                      + #13 +
-    '====================================================================================================================' + #13 +
-    'Contrato compartilhado:'                                                                                              + #13 +
-    'FHistoricoExecucao, FContextoCasoTeste, FNomeMetodoAtual e FEtapaAtual pertencem ao fluxo da casca.'                  + #13 +
-    'Os logs usam TDD_LOGS; a casca limpa FLogsCasoTeste por tentativa e libera a lista no fim do lote.'                   + #13 +
-    'FExibirInstrucoes controla a exibição destas instruções.'                                                             + #13 +
+  lInstrucoes := 'Unit responsável pela carga do lote, contexto individual e métricas de tempo.'                            + #13 +
+    '===================================================================================================================='  + #13 +
+    'Estado compartilhado:'                                                                                                 + #13 +
+    'FHistoricoExecucao :THistoricoExecucao'                                                                                + #13 +
+    '  - Variável global com o tipo de um type record THistoricoExecucao com a finalidade de manter os dados a registrar.'  + #13 +
+    'FContextoCasoTeste :TContextoCasoTeste'                                                                                + #13 +
+    '  - Variável global com o tipo de um type record TContextoCasoTeste com a finalidade de manter os dados a registrar.'  + #13 +
+    'FNomeMetodoAtual :string'                                                                                              + #13 +
+    '  - Registra qual o método foi iniciado para facilitar manutenção e registro de execução.'                             + #13 +
+    'FEtapaAtual :integar'                                                                                                  + #13 +
+    '  - Registra a etapa do processo TDD para análise de progresso e registro de execução.'                                + #13 +
+    '===================================================================================================================='  + #13 +
+    'Métodos disponibilizados pela Unit:'                                                                                   + #13 +
+    'function SetupCasosTestes(const pDescricaoModulo, pDescricaoArea :string) :Boolean'                                    + #13 +
+    '  - Carrega os casos ativos do módulo/área uma vez antes do loop da casca.'                                            + #13 +
+    'procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea :string)'                                                    + #13 +
+    '  - Reinicia histórico, erros e etapa; prepara o contexto do registro corrente sem mover o cursor.'                    + #13 +
+    '===================================================================================================================='  + #13 +
+    'Métodos de métricas:'                                                                                                  + #13 +
+    'procedure InicializarMetricasTickDiff / LiberarMetricasTickDiff'                                                       + #13 +
+    '  - Cria os tempos de uma tentativa e libera seu CDS pelos métodos existentes.'                                        + #13 +
+    'procedure RegistrarTick(pPontoTick :integer; pNomeMetodo :string)'                                                     + #13 +
+    '  - Registra tempos relativos à tentativa; zero no fim identifica uma métrica aberta.'                                 + #13 +
+    '  - Trata a virada do contador e valida o limite Integer antes de gravar o CDS.'                                       + #13 +
+    'function PreencherComZeros(pValor :Cardinal; pTamanho :Integer) :string'                                               + #13 +
+    'function FormatarTickDiff(pTempoMs :Cardinal) :string'                                                                 + #13 +
+    '  - Métodos de apoio à formatação das durações.'                                                                       + #13 +
     '====================================================================================================================';
-  {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_RUNNER', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_RUN_RUNNER', lInstrucoes);
 end;
 
 {$region Setup Casos de Testes}
@@ -95,8 +100,8 @@ begin
     raise Exception.Create('Módulo e área devem ser informados para carregar os casos de teste.');
 
   CallBack_Mensagem(ClassOwner, '[SETUP CASOS DE TESTE INICIADO]');
-  {P39_TDD_LOGS.}DelimitadorLog('SETUP CASOS DE TESTE');
-  {P39_TDD_LOGS.}RegistrarLogEmModoDebug(
+  {P39_TDD_RUN_LOGS.}DelimitadorLog('SETUP CASOS DE TESTE');
+  {P39_TDD_RUN_LOGS.}RegistrarLogEmModoDebug(
     'Módulo: ' + pDescricaoModulo + #13 +
     'Área: ' + pDescricaoArea
   );
@@ -107,8 +112,12 @@ begin
 
     if FEstruturaCasoTesteIniciada then
     begin
-      CDSCasosTestes.EmptyDataSet;
-      CDSResultadoEsperado.EmptyDataSet;
+      CDSCasosTestes.First;
+      while not CDSCasosTestes.IsEmpty do
+        CDSCasosTestes.Delete;
+      CDSResultadoEsperado.First;
+      while not CDSResultadoEsperado.IsEmpty do
+        CDSResultadoEsperado.Delete;
     end;
 
     {P39_TDD_CASOS_DE_TESTE.}CarregarCasosTeste;
@@ -116,19 +125,19 @@ begin
     FContextoCasoTeste.DescricaoModulo := pDescricaoModulo;
     FContextoCasoTeste.DescricaoArea := pDescricaoArea;
 
-    {P39_TDD_LOGS.}RegistrarLogEmModoDebug(
+    {P39_TDD_RUN_LOGS.}RegistrarLogEmModoDebug(
       'Estrutura de casos de teste inicializada' + #13 +
       'Módulo/Área configurados'                 + #13 +
       'Casos de teste carregados'
     );
 
-    {P39_TDD_LOGS.}RegistrarLogEmModoDebug('Casos de teste carregados: ' + IntToStr(CDSCasosTestes.RecordCount));
+    {P39_TDD_RUN_LOGS.}RegistrarLogEmModoDebug('Casos de teste carregados: ' + IntToStr(CDSCasosTestes.RecordCount));
 
     Result := True;
   except
     on E: Exception do
     begin
-      {P39_TDD_LOGS.}RegistrarLogEmModoDebug('ERRO NO SETUP: ' + E.Message);
+      {P39_TDD_RUN_LOGS.}RegistrarLogEmModoDebug('ERRO NO SETUP: ' + E.Message);
       raise Exception.Create('Falha ao carregar os casos de teste: ' + E.Message);
     end;
   end;
@@ -151,6 +160,15 @@ begin
   FHistoricoExecucao.MensagemErro      := '';
   FHistoricoExecucao.LogsProcessamento := '';
 
+  FMetricasAsserts.EtapaCasoTeste := 0;
+  FMetricasAsserts.TempoTotal := 0;
+  FMetricasAsserts.AssertsTotal := 0;
+  FMetricasAsserts.AssertsAprovados := 0;
+  FMetricasAsserts.AssertsFalhos := 0;
+  FMetricasAsserts.ResultadoEsperado := '';
+  FMetricasAsserts.ResultadoObtido := '';
+  AssertsZerar;
+
   FNomeMetodoAtual                      := 'PREPARAÇÃO DO CASO';
   FEtapaAtual                           := 0;
   FCasoTesteAtualId                     := 0;
@@ -164,6 +182,8 @@ begin
   FHistoricoExecucao.AutoIncCasoTeste := CDSCasosTestes.FieldByName('ID').AsInteger;
   FHistoricoExecucao.RequisitoVersao := CDSCasosTestes.FieldByName('REQUISITOVERSAO').AsString;
   FContextoCasoTeste.DescricaoCasoTeste := CDSCasosTestes.FieldByName('DESCRICAO').AsString;
+  if CDSResultadoEsperado.FindKey([FHistoricoExecucao.AutoIncCasoTeste]) then
+    FResultadoEsperadoCaso := CDSResultadoEsperado.FieldByName('RESULTADO_ESPERADO').AsString;
 end;
 {$endregion}
 
@@ -175,8 +195,11 @@ end;
 procedure LiberarMetricasTickDiff;
 begin
   if Assigned(FCDSMetricasTickDiff) then
+  begin
     FCDSMetricasTickDiff.Free;
-  {P39_TDD_LOGS}RegistrarLogEmModoDebug('Memória liberada para o CDS de Métricas Tick.');
+    FCDSMetricasTickDiff := nil;
+  end;
+  {P39_TDD_RUN_LOGS}RegistrarLogEmModoDebug('Memória liberada para o CDS de Métricas Tick.');
 end;
 
 procedure InicializarMetricasTickDiff;
@@ -197,7 +220,7 @@ begin
   FCDSMetricasTickDiff.DisableControls;
   FCDSMetricasTickDiff.LogChanges      := False;
   FCDSMetricasTickDiff.IndexFieldNames := 'NOME_METODO';
-  {P39_TDD_LOGS}RegistrarLogEmModoDebug('Criado o DataSet para o CDS de Métricas Tick.');
+  {P39_TDD_RUN_LOGS}RegistrarLogEmModoDebug('Criado o DataSet para o CDS de Métricas Tick.');
 end;
 {$endregion}
 
@@ -239,10 +262,13 @@ begin
   // Recebe o Cardinal bruto em Double e só converte o tempo relativo validado.
   lTempoDecorrido := GetTickCount;
   lTempoDecorrido := lTempoDecorrido - FTempoBaseTick;
+
   if lTempoDecorrido < 0 then
     lTempoDecorrido := lTempoDecorrido + 4294967296.0;
+
   if lTempoDecorrido > 2147483646 then
     raise Exception.Create('Tempo da tentativa excedeu o limite Integer das métricas.');
+
   // Zero continua reservado para uma métrica em aberto.
   lTempoTick := lTempoDecorrido + 1;
 
@@ -271,7 +297,7 @@ begin
         FCDSMetricasTickDiff.FieldByName('TEMPO_INICIO').AsInteger     := lTempoTick;
         FCDSMetricasTickDiff.FieldByName('TEMPO_FIM').AsInteger        := 0; // Registra como zero para identificar que ainda precisa desse registro no Fim da execução.
         FCDSMetricasTickDiff.Post;
-        {P39_TDD_LOGS}RegistrarLogEmModoDebug('INICIOU ' + pNomeMetodo);
+        {P39_TDD_RUN_LOGS}RegistrarLogEmModoDebug('INICIOU ' + pNomeMetodo);
       end;
     1:
       begin
@@ -292,7 +318,7 @@ begin
             FCDSMetricasTickDiff.FieldByName('TEMPO_TOTAL').AsInteger          := lTempoTotal;
             FCDSMetricasTickDiff.FieldByName('TEMPO_TOTAL_FORMATADO').AsString := FormatarTickDiff(lTempoTotal);
             FCDSMetricasTickDiff.Post;
-           {P39_TDD_LOGS}RegistrarLogEmModoDebug('ENCERROU ' + pNomeMetodo);
+           {P39_TDD_RUN_LOGS}RegistrarLogEmModoDebug('ENCERROU ' + pNomeMetodo);
           end
           else
             raise Exception.Create('Não foi encontrado o registro de INÍCIO aberto para: ' + pNomeMetodo);
@@ -304,7 +330,7 @@ begin
     raise Exception.Create('Não é possível registrar métrica Tick para ponto: ' + IntToStr(pPontoTick));
   end; // <-- Fim do Case
 
-  {P39_TDD_LOGS.}RegistrarLogEmModoDebug(
+  {P39_TDD_RUN_LOGS.}RegistrarLogEmModoDebug(
     'Tick Registrado!'                                        + #13 +
     '| Ponto: "' + IntToStr(pPontoTick) + '" = ' + lPontoTick + #13 +
     '| Método: ' + pNomeMetodo

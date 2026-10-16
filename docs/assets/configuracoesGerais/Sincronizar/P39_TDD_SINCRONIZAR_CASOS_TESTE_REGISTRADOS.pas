@@ -1,4 +1,4 @@
-﻿uses TDD_REGISTRAR_CASO_TESTE;
+uses TDD_REGISTRAR_CASO_TESTE;
 
 var FSincRemoto :Boolean;
 
@@ -22,7 +22,7 @@ begin
     'O formato esperado do parâmetro de REQUISITO_VERSAO em RegistrosCasosTestes é: ''xxx.yy''.'                               + #13 +
     'RegistrosCasosTestes utiliza CarregarConteudoUnit, o booleano true adiciona o prefixo remoto ao nome das units.'          + #13 +
     '====================================================================================================================';
-  {P39_TDD_REGISTRAR_CASO_TESTE -> P39_TDD_ODBC -> P39_TDD_CONSTANTES -> P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS', lInstrucoes);
+  {P39_TDD_REGISTRAR_CASO_TESTE -> P39_TDD_ODBC -> P39_TDD_CONSTANTES -> P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS', lInstrucoes);
 end;
 
 procedure Sincronizar;
