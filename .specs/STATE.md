@@ -14,7 +14,7 @@ As decisões e o handoff da estabilização anterior foram preservados integralm
 ## Handoff
 
 - **Feature:** .specs/features/conhecimento-agentes/spec.md.
-- **Phase:** três entregas locais implementadas; revisão independente TLC final pendente. Não declarar PASS antes de validation.md e validate_state.
+- **Phase:** três entregas locais implementadas. Primeira revisão encontrou KNOW-03 (normalização CRLF/LF dos metadados); correção e regressão passaram, aguardando rechecagem independente final. Não declarar PASS antes de validation.md e validate_state.
 - **Completed:** llms.txt, knowledge/index.json (schemaVersion/contentVersion), Markdown por documento público; códigos/cânones/citações/estados/símbolos/fontes preservados; base Vite, plugin dev/build e rel describedby; skill consultar-documentacao-tdd e guia /guias/agentes. ESLint passa também sobre config/*.ts.
 - **Verification:** check/build, fixture knowledge.mjs e HTTP knowledge-http.mjs passaram (28 Markdown, 73 links locais, âncoras e conhecimento LOGS). Asset-gate e git-index-paths passaram; duas skills validadas; dev JSON bruto HTTP 200. Testes/tools ignorados. Nenhum diff em Pascal ou Mermaids.
 - **Next step:** revisão independente dos sete KNOW-01..07 e sensor em cópia ignorada; consolidar parecer. Envio desta extensão ao remoto ainda não realizado.

@@ -3,7 +3,7 @@
   "promote_threshold": 2,
   "window_days": 45,
   "quarantine_threshold": 2,
-  "next_id": 2,
+  "next_id": 3,
   "lessons": [
     {
       "id": "L-001",
@@ -22,6 +22,24 @@
       ],
       "created": "2026-10-14T18:29:02Z",
       "last_seen": "2026-10-14T18:29:02Z"
+    },
+    {
+      "id": "L-002",
+      "key": "ac_gap::normalize strings dos metadados antes de serializar json para hashes que consideram crlf e lf equivalentes",
+      "text": "Normalize strings dos metadados antes de serializar JSON para hashes que consideram CRLF e LF equivalentes.",
+      "signal": "ac_gap",
+      "scope": "Documentacoes/config",
+      "status": "candidate",
+      "features": [
+        "conhecimento-agentes"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "KNOW-03 (Documentacoes/config)"
+      ],
+      "created": "2026-10-19T10:26:55Z",
+      "last_seen": "2026-10-19T10:26:55Z"
     }
   ]
 }
