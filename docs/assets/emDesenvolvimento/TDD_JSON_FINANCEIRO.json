@@ -1,0 +1,19 @@
+{
+  "EMPRESA_DUP":1,
+  "TIPODOC_DUP":11,
+  "QUALIFICACAO_DUP":1,
+  "PESSOA_DUP":0,
+  "VALOR_DUP":0,
+  "GRUPORESULTADO_DUPGR":0,
+  "CONTA_BORD":5,
+  "PESSOANOTACREDITO_BORD":3256,
+  "PRAZOVENCIMENTO_DUP":30,
+  "parametros": {
+    "NecessarioAutorizarPagamentos": false,
+    "NecessarioAutorizarAdiantamentos": false,
+    "ObrigatorioGrupoResultadoDiferenteDeZeroNaDuplicata": true,
+    "OcultarDuplicataPagarSalario": false,
+    "BloquearLancamentoBorderoQualificacao0Todas": false,
+    "BorderoExigirPreenchimentoRegraIntegracaoContabil": false
+  } 
+}
