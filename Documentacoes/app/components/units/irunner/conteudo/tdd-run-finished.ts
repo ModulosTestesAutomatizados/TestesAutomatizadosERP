@@ -4,7 +4,7 @@ export default criarDocumentoUnit({
   "resumo": "Encerrar tempos, consolidar evidências e persistir histórico, asserts agregados e ticks.",
   "responsabilidade": "Encerrar tempos, consolidar evidências e persistir histórico, asserts agregados e ticks.",
   "problema": "Salvar evidências inclusive parciais sem atribuir persistência à casca ou ao validador.",
-  "fonte": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_FINISHED.pas",
+  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_FINISHED.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [
@@ -21,13 +21,13 @@ export default criarDocumentoUnit({
   "metodos": [
     [
       "procedure Main;",
-      "Apresenta as instruções conforme FExibirInstrucoes; quando é entrada do molde/processamento, executa também a orquestração descrita abaixo.",
-      "Implementação no fonte, linha 1. Atribuições e fluxo locais seguem o contrato descrito acima."
+      "Apresenta as instruções da unit conforme FExibirInstrucoes.",
+      "Declaração no fonte atual, linha 1. Consulte a implementação canônica vinculada."
     ],
     [
       "procedure RegistrarMetricas;",
       "Insere o histórico de FHistoricoExecucao e obtém o ID retornado. Persiste os registros de FCDSMetricasTickDiff vinculados ao histórico dessa tentativa. Encerra ticks abertos e tenta gravar o histórico mesmo se esse encerramento falhar.",
-      "Implementação no fonte, linha 23. Operações chamadas: Assigned, FieldByName, RegistrarTick, RegistrarLogEmModoDebug, Trim, FindKey."
+      "Declaração no fonte atual, linha 23. Consulte a implementação canônica vinculada."
     ]
   ],
   "implementacao": [
@@ -38,8 +38,6 @@ export default criarDocumentoUnit({
   ],
   "dependencias": [],
   "limites": [
-    "Fonte local e documentação não comprovam cadastro remoto instalado ou homologação no ERP. APIs do host e efeitos financeiros precisam de evidência própria.",
-    "A casca atual libera FLogsCasoTeste no encerramento sem atribuir nil. A reexecução no mesmo contexto permanece uma limitação conhecida; não declarar a suíte toda aprovada.",
-    "O uses TDD_VALIDAR_RESULTADO em TDD_RUN_RUNNER ainda difere do arquivo P39_TDD_RUN_VALIDAR_RESULTADO. A citação documental resolve o assunto, mas não comprova que esse identificador está instalado no interpretador."
+    "Fonte local e documentação não comprovam cadastro remoto instalado ou homologação no ERP. APIs do host e efeitos financeiros precisam de evidência própria."
   ]
 });

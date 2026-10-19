@@ -37,7 +37,7 @@ export default criarDocumentoUnit({
     [
       "FModulo: Integer",
       "Identificador do módulo de casos.",
-      "SetModulo resolve pelo cache antes da carga e uso de RUN_MODULO."
+      "SetModulo resolve pelo cache antes da carga e uso de RUN_APPLICATION."
     ],
     [
       "FArea: Integer",
@@ -47,7 +47,7 @@ export default criarDocumentoUnit({
     [
       "FDescModulo: String",
       "Descrição do módulo ativo.",
-      "SetModulo preenche; lote e RUN_MODULO consomem."
+      "SetModulo preenche; lote e RUN_APPLICATION consomem."
     ],
     [
       "FDescArea: String",
@@ -125,7 +125,7 @@ export default criarDocumentoUnit({
   "implementacao": [
     "SetModulo/SetArea preenchem FModulo/FArea e as descrições usando o cache. CarregarCasosTeste inicia estruturas, valida contexto e carrega o conjunto de casos.",
     "CDSCasosTestes é o cursor controlado por ExecutarLote. CDSResultadoEsperado guarda ID e RESULTADO_ESPERADO_CT; CDSCamposDisponiveis e CDSConfiguracao mantêm projeções de configuração.",
-    "Setup_Inicializar_CasosTeste e TearDown_Finalizar_CasosTeste gerenciam datasets do lote. RUN_MODULO consome o contexto para operar telas, sem assumir a carga ou a propriedade desses dados."
+    "Setup_Inicializar_CasosTeste e TearDown_Finalizar_CasosTeste gerenciam datasets do lote. RUN_APPLICATION consome o contexto para operar telas, sem assumir a carga ou a propriedade desses dados."
   ],
   "dependencias": [
     "P39_TDD_CONSTANTES: cláusula uses do fonte.",

@@ -4,7 +4,7 @@ export default criarDocumentoUnit({
   "resumo": "Preparar lote e contexto corrente e medir tempos relativos por tentativa.",
   "responsabilidade": "Preparar lote e contexto corrente e medir tempos relativos por tentativa.",
   "problema": "Separar os records de execução e os ticks do cenário e da persistência.",
-  "fonte": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_RUNNER.pas",
+  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_RUNNER.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [
@@ -57,43 +57,43 @@ export default criarDocumentoUnit({
   "metodos": [
     [
       "procedure Main;",
-      "Apresenta as instruções conforme FExibirInstrucoes; quando é entrada do molde/processamento, executa também a orquestração descrita abaixo.",
-      "Implementação no fonte, linha 56. Atribuições e fluxo locais seguem o contrato descrito acima."
+      "Apresenta as instruções da unit conforme FExibirInstrucoes.",
+      "Declaração no fonte atual, linha 56. Consulte a implementação canônica vinculada."
     ],
     [
       "function SetupCasosTestes(const pDescricaoModulo, pDescricaoArea :string) :Boolean;",
       "Carrega os casos ativos do módulo/área uma vez antes do loop da casca.",
-      "Implementação no fonte, linha 95. Operações chamadas: if, Trim, or, Create, CallBack_Mensagem, DelimitadorLog."
+      "Declaração no fonte atual, linha 95. Consulte a implementação canônica vinculada."
     ],
     [
       "procedure SetarCasoTeste(pDescricaoModulo, pDescricaoArea :string);",
       "Reinicia histórico, erros e etapa; prepara o contexto do registro corrente sem mover o cursor.",
-      "Implementação no fonte, linha 152. Operações chamadas: FieldByName, FindKey."
+      "Declaração no fonte atual, linha 152. Consulte a implementação canônica vinculada."
     ],
     [
       "procedure LiberarMetricasTickDiff;",
       "Operação LiberarMetricasTickDiff do contrato desta unit; usa os parâmetros e retorno da assinatura, com os estados compartilhados descritos nesta página.",
-      "Implementação no fonte, linha 195. Operações chamadas: RegistrarLogEmModoDebug."
+      "Declaração no fonte atual, linha 195. Consulte a implementação canônica vinculada."
     ],
     [
       "procedure InicializarMetricasTickDiff;",
       "Cria os tempos de uma tentativa e libera seu CDS pelos métodos existentes.",
-      "Implementação no fonte, linha 205. Operações chamadas: RegistrarLogEmModoDebug."
+      "Declaração no fonte atual, linha 205. Consulte a implementação canônica vinculada."
     ],
     [
       "function PreencherComZeros(pValor :Cardinal; pTamanho :Integer) :string;",
       "Operação PreencherComZeros do contrato desta unit; usa os parâmetros e retorno da assinatura, com os estados compartilhados descritos nesta página.",
-      "Implementação no fonte, linha 232. Operações chamadas: IntToStr, Length."
+      "Declaração no fonte atual, linha 232. Consulte a implementação canônica vinculada."
     ],
     [
       "function FormatarTickDiff(pTempoMs :Cardinal) :string;",
       "Métodos de apoio à formatação das durações.",
-      "Implementação no fonte, linha 239. Operações chamadas: PreencherComZeros."
+      "Declaração no fonte atual, linha 239. Consulte a implementação canônica vinculada."
     ],
     [
       "procedure RegistrarTick(pPontoTick :integer; pNomeMetodo :string);",
       "Registra tempos relativos à tentativa; zero no fim identifica uma métrica aberta. Trata a virada do contador e valida o limite Integer antes de gravar o CDS.",
-      "Implementação no fonte, linha 255. Operações chamadas: Create, UpperCase, FindKey, IntToStr, FieldByName, RegistrarLogEmModoDebug."
+      "Declaração no fonte atual, linha 255. Consulte a implementação canônica vinculada."
     ]
   ],
   "implementacao": [
@@ -104,13 +104,11 @@ export default criarDocumentoUnit({
   ],
   "dependencias": [
     "TDD_RUN_STARTED: cláusula uses do fonte.",
-    "TDD_RUN_MODULO: cláusula uses do fonte.",
-    "TDD_VALIDAR_RESULTADO: cláusula uses do fonte.",
+    "TDD_RUN_APPLICATION: cláusula uses do fonte.",
+    "P39_TDD_RUN_VALIDAR_RESULTADO: cláusula uses do fonte.",
     "TDD_RUN_FINISHED: cláusula uses do fonte."
   ],
   "limites": [
-    "Fonte local e documentação não comprovam cadastro remoto instalado ou homologação no ERP. APIs do host e efeitos financeiros precisam de evidência própria.",
-    "A casca atual libera FLogsCasoTeste no encerramento sem atribuir nil. A reexecução no mesmo contexto permanece uma limitação conhecida; não declarar a suíte toda aprovada.",
-    "O uses TDD_VALIDAR_RESULTADO em TDD_RUN_RUNNER ainda difere do arquivo P39_TDD_RUN_VALIDAR_RESULTADO. A citação documental resolve o assunto, mas não comprova que esse identificador está instalado no interpretador."
+    "Fonte local e documentação não comprovam cadastro remoto instalado ou homologação no ERP. APIs do host e efeitos financeiros precisam de evidência própria."
   ]
 });

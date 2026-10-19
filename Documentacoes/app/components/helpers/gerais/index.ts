@@ -1,2 +1,3 @@
 import doc0 from './conteudo/p39-tdd-funcoes-json.ts';
-export default [doc0];
+import mapeamentoEventos from './conteudo/tdd-mapeamento-eventos.ts';
+export default [mapeamentoEventos, doc0];

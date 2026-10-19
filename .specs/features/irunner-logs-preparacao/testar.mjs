@@ -17,7 +17,7 @@ test('LOG-01/02 captura sempre, tela somente debug, instruções independentes',
   const e=environment(),a=e.api,shown=logger(e);a.FLogsCasoTeste=null;a.FModoDebug=false;
   a.RegistrarLog('sem debug');assert.match(a.FLogsCasoTeste.Text,/sem debug/);assert.equal(shown.length,0);
   a.DelimitadorLog('ETAPA');assert.match(a.FLogsCasoTeste.Text,/ETAPA/);assert.equal(shown.length,0);
-  a.FModoDebug=true;a.RegistrarLog('com debug');assert.match(a.FLogsCasoTeste.Text,/com debug/);assert.deepEqual(shown,[['[DEBUG]\rcom debug']]);
+  a.FModoDebug=true;a.RegistrarLog('com debug');assert.match(a.FLogsCasoTeste.Text,/com debug/);assert.deepEqual(shown,[['com debug','[DEBUG]']]);
   a.FExibirInstrucoes=false;a.MostrarInstrucoesUnit('UNIT','texto');assert.equal(shown.length,1);
   a.FExibirInstrucoes=true;a.FModoDebug=false;a.MostrarInstrucoesUnit('UNIT','texto');assert.equal(shown.length,2);
 });
@@ -53,7 +53,7 @@ function outer(label,debug=false,shared=false){
     // Simula a referência global compartilhada quando aplicável.
     if(shared)a.FLogsCasoTeste=context.api.FLogsCasoTeste;
   };
-  return {...e,generated:()=>captured,context:()=>context};
+  return {...e,previousLogs:a.FLogsCasoTeste,generated:()=>captured,context:()=>context};
 }
 test('LOG-03/04/05 dois contextos, dois casos e nova chamada não misturam logs',()=>{
   for(const shared of [false,true]){
@@ -64,7 +64,9 @@ test('LOG-03/04/05 dois contextos, dois casos e nova chamada não misturam logs'
       assert.match(text,new RegExp('EXCLUSIVO-CASO-'+(28+i)));
       assert.doesNotMatch(text,new RegExp('EXCLUSIVO-CASO-'+(29-i)));assert.doesNotMatch(text,/LOTE-ANTERIOR/);
     }
-    assert.equal(e.api.FLogsCasoTeste,null);assert.equal(c.api.FLogsCasoTeste,null);
+    assert.equal(e.api.FLogsCasoTeste,e.previousLogs);
+    assert.match(e.previousLogs.Text,/LOTE-ANTERIOR/);
+    assert.doesNotMatch(e.previousLogs.Text,/EXCLUSIVO-CASO/);
     assert.doesNotMatch(e.generated(),/__LOGS_PREPARACAO__/);
     const fresh=outer('SEGUNDO');fresh.api.Executar();for(const row of fresh.context().histories){assert.match(row[6],/UNIT_SEGUNDO/);assert.doesNotMatch(row[6],/UNIT_PRIMEIRO|LOTE-ANTERIOR/);}
   }
@@ -74,7 +76,7 @@ test('LOG-05 transporte preserva aspas, acentos, CR e LF sem executar texto do l
   const sample="Ação d'água\r\nsegunda\nterceira\r'; raise Exception.Create('NÃO EXECUTAR'); //";
   a.RegistrarLog=text=>{original(text);original(sample);};
   let observed;
-  a.Interpretar=source=>{const api={FModoDebug:true,FLogsPreparacao:'',ExecutarLote(){observed=api.FLogsPreparacao;}};compile(source,'Main',api)();};
+  a.Interpretar=source=>{const api=environment().api;api.ExecutarLote=()=>{observed=api.FLogsPreparacao;};compile(source,'Main',api)();};
   a.Executar();assert.ok(observed.includes(sample));assert.match(observed,/CÓDIGO GERADO/);
 });
 test('LOG-04 falha mantém preparação e diagnóstico no histórico sem debug',()=>{

@@ -50,7 +50,7 @@ test('APP-08 evento não abre Form: falha sem criação silenciosa',()=>{
   assert.throws(()=>e.api.AbrirTela('Contas a Receber'),/FCadReceber.*Receber1Click/);assert.ok(!e.calls.some(v=>v[0]==='criar'));
 });
 test('APP-09 piloto encaminha os quatro destinos antes dos mapeamentos',()=>{
-  for(const [method,type,expected] of [['_IncluirDuplicata',0,'EVENTO_INCLUIR_DUPLICATA_RECEBER'],['_IncluirDuplicata',1,'EVENTO_INCLUIR_DUPLICATA_PAGAR'],['_IncluirBordero',0,'EVENTO_INCLUIR_BORDERO_RECEBIMENTO'],['_IncluirBordero',1,'EVENTO_INCLUIR_BORDERO_PAGAMENTO']]){
+  for(const [method,type,expected] of [['_IncluirDuplicata',0,'DuplicatasaReceber1Click'],['_IncluirDuplicata',1,'DuplicatasaPagar1Click'],['_IncluirBordero',0,'BorderdeAcerto1Click'],['_IncluirBordero',1,'BorderdePagamento1Click']]){
     const e=environment(),a=e.api;const stop=error('ABERTURA-OBSERVADA'),seen=[];
     Object.assign(a,{cFormReceber:'FCadReceber',cFormPagar:'FCadPagar',cDMCadDuplicata:'DMCadDuplicata',FormCriadoPeloNome:()=>null,AbrirTela:value=>{seen.push(value);throw stop;}});
     e.load(financial,[method]);assert.throws(()=>a[method](type),/ABERTURA-OBSERVADA/);assert.deepEqual(seen,[expected]);
