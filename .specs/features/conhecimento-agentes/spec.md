@@ -1,6 +1,6 @@
 # Conhecimento documental para agentes
 
-**Status:** implementação autorizada pelo usuário após proposta em conversa. Extensão delimitada do build existente; três entregas locais.
+**Status:** implementação e revisão independente concluídas localmente em 2026-10-19. Sete critérios aprovados; sem publicação remota desta extensão.
 
 ## Problem Statement
 
@@ -46,13 +46,13 @@ Código contendo cercas Markdown, pipes em tabelas, aliases sem normalizar o nom
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| KNOW-01 | Consulta | Execute | Implemented |
-| KNOW-02 | Consulta | Execute | Implemented |
-| KNOW-03 | Consulta | Execute | Implemented |
-| KNOW-04 | Consulta | Execute | Implemented |
-| KNOW-05 | Consulta | Execute | Implemented |
-| KNOW-06 | Consulta | Execute | Implemented |
-| KNOW-07 | Consulta | Execute | Implemented |
+| KNOW-01 | Consulta | Execute | Verified local |
+| KNOW-02 | Consulta | Execute | Verified local |
+| KNOW-03 | Consulta | Execute | Verified local |
+| KNOW-04 | Consulta | Execute | Verified local |
+| KNOW-05 | Consulta | Execute | Verified local |
+| KNOW-06 | Consulta | Execute | Verified local |
+| KNOW-07 | Consulta | Execute | Verified local |
 
 ## Success Criteria
 
@@ -73,3 +73,5 @@ Entrega 2: skill consultar-documentacao-tdd e guia /guias/agentes publicados no 
 Entrega 3: relatório local registrado e fontes preservados (nenhum diff em docs/assets ou docs/MAPEAMENTO_AST_USES_UNITS). Gates: npm run check/build --prefix Documentacoes; node Documentacoes/tools/vite-migration/knowledge.mjs e knowledge-http.mjs; asset-gate.mjs e git-index-paths.mjs; quick_validate das skills. Revisão independente obrigatória após este commit, com sensor somente em cópia ignorada; a feature só será declarada verificada depois do parecer.
 
 Correção da primeira revisão (KNOW-03): normalizar recursivamente as strings dos metadados antes de JSON.stringify para hashing. O código/catálogo exportados continuam literais. A regressão demonstrou hashes distintos antes do fix e iguais depois para CRLF/LF em resumo, assinatura e cânones; alterações substantivas continuam mudando a versão. Check/build e HTTP passaram novamente. Lição candidata L-002 registrada pelo script TLC. Parecer final depende da rechecagem independente.
+
+Fechamento: rechecagem independente PASS em validation.md, range ab4a2d8..271111a. Sete critérios aprovados, sensor 1/1 morto e consulta pela skill com dono/assinatura/fontes/limites corretos. validate_state sem erros. Artefato e preview locais conferidos; ainda não enviado ao remoto. PR #26 já integrado em master, portanto publicação desta etapa será em um novo PR quando autorizada.

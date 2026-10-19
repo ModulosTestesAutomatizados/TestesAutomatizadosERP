@@ -14,11 +14,11 @@ As decisões e o handoff da estabilização anterior foram preservados integralm
 ## Handoff
 
 - **Feature:** .specs/features/conhecimento-agentes/spec.md.
-- **Phase:** três entregas locais implementadas. Primeira revisão encontrou KNOW-03 (normalização CRLF/LF dos metadados); correção e regressão passaram, aguardando rechecagem independente final. Não declarar PASS antes de validation.md e validate_state.
+- **Phase:** concluída localmente; revisão independente PASS 7/7 em validation.md e validate_state sem erros. Falha inicial KNOW-03 corrigida em 271111a, com regressão CRLF/LF e rechecagem aprovada.
 - **Completed:** llms.txt, knowledge/index.json (schemaVersion/contentVersion), Markdown por documento público; códigos/cânones/citações/estados/símbolos/fontes preservados; base Vite, plugin dev/build e rel describedby; skill consultar-documentacao-tdd e guia /guias/agentes. ESLint passa também sobre config/*.ts.
 - **Verification:** check/build, fixture knowledge.mjs e HTTP knowledge-http.mjs passaram (28 Markdown, 73 links locais, âncoras e conhecimento LOGS). Asset-gate e git-index-paths passaram; duas skills validadas; dev JSON bruto HTTP 200. Testes/tools ignorados. Nenhum diff em Pascal ou Mermaids.
-- **Next step:** revisão independente dos sete KNOW-01..07 e sensor em cópia ignorada; consolidar parecer. Envio desta extensão ao remoto ainda não realizado.
+- **Next step:** aguardar instruções de publicação desta extensão por novo PR. PR #26 já integrado em master (26ca11c); extensão ainda não enviada ao remoto.
 - **Branch/worktree:** TestesAutomatizadosERP-docs, somente este worktree. Sem ERP, SQL, novas dependências, branches ou worktrees.
-- **Publicação anterior:** PR #26 atualizado até ab4a2d8 após integrar master/PR #27; build Ubuntu com npm ci/check/build passou. Correção de capitalização Sincronizar incorporada. Nenhum merge/deploy feito pelo agente. Esse PASS Linux antecede a extensão de conhecimento.
-- **Dev:** http://127.0.0.1:5173/TestesAutomatizadosERP/; /knowledge/index.json confirmado com 28 documentos.
-- **Commits da extensão:** 31affb1 exportação; 807089d skill/guia; relatório e evidências no commit deste registro. Escopo e fontes da migração anterior preservados em portal-vite-slices/validation.md e reconciliacao-fontes.md.
+- **Publicação anterior:** PR #26 atualizado até ab4a2d8 após integrar master/PR #27, com build Ubuntu npm ci/check/build aprovado; integrado em 2026-10-16 pelo usuário. Origin/master contém apenas o merge 26ca11c além da base ab4a2d8, sem diferença de conteúdo. Esse PASS Linux antecede a extensão de conhecimento.
+- **Dev:** http://127.0.0.1:5173/TestesAutomatizadosERP/, sessão exec 94824; llms.txt HTTP 200 text/plain. /guias/agentes e /knowledge/index.json disponíveis no mesmo prefixo.
+- **Commits da extensão:** 31affb1 exportação; 807089d skill/guia; 9548f92 gates locais; 271111a correção de metadados e primeiro parecer; fechamento no commit deste registro. Sensor 1/1 morto, árvore isolada preservada; consulta pela skill encontrou LOGS corretamente. Lição candidata L-002 registrada. Escopo e fontes da migração anterior preservados em portal-vite-slices/validation.md e reconciliacao-fontes.md.

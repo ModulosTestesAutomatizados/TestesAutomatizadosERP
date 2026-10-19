@@ -2,7 +2,7 @@
 
 ## Realização
 
-Implementada exportação estática gerada do catálogo: llms.txt, índice JSON versionado e Markdown por documento público. O plugin valida os cânones antes da projeção; preserva códigos literais, Mermaid, referências, estados e evidências. Adicionada skill de consulta TDD e guia no portal. Implementação local concluída; revisão independente final pendente neste registro.
+Implementada exportação estática gerada do catálogo: llms.txt, índice JSON versionado e Markdown por documento público. O plugin valida os cânones antes da projeção; preserva códigos literais, Mermaid, referências, estados e evidências. Adicionada skill de consulta TDD e guia no portal. Implementação e revisão independente concluídas localmente: sete critérios aprovados, sem gaps pendentes.
 
 ## Fontes modificados
 
@@ -18,6 +18,9 @@ Implementada exportação estática gerada do catálogo: llms.txt, índice JSON 
 - .agents/skills/consultar-documentacao-tdd/SKILL.md
 - .agents/skills/contribuir-documentacao/SKILL.md
 - .specs/features/conhecimento-agentes/spec.md
+- .specs/features/conhecimento-agentes/validation.md
+- .specs/LESSONS.md
+- .specs/lessons.json
 - .specs/STATE.md
 
 ## p/ teste
@@ -29,7 +32,7 @@ Implementada exportação estática gerada do catálogo: llms.txt, índice JSON 
 
 Check/build aprovados. Fixture local cobre sete tipos de bloco, aliases, símbolos/assinaturas, navegação, fontes, evidência ERP, hidden, versão determinística e alterada, novos registros, cercas internas e cânone ausente. HTTP verificou 28 Markdown, 73 links locais, âncoras e metadados LOGS sem executar Vue. Dev retornou application/json e schemaVersion 1. As duas skills passaram quick_validate. Gates anteriores de fonte/hash/case e coincidência com index Git também passaram. Todos os testes/tools permanecem ignorados.
 
-Os fontes Pascal e Mermaids não foram alterados. Não houve execução no ERP, backend, treinamento de modelos ou publicação remota desta extensão durante esses checks locais. A revisão independente acrescentará seu parecer e limites em validation.md.
+Os fontes Pascal e Mermaids não foram alterados. Não houve execução no ERP, backend, treinamento de modelos ou publicação remota desta extensão. A revisão independente aprovou os sete critérios e a consulta pela skill, preservando fontes e limites; o sensor de exclusão de ocultos foi morto. Corrigida a normalização CRLF/LF dos metadados do hash após a primeira revisão, com regressão antes/depois e lição candidata L-002. Parecer e histórico em validation.md; validate_state sem erros. Preview reiniciado em http://127.0.0.1:5173/TestesAutomatizadosERP/. PR #26 já foi integrado; nova etapa permanece em commits locais, pronta para novo PR.
 
 ## O que há de novo
 
