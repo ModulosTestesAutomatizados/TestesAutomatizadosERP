@@ -5,7 +5,7 @@ export default {
   resumo: 'Conhecimento TDD em Markdown e JSON, gerado do mesmo catálogo para consultas por agentes.',
   estado: 'em-uso', navegacao: { grupo: 'guias', ordem: 2 },
   fontes: [
-    { caminho: 'Documentacoes/app/components/contribuir/conteudo/agentes.ts' },
+    { caminho: '.agents/skills/consultar-documentacao-tdd/SKILL.md' },
     { caminho: 'Documentacoes/config/knowledge.ts' }
   ],
   secoes: [
@@ -29,7 +29,7 @@ https://modulostestesautomatizados.github.io/TestesAutomatizadosERP/knowledge/in
       { tipo: 'paragrafo', texto: 'Para FCDSCasosTestes, consulte também aliases de símbolos para chegar a P39_TDD_CASOS_DE_TESTE. Para RegistrarLog e FModoDebug, leia TDD_RUN_LOGS e suas limitações. Um fluxo pode citar um estado sem ser seu proprietário.' }
     ] },
     { id: 'skill', titulo: 'Skill de consulta e exemplo de pedido', blocos: [
-      { tipo: 'aviso', severidade: 'info', texto: 'A skill consultar-documentacao-tdd ainda não está presente neste worktree. Até sua disponibilização, use os passos e o exemplo deste guia para consultar o índice e os documentos exportados. Para editar o portal, use contribuir-documentacao.' },
+      { tipo: 'paragrafo', texto: 'A skill consultar-documentacao-tdd está em .agents/skills/consultar-documentacao-tdd/SKILL.md. Ela orienta consulta local ou publicada, seleção por símbolo, leitura de dependências e citação de evidências. Para editar o portal, use contribuir-documentacao. Cada ferramenta de IA precisa ser configurada para carregar a skill ou receber o endereço do índice na tarefa.' },
       { tipo: 'codigo', linguagem: 'texto', codigo: `Consulte o llms.txt da documentação TDD e seu índice JSON.
 Localize a unit proprietária de FModoDebug e a assinatura de RegistrarLog.
 Leia o Markdown correspondente e explique quando a mensagem é armazenada e exibida.

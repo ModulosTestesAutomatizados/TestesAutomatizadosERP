@@ -103,7 +103,10 @@ export function gerarConhecimento(pDocumentos: IDocumento[], pAssets: Map<string
     ...listas,
     ...(inventarios.length ? ['## Inventários de dependências\n\n' + inventarios.map(pCaminho => `- ${link(pCaminho, pBase + pCaminho)}: uses, origens locais e referências não resolvidas.`).join('\n')] : [])
   ].join('\n\n') + '\n'));
-  const hash = createHash('sha256').update(JSON.stringify({ schemaVersion: 1, documentos: registros }));
+  // Normaliza as strings antes de serializar; depois do stringify, CRLF já seria um escape JSON.
+  const metadados = JSON.stringify({ schemaVersion: 1, documentos: registros }, (pChave, pValor: unknown) =>
+    typeof pValor === 'string' ? pValor.replace(/\r\n/g, '\n') : pValor);
+  const hash = createHash('sha256').update(metadados);
   for (const caminho of [...output.keys(), ...inventarios].sort()) {
     hash.update(caminho).update('\0').update((output.get(caminho) ?? pAssets.get(caminho))!.toString('utf8').replace(/\r\n/g, '\n')).update('\0');
   }

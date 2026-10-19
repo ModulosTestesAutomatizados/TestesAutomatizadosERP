@@ -4,7 +4,7 @@ export default criarDocumentoUnit({
   "resumo": "Interpretar a configuração de resultado esperado e comparar erro, valor e tempo usando asserts.",
   "responsabilidade": "Interpretar a configuração de resultado esperado e comparar erro, valor e tempo usando asserts.",
   "problema": "Aplicar critérios JSON sobre capturas e métricas sem assumir o ciclo do runner ou reiniciar verificações.",
-  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_VALIDAR_RESULTADO.pas",
+  "fonte": "docs/assets/emDesenvolvimento/P39_TDD_RUN_VALIDAR_RESULTADO.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [

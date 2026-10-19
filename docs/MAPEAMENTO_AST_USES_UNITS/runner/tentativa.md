@@ -1,18 +1,18 @@
-# Fluxo individual
+# Fluxo da tentativa financeira
 
 ```mermaid
 flowchart TD
-  Cursor[Registro corrente do lote] --> Run[Run: limpar logs e repor preparacao]
-  Run --> Contexto[SetarCasoTeste e metricas]
-  Contexto --> Started[Started: parametros e contexto]
-  Started --> Teste[Teste financeiro]
-  Teste --> Teardown[Finally do teste: teardown financeiro]
-  Teardown --> Asserts[CompararResultadoEsperado]
-  Asserts --> Finished[Finally de Run: RegistrarMetricas]
-  Finished --> Limpeza[Limpar logs do caso]
-  Limpeza --> Proximo[Next pertence ao lote]
-  Teste -. excecao .-> Finished
-  Started -. excecao .-> Finished
+ C["SetarCasoTeste: reset e registro corrente"] --> T["Ticks e callbacks"]
+ T --> S["TDD_RUN_STARTED · versão e parâmetros"]
+ S --> F["TDD_FIN_FINANCEIRO.Teste"]
+ F --> G["4 operações financeiras"]
+ G --> P["RegistrarDataSet após gravar"]
+ P --> D["TEARDOWN no finally do Teste"]
+ D --> A["ASSERTS: CompararResultadoEsperado"]
+ A --> Q{"AssertsOk?"}
+ Q -- "sim" --> O["SUCESSO"]
+ Q -- "não" --> X["FALHA e diagnóstico"]
+ O --> Z["Callbacks finais e RegistrarMetricas"]
+ X --> Z
+ Z --> L["Limpar logs do caso"]
 ```
-
-Falhas preservam o caminho de persistência do finally. Uma falha que impede a continuidade segura pode interromper o lote depois da tentativa de histórico.

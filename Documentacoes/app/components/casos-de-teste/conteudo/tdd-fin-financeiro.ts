@@ -4,7 +4,7 @@ export default criarDocumentoUnit({
   "resumo": "Executar duplicata receber/pagar e borderô receber/pagar para o registro corrente.",
   "responsabilidade": "Executar duplicata receber/pagar e borderô receber/pagar para o registro corrente.",
   "problema": "Exercitar o financeiro com captura de dados antes do fechamento e deixar a comparação para ASSERTS.",
-  "fonte": "docs/assets/casosTestesFinanceiro/TDD_FIN_FINANCEIRO.pas",
+  "fonte": "docs/assets/emDesenvolvimento/TDD_FIN_FINANCEIRO.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [

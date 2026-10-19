@@ -3,12 +3,14 @@
     class="document-search"
     @focusout="aoSair">
     <v-text-field
+      ref="campoBusca"
       v-model="consulta"
       :aria-expanded="aberta && !!consulta?.trim()"
       type="search"
       autocomplete="off"
-      placeholder="Buscar documentação…"
+      placeholder="Buscar documentação… (Ctrl + K)"
       aria-label="Buscar documentação"
+      aria-keyshortcuts="Control+k"
       aria-controls="search-results"
       clearIcon="mdi-close-circle"
       prependInnerIcon="mdi-magnify"
@@ -41,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import type { IDocumento } from '../../contracts/documentacao.ts';
@@ -50,6 +52,7 @@ import { rotaDocumento } from '../../contracts/identidade.ts';
 import { criarBusca } from './search.ts';
 const props = defineProps<{ documentos: IDocumento[] }>();
 const buscar = criarBusca(props.documentos);
+const campoBusca = ref<{ focus: () => void } | null>(null);
 const consulta = ref<string | null>(''), aberta = ref(false);
 const resultados = computed(() => buscar(consulta.value ?? '').slice(0, 8));
 const route = useRoute();
@@ -57,4 +60,14 @@ const router = useRouter();
 watch(() => route.path, () => { aberta.value = false; });
 function aoSair(pEvent: FocusEvent) { if (!(pEvent.currentTarget as HTMLElement).contains(pEvent.relatedTarget as Node | null)) aberta.value = false; }
 function abrirPrimeiro() { if (resultados.value.length) { router.push(rotaDocumento(resultados.value[0].documento)); aberta.value = false; } }
+function aoAcionarAtalho(pEvent: KeyboardEvent) {
+  if (!pEvent.ctrlKey || pEvent.altKey || pEvent.shiftKey || pEvent.metaKey || pEvent.key.toLowerCase() !== 'k' || pEvent.isComposing) return;
+  pEvent.preventDefault();
+  if (pEvent.repeat) return;
+  consulta.value = '';
+  campoBusca.value?.focus();
+  aberta.value = false;
+}
+onMounted(() => window.addEventListener('keydown', aoAcionarAtalho));
+onUnmounted(() => window.removeEventListener('keydown', aoAcionarAtalho));
 </script>

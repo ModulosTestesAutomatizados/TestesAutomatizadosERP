@@ -19,7 +19,7 @@
         <mxCell id="casos" value="P39_TDD_CASOS_DE_TESTE" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_remoto">
           <mxGeometry x="20" y="40" width="180" height="40" as="geometry"/>
         </mxCell>
-        <mxCell id="parametro" value="P39_TDD_PARAMETRO" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_remoto">
+        <mxCell id="parametro" value="P39_TDD_PARAMETROS" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_remoto">
           <mxGeometry x="220" y="40" width="180" height="40" as="geometry"/>
         </mxCell>
         <mxCell id="funcoes_json" value="P39_TDD_FUNCOES_JSON" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_remoto">

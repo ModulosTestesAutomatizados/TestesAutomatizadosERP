@@ -19,7 +19,7 @@
         <mxCell id="registrar" value="P39_TDD_REGISTRAR_CASO_TESTE&#xa;(global/Tek Store)" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_infra">
           <mxGeometry x="220" y="40" width="200" height="40" as="geometry"/>
         </mxCell>
-        <mxCell id="odbc" value="P39_TDD_ODBC&#xa;TDD_ODBC (grupo 1371)" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_infra">
+        <mxCell id="odbc" value="P39_TDD_ODBC&#xa;P39_TDD_ODBC (grupo 1371)" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_infra">
           <mxGeometry x="440" y="40" width="180" height="40" as="geometry"/>
         </mxCell>
         <mxCell id="constantes" value="cConexaoODBCPadrao&#xa;(P39_TDD_CONSTANTES)" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_infra">
@@ -28,10 +28,10 @@
         <mxCell id="lane_map" value="Mapeamentos de Tela" style="swimlane;horizontal=0;startSize=30;fillColor=#fff0e6;strokeColor=#d6b656;" vertex="1" parent="1">
           <mxGeometry x="0" y="240" width="900" height="100" as="geometry"/>
         </mxCell>
-        <mxCell id="map_receb" value="TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO&#xa;(grupo 1367)" style="rounded=1;whiteSpace=wrap;fillColor=#fce4ec;" vertex="1" parent="lane_map">
+        <mxCell id="map_receb" value="P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO&#xa;(grupo 1367)" style="rounded=1;whiteSpace=wrap;fillColor=#fce4ec;" vertex="1" parent="lane_map">
           <mxGeometry x="20" y="40" width="350" height="40" as="geometry"/>
         </mxCell>
-        <mxCell id="map_pag" value="P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO&#xa;(global/Tek Store)" style="rounded=1;whiteSpace=wrap;fillColor=#fce4ec;" vertex="1" parent="lane_map">
+        <mxCell id="map_pag" value="P39_TDD_FIN_MAPEAMENTO_BORDERO_PAGAMENTO&#xa;(global/Tek Store)" style="rounded=1;whiteSpace=wrap;fillColor=#fce4ec;" vertex="1" parent="lane_map">
           <mxGeometry x="400" y="40" width="380" height="40" as="geometry"/>
         </mxCell>
         <mxCell id="lane_json" value="Sincronização do Cenário" style="swimlane;horizontal=0;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">

@@ -4,7 +4,7 @@ export default criarDocumentoUnit({
   "resumo": "Preparar lote e contexto corrente e medir tempos relativos por tentativa.",
   "responsabilidade": "Preparar lote e contexto corrente e medir tempos relativos por tentativa.",
   "problema": "Separar os records de execução e os ticks do cenário e da persistência.",
-  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_RUNNER.pas",
+  "fonte": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_RUNNER.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [
@@ -104,7 +104,7 @@ export default criarDocumentoUnit({
   ],
   "dependencias": [
     "TDD_RUN_STARTED: cláusula uses do fonte.",
-    "TDD_RUN_APPLICATION: cláusula uses do fonte.",
+    "TDD_RUN_MODULO: cláusula uses do fonte.",
     "TDD_VALIDAR_RESULTADO: cláusula uses do fonte.",
     "TDD_RUN_FINISHED: cláusula uses do fonte."
   ],

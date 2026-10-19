@@ -4,7 +4,7 @@ export default criarDocumentoUnit({
   "resumo": "Configurar TDD_FIN_FINANCEIRO e iniciar Executar com módulo e área FINANCEIRO.",
   "responsabilidade": "Configurar TDD_FIN_FINANCEIRO e iniciar Executar com módulo e área FINANCEIRO.",
   "problema": "Fornecer entrada do processamento sem registrar uma lista de métodos por caso.",
-  "fonte": "docs/assets/casosTestesFinanceiro/processamentos/P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO.pas",
+  "fonte": "docs/assets/emDesenvolvimento/Runner/P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "processamento",
   "aliases": [

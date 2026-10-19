@@ -1,14 +1,13 @@
-# Persistência da tentativa
+# Persistência por tentativa
 
 ```mermaid
-flowchart TD
-  Finally[Finally de Run] --> Ticks[RegistrarMetricas: encerrar tempos pendentes]
-  Ticks --> Asserts[Copiar metricas de asserts]
-  Asserts --> Logs[Copiar FLogsCasoTeste.Text]
-  Logs --> Historico[INSERT HISTORICO_EXECUCAO RETURNING ID]
-  Historico --> Verificacoes[INSERT METRICAS_ASSERTS]
-  Verificacoes --> Tempos[INSERT METRICAS_TICK_DIFF]
-  Tempos --> Limpar[Run limpa a lista da tentativa]
+flowchart LR
+ T["Encerrar ticks abertos com RegistrarTick"] --> A["Consolidar FMetricasAsserts"]
+ A --> L["Snapshot FLogsCasoTeste.Text"]
+ L --> H["HISTORICO_EXECUCAO · RETURNING ID"]
+ H --> M["METRICAS_ASSERTS · 1 agregado, inclusive zero/parcial"]
+ M --> K["METRICAS_TICK_DIFF · linhas de tempo"]
+ K --> C["Run limpa mensagens"]
 ```
 
-As mensagens são capturadas independentemente de FModoDebug. Não há retry automático que repita o INSERT do histórico após falha das métricas.
+Sem retry automático nem transação única garantida para pai/filhos. Falhas de encerramento/persistência preservam a causa anterior.

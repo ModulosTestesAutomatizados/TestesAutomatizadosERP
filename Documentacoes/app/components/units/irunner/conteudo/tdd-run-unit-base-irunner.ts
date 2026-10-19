@@ -4,7 +4,7 @@ export default criarDocumentoUnit({
   "resumo": "Controlar lote, cursor, preparação, execução, asserts e finalização de cada tentativa.",
   "responsabilidade": "Controlar lote, cursor, preparação, execução, asserts e finalização de cada tentativa.",
   "problema": "Manter o ciclo central e propagar falhas sem misturar carga do lote com o cenário Teste.",
-  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_UNIT_BASE_IRUNNER.pas",
+  "fonte": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_UNIT_BASE_IRUNNER.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [

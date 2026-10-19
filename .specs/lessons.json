@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "promote_threshold": 2,
+  "window_days": 45,
+  "quarantine_threshold": 2,
+  "next_id": 3,
+  "lessons": [
+    {
+      "id": "L-001",
+      "key": "ac_gap::mascare strings e comentarios pascal em uma unica passagem antes de extrair clausulas uses para o inventario ast",
+      "text": "Mascare strings e comentários Pascal em uma única passagem antes de extrair cláusulas uses para o inventário AST.",
+      "signal": "ac_gap",
+      "scope": "docs/MAPEAMENTO_AST_USES_UNITS",
+      "status": "candidate",
+      "features": [
+        "portal-navegacao-sincronizacao"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "validation.md:12; PORTAL-28; Documentacoes/tools/portal-iteration/check.mjs:12 (docs/MAPEAMENTO_AST_USES_UNITS)"
+      ],
+      "created": "2026-10-14T18:29:02Z",
+      "last_seen": "2026-10-14T18:29:02Z"
+    },
+    {
+      "id": "L-002",
+      "key": "ac_gap::normalize strings dos metadados antes de serializar json para hashes que consideram crlf e lf equivalentes",
+      "text": "Normalize strings dos metadados antes de serializar JSON para hashes que consideram CRLF e LF equivalentes.",
+      "signal": "ac_gap",
+      "scope": "Documentacoes/config",
+      "status": "candidate",
+      "features": [
+        "conhecimento-agentes"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "KNOW-03 (Documentacoes/config)"
+      ],
+      "created": "2026-10-19T10:26:55Z",
+      "last_seen": "2026-10-19T10:26:55Z"
+    }
+  ]
+}

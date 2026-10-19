@@ -10,6 +10,5 @@ export const redirecionamentos: Record<string, string> = {
   "/units/p39-tdd-fin-mapeamento-bordero-pagamento": "/units/p39-tdd-fin-mapeamento-componentes-bordero-pagamento",
   "/units/p39-tdd-fin-mapeamento-bordero-recebimento": "/units/p39-tdd-fin-mapeamento-componentes-bordero-recebimento",
   "/units/p39-tdd-parametros": "/units/p39-tdd-parametro",
-  "/units/p39-tdd-modulo": "/units/p39-tdd-run-application",
-  "/units/p39-tdd-run-modulo": "/units/p39-tdd-run-application"
+  "/units/p39-tdd-modulo": "/units/p39-tdd-run-modulo"
 };

@@ -4,7 +4,7 @@ export default criarDocumentoUnit({
   "resumo": "Acumular resultados, contadores de asserts, erros reais e capturas de datasets do caso.",
   "responsabilidade": "Acumular resultados, contadores de asserts, erros reais e capturas de datasets do caso.",
   "problema": "Manter evidências depois do TEARDOWN, sem depender das telas já fechadas.",
-  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_ASSERTS.pas",
+  "fonte": "docs/assets/emDesenvolvimento/Runner/P39_TDD_RUN_ASSERTS.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [

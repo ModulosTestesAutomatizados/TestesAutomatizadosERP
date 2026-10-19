@@ -11,40 +11,40 @@ export default {
   },
   "fontes": [
     {
-      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_IRUNNER.pas"
+      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_IRUNNER.pas"
     },
     {
-      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_UNIT_BASE_IRUNNER.pas"
+      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_UNIT_BASE_IRUNNER.pas"
     },
     {
-      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_RUNNER.pas"
+      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_RUNNER.pas"
     },
     {
-      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_STARTED.pas"
+      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_STARTED.pas"
     },
     {
-      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_FINISHED.pas"
+      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_FINISHED.pas"
     },
     {
-      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_LOGS.pas"
+      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_LOGS.pas"
     },
     {
-      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_ASSERTS.pas"
+      "caminho": "docs/assets/emDesenvolvimento/Runner/P39_TDD_RUN_ASSERTS.pas"
     },
     {
-      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_APPLICATION.pas"
+      "caminho": "docs/assets/emDesenvolvimento/Runner/P39_TDD_RUN_MODULO.pas"
     },
     {
-      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_VALIDAR_RESULTADO.pas"
+      "caminho": "docs/assets/emDesenvolvimento/P39_TDD_RUN_VALIDAR_RESULTADO.pas"
     },
     {
       "caminho": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas"
     },
     {
-      "caminho": "docs/assets/casosTestesFinanceiro/processamentos/P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO.pas"
+      "caminho": "docs/assets/emDesenvolvimento/Runner/P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO.pas"
     },
     {
-      "caminho": "docs/assets/casosTestesFinanceiro/TDD_FIN_FINANCEIRO.pas"
+      "caminho": "docs/assets/emDesenvolvimento/TDD_FIN_FINANCEIRO.pas"
     },
     {
       "caminho": "docs/MAPEAMENTO_AST_USES_UNITS/runner/TDD_RUN_IRUNNER.ast.json"
@@ -133,7 +133,7 @@ export default {
               "FModulo, FDescModulo, CDSCasosTestes, CDSResultadoEsperado"
             ],
             [
-              "P39_TDD_RUN_APPLICATION",
+              "P39_TDD_RUN_MODULO",
               "Telas por menu e foco",
               "FP; consome contexto de CASOS_DE_TESTE"
             ]

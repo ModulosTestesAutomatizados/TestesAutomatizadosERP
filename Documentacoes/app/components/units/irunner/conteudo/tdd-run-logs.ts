@@ -4,7 +4,7 @@ export default criarDocumentoUnit({
   "resumo": "Acumular mensagens em memória e controlar a exibição por debug; instruções têm controle separado.",
   "responsabilidade": "Acumular mensagens em memória e controlar a exibição por debug; instruções têm controle separado.",
   "problema": "Separar captura de mensagens, instruções e ponto de snapshot para persistência.",
-  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_LOGS.pas",
+  "fonte": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_LOGS.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [

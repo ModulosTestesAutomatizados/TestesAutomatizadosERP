@@ -4,7 +4,7 @@ export default criarDocumentoUnit({
   "resumo": "Encerrar tempos, consolidar evidências e persistir histórico, asserts agregados e ticks.",
   "responsabilidade": "Encerrar tempos, consolidar evidências e persistir histórico, asserts agregados e ticks.",
   "problema": "Salvar evidências inclusive parciais sem atribuir persistência à casca ou ao validador.",
-  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_FINISHED.pas",
+  "fonte": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_FINISHED.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [

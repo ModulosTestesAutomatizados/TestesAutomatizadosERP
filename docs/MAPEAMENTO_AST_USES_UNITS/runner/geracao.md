@@ -1,13 +1,13 @@
-# Montagem do programa interpretado
+# Geração e interpretação única
 
 ```mermaid
-flowchart TD
-  Entrada[P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO] --> Montagem[TDD_RUN_IRUNNER.Executar]
-  Montagem --> Molde[TDD_RUN_UNIT_BASE_IRUNNER]
-  Montagem --> Substituicoes[Unit de teste, modulo, area e modo debug]
-  Substituicoes --> Snapshot[Copia textual dos logs de preparacao]
-  Snapshot --> Interpretar[Interpretar]
-  Interpretar --> Lote[Main e ExecutarLote]
+flowchart LR
+ P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO --> TDD_RUN_IRUNNER
+ TDD_RUN_IRUNNER -. "CodificacaoUnit" .-> TDD_RUN_UNIT_BASE_IRUNNER
+ TDD_RUN_IRUNNER --> M["4 marcadores: uses, parâmetros, chamada e debug"]
+ M --> I["Interpretar uma vez"]
+ I --> L["Main → ExecutarLote"]
+ TDD_RUN_IRUNNER -. "SetTDDUnit / Teste" .-> TDD_FIN_FINANCEIRO
 ```
 
-A carga do molde usa CodificacaoUnit. O snapshot transporta texto; não exige uma lista compartilhada entre as interpretações.
+Setas tracejadas representam seleção/carga dinâmica; não são cláusulas uses extraídas do AST.

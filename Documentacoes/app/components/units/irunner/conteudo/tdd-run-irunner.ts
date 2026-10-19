@@ -4,7 +4,7 @@ export default criarDocumentoUnit({
   "resumo": "Montar uma interpretação para uma única unit com entrada Teste e dois parâmetros de contexto.",
   "responsabilidade": "Montar uma interpretação para uma única unit com entrada Teste e dois parâmetros de contexto.",
   "problema": "Evitar interpretar novamente a estrutura para cada caso do lote.",
-  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_IRUNNER.pas",
+  "fonte": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_IRUNNER.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [

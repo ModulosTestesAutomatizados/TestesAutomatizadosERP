@@ -1,18 +1,17 @@
-# Sincronização da fonte única
+# Fonte única e projeções atuais
 
 ```mermaid
 flowchart TD
-  Registro[RegistrarCasoTeste: modulo, area, descricao, versao, unit e origem] --> Consulta[Consultar existencia]
-  Consulta --> Decisao{Atualizacao aceita ou caso novo?}
-  Decisao -- Nao --> Pular[Voltar ao proximo registro]
-  Decisao -- Sim --> Fonte[Carregar a unica unit JSON do caso]
-  Fonte --> Resultado[Resolver resultadoEsperado]
-  Fonte --> Campos[Resolver camposDisponiveis]
-  Resultado -. ausente .-> MinimoAsserts[P39_TDD_ASSERTS_JSON_MINIMO]
-  Campos -. ausente ou vazio .-> MinimoCampos[P39_TDD_CAMPOS_DISPONIVEIS_JSON_MINIMO]
-  Resultado --> Validar[Validar e recompor os objetos com suas tags]
-  Campos --> Validar
-  Validar --> Persistir[Insert ou update parametrizado]
+ I["RegistrarCasoTeste: 6 argumentos"] --> C["Consultar identidade e confirmar atualização"]
+ C --> Q{"Recusou?"}
+ Q -- "sim" --> R["Retornar sem carregar/gravar"]
+ Q -- "não" --> U["CodificacaoUnit: fonte única"]
+ U --> D["Resolver objetos e mínimos conforme política"]
+ D -- "inválido / indisponível" --> E["Propagar antes de escrita"]
+ D --> M["Fallback módulo/área"]
+ M --> P["Recompor tags na raiz do caso"]
+ P --> F["Preencher FCasoTeste"]
+ F --> S["Insert ou Update parametrizado"]
+ S --> J["CASO_TESTE_CT com dados e tags"]
+ S --> K["Colunas específicas com wrappers nomeados"]
 ```
-
-resultadoEsperado explicitamente vazio não usa mínimo. parametros ausente não é sintetizado. Os dois mínimos usam suas units remotas também quando a fonte principal é local.

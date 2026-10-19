@@ -16,7 +16,7 @@
         <mxCell id="carregar" value="P39_TDD_CARREGAR_CASO_TESTE" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_remoto">
           <mxGeometry x="20" y="40" width="200" height="40" as="geometry"/>
         </mxCell>
-        <mxCell id="map_receb" value="P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_remoto">
+        <mxCell id="map_receb" value="P39_TDD_FIN_MAPEAMENTO_BORDERO_RECEBIMENTO" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_remoto">
           <mxGeometry x="240" y="40" width="280" height="40" as="geometry"/>
         </mxCell>
         <mxCell id="funcoes_json" value="P39_TDD_FUNCOES_JSON" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4f8;" vertex="1" parent="lane_remoto">
