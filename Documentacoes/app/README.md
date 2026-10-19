@@ -58,3 +58,11 @@ O favicon fornecido fica em `assets/faviconTDD.png`; o Vite resolve seu endereç
 O botão do header alterna os temas claro e escuro do Vuetify. A preferência é salva quando o navegador permite; sem preferência explícita, vale o tema do sistema. A busca usa VTextField com clearable, mantendo o índice de relevância existente.
 
 Para exibir um molde diretamente da fonte canônica, use `{ tipo: 'codigo-fonte', fonte: 'docs/assets/snippets/ARQUIVO.json', linguagem: 'json' }`. O build valida e publica o mesmo arquivo; CodigoFonte o lê e reutiliza o terminal copiável. Consulte `/guias/moldes` para os quatro moldes disponíveis.
+
+## Conhecimento para agentes
+
+`config/knowledge.ts` projeta o mesmo catálogo público em `llms.txt`, `knowledge/index.json` e `knowledge/<categoria>/<slug>.md`. O plugin de assets prepara/valida os cânones e gera os arquivos no build, sob a base Vite; o índice do site aponta para llms.txt por `rel="describedby"`. Dev expõe a projeção preparada ao iniciar; para conferir uma exportação atual após editar fontes, gere build e use preview.
+
+O JSON contém `schemaVersion: 1`, `contentVersion` por SHA-256, metadados de documentos, aliases, navegação, estado/evidência, símbolos/assinaturas, fontes e URLs. O hash identifica a exportação (Markdown, llms, metadados e inventários), normalizando CRLF/LF, sem timestamp variável. Markdown preserva blocos/código e referências, incorporando moldes e Mermaid dos assets validados. Documentos ocultos ficam fora da projeção.
+
+Não mantenha arquivos gerados manualmente. Novas páginas e símbolos aparecem ao registrar o documento. A skill `.agents/skills/consultar-documentacao-tdd/SKILL.md` orienta o consumo; o guia `/guias/agentes` explica endereços, campos e um pedido de exemplo. Exportação e skill fornecem contexto de consulta; estado documental e evidência ERP permanecem distintos.
