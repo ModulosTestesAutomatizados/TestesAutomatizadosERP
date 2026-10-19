@@ -1,0 +1,9 @@
+{
+  "ATRIBUTO_INTEIRO_1":1,
+  "ATRIBUTO_INTEIRO_2":2,
+  "ATRIBUTO_STRING_1": "STRING 1",
+  "ATRIBUTO_STRING_2": "STRING 2",
+  "parametros": {},
+  "camposDisponiveis": {},
+  "resultadoEsperado": {}
+}

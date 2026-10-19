@@ -4,7 +4,7 @@ import path from 'node:path';
 import {environment,dataset,list,error} from '../irunner-asserts-modulo/evidencias/ambiente.mjs';
 import {compile} from '../irunner-asserts-modulo/evidencias/pascal.mjs';
 const root=process.env.RUN_TEST_ROOT??process.cwd();
-const dir='docs/assets/emDesenvolvimento/Runner/';
+const dir='docs/assets/configuracoesGerais/arquiteturaIRunner/';
 const read=p=>fs.readFileSync(path.join(root,p),'utf8');
 let count=0;
 function test(name,run){run();console.log('PASS '+name);count++;}

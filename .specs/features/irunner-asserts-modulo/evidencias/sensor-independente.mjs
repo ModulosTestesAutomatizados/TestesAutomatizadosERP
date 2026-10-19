@@ -6,9 +6,9 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 const root=process.cwd(),base=fs.mkdtempSync(path.join(os.tmpdir(),'irunner-verifier-'));
 const cases=[
- ['maior-inclusivo','docs/assets/emDesenvolvimento/P39_TDD_RUN_VALIDAR_RESULTADO.pas','pValorReal > pValorEsperado','pValorReal >= pValorEsperado'],
- ['status-incondicional','docs/assets/emDesenvolvimento/Runner/TDD_RUN_UNIT_BASE_IRUNNER.pas','if AssertsOk then','if True then'],
- ['descarta-relatorio','docs/assets/emDesenvolvimento/Runner/TDD_RUN_FINISHED.pas','FMetricasAsserts.ResultadoObtido := FResultados.Text;','FMetricasAsserts.ResultadoObtido := \'\';'],
+ ['maior-inclusivo','docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_VALIDAR_RESULTADO.pas','pValorReal > pValorEsperado','pValorReal >= pValorEsperado'],
+ ['status-incondicional','docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_UNIT_BASE_IRUNNER.pas','if AssertsOk then','if True then'],
+ ['descarta-relatorio','docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_FINISHED.pas','FMetricasAsserts.ResultadoObtido := FResultados.Text;','FMetricasAsserts.ResultadoObtido := \'\';'],
 ];
 const porcelain=()=>spawnSync('git',['status','--porcelain'],{cwd:root,encoding:'utf8'}).stdout;
 const originalPorcelain=porcelain();

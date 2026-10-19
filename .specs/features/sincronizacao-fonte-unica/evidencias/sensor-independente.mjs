@@ -6,7 +6,7 @@ const cases=[
  ['recusa-ainda-carrega-fonte',registration,'if lCodigoCasoTeste < 0 then','if false then'],
  ['resultado-vazio-usa-minimo',registration,"'P39_TDD_ASSERTS_JSON_MINIMO', false);","'P39_TDD_ASSERTS_JSON_MINIMO', true);"],
  ['retorno-perde-tag',registration,`Result := '{"' + pPropriedade + '":' + lValor + '}';`, 'Result := lValor;'],
- ['objeto-vazio-reprova','docs/assets/emDesenvolvimento/P39_TDD_RUN_VALIDAR_RESULTADO.pas','if lObjeto.Count = 0 then','if False then'],
+ ['objeto-vazio-reprova','docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_VALIDAR_RESULTADO.pas','if lObjeto.Count = 0 then','if False then'],
 ];
 const porcelain=()=>spawnSync('git',['status','--porcelain'],{cwd:root,encoding:'utf8'}).stdout;
 const baseline=porcelain(),hash=file=>createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex'),before=cases.map(([,file])=>hash(file));

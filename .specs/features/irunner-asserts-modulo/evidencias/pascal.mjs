@@ -28,7 +28,11 @@ class Parser {
   }
   expr(min=0){
     const t=this.take();let left;
-    if(t.str)left=JSON.stringify(t.v);
+    if(t.str){
+      let value=t.v;
+      while(this.ts[this.i]?.str)value+=this.take().v;
+      left=JSON.stringify(value);
+    }
     else if(t.v==='('){left='('+this.expr()+')';this.take(')');}
     else if(t.v==='['){const a=[];while(this.peek()!==']'){a.push(this.expr());if(this.peek()!==']')this.take(',');}this.take(']');left='['+a.join(',')+']';}
     else if(['not','-','+'].includes(t.v.toLowerCase()))left='('+(t.v.toLowerCase()==='not'?'!':t.v)+this.expr(7)+')';

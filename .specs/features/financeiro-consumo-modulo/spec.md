@@ -1,6 +1,8 @@
 # Consumo de TDD_RUN_MODULO pelo piloto financeiro
 
-**Estado:** proposta para revisão; nenhuma implementação nesta etapa.
+**Superada parcialmente:** a solicitação posterior de TDD_RUN_APPLICATION permite destino por Form, Caption ou Evento. A implementação atual e seus limites estão em ../irunner-application/spec.md.
+
+**Estado:** especificação aprovada pelo usuário; implementação parcial. Correção das chamadas sem parâmetros concluída localmente; integração financeira aguarda confirmação dos quatro eventos de menu.
 
 ## Problem Statement
 
@@ -100,7 +102,7 @@ O levantamento deve usar leitura dos fontes reais ou inspeção do ambiente, sem
 | MODFIN-05 | P1 | Specify | Pending |
 | MODFIN-06 | P1 | Specify | Pending |
 | MODFIN-07 | P1 | Specify | Pending |
-| MODFIN-08 | P1 | Specify | Pending |
+| MODFIN-08 | P1 | Execute | Verified |
 | MODFIN-09 | P1 | Specify | Pending |
 | MODFIN-10 | P1 | Specify | Pending |
 | MODFIN-11 | P1 | Specify | Pending |

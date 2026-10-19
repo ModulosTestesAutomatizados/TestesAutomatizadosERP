@@ -1,0 +1,692 @@
+{
+  "roots": [
+    "TDD_RUN_IRUNNER",
+    "TDD_RUN_UNIT_BASE_IRUNNER",
+    "TDD_RUN_RUNNER",
+    "TDD_FIN_FINANCEIRO",
+    "P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO"
+  ],
+  "nodes": [
+    {
+      "name": "P39_TDD_CACHE",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CACHE.pas",
+      "sha256": "c45de3e3d157cfede9e89865b3340ab859684eccedc840858eda75c637d2c1a5"
+    },
+    {
+      "name": "P39_TDD_CASOS_DE_TESTE",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas",
+      "sha256": "43f90618bfb5ee0c1d206363022d936c46a7aefab2939615cafd4ca340c2dd5c"
+    },
+    {
+      "name": "P39_TDD_CONSTANTES",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CONSTANTES.pas",
+      "sha256": "1af65720aa8f28195b36096dc2f8fc554745b09fdd54daaf745174836167bfbc"
+    },
+    {
+      "name": "P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO",
+      "status": "local",
+      "file": "docs/assets/casosTestesFinanceiro/P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO.pas",
+      "sha256": "ad58377524364c0f84582e7d77b0e6bc51e1f4dd751e51eb22b16788a3ec21bf"
+    },
+    {
+      "name": "P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO",
+      "status": "local",
+      "file": "docs/assets/casosTestesFinanceiro/P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.pas",
+      "sha256": "cb61700ebc7611e449a6a1936940d1b093cd83cc472d8c47b601ed00d7da93fc"
+    },
+    {
+      "name": "P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO",
+      "status": "local",
+      "file": "docs/assets/casosTestesFinanceiro/processamentos/P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO.pas",
+      "sha256": "7d293c8daa786c4a611b5697c752b9736e8b8a04603382564fee6e8ccf926386"
+    },
+    {
+      "name": "P39_TDD_FUNCOES_JSON",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_FUNCOES_JSON.pas",
+      "sha256": "cdac8956c3b4e6b02803029cdfafdb6fe65c3437bd7aa02e68a40539c13557ff"
+    },
+    {
+      "name": "P39_TDD_ODBC",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_ODBC.pas",
+      "sha256": "7e46d0f4b34b4b71bb96440c9f4c40de596342edfa8464f3542e459b0b4cd175"
+    },
+    {
+      "name": "P39_TDD_PARAMETRO",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO.pas",
+      "sha256": "352789c251520dc1fc7991c8f5e54da3653760a2b85db73559a72bc6294e0b19"
+    },
+    {
+      "name": "P39_TDD_PARAMETRO_MAPEAMENTO",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO_MAPEAMENTO.pas",
+      "sha256": "16e583ebdb1bcd228947f76095dd1510db15337cc6b8f8ff0a65e17c28a94a50"
+    },
+    {
+      "name": "P39_TDD_RUN_APPLICATION",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_APPLICATION.pas",
+      "sha256": "60d3d0e023696d4271266ac26f46959c29db3a977de02ab35446a8aa37254942"
+    },
+    {
+      "name": "P39_TDD_RUN_ASSERTS",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_ASSERTS.pas",
+      "sha256": "1204472bb02d75113d836bdbead0b0b1d191e4be6988553017b8e5973ca9462a"
+    },
+    {
+      "name": "P39_TDD_RUN_VALIDAR_RESULTADO",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_VALIDAR_RESULTADO.pas",
+      "sha256": "b06c9b0551b5eb4189a6494ebb6c529eeb16736779c0e0f3517a4fae48d3305d"
+    },
+    {
+      "name": "TDD_FIN_FINANCEIRO",
+      "status": "local",
+      "file": "docs/assets/casosTestesFinanceiro/TDD_FIN_FINANCEIRO.pas",
+      "sha256": "f49f3ea59d909b5c4403e609e3ad7343841c9a0e1b2b77f495ca2c13a1354339"
+    },
+    {
+      "name": "TDD_RUN_APPLICATION_MAPEAMENTO_JSON",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_APPLICATION_MAPEAMENTO_JSON.json",
+      "sha256": "c80724064f02ff1c0a8e0f8c8273c34700b97c5ebd64faef49b08c0ff40adf82"
+    },
+    {
+      "name": "TDD_RUN_FINISHED",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_FINISHED.pas",
+      "sha256": "5d4ea3a5ba226be915e3373bea1e59fa68a1eec10c8ecfdef6057a006de6c17d"
+    },
+    {
+      "name": "TDD_RUN_IRUNNER",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_IRUNNER.pas",
+      "sha256": "de6f327c7fefbd02ce7d5e5ca51dde00fe798225fc7b0bff0805806e06607102"
+    },
+    {
+      "name": "TDD_RUN_LOGS",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_LOGS.pas",
+      "sha256": "b1a2eb021937250a642c0510ad4def64fb863f48fc7cc755680bfc3cdd636ded"
+    },
+    {
+      "name": "TDD_RUN_RUNNER",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_RUNNER.pas",
+      "sha256": "8afcf641995727e4906fb56888d19cf689704b59072159231b4512f6a2bf9552"
+    },
+    {
+      "name": "TDD_RUN_STARTED",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_STARTED.pas",
+      "sha256": "1329e29daaae52411763b6ed4844fc991c1c32faebfe82a6a9b56073ac097f5e"
+    },
+    {
+      "name": "TDD_RUN_UNIT_BASE_IRUNNER",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_UNIT_BASE_IRUNNER.pas",
+      "sha256": "c9305a6e245c431d75e24e7bd96fd9c23ecce7f539b439b41f26d0eb27357234"
+    },
+    {
+      "name": "__USES_UNITS__",
+      "status": "placeholder"
+    }
+  ],
+  "edges": [
+    {
+      "from": "TDD_RUN_IRUNNER",
+      "to": "TDD_RUN_LOGS",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_IRUNNER.pas",
+      "line": 1,
+      "declared": "TDD_RUN_LOGS"
+    },
+    {
+      "from": "P39_TDD_CONSTANTES",
+      "to": "TDD_RUN_LOGS",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CONSTANTES.pas",
+      "line": 1,
+      "declared": "P39_TDD_RUN_LOGS"
+    },
+    {
+      "from": "P39_TDD_CASOS_DE_TESTE",
+      "to": "P39_TDD_CONSTANTES",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas",
+      "line": 1,
+      "declared": "P39_TDD_CONSTANTES"
+    },
+    {
+      "from": "P39_TDD_PARAMETRO_MAPEAMENTO",
+      "to": "TDD_RUN_LOGS",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO_MAPEAMENTO.pas",
+      "line": 1,
+      "declared": "P39_TDD_RUN_LOGS"
+    },
+    {
+      "from": "P39_TDD_PARAMETRO",
+      "to": "P39_TDD_PARAMETRO_MAPEAMENTO",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO.pas",
+      "line": 1,
+      "declared": "P39_TDD_PARAMETRO_MAPEAMENTO"
+    },
+    {
+      "from": "P39_TDD_FUNCOES_JSON",
+      "to": "TDD_RUN_LOGS",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_FUNCOES_JSON.pas",
+      "line": 1,
+      "declared": "P39_TDD_RUN_LOGS"
+    },
+    {
+      "from": "P39_TDD_PARAMETRO",
+      "to": "P39_TDD_FUNCOES_JSON",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO.pas",
+      "line": 1,
+      "declared": "P39_TDD_FUNCOES_JSON"
+    },
+    {
+      "from": "P39_TDD_CASOS_DE_TESTE",
+      "to": "P39_TDD_PARAMETRO",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas",
+      "line": 1,
+      "declared": "P39_TDD_PARAMETRO"
+    },
+    {
+      "from": "P39_TDD_ODBC",
+      "to": "P39_TDD_CONSTANTES",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_ODBC.pas",
+      "line": 1,
+      "declared": "P39_TDD_CONSTANTES"
+    },
+    {
+      "from": "P39_TDD_CACHE",
+      "to": "P39_TDD_ODBC",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CACHE.pas",
+      "line": 2,
+      "declared": "P39_TDD_ODBC"
+    },
+    {
+      "from": "P39_TDD_CASOS_DE_TESTE",
+      "to": "P39_TDD_CACHE",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas",
+      "line": 1,
+      "declared": "P39_TDD_CACHE"
+    },
+    {
+      "from": "TDD_RUN_STARTED",
+      "to": "P39_TDD_CASOS_DE_TESTE",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_STARTED.pas",
+      "line": 9,
+      "declared": "P39_TDD_CASOS_DE_TESTE"
+    },
+    {
+      "from": "TDD_RUN_RUNNER",
+      "to": "TDD_RUN_STARTED",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_RUNNER.pas",
+      "line": 1,
+      "declared": "TDD_RUN_STARTED"
+    },
+    {
+      "from": "P39_TDD_RUN_APPLICATION",
+      "to": "P39_TDD_CASOS_DE_TESTE",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_APPLICATION.pas",
+      "line": 11,
+      "declared": "P39_TDD_CASOS_DE_TESTE"
+    },
+    {
+      "from": "TDD_RUN_RUNNER",
+      "to": "P39_TDD_RUN_APPLICATION",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_RUNNER.pas",
+      "line": 1,
+      "declared": "TDD_RUN_APPLICATION"
+    },
+    {
+      "from": "P39_TDD_RUN_ASSERTS",
+      "to": "P39_TDD_CASOS_DE_TESTE",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_ASSERTS.pas",
+      "line": 1,
+      "declared": "P39_TDD_CASOS_DE_TESTE"
+    },
+    {
+      "from": "P39_TDD_RUN_VALIDAR_RESULTADO",
+      "to": "P39_TDD_RUN_ASSERTS",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_VALIDAR_RESULTADO.pas",
+      "line": 1,
+      "declared": "P39_TDD_RUN_ASSERTS"
+    },
+    {
+      "from": "TDD_RUN_RUNNER",
+      "to": "P39_TDD_RUN_VALIDAR_RESULTADO",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_RUNNER.pas",
+      "line": 1,
+      "declared": "TDD_RUN_VALIDAR_RESULTADO"
+    },
+    {
+      "from": "TDD_RUN_RUNNER",
+      "to": "TDD_RUN_FINISHED",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_RUNNER.pas",
+      "line": 1,
+      "declared": "TDD_RUN_FINISHED"
+    },
+    {
+      "from": "TDD_RUN_UNIT_BASE_IRUNNER",
+      "to": "TDD_RUN_RUNNER",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_UNIT_BASE_IRUNNER.pas",
+      "line": 3,
+      "declared": "TDD_RUN_RUNNER"
+    },
+    {
+      "from": "TDD_RUN_UNIT_BASE_IRUNNER",
+      "to": "__USES_UNITS__",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_UNIT_BASE_IRUNNER.pas",
+      "line": 3,
+      "declared": "__USES_UNITS__"
+    },
+    {
+      "from": "TDD_FIN_FINANCEIRO",
+      "to": "P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO",
+      "kind": "uses",
+      "file": "docs/assets/casosTestesFinanceiro/TDD_FIN_FINANCEIRO.pas",
+      "line": 1,
+      "declared": "P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO"
+    },
+    {
+      "from": "TDD_FIN_FINANCEIRO",
+      "to": "P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO",
+      "kind": "uses",
+      "file": "docs/assets/casosTestesFinanceiro/TDD_FIN_FINANCEIRO.pas",
+      "line": 2,
+      "declared": "P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO"
+    },
+    {
+      "from": "P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO",
+      "to": "TDD_RUN_IRUNNER",
+      "kind": "uses",
+      "file": "docs/assets/casosTestesFinanceiro/processamentos/P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO.pas",
+      "line": 3,
+      "declared": "TDD_RUN_IRUNNER"
+    }
+  ],
+  "ast": {
+    "TDD_RUN_LOGS": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_LOGS.pas",
+      "clauses": []
+    },
+    "TDD_RUN_IRUNNER": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_IRUNNER.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "TDD_RUN_LOGS",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_CONSTANTES": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CONSTANTES.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "P39_TDD_RUN_LOGS",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_PARAMETRO_MAPEAMENTO": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO_MAPEAMENTO.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "P39_TDD_RUN_LOGS",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_FUNCOES_JSON": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_FUNCOES_JSON.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "P39_TDD_RUN_LOGS",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_PARAMETRO": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "P39_TDD_PARAMETRO_MAPEAMENTO",
+              "line": 1
+            },
+            {
+              "name": "P39_TDD_FUNCOES_JSON",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_ODBC": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_ODBC.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "P39_TDD_CONSTANTES",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_CACHE": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CACHE.pas",
+      "clauses": [
+        {
+          "line": 2,
+          "units": [
+            {
+              "name": "P39_TDD_ODBC",
+              "line": 2
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_CASOS_DE_TESTE": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "P39_TDD_CONSTANTES",
+              "line": 1
+            },
+            {
+              "name": "P39_TDD_PARAMETRO",
+              "line": 1
+            },
+            {
+              "name": "P39_TDD_CACHE",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    "TDD_RUN_STARTED": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_STARTED.pas",
+      "clauses": [
+        {
+          "line": 9,
+          "units": [
+            {
+              "name": "P39_TDD_CASOS_DE_TESTE",
+              "line": 9
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_RUN_APPLICATION": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_APPLICATION.pas",
+      "clauses": [
+        {
+          "line": 11,
+          "units": [
+            {
+              "name": "P39_TDD_CASOS_DE_TESTE",
+              "line": 11
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_RUN_ASSERTS": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_ASSERTS.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "P39_TDD_CASOS_DE_TESTE",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_RUN_VALIDAR_RESULTADO": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_VALIDAR_RESULTADO.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "P39_TDD_RUN_ASSERTS",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    "TDD_RUN_FINISHED": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_FINISHED.pas",
+      "clauses": []
+    },
+    "TDD_RUN_RUNNER": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_RUNNER.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "TDD_RUN_STARTED",
+              "line": 1
+            },
+            {
+              "name": "TDD_RUN_APPLICATION",
+              "line": 1
+            },
+            {
+              "name": "TDD_RUN_VALIDAR_RESULTADO",
+              "line": 1
+            },
+            {
+              "name": "TDD_RUN_FINISHED",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    "TDD_RUN_UNIT_BASE_IRUNNER": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_UNIT_BASE_IRUNNER.pas",
+      "clauses": [
+        {
+          "line": 3,
+          "units": [
+            {
+              "name": "TDD_RUN_RUNNER",
+              "line": 3
+            },
+            {
+              "name": "__USES_UNITS__",
+              "line": 3
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO": {
+      "type": "UsesFile",
+      "file": "docs/assets/casosTestesFinanceiro/P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO.pas",
+      "clauses": []
+    },
+    "P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO": {
+      "type": "UsesFile",
+      "file": "docs/assets/casosTestesFinanceiro/P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO.pas",
+      "clauses": []
+    },
+    "TDD_FIN_FINANCEIRO": {
+      "type": "UsesFile",
+      "file": "docs/assets/casosTestesFinanceiro/TDD_FIN_FINANCEIRO.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO",
+              "line": 1
+            },
+            {
+              "name": "P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO",
+              "line": 2
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO": {
+      "type": "UsesFile",
+      "file": "docs/assets/casosTestesFinanceiro/processamentos/P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO.pas",
+      "clauses": [
+        {
+          "line": 3,
+          "units": [
+            {
+              "name": "TDD_RUN_IRUNNER",
+              "line": 3
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "reachable": {
+    "TDD_RUN_IRUNNER": [
+      "TDD_RUN_LOGS"
+    ],
+    "TDD_RUN_UNIT_BASE_IRUNNER": [
+      "P39_TDD_CACHE",
+      "P39_TDD_CASOS_DE_TESTE",
+      "P39_TDD_CONSTANTES",
+      "P39_TDD_FUNCOES_JSON",
+      "P39_TDD_ODBC",
+      "P39_TDD_PARAMETRO",
+      "P39_TDD_PARAMETRO_MAPEAMENTO",
+      "P39_TDD_RUN_APPLICATION",
+      "P39_TDD_RUN_ASSERTS",
+      "P39_TDD_RUN_VALIDAR_RESULTADO",
+      "TDD_RUN_FINISHED",
+      "TDD_RUN_LOGS",
+      "TDD_RUN_RUNNER",
+      "TDD_RUN_STARTED",
+      "__USES_UNITS__"
+    ],
+    "TDD_RUN_RUNNER": [
+      "P39_TDD_CACHE",
+      "P39_TDD_CASOS_DE_TESTE",
+      "P39_TDD_CONSTANTES",
+      "P39_TDD_FUNCOES_JSON",
+      "P39_TDD_ODBC",
+      "P39_TDD_PARAMETRO",
+      "P39_TDD_PARAMETRO_MAPEAMENTO",
+      "P39_TDD_RUN_APPLICATION",
+      "P39_TDD_RUN_ASSERTS",
+      "P39_TDD_RUN_VALIDAR_RESULTADO",
+      "TDD_RUN_FINISHED",
+      "TDD_RUN_LOGS",
+      "TDD_RUN_STARTED"
+    ],
+    "TDD_FIN_FINANCEIRO": [
+      "P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO",
+      "P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_RECEBIMENTO"
+    ],
+    "P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO": [
+      "TDD_RUN_IRUNNER",
+      "TDD_RUN_LOGS"
+    ]
+  },
+  "dynamicLoads": [
+    {
+      "from": "TDD_RUN_IRUNNER",
+      "to": "TDD_RUN_UNIT_BASE_IRUNNER",
+      "kind": "CodificacaoUnit",
+      "declared": "TDD_RUN_UNIT_BASE_IRUNNER",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_IRUNNER.pas",
+      "line": 71
+    },
+    {
+      "from": "P39_TDD_RUN_APPLICATION",
+      "to": "TDD_RUN_APPLICATION_MAPEAMENTO_JSON",
+      "kind": "CodificacaoUnit",
+      "declared": "P39_TDD_RUN_APPLICATION_MAPEAMENTO_JSON",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_APPLICATION.pas",
+      "line": 85
+    }
+  ]
+}

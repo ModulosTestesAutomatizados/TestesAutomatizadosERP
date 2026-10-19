@@ -1,10 +1,10 @@
-﻿uses P39_TDD_LOGS;
+uses P39_TDD_RUN_LOGS;
 
 procedure Main;
 var lInstrucoes :string;
 begin
   lInstrucoes := '';
-  {P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_FUNCOES_JSON', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_FUNCOES_JSON', lInstrucoes);
 end;
 
 function TagExiste(pJson, pTag: String):Boolean;

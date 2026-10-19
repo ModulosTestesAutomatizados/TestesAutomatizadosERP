@@ -20,10 +20,14 @@ SetarCasoTeste recebe somente módulo e área. O usuário confirmou que o fluxo 
 
 ## Handoff
 
-- Feature atual: `.specs/features/sincronizacao-fonte-unica/spec.md`, implementação local concluída e revisão independente PASS local.
-- Baseline observado: `db20fe6`, com alterações prévias do usuário em fontes compartilhados e no exemplo. Essas alterações foram preservadas; nenhum stage/commit desta sessão.
-- Decisões do usuário: resultadoEsperado ausente usa P39_TDD_ASSERTS_JSON_MINIMO; {} explícito não acrescenta asserts e registra SEM_VALIDACAO; camposDisponiveis ausente ou vazio usa a nova P39_TDD_CAMPOS_DISPONIVEIS_JSON_MINIMO, atualmente {}.
-- Implementado: método único ObterObjetoConfiguracao, leitura estrita, assinatura RegistrarCasoTeste com seis argumentos, quatro consumidores atualizados, projeção dos objetos reservados fora do caso e validador aceitando objeto vazio. STARTED não alterada.
-- Testes da feature: nove grupos do autor, quatro independentes e 3/3 mutações detectadas. Revisão dos onze requisitos em validation.md. Não executam ERP/ODBC.
-- Regressão anterior observada: gate irunner-asserts-modulo tem 15 grupos aprovados e falha na reexecução porque o HEAD libera FLogsCasoTeste sem nil. Teste preservado; limpeza fora deste escopo. Cinco adversariais anteriores aprovados.
-- Próximo passo: disponibilizar o conjunto coerente no ERP para confirmação nativa. Sem escrita em banco, sincronização efetiva ou documentação do portal. JSONs locais continuam ignorados pela regra *.json existente.
+- Feature atual: `.specs/features/irunner-application/spec.md`. Implementação local e documentação concluídas; sem publicação ou confirmação no ERP.
+- Artefatos atuais em docs/assets/configuracoesGerais/arquiteturaIRunner. TDD_RUN_RUNNER usa TDD_RUN_APPLICATION; arquivo remoto P39_TDD_RUN_APPLICATION.pas. Piloto financeiro em docs/assets/casosTestesFinanceiro/TDD_FIN_FINANCEIRO.pas.
+- Catálogo: TDD_RUN_APPLICATION_MAPEAMENTO_JSON.json no diretório da arquitetura, módulo -> Form -> caption/evento. Runtime lê P39_TDD_RUN_APPLICATION_MAPEAMENTO_JSON. Usuário confirmou Contas a Receber / FCadReceber / Receber1Click; demais Forms do piloto têm caption/evento vazios e preservam abertura direta por Form.
+- AbrirTela aceita eventos encontrados por MetodosDeObjeto (sem sufixo obrigatório), ou Caption/Form do catálogo; rejeita alias ambíguo, reutiliza instâncias, não mascara falha de evento com criação silenciosa.
+- Helper movido para docs/assets/snippets/TDD_MAPEAMENTO_EVENTOS.pas. Coleta somente evento/menu selecionado, usa Caption do menu, preserva Forms anteriores e fecha somente novos. Exige revisão manual de candidatos; não foi executado no ERP.
+- Skill contribuir-documentacao explicitamente autorizada: helper no portal, página Application, aliases/redirects, paths e inventários reconciliados. npm run check e npm run build aprovados. Não houve inspeção visual no navegador.
+- Verificação: 7 grupos principais, 7 independentes, sensor 3/3, verificação independente APP-12 dos dados/documentação. Ver relatorio-servico.md e revisao-independente.md na feature.
+- Limites de regressão preservados: expectativa antiga FParamsCasosTeste=nil falha no fluxo atual do usuário; sonda antiga de logs espera MostrarLogTexto com 1 argumento e fonte atual usa 2. Não declarar toda suíte anterior aprovada.
+- Próximo passo no ambiente: cadastrar/atualizar unit remota do catálogo, atualizar conjunto de fontes coerente e testar aliases/Form/eventos e helper manualmente. Sem banco, menus reais, stage, commit ou deploy nesta iteração. Preservar alterações e movimentações prévias do usuário.
+
+- Correção atual: buffer próprio de preparação em Executar e lista própria do lote em Main, com restauração da referência do chamador. Sem nil. Atualizar as duas units juntas. Quatro testes estritos e dezesseis regressões aprovados; reteste nativo pendente. Ver irunner-logs-preparacao/correcao-invalid-pointer.md.

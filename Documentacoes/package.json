@@ -1,31 +1,39 @@
 {
-  "name": "documentacao-tdd-erp",
-  "private": true,
-  "type": "module",
-  "engines": {
-    "node": ">=24"
-  },
-  "scripts": {
-    "lint": "eslint --config config/eslint.config.js app && node config/lint-templates.mjs",
-    "lint:fix": "eslint --config config/eslint.config.js app --fix && node config/lint-templates.mjs --fix",
-    "typecheck": "tsc --project tsconfig.json --noEmit",
-    "check": "npm run lint && npm run typecheck",
-    "build": "node config/build.mjs",
-    "preview": "node config/preview.mjs",
-    "dev": "npm run build && npm run preview"
-  },
-  "devDependencies": {
-    "@eslint/js": "10.0.1",
-    "eslint": "10.5.0",
-    "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-jsdoc": "65.3.2",
-    "eslint-plugin-simple-import-sort": "12.1.1",
-    "eslint-plugin-vue": "10.11.1",
-    "mermaid": "11.17.2",
-    "typescript": "5.9.3",
-    "typescript-eslint": "8.71.2",
-    "vue": "3.5.43",
-    "vue-router": "4.6.4",
-    "vuetify": "4.2.3"
-  }
+    "name":  "documentacao-tdd-erp",
+    "private":  true,
+    "type":  "module",
+    "engines":  {
+                    "node":  "\u003e=24"
+                },
+    "scripts":  {
+                    "lint":  "eslint --config config/eslint.config.js app config/*.ts",
+                    "lint:fix":  "eslint --config config/eslint.config.js app config/*.ts --fix",
+                    "typecheck":  "vue-tsc --project tsconfig.json --noEmit \u0026\u0026 tsc --project config/tsconfig.json --noEmit",
+                    "check":  "npm run lint \u0026\u0026 npm run typecheck",
+                    "build":  "vite build --config vite.config.ts",
+                    "preview":  "vite preview --config vite.config.ts --host 127.0.0.1",
+                    "dev":  "vite --config vite.config.ts --host 127.0.0.1"
+                },
+    "devDependencies":  {
+                            "@eslint/js":  "10.0.1",
+                            "@types/node":  "24.10.1",
+                            "@vitejs/plugin-vue":  "6.0.10",
+                            "eslint":  "10.5.0",
+                            "eslint-config-prettier":  "10.1.8",
+                            "eslint-plugin-jsdoc":  "65.3.2",
+                            "eslint-plugin-simple-import-sort":  "12.1.1",
+                            "eslint-plugin-vue":  "10.11.1",
+                            "typescript":  "5.9.3",
+                            "typescript-eslint":  "8.71.2",
+                            "vite":  "8.3.4",
+                            "vite-plugin-vuetify":  "2.1.3",
+                            "vue-tsc":  "3.3.13"
+                        },
+    "dependencies":  {
+                         "@mdi/font":  "7.4.47",
+                         "mermaid":  "11.17.2",
+                         "vue":  "3.5.43",
+                         "vue-router":  "4.6.4",
+                         "vuetify":  "4.2.6"
+                     }
 }

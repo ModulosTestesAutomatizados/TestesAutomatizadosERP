@@ -7,7 +7,7 @@ import {spawnSync} from 'node:child_process';
 const root=process.cwd();
 const temporary=fs.mkdtempSync(path.join(os.tmpdir(),'tdd-logs-verificador-'));
 const suite=path.join(root,'.specs/features/irunner-logs-preparacao/testar.mjs');
-const runner='docs/assets/emDesenvolvimento/Runner/';
+const runner='docs/assets/configuracoesGerais/arquiteturaIRunner/';
 const mutants=[
   ['captura condicionada ao debug',runner+'TDD_RUN_LOGS.pas',
     '  FLogsCasoTeste.Add(pLog + #13);','  if FModoDebug then FLogsCasoTeste.Add(pLog + #13);'],
