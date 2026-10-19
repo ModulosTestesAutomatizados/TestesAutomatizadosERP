@@ -1,24 +1,33 @@
-# STATE
+# Estado do trabalho TLC
 
 ## Decisions
 
-Nenhuma decisao AD de projeto foi registrada como aprovada nesta entrega. As restricoes confirmadas pelo usuario e as propostas locais estao em `.specs/features/tdd-irunner-lote-json/context.md` e `spec.md`. A especificacao historica do MVP permanece preservada e nao comprova a implementacao nos arquivos atuais em Runner.
+### AD-001: Reutilizar os métodos existentes do IRunner
 
-### AD-001 — frontend documental Vue/Vite
+Não criar wrappers de preparação, falha, encerramento ou limpeza nesta iteração. O cálculo relativo pertence a RegistrarTick; a leitura dos parâmetros pertence a AplicarParametrosDoCasoTeste; o contexto pertence a SetarCasoTeste; o fechamento de métricas e a persistência pertencem a RegistrarMetricas. A casca mantém a ordem, os finally e o controle do lote.
 
-Status: active. Aprovada pela revisão da especificação e autorização de implementação em 2026-10-16. Usar SFC com script setup TypeScript, dependências npm e build estático Vite para Pages. Organizar slices dentro de app/components, preservando a hierarquia editorial e leitor comum dirigido por dados. Publicação documental é o contexto; grupos de assuntos não são automaticamente bounded contexts. Não alterar regras Pascal nesta migração.
-### Proveniência da integração do PR #27
+### AD-002: Um checkpoint, próxima iteração sem commit
 
-As decisões e o handoff da estabilização anterior foram preservados integralmente em `.specs/features/portal-vite-slices/referencias/estabilizacao/STATE-pr27.md`. São históricos: o contrato posterior de LOGS fornecido pelo usuário substitui a captura condicionada a debug descrita naquele snapshot. A entrega Vue/Vite preserva os fontes atuais reconciliados e a autorização de publicação por PR recebida nesta sessão.
+O usuário solicitou o checkpoint `e47d2a4` antes da reorganização. As alterações de irunner-casca-enxuta, sua especificação e suas evidências ficam fora do index e sem novo commit. Não executar push ou gravação no banco.
+
+### AD-003: Preservar debug e distinguir validação local de ERP
+
+TDD_LOGS mantém a captura condicionada a FModoDebug. As sondas locais executam um subconjunto do fonte Pascal traduzido com fronteiras ERP substituídas; não são compilação Pascal nem evidência de persistência real. A confirmação no JvInterpreter é uma etapa separada.
+
+### AD-004: Contexto sempre obtido do registro corrente
+
+SetarCasoTeste recebe somente módulo e área. O usuário confirmou que o fluxo sempre itera o lote; a descrição não é mais argumento nem alternativa opcional, sendo lida do CDS após a reinicialização segura do contexto.
 
 ## Handoff
 
-- **Feature:** .specs/features/conhecimento-agentes/spec.md.
-- **Phase:** concluída localmente; revisão independente PASS 7/7 em validation.md e validate_state sem erros. Falha inicial KNOW-03 corrigida em 271111a, com regressão CRLF/LF e rechecagem aprovada.
-- **Completed:** llms.txt, knowledge/index.json (schemaVersion/contentVersion), Markdown por documento público; códigos/cânones/citações/estados/símbolos/fontes preservados; base Vite, plugin dev/build e rel describedby; skill consultar-documentacao-tdd e guia /guias/agentes. ESLint passa também sobre config/*.ts.
-- **Verification:** check/build, fixture knowledge.mjs e HTTP knowledge-http.mjs passaram (28 Markdown, 73 links locais, âncoras e conhecimento LOGS). Asset-gate e git-index-paths passaram; duas skills validadas; dev JSON bruto HTTP 200. Testes/tools ignorados. Nenhum diff em Pascal ou Mermaids.
-- **Next step:** aguardar instruções de publicação desta extensão por novo PR. PR #26 já integrado em master (26ca11c); extensão ainda não enviada ao remoto.
-- **Branch/worktree:** TestesAutomatizadosERP-docs, somente este worktree. Sem ERP, SQL, novas dependências, branches ou worktrees.
-- **Publicação anterior:** PR #26 atualizado até ab4a2d8 após integrar master/PR #27, com build Ubuntu npm ci/check/build aprovado; integrado em 2026-10-16 pelo usuário. Origin/master contém apenas o merge 26ca11c além da base ab4a2d8, sem diferença de conteúdo. Esse PASS Linux antecede a extensão de conhecimento.
-- **Dev:** http://127.0.0.1:5173/TestesAutomatizadosERP/, sessão exec 94824; llms.txt HTTP 200 text/plain. /guias/agentes e /knowledge/index.json disponíveis no mesmo prefixo.
-- **Commits da extensão:** 31affb1 exportação; 807089d skill/guia; 9548f92 gates locais; 271111a correção de metadados e primeiro parecer; fechamento no commit deste registro. Sensor 1/1 morto, árvore isolada preservada; consulta pela skill encontrou LOGS corretamente. Lição candidata L-002 registrada. Escopo e fontes da migração anterior preservados em portal-vite-slices/validation.md e reconciliacao-fontes.md.
+- Feature atual: `.specs/features/irunner-application/spec.md`. Implementação local e documentação concluídas; sem publicação ou confirmação no ERP.
+- Artefatos atuais em docs/assets/configuracoesGerais/arquiteturaIRunner. TDD_RUN_RUNNER usa TDD_RUN_APPLICATION; arquivo remoto P39_TDD_RUN_APPLICATION.pas. Piloto financeiro em docs/assets/casosTestesFinanceiro/TDD_FIN_FINANCEIRO.pas.
+- Catálogo: TDD_RUN_APPLICATION_MAPEAMENTO_JSON.json no diretório da arquitetura, módulo -> Form -> caption/evento. Runtime lê P39_TDD_RUN_APPLICATION_MAPEAMENTO_JSON. Usuário confirmou Contas a Receber / FCadReceber / Receber1Click; demais Forms do piloto têm caption/evento vazios e preservam abertura direta por Form.
+- AbrirTela aceita eventos encontrados por MetodosDeObjeto (sem sufixo obrigatório), ou Caption/Form do catálogo; rejeita alias ambíguo, reutiliza instâncias, não mascara falha de evento com criação silenciosa.
+- Helper movido para docs/assets/snippets/TDD_MAPEAMENTO_EVENTOS.pas. Coleta somente evento/menu selecionado, usa Caption do menu, preserva Forms anteriores e fecha somente novos. Exige revisão manual de candidatos; não foi executado no ERP.
+- Skill contribuir-documentacao explicitamente autorizada: helper no portal, página Application, aliases/redirects, paths e inventários reconciliados. npm run check e npm run build aprovados. Não houve inspeção visual no navegador.
+- Verificação: 7 grupos principais, 7 independentes, sensor 3/3, verificação independente APP-12 dos dados/documentação. Ver relatorio-servico.md e revisao-independente.md na feature.
+- Limites de regressão preservados: expectativa antiga FParamsCasosTeste=nil falha no fluxo atual do usuário; sonda antiga de logs espera MostrarLogTexto com 1 argumento e fonte atual usa 2. Não declarar toda suíte anterior aprovada.
+- Próximo passo no ambiente: cadastrar/atualizar unit remota do catálogo, atualizar conjunto de fontes coerente e testar aliases/Form/eventos e helper manualmente. Sem banco, menus reais, stage, commit ou deploy nesta iteração. Preservar alterações e movimentações prévias do usuário.
+
+- Correção atual: buffer próprio de preparação em Executar e lista própria do lote em Main, com restauração da referência do chamador. Sem nil. Atualizar as duas units juntas. Quatro testes estritos e dezesseis regressões aprovados; reteste nativo pendente. Ver irunner-logs-preparacao/correcao-invalid-pointer.md.

@@ -131,7 +131,7 @@ begin
   FCasoTeste.ResultadoEsperado := JSONFormatado(lJsonResultadoEsperado);
 
   // Debug fora do IRunner, se utilizado precisa implementar o .Free no estado dos logs mantidos por FLogsCasoTeste.
-  // {P39_TDD_RUN_LOGS.}RegistrarLogEmModoDebug('Valor atribuido ao Caso de Teste:' + #13 + JSONFormatado(FCasoTeste.CasoTeste));
+  // {P39_TDD_RUN_LOGS.}RegistrarLog('Valor atribuido ao Caso de Teste:' + #13 + JSONFormatado(FCasoTeste.CasoTeste));
 
   try
     if lCodigoCasoTeste > 0 then

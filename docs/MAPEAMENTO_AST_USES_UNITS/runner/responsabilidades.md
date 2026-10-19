@@ -10,4 +10,8 @@ flowchart LR
  TDD_RUN_UNIT_BASE_IRUNNER --> TDD_RUN_FINISHED["TDD_RUN_FINISHED · persistir"]
  TDD_RUN_FINISHED -. "snapshot" .-> TDD_RUN_LOGS["TDD_RUN_LOGS · mensagens"]
  TDD_RUN_RUNNER --> P39_TDD_CASOS_DE_TESTE["P39_TDD_CASOS_DE_TESTE · lote"]
+ TDD_RUN_RUNNER --> TDD_RUN_APPLICATION["TDD_RUN_APPLICATION · principal e abertura de telas"]
+ TDD_FIN_FINANCEIRO --> TDD_RUN_APPLICATION
+ TDD_RUN_APPLICATION -. "Form ou Caption" .-> C["Catálogo remoto por módulo"]
+ TDD_RUN_APPLICATION -. "evento direto" .-> FP["FPrincipal do módulo"]
 ```

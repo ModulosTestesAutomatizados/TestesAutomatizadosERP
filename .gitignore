@@ -1,5 +1,4 @@
 *.txt
-*.json
 .envrc
 sql/temp-local/
 docs/planejamentos-local/

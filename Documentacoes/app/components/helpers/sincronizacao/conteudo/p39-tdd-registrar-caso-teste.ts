@@ -81,7 +81,8 @@ const documento = criarDocumentoUnit({
     "CarregarConteudoUnit lê CodificacaoUnit. Para fonte remota acrescenta P39_ apenas se necessário. Mínimos usam nomes remotos exatos mesmo quando o caso é local; erro de leitura ou conteúdo vazio não vira {} silenciosamente.",
     "ObterObjetoConfiguracao resolve resultadoEsperado e camposDisponiveis antes dos fallbacks SQL de módulo/área. Propriedade reservada null, array ou escalar é inválida. Falta de fonte/mínimo obrigatório ou JSON inválido propaga erro antes das gravações.",
     "No corpo atual, propriedades reservadas da raiz são retiradas da entrada e recompostas com os objetos resolvidos. CASO_TESTE_CT mantém dados, parametros, camposDisponiveis e resultadoEsperado na raiz. CAMPOS_DISPONIVEIS_CT e RESULTADO_ESPERADO_CT mantêm os respectivos wrappers nomeados. Homônimas aninhadas permanecem nos dados; não criar wrapper duplo.",
-    "RegistroFallbackModulo/Area resolve cadastros depois da validação JSON. FCasoTeste recebe as projeções formatadas e InsertCasoTeste ou AtualizarCasoTeste usa parâmetros ODBC. A consulta inicial não equivale a uma gravação; não há garantia de transação única global ou retry."
+    "RegistroFallbackModulo/Area resolve cadastros depois da validação JSON. FCasoTeste recebe as projeções formatadas e InsertCasoTeste ou AtualizarCasoTeste usa parâmetros ODBC. A consulta inicial não equivale a uma gravação; não há garantia de transação única global ou retry.",
+    "parametros é opcional: a sincronização preserva quando informado e não injeta fallback vazio quando ausente. Os objetos resolvidos camposDisponiveis e resultadoEsperado sempre mantêm suas tags nas projeções."
   ],
   "dependencias": [
     "P39_TDD_ODBC: cláusula uses do fonte.",

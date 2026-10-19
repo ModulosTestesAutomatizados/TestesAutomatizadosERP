@@ -11,40 +11,40 @@ export default {
   },
   "fontes": [
     {
-      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_IRUNNER.pas"
+      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_IRUNNER.pas"
     },
     {
-      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_UNIT_BASE_IRUNNER.pas"
+      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_UNIT_BASE_IRUNNER.pas"
     },
     {
-      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_RUNNER.pas"
+      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_RUNNER.pas"
     },
     {
-      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_STARTED.pas"
+      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_STARTED.pas"
     },
     {
-      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_FINISHED.pas"
+      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_FINISHED.pas"
     },
     {
-      "caminho": "docs/assets/emDesenvolvimento/Runner/TDD_RUN_LOGS.pas"
+      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_LOGS.pas"
     },
     {
-      "caminho": "docs/assets/emDesenvolvimento/Runner/P39_TDD_RUN_ASSERTS.pas"
+      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_ASSERTS.pas"
     },
     {
-      "caminho": "docs/assets/emDesenvolvimento/Runner/P39_TDD_RUN_MODULO.pas"
+      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_APPLICATION.pas"
     },
     {
-      "caminho": "docs/assets/emDesenvolvimento/P39_TDD_RUN_VALIDAR_RESULTADO.pas"
+      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_VALIDAR_RESULTADO.pas"
     },
     {
       "caminho": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas"
     },
     {
-      "caminho": "docs/assets/emDesenvolvimento/Runner/P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO.pas"
+      "caminho": "docs/assets/casosTestesFinanceiro/processamentos/P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO.pas"
     },
     {
-      "caminho": "docs/assets/emDesenvolvimento/TDD_FIN_FINANCEIRO.pas"
+      "caminho": "docs/assets/casosTestesFinanceiro/TDD_FIN_FINANCEIRO.pas"
     },
     {
       "caminho": "docs/MAPEAMENTO_AST_USES_UNITS/runner/TDD_RUN_IRUNNER.ast.json"
@@ -95,7 +95,7 @@ export default {
             [
               "TDD_RUN_UNIT_BASE_IRUNNER",
               "Lote, cursor, Run, continuidade e limpeza",
-              "Consome contexto compartilhado; não declara globais próprios"
+              "FLogsPreparacao e lista própria de logs do lote; consome o contexto do registro corrente"
             ],
             [
               "TDD_RUN_RUNNER",
@@ -124,7 +124,7 @@ export default {
             ],
             [
               "TDD_RUN_LOGS",
-              "Mensagens em debug e instruções separadas",
+              "Captura permanente; exibição por debug e instruções separadas",
               "FModoDebug, FExibirInstrucoes, FLogsCasoTeste"
             ],
             [
@@ -133,8 +133,8 @@ export default {
               "FModulo, FDescModulo, CDSCasosTestes, CDSResultadoEsperado"
             ],
             [
-              "P39_TDD_RUN_MODULO",
-              "Telas por menu e foco",
+              "P39_TDD_RUN_APPLICATION",
+              "Telas por evento, Form ou Caption do catálogo e foco",
               "FP; consome contexto de CASOS_DE_TESTE"
             ]
           ]
@@ -147,11 +147,11 @@ export default {
       "blocos": [
         {
           "tipo": "paragrafo",
-          "texto": "Executar lê CodificacaoUnit('TDD_RUN_UNIT_BASE_IRUNNER') e substitui quatro marcadores: __USES_UNITS__, __PARAMETROS_CASO_TESTE__, __CHAMADAS_METODOS__ e __MODO_DEBUG__. A chamada Teste gerada recebe delimitadores, callback e ticks; o cenário não deve controlar o cursor."
+          "texto": "Executar lê CodificacaoUnit('TDD_RUN_UNIT_BASE_IRUNNER') e substitui cinco marcadores: __USES_UNITS__, __PARAMETROS_CASO_TESTE__, __CHAMADAS_METODOS__, __MODO_DEBUG__ e __LOGS_PREPARACAO__. A chamada Teste gerada recebe delimitadores, callback e ticks; o cenário não deve controlar o cursor."
         },
         {
           "tipo": "paragrafo",
-          "texto": "O modo debug é transmitido ao programa gerado. FUnitInterpretar e FParamsCasosTeste são liberadas e recebem nil no finally; FTDDUnit permanece selecionada."
+          "texto": "O debug e uma cópia textual dos logs de preparação são transmitidos ao programa gerado. Executar libera seu buffer e restaura a referência anterior de logs; Main cria uma lista própria para o lote. FUnitInterpretar e FParamsCasosTeste recebem Free no finally. FTDDUnit permanece selecionada."
         },
         {
           "tipo": "mermaid",
@@ -175,7 +175,7 @@ export default {
         },
         {
           "tipo": "paragrafo",
-          "texto": "Variantes sem P39_ só apontam para um arquivo local quando há candidato inequívoco, identificado como variante de referência no inventário; isso não comprova cadastro remoto. O uses TDD_VALIDAR_RESULTADO de TDD_RUN_RUNNER permanece não resolvido pelo nome dos arquivos locais; o validador atual tem nome P39_TDD_RUN_VALIDAR_RESULTADO."
+          "texto": "Variantes sem P39_ só apontam para um arquivo local quando há candidato inequívoco, identificado como variante de referência no inventário; isso não comprova cadastro remoto. TDD_RUN_RUNNER usa P39_TDD_RUN_VALIDAR_RESULTADO e TDD_RUN_APPLICATION; este último resolve o arquivo P39_TDD_RUN_APPLICATION.pas como variante local de referência."
         }
       ]
     },
@@ -260,7 +260,7 @@ export default {
         },
         {
           "tipo": "paragrafo",
-          "texto": "Os parâmetros aplicados ao ERP não são automaticamente restaurados ao liberar datasets. A casca libera FLogsCasoTeste ao encerrar sem atribuir nil; reexecução no mesmo contexto continua sendo um limite que exige correção/evidência de outra iteração."
+          "texto": "Os parâmetros aplicados ao ERP não são automaticamente restaurados ao liberar datasets. Montagem e lote possuem listas de logs distintas e cada dono libera sua lista com Free. A repetição via AddParamsRun no mesmo contexto após a liberação de seus parâmetros ainda requer validação nativa própria."
         }
       ]
     },
@@ -280,7 +280,7 @@ export default {
         },
         {
           "tipo": "paragrafo",
-          "texto": "RegistrarLog sempre acumula mensagens em TDD_RUN_LOGS; FModoDebug controla somente sua exibição e FExibirInstrucoes controla instruções independentemente. Outros fontes ainda podem citar RegistrarLogEmModoDebug, que não é mais declarado na unit atual; essas chamadas exigem alinhamento no código TDD. FINISHED copia FLogsCasoTeste.Text imediatamente antes do INSERT."
+          "texto": "RegistrarLog sempre acumula mensagens em TDD_RUN_LOGS; FModoDebug controla somente sua exibição e FExibirInstrucoes controla instruções independentemente. As chamadas do conjunto atual usam RegistrarLog. O diagnóstico do código gerado deixa a preparação vazia apenas na representação exibida, evitando autorreferência; o código interpretado recebe a cópia integral com literais consecutivos, sem uma cadeia extensa de somas. FINISHED copia FLogsCasoTeste.Text imediatamente antes do INSERT."
         },
         {
           "tipo": "paragrafo",

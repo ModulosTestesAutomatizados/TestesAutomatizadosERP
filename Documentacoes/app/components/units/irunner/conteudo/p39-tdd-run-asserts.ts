@@ -4,7 +4,7 @@ export default criarDocumentoUnit({
   "resumo": "Acumular resultados, contadores de asserts, erros reais e capturas de datasets do caso.",
   "responsabilidade": "Acumular resultados, contadores de asserts, erros reais e capturas de datasets do caso.",
   "problema": "Manter evidências depois do TEARDOWN, sem depender das telas já fechadas.",
-  "fonte": "docs/assets/emDesenvolvimento/Runner/P39_TDD_RUN_ASSERTS.pas",
+  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_ASSERTS.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [
@@ -67,108 +67,108 @@ export default criarDocumentoUnit({
   "metodos": [
     [
       "procedure Main;",
-      "Apresenta as instruções conforme FExibirInstrucoes; quando é entrada do molde/processamento, executa também a orquestração descrita abaixo.",
-      "Implementação no fonte, linha 18. Atribuições e fluxo locais seguem o contrato descrito acima."
+      "Apresenta as instruções da unit conforme FExibirInstrucoes.",
+      "Declaração no fonte atual, linha 18. Consulte a implementação canônica vinculada."
     ],
     [
       "procedure InicializarAcumulo;",
       "Garante a instanciação das listas globais (FFalhas, FDataSets e FResultados) antes do uso.",
-      "Implementação no fonte, linha 88. Atribuições e fluxo locais seguem o contrato descrito acima."
+      "Declaração no fonte atual, linha 88. Consulte a implementação canônica vinculada."
     ],
     [
       "procedure RegistrarDataSet(pDataSetName :String);",
       "Localiza o par \"DataSet|DM\", valida se está ativo/preenchido e salva uma cópia dos dados em FDataSets.",
-      "Implementação no fonte, linha 106. Operações chamadas: DMCriadoPeloNome, CorteApos, Assigned, Create, FindComponent, CorteAte."
+      "Declaração no fonte atual, linha 106. Consulte a implementação canônica vinculada."
     ],
     [
       "function RegistrarResultado(pPassou :Boolean; pMsg :String) :Boolean;",
       "Incrementa os totalizadores (Total, Pass ou Fail), alimenta as listas de histórico/falhas e registra log debug.",
-      "Implementação no fonte, linha 140. Operações chamadas: Add, RegistrarLogEmModoDebug."
+      "Declaração no fonte atual, linha 140. Consulte a implementação canônica vinculada."
     ],
     [
       "procedure RegistrarErroReal(pDescricao :String);",
       "Incrementa o contador FErrosReais e grava a descrição do erro no log em modo debug.",
-      "Implementação no fonte, linha 163. Operações chamadas: RegistrarLogEmModoDebug."
+      "Declaração no fonte atual, linha 163. Consulte a implementação canônica vinculada."
     ],
     [
       "function AssertsPassou(pDescricao :String) :Boolean;",
       "Registra diretamente um resultado positivo (PASS) com a mensagem informada.",
-      "Implementação no fonte, linha 171. Operações chamadas: RegistrarResultado."
+      "Declaração no fonte atual, linha 171. Consulte a implementação canônica vinculada."
     ],
     [
       "function AssertsFalhou(pDescricao, pDetalhe :String) :Boolean;",
       "Registra diretamente uma falha (FAIL) concatenando a descrição e o detalhe do problema.",
-      "Implementação no fonte, linha 176. Operações chamadas: RegistrarResultado."
+      "Declaração no fonte atual, linha 176. Consulte a implementação canônica vinculada."
     ],
     [
       "function AssertVerdadeiro(pCondicao :Boolean; pDescricao :String) :Boolean;",
       "Valida se a condição informada é verdadeira (True).",
-      "Implementação no fonte, linha 181. Operações chamadas: RegistrarResultado."
+      "Declaração no fonte atual, linha 181. Consulte a implementação canônica vinculada."
     ],
     [
       "function AssertFalso(pCondicao :Boolean; pDescricao :String) :Boolean;",
       "Valida se a condição informada é falsa (False).",
-      "Implementação no fonte, linha 190. Operações chamadas: RegistrarResultado."
+      "Declaração no fonte atual, linha 190. Consulte a implementação canônica vinculada."
     ],
     [
       "function AssertIgual(pEsperado, pObtido, pDescricao :String) :Boolean;",
       "Compara duas strings e valida se o valor obtido é exatamente igual ao esperado.",
-      "Implementação no fonte, linha 199. Operações chamadas: RegistrarResultado."
+      "Declaração no fonte atual, linha 199. Consulte a implementação canônica vinculada."
     ],
     [
       "function AssertIgualInteiro(pEsperado, pObtido :Integer; pDescricao :String) :Boolean;",
       "Compara dois números inteiros e valida se são iguais.",
-      "Implementação no fonte, linha 209. Operações chamadas: RegistrarResultado, IntToStr."
+      "Declaração no fonte atual, linha 209. Consulte a implementação canônica vinculada."
     ],
     [
       "function Arredondar(pValor :Currency; pCasas :Integer) :Currency;",
       "Função auxiliar que arredonda um valor Currency para a quantidade de casas decimais especificada.",
-      "Implementação no fonte, linha 219. Operações chamadas: Round."
+      "Declaração no fonte atual, linha 219. Consulte a implementação canônica vinculada."
     ],
     [
       "function AssertIgualCurrency(pEsperado, pObtido :Currency; pCasas :Integer; pDescricao :String) :Boolean;",
       "Compara dois valores monetários (Currency) aplicando arredondamento prévio conforme pCasas.",
-      "Implementação no fonte, linha 230. Operações chamadas: Arredondar, RegistrarResultado, CurrToStr."
+      "Declaração no fonte atual, linha 230. Consulte a implementação canônica vinculada."
     ],
     [
       "function AssertListaVazia(pLista :TStringList; pDescricao :String) :Boolean;",
       "Valida se a TStringList informada não está instanciada (nil) ou não possui elementos (Count = 0).",
-      "Implementação no fonte, linha 242. Operações chamadas: if, or, RegistrarResultado, IntToStr."
+      "Declaração no fonte atual, linha 242. Consulte a implementação canônica vinculada."
     ],
     [
       "function AssertContem(pTexto, pSubstring, pDescricao :String) :Boolean;",
       "Verifica (sem diferenciar maiúsculas/minúsculas) se pSubstring está contida em pTexto.",
-      "Implementação no fonte, linha 252. Operações chamadas: Pos, UpperCase, RegistrarResultado."
+      "Declaração no fonte atual, linha 252. Consulte a implementação canônica vinculada."
     ],
     [
       "procedure AssertsZerar;",
       "Reinicia contadores, limpa listas de resultados/falhas e libera da memória os TClientDataSet clonados.",
-      "Implementação no fonte, linha 264. Operações chamadas: Delete."
+      "Declaração no fonte atual, linha 264. Consulte a implementação canônica vinculada."
     ],
     [
       "function AssertsTotal :Integer;",
       "Funções de leitura que retornam os respectivos contadores acumulados na execução.",
-      "Implementação no fonte, linha 282. Atribuições e fluxo locais seguem o contrato descrito acima."
+      "Declaração no fonte atual, linha 282. Consulte a implementação canônica vinculada."
     ],
     [
       "function AssertsPass :Integer;",
       "Retorna o contador de aprovações.",
-      "Implementação no fonte, linha 287. Atribuições e fluxo locais seguem o contrato descrito acima."
+      "Declaração no fonte atual, linha 287. Consulte a implementação canônica vinculada."
     ],
     [
       "function AssertsFail :Integer;",
       "Retorna o contador de reprovações.",
-      "Implementação no fonte, linha 292. Atribuições e fluxo locais seguem o contrato descrito acima."
+      "Declaração no fonte atual, linha 292. Consulte a implementação canônica vinculada."
     ],
     [
       "function AssertsOk :Boolean;",
       "Retorna True caso nenhuma falha tenha sido registrada (FAssertsFail = 0).",
-      "Implementação no fonte, linha 297. Atribuições e fluxo locais seguem o contrato descrito acima."
+      "Declaração no fonte atual, linha 297. Consulte a implementação canônica vinculada."
     ],
     [
       "function AssertsResumo :String;",
       "Gera uma string formatada com o placar de execução (total, pass, fail) e a listagem detalhada das falhas.",
-      "Implementação no fonte, linha 302. Atribuições e fluxo locais seguem o contrato descrito acima."
+      "Declaração no fonte atual, linha 302. Consulte a implementação canônica vinculada."
     ]
   ],
   "implementacao": [
@@ -181,8 +181,6 @@ export default criarDocumentoUnit({
     "P39_TDD_CASOS_DE_TESTE: cláusula uses do fonte."
   ],
   "limites": [
-    "Fonte local e documentação não comprovam cadastro remoto instalado ou homologação no ERP. APIs do host e efeitos financeiros precisam de evidência própria.",
-    "A casca atual libera FLogsCasoTeste no encerramento sem atribuir nil. A reexecução no mesmo contexto permanece uma limitação conhecida; não declarar a suíte toda aprovada.",
-    "O uses TDD_VALIDAR_RESULTADO em TDD_RUN_RUNNER ainda difere do arquivo P39_TDD_RUN_VALIDAR_RESULTADO. A citação documental resolve o assunto, mas não comprova que esse identificador está instalado no interpretador."
+    "Fonte local e documentação não comprovam cadastro remoto instalado ou homologação no ERP. APIs do host e efeitos financeiros precisam de evidência própria."
   ]
 });

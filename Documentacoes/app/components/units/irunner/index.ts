@@ -1,6 +1,6 @@
 import doc9 from './conteudo/p39-tdd-fin-processamento-financeiro.ts';
+import doc7 from './conteudo/p39-tdd-run-application.ts';
 import doc6 from './conteudo/p39-tdd-run-asserts.ts';
-import doc7 from './conteudo/p39-tdd-run-modulo.ts';
 import doc8 from './conteudo/p39-tdd-run-validar-resultado.ts';
 import doc4 from './conteudo/tdd-run-finished.ts';
 import doc0 from './conteudo/tdd-run-irunner.ts';
