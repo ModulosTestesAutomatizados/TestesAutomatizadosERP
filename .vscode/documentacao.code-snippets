@@ -4,12 +4,13 @@
     "prefix": "docpagina",
     "description": "Documento modular do portal TDD; registre uma vez no catálogo.",
     "body": [
-      "import type { IDocumento } from '../../models/documentacao.ts';",
+      "import type { IDocumento } from '${19:../../../../contracts/documentacao.ts}';",
       "",
       "export default {",
-      "  slug: '${1:novo-caso}', categoria: '${2|documentos,estrutura,guias|}',",
+      "  slug: '${1:novo-caso}', categoria: '${2|estrutura,guias,documentos|}',",
       "  titulo: '${3:Título da documentação}',",
       "  resumo: '${4:Objetivo e conteúdo da página.}',",
+      "  navegacao: { grupo: '${9|estrutura,guias,casos|}', ordem: ${10:0} },",
       "  estado: 'em-desenvolvimento',",
       "  fontes: [{ caminho: '${5:docs/assets/caminho/UNIT.pas}' }],",
       "  secoes: [{",
@@ -47,7 +48,7 @@
     "body": [
       "{ tipo: 'tabela',",
       "  colunas: ['${1:Unit}', '${2:Responsabilidade}'],",
-      "  linhas: [['${3:TDD_STARTED}', '${4:Preparar o caso corrente}']]",
+      "  linhas: [['${3:P39_TDD_STARTED}', '${4:Preparar o caso corrente}']]",
       "},$0"
     ]
   },
@@ -63,21 +64,23 @@
   "Documento individual de unit": {
     "scope": "typescript",
     "prefix": "docunit",
-    "description": "Unit completa: responsabilidade, estado global, assinaturas, implementação e limites.",
+    "description": "Unit canônica: nome real do fonte no título/menu, distinguindo referências remotas.",
     "body": [
-      "import { criarDocumentoUnit } from './criarDocumentoUnit.ts';",
+      "import { criarDocumentoUnit } from '${19:../../../../contracts/criarDocumentoUnit.ts}';",
       "export default criarDocumentoUnit({",
-      "  nome: '${1:TDD_NOVA_UNIT}', aliases: ['${2:P39_TDD_NOVA_UNIT}'],",
+      "  nome: '${1:P39_TDD_NOVA_UNIT}',",
+      "  tipoArtefato: '${18|unit,processamento|}',",
+      "  navegacao: { grupo: 'units', subgrupo: '${2|setup,constantes,persistencia,irunner|}', ordem: ${3:0} },",
       "  estado: 'em-desenvolvimento',",
-      "  resumo: '${3:Responsabilidade principal da unit.}',",
-      "  fonte: '${4:docs/assets/caminho/TDD_NOVA_UNIT.pas}',",
-      "  responsabilidade: '${5:O que esta unit deve realizar.}',",
-      "  problema: '${6:Qual problema ela resolve.}',",
-      "  estados: [['${7:ESTADO}', '${8:Tipo e finalidade}', '${9:Inicialização, alteração e descarte}']],",
-      "  metodos: [['${10:procedure Executar;}', '${11:Finalidade e contrato}', '${12:Como está implementada}']],",
-      "  implementacao: ['${13:Etapas internas e decisões}'],",
-      "  dependencias: ['${14:TDD_IRUNNER}: ${15:Motivo da dependência}'],",
-      "  limites: ['${16:Limitações verificadas nos fontes}']",
+      "  resumo: '${4:Responsabilidade principal da unit.}',",
+      "  fonte: '${5:docs/assets/caminho}/${1}.pas',",
+      "  responsabilidade: '${6:O que esta unit deve realizar.}',",
+      "  problema: '${7:Qual problema ela resolve.}',",
+      "  estados: [['${8:ESTADO: Tipo}', '${9:Finalidade}', '${10:Inicialização, alteração e descarte}']],",
+      "  metodos: [['${11:procedure Executar;}', '${12:Finalidade e contrato}', '${13:Como está implementada}']],",
+      "  implementacao: ['${14:Etapas internas e decisões}'],",
+      "  dependencias: ['${15:P39_TDD_IRUNNER}: ${16:Motivo da dependência}'],",
+      "  limites: ['${17:Limitações verificadas nos fontes}']",
       "});",
       "$0"
     ]
@@ -103,10 +106,10 @@
   "Registro de unit": {
     "scope": "typescript",
     "prefix": "docregistrounit",
-    "description": "Import em content/units/catalogo.ts; aliases também passam a gerar links automáticos.",
+    "description": "Import em index.ts público da slice; use o nome canônico do arquivo TypeScript.",
     "body": [
-      "import ${1:novaUnit} from './${2:tdd-nova-unit}.ts';",
-      "// Acrescente ${1:novaUnit} à lista units abaixo.",
+      "import ${1:novaUnit} from './conteudo/${2:p39-tdd-nova-unit}.ts';",
+      "// Acrescente ${1:novaUnit} ao array exportado pelo index.ts da slice.",
       "$0"
     ]
   },
@@ -137,7 +140,7 @@
       "",
       "```mermaid",
       "flowchart ${3|LR,TD|}",
-      "  A[\"${4:TDD_IRUNNER}\"] --> B[\"${5:TDD_RUNNER}\"]",
+      "  A[\"${4:P39_TDD_IRUNNER}\"] --> B[\"${5:P39_TDD_RUNNER}\"]",
       "```",
       "$0"
     ]
@@ -147,8 +150,8 @@
     "prefix": "docregistro",
     "description": "Import para catalogo.ts; acrescente o identificador à lista documentos.",
     "body": [
-      "import ${1:novaPagina} from './${2:documentos/novo-caso}.ts';",
-      "// Acrescente ${1:novaPagina} à lista documentos abaixo.",
+      "import ${1:novaPagina} from './conteudo/${2:novo-fluxo}.ts';",
+      "// Acrescente ${1:novaPagina} ao array exportado pelo index.ts da slice.",
       "$0"
     ]
   },
@@ -190,9 +193,9 @@
   "Navegação de caso de teste": {
     "scope": "typescript",
     "prefix": "doccaso",
-    "description": "Inclua no documento para agrupá-lo em Casos de teste, sem alterar a rota.",
+    "description": "Inclua em criarDocumentoUnit do caso; Casos de teste não possui subgrupos.",
     "body": [
-      "navegacao: { grupo: 'casos', subgrupo: '${1|irunner,legado|}', ordem: ${2:0} },$0"
+      "navegacao: { grupo: 'casos', ordem: ${1:0} },$0"
     ]
   },
   "Fonte de referência": {
@@ -211,29 +214,54 @@
       "aliasesArtefatos: { ${1:CDSCasosTestes}: ['${2:FCDSCasosTestes}'] },$0"
     ]
   },
-  "Grupo de navega??o": {
+  "Posicionamento no drawer": {
+    "scope": "typescript",
+    "prefix": "docnavegacao",
+    "description": "IDs registrados: units/setup, constantes, persistencia ou irunner; helpers/gerais ou sincronizacao; mapeamentos/financeiro. Casos não tem subgrupo.",
+    "body": [
+      "navegacao: { grupo: '${1:units}', subgrupo: '${2:setup}', ordem: ${3:0} },$0"
+    ]
+  },
+  "Grupo de navegação": {
     "scope": "typescript",
     "prefix": "docgrupo",
-    "description": "Inclua em GRUPOS_NAVEGACAO de app/content/navegacao.ts; p?ginas escolhem estes IDs.",
+    "description": "Inclua em GRUPOS_NAVEGACAO de app/catalogo/grupos.ts; documentos escolhem esses IDs.",
     "body": [
       "{ id: '${1:novo-grupo}', titulo: '${2:Novo grupo}', icone: '${3:mdi-folder-outline}',",
       "  subgrupos: [{ id: '${4:geral}', titulo: '${5:Geral}' }] },$0"
     ]
   },
-  "Subgrupo de navega??o": {
+  "Subgrupo de navegação": {
     "scope": "typescript",
     "prefix": "docsubgrupo",
-    "description": "Inclua no array subgrupos do grupo em content/navegacao.ts.",
+    "description": "Inclua no array subgrupos do grupo em app/catalogo/grupos.ts.",
     "body": [
       "{ id: '${1:novo-subgrupo}', titulo: '${2:Novo subgrupo}' },$0"
     ]
   },
-  "Posicionamento no drawer": {
-    "scope": "typescript",
-    "prefix": "docnavegacao",
-    "description": "Inclua no documento ou criarDocumentoUnit; IDs devem existir no registro de navega??o.",
+  "Componente Vue da feature": {
+    "scope": "vue",
+    "prefix": "doccomponente",
+    "description": "SFC na slice responsável, com script setup TypeScript e props tipadas.",
     "body": [
-      "navegacao: { grupo: '${1:units}', subgrupo: '${2:irunner}', ordem: ${3:0} },$0"
+      "<template>",
+      "  <v-sheet>",
+      "    {{ titulo }}",
+      "  </v-sheet>",
+      "</template>",
+      "",
+      "<script setup lang=\"ts\">",
+      "defineProps<{ titulo: string }>();",
+      "${0}",
+      "</script>"
+    ]
+  },
+  "Molde canônico copiável": {
+    "scope": "typescript",
+    "prefix": "doccodigofonte",
+    "description": "Bloco que lê o arquivo canônico em docs/assets/snippets, validado e publicado pelo build.",
+    "body": [
+      "{ tipo: 'codigo-fonte', fonte: 'docs/assets/snippets/${1:TDD_CASO_TESTE_MODELO_JSON.json}', linguagem: '${2:json}' },$0"
     ]
   }
 }

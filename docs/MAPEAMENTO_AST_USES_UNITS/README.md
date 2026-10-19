@@ -1,20 +1,15 @@
 # Mapas canônicos da documentação
 
-Todos os Mermaid ativos do portal estão em um subdiretório por documentação:
+Os Mermaid ativos ficam em um subdiretório por documento:
 
-- `runner/`: dependências declaradas, montagem dinâmica, lote, falhas, estados e métricas.
-- `casos-de-teste/`: cadastro e datasets compartilhados.
-- `parametros/`: preparação, aplicação e escopo dos parâmetros.
-- `casos-legado/`: seleção de cenário no processamento anterior.
-- `casos-irunner/`: entrada atual e execução por registro.
-- `piloto-financeiro/`: dependências e sequência das operações do piloto atual.
-- `pedido-venda/`: contribuição do PR #20, com dependências, execução e Draw.io do faturamento refatorado.
-- `historico/financeiro/`, `historico/faturamento/` e `historico/cadastro/`: mapas, HTMLs e Draw.io dos contratos anteriores, preservados para consulta. Não representam os fontes atuais do IRunner.
+- runner/: geração, lote, tentativa, falhas, estados, persistência, modelo ER e AST dos uses.
+- p39-tdd-registrar-caso-teste/: fonte única, defaults, projeções e AST da sincronização.
+- historico/: mapas de contratos anteriores. O diretório manutencao-migracao-units conserva um mapa anterior de renomes para consulta histórica; não representa os contratos atuais nem integra o portal.
 
-O portal referencia o Markdown canônico; não há cópias dos diagramas em TypeScript. Orientação e zoom são opções locais de leitura. Novos diagramas devem usar `docs/MAPEAMENTO_AST_USES_UNITS/<slug-do-documento>/<diagrama>.md`.
+Os arquivos TDD_RUN_IRUNNER.ast.json e sincronizacao.ast.json registram roots, nós, paths, linhas e edges das cláusulas uses. Comentários e literais são mascarados; carga dinâmica e compartilhamento de estado aparecem em diagramas separados. Cada nó local tem hash SHA-256 normalizando somente CRLF para LF.
 
-`runner/TDD_IRUNNER.ast.json` mantém o inventário sintático de uses, fontes, linhas, hashes e alcance transitivo. Seu Mermaid correspondente está em `runner/TDD_IRUNNER.md`. O inventário inclui o processamento financeiro que configura o piloto. A extração é limitada às dependências sintáticas; nomes externos e prefixos diferentes permanecem distintos, sem inferir equivalência entre a unit local e a cadastrada no ERP.
+Variantes P39_ são identificadas como referência a arquivo local inequívoco, sem comprovar cadastro no ERP. O uses do runner referencia P39_TDD_RUN_VALIDAR_RESULTADO e TDD_RUN_APPLICATION. A abertura por Form/Caption carrega o catálogo remoto P39_TDD_RUN_APPLICATION_MAPEAMENTO_JSON; eventos diretos não dependem desse catálogo.
 
-As referências históricas de fluxo completo, fallbacks de configuração financeira e carregador independente foram arquivadas. O piloto atual recebe o contexto de TDD_STARTED, usa Teste sem parâmetros, executa quatro operações e realiza teardown em finally. O cursor e a liberação dos artefatos globais pertencem ao molde; TDD_ASSERTS permanece pendente.
+O build Vite valida catálogo, fontes, capitalização exata, Mermaid e hashes antes de publicar. Copia apenas os mapas/inventários e moldes referenciados. O portal não mantém strings Mermaid duplicadas. A orientação e o zoom são preferências de leitura.
 
-Os hashes SHA-256 normalizam apenas CRLF para LF antes do cálculo, preservando todos os demais bytes. Assim, o inventário é verificado tanto no checkout Windows quanto no Linux do GitHub Actions, sem ocultar alterações no conteúdo dos fontes.
+O fluxo atual executa ASSERTS e persiste suas métricas; pendências históricas não descrevem o contrato novo. docs/MER.md aponta para o modelo ER canônico em runner/persistencia-modelo.md.

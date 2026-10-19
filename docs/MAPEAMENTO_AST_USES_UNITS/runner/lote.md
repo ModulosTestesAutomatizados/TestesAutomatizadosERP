@@ -1,23 +1,17 @@
-# Da entrada à persistência
-
-Documentação: Estrutura e fluxo de IRunner.Executar. Este arquivo é a fonte do diagrama exibido pelo portal.
+# Fluxo do lote
 
 ```mermaid
 flowchart TD
-  Entrada["SetTDDUnit + AddParamsRun"] --> Montar["IRunner.Executar: preencher molde"]
-  Montar --> Interpretar["Interpretar: Main do molde"]
-  Interpretar --> Setup["ExecutarLote: SetupCasosTestes"]
-  Setup --> First["CDSCasosTestes.First"]
-  First --> Corrente{"Há caso corrente?"}
-  Corrente -- Sim --> Run["Run: SetarCasoTeste e métricas"]
-  Run --> Started["Started: ID, JSON, versão e parâmetros"]
-  Started --> Teste["Teste da unit configurada"]
-  Teste --> Asserts["ASSERTS: etapa reservada"]
-  Asserts --> Sucesso["Status SUCESSO sem validação de asserts"]
-  Sucesso --> Tempos["Finally: fechar tempos abertos"]
-  Tempos --> Finished["RegistrarMetricas: histórico e tempos"]
-  Finished --> Telas["Finally: fechar telas e limpar logs"]
-  Telas --> Next["CDSCasosTestes.Next"]
-  Next --> Corrente
-  Corrente -- Não --> Limpeza["Liberar métricas, parâmetros, cache, casos e logs"]
+ M["Main: propagar debug"] --> S["SetupCasosTestes uma vez"]
+ S --> F["CDSCasosTestes.First"]
+ F --> E{"Eof?"}
+ E -- "não" --> R["Run no registro corrente"]
+ R --> A["Acumular falha da tentativa"]
+ A --> N["CDSCasosTestes.Next"]
+ N --> E
+ E -- "sim" --> C["Liberar recursos do lote"]
+ C --> Q{"Houve falhas?"}
+ Q -- "sim" --> X["Resumo central após limpar"]
+ Q -- "não" --> O["Retorno sem resumo de erro"]
+ R -. "falha insegura" .-> C
 ```

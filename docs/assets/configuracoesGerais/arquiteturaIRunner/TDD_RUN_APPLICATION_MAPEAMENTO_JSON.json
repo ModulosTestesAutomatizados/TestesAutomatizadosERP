@@ -1,0 +1,20 @@
+{
+  "FINANCEIRO": {
+    "FCadReceber": {
+      "caption": "Contas a Receber",
+      "evento": "Receber1Click"
+    },
+    "FCadPagar": {
+      "caption": "",
+      "evento": ""
+    },
+    "FCadBorderoAcerto": {
+      "caption": "",
+      "evento": ""
+    },
+    "FCadBorderoPagamento": {
+      "caption": "",
+      "evento": ""
+    }
+  }
+}

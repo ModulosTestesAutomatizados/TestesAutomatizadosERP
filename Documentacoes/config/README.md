@@ -1,24 +1,25 @@
 # Configuração do portal
 
-`eslint.config.js` aplica o padrão Vue/TypeScript de `k6/infra/frontend/config/eslint.config.js`, incluindo ordenação de imports, nomenclatura e regras Vue. `lint-templates.mjs` apresenta os templates inline como SFCs virtuais ao ESLint para aplicar também as regras Vue de atributos e formatação; os fontes continuam módulos TypeScript compatíveis com CDN. O código do portal é escrito em TypeScript; as bibliotecas npm fornecem tipos e ferramentas de desenvolvimento. Vue, Vuetify, Router e Mermaid continuam sendo carregados via CDN na aplicação publicada.
+O portal usa Vue SFC com TypeScript, Vuetify, Router, Mermaid e ícones instalados por npm. O Vite compila uma aplicação estática sem CDN. `eslint.config.js` aplica o padrão Vue/TypeScript de `k6/infra/frontend/config/eslint.config.js` diretamente sobre `.vue` e `.ts`.
 
-Na raiz do repositório:
+Da raiz do repositório:
 
 ```powershell
 npm ci --prefix Documentacoes
+npm run dev --prefix Documentacoes
 npm run check --prefix Documentacoes
 npm run build --prefix Documentacoes
 npm run preview --prefix Documentacoes
 ```
 
-Abra o endereço informado no terminal, que já inclui `/TestesAutomatizadosERP/`. O preview tenta a porta 8080 e, se estiver ocupada, seleciona automaticamente uma porta livre. Uma configuração explícita de `PORT` é respeitada; para fixar 8090 no PowerShell, execute `$env:PORT = '8090'` antes do comando. Use `Remove-Item Env:PORT` para voltar à seleção automática. O preview serve somente `Documentacoes/.pages-output`, resultado do build. Não abra o índice dos fontes diretamente: o navegador precisa dos módulos JavaScript emitidos pelo compilador.
+Dev atualiza SFCs durante a edição; preview serve somente o build em `Documentacoes/.pages-output`. Use o endereço impresso, incluindo `/TestesAutomatizadosERP/`. Para escolher uma porta, acrescente `-- --port 8090` ao comando dev ou preview. Sem `--strictPort`, Vite tenta outra porta quando a solicitada estiver ocupada. Não abra o índice fonte diretamente.
 
-`npm run dev --prefix Documentacoes` compila antes de servir. O build insere `app/start.ts` compilado diretamente no índice publicado; não existe dependência de `bootstrap.js` nem do framework Bootstrap. O índice dos fontes mostra as instruções de desenvolvimento, sem requisitar arquivos ainda não compilados.
+`check` executa ESLint, vue-tsc e a checagem TypeScript da configuração. A entrada única é `index.html` na raiz. `vite.config.ts` define base, alias, compiladores e saída. Não existe dependência de bootstrap.js ou do framework Bootstrap.
 
-`../tsconfig.json` usa modo strict e reescreve imports relativos `.ts` para `.js`. `build.mjs` compila, valida o catálogo e as referências e monta o artefato estático por seleção explícita. Confere os hashes dos fontes locais do inventário sintático para detectar mapas desatualizados. Copia os diagramas canônicos utilizados, gera os redirecionamentos de compatibilidade e exclui histórico HTML, fontes TypeScript, configurações, testes, ferramentas e dependências npm.
+`portal-assets.ts` valida catálogo, existência e capitalização exatas das fontes, blocos Mermaid e hashes dos inventários AST. Os hashes normalizam somente CRLF para LF para conferir Windows e Linux. O plugin publica apenas diagramas referenciados, inventários registrados e moldes canônicos utilizados pelos blocos `codigo-fonte`, além de `.nojekyll`. Não copia `.specs`, ferramentas ou toda a árvore Pascal.
 
-`package.json` e `package-lock.json` são versionados porque definem o build reproduzível e o ESLint. Testes e ferramentas de consumo local da LLM continuam ignorados, sem scripts ou dependências de testes neste pacote.
+Depois desses gates, `knowledge.ts` gera llms.txt, índice JSON e Markdown para os documentos públicos. A projeção não lê diretórios arbitrários: recebe somente catálogo e assets preparados pelo plugin. Links respeitam `base` do Vite; código mantém seu conteúdo literal e usa cercas suficientemente longas. O dev serve arquivos gerados como texto/Markdown/JSON, sem transformação de módulos. O preview serve a saída estática normal; a pipeline existente já publica esses arquivos.
 
-Os hashes do inventário AST são calculados normalizando CRLF para LF, para que o checkout Windows e o Linux do GitHub Actions verifiquem o mesmo conteúdo.
+`package.json` e `package-lock.json` definem o build reproduzível. Testes/ferramentas temporários permanecem ignorados. Os três JSONs compartilhados de `docs/assets/snippets` são exceções explícitas; massas JSON pessoais continuam ignoradas.
 
-O workflow do GitHub Pages verifica e compila o portal. A publicação é acionada manualmente no GitHub Actions; selecione GitHub Actions como origem em Settings → Pages. O site final continua estático, com rotas hash e `.nojekyll`; não precisa de Node no navegador.
+O workflow valida PRs e publica somente push em `master` ou execução manual na `master`. Os filtros cobrem `index.html`, `Documentacoes/**`, `docs/assets/**`, `docs/MAPEAMENTO_AST_USES_UNITS/**` e o próprio workflow. Publica `.pages-output` com rotas hash. Pages deve usar GitHub Actions como origem; não precisa de Node no navegador.

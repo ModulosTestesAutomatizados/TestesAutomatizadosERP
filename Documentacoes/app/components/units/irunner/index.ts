@@ -1,0 +1,11 @@
+import doc9 from './conteudo/p39-tdd-fin-processamento-financeiro.ts';
+import doc7 from './conteudo/p39-tdd-run-application.ts';
+import doc6 from './conteudo/p39-tdd-run-asserts.ts';
+import doc8 from './conteudo/p39-tdd-run-validar-resultado.ts';
+import doc4 from './conteudo/tdd-run-finished.ts';
+import doc0 from './conteudo/tdd-run-irunner.ts';
+import doc5 from './conteudo/tdd-run-logs.ts';
+import doc2 from './conteudo/tdd-run-runner.ts';
+import doc3 from './conteudo/tdd-run-started.ts';
+import doc1 from './conteudo/tdd-run-unit-base-irunner.ts';
+export default [doc0, doc1, doc2, doc3, doc4, doc5, doc6, doc7, doc8, doc9];

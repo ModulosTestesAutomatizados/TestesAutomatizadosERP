@@ -14,7 +14,7 @@ flowchart LR
 
     subgraph REMOTO["Remoto (P39_*)"]
         CASOS["P39_TDD_CASOS_DE_TESTE"]
-        PARAMETRO["P39_TDD_PARAMETRO"]
+        PARAMETRO["P39_TDD_PARAMETROS"]
         FUNCOES_JSON["P39_TDD_FUNCOES_JSON"]
         CONSTANTES["P39_TDD_CONSTANTES"]
     end
@@ -38,9 +38,9 @@ flowchart LR
 
 ## Heranças transitivas de uses
 
-- `P39_TDD_CASOS_DE_TESTE` → `P39_TDD_CONSTANTES` e `P39_TDD_PARAMETRO`
-  - `P39_TDD_PARAMETRO` → `P39_TDD_FUNCOES_JSON`
-  - Por isso **não** é necessário declarar `P39_TDD_CONSTANTES` nem `P39_TDD_PARAMETRO`
+- `P39_TDD_CASOS_DE_TESTE` → `P39_TDD_CONSTANTES` e `P39_TDD_PARAMETROS`
+  - `P39_TDD_PARAMETROS` → `P39_TDD_FUNCOES_JSON`
+  - Por isso **não** é necessário declarar `P39_TDD_CONSTANTES` nem `P39_TDD_PARAMETROS`
     no `uses` do motor; eles ficam disponíveis transitivamente.
 
 ## Notas

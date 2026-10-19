@@ -1,16 +1,33 @@
-# STATE
+# Estado do trabalho TLC
 
 ## Decisions
 
-Nenhuma decisao AD de projeto foi registrada como aprovada nesta entrega. As restricoes confirmadas pelo usuario e as propostas locais estao em `.specs/features/tdd-irunner-lote-json/context.md` e `spec.md`. A especificacao historica do MVP permanece preservada e nao comprova a implementacao nos arquivos atuais em Runner.
+### AD-001: Reutilizar os métodos existentes do IRunner
+
+Não criar wrappers de preparação, falha, encerramento ou limpeza nesta iteração. O cálculo relativo pertence a RegistrarTick; a leitura dos parâmetros pertence a AplicarParametrosDoCasoTeste; o contexto pertence a SetarCasoTeste; o fechamento de métricas e a persistência pertencem a RegistrarMetricas. A casca mantém a ordem, os finally e o controle do lote.
+
+### AD-002: Um checkpoint, próxima iteração sem commit
+
+O usuário solicitou o checkpoint `e47d2a4` antes da reorganização. As alterações de irunner-casca-enxuta, sua especificação e suas evidências ficam fora do index e sem novo commit. Não executar push ou gravação no banco.
+
+### AD-003: Preservar debug e distinguir validação local de ERP
+
+TDD_LOGS mantém a captura condicionada a FModoDebug. As sondas locais executam um subconjunto do fonte Pascal traduzido com fronteiras ERP substituídas; não são compilação Pascal nem evidência de persistência real. A confirmação no JvInterpreter é uma etapa separada.
+
+### AD-004: Contexto sempre obtido do registro corrente
+
+SetarCasoTeste recebe somente módulo e área. O usuário confirmou que o fluxo sempre itera o lote; a descrição não é mais argumento nem alternativa opcional, sendo lida do CDS após a reinicialização segura do contexto.
 
 ## Handoff
 
-- **Feature:** .specs/features/tdd-irunner-lote-json/
-- **Phase / Task:** Etapa incremental 12: Finished sem logs de persistência; Clear por Run verificado.
-- **Completed:** Emissores de logs de persistência removidos de Finished; SQL/captura preservados. Clear já existe no finally externo de Run, após sucesso/exception. Campo/parametro/record renomeados; Finished captura Text antes do INSERT; Base sem cópia redundante; migration em sql/temp-local e MER indicando alteração prevista. Limpeza de ExecutarLote sequencial; primeira falha interrompe chamadas seguintes e sobe com contexto. Run preservado. Piloto com seis procedures, seleção incorporada ao pagamento e _IncluirBordero por tipo; resultados/setter retirados e teardown no final. Instruções com 116 caracteres e quebras alinhadas. Oito fontes do fluxo ajustados localmente. Wrappers e fallbacks de configuração do piloto removidos por autorização; quatro campos validados antes das gravações. Três opcionais confirmados e preservados. Log global por caso integrado e instruções padronizadas com exibição condicionada. Quatro procedures de exibição de debug removidas após busca sem chamadores nos arquivos Pascal locais. Main do molde e duas linhas iniciais preservados. SQL, ordem financeira e regras de Started permanecem.
-- **In-progress:** Gates funcionais do plano amplo pendentes. Nenhum requisito Verified por auditoria estrutural.
-- **Next step:** Sem UPDATE de logs: Finished não registra mensagens de persistência conforme decisão do usuário; migration requer execução/validação autorizada antes de usar o novo nome no ERP. Revisão do usuário e autorização para validação no ERP; demais pendências de runtime/restauração continuam registradas. Não repetir testes financeiros automaticamente.
-- **Blockers:** Sem execução nativa realizada; Currency/JSON, visibilidade compartilhada e restauração de parâmetros ainda exigem provas.
-- **Uncommitted files:** Oito fontes locais, registros TLC e mapa de uses. Configuração, Documentacoes, HTMLs e exemplo externos preservados.
-- **Branch:** master.
+- Feature atual: `.specs/features/irunner-application/spec.md`. Implementação local e documentação concluídas; sem publicação ou confirmação no ERP.
+- Artefatos atuais em docs/assets/configuracoesGerais/arquiteturaIRunner. TDD_RUN_RUNNER usa TDD_RUN_APPLICATION; arquivo remoto P39_TDD_RUN_APPLICATION.pas. Piloto financeiro em docs/assets/casosTestesFinanceiro/TDD_FIN_FINANCEIRO.pas.
+- Catálogo: TDD_RUN_APPLICATION_MAPEAMENTO_JSON.json no diretório da arquitetura, módulo -> Form -> caption/evento. Runtime lê P39_TDD_RUN_APPLICATION_MAPEAMENTO_JSON. Usuário confirmou Contas a Receber / FCadReceber / Receber1Click; demais Forms do piloto têm caption/evento vazios e preservam abertura direta por Form.
+- AbrirTela aceita eventos encontrados por MetodosDeObjeto (sem sufixo obrigatório), ou Caption/Form do catálogo; rejeita alias ambíguo, reutiliza instâncias, não mascara falha de evento com criação silenciosa.
+- Helper movido para docs/assets/snippets/TDD_MAPEAMENTO_EVENTOS.pas. Coleta somente evento/menu selecionado, usa Caption do menu, preserva Forms anteriores e fecha somente novos. Exige revisão manual de candidatos; não foi executado no ERP.
+- Skill contribuir-documentacao explicitamente autorizada: helper no portal, página Application, aliases/redirects, paths e inventários reconciliados. npm run check e npm run build aprovados. Não houve inspeção visual no navegador.
+- Verificação: 7 grupos principais, 7 independentes, sensor 3/3, verificação independente APP-12 dos dados/documentação. Ver relatorio-servico.md e revisao-independente.md na feature.
+- Limites de regressão preservados: expectativa antiga FParamsCasosTeste=nil falha no fluxo atual do usuário; sonda antiga de logs espera MostrarLogTexto com 1 argumento e fonte atual usa 2. Não declarar toda suíte anterior aprovada.
+- Próximo passo no ambiente: cadastrar/atualizar unit remota do catálogo, atualizar conjunto de fontes coerente e testar aliases/Form/eventos e helper manualmente. Sem banco, menus reais, stage, commit ou deploy nesta iteração. Preservar alterações e movimentações prévias do usuário.
+
+- Correção atual: buffer próprio de preparação em Executar e lista própria do lote em Main, com restauração da referência do chamador. Sem nil. Atualizar as duas units juntas. Quatro testes estritos e dezesseis regressões aprovados; reteste nativo pendente. Ver irunner-logs-preparacao/correcao-invalid-pointer.md.

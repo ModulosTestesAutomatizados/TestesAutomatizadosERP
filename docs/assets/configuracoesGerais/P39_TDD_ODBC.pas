@@ -1,4 +1,4 @@
-﻿uses P39_TDD_CONSTANTES;
+uses P39_TDD_CONSTANTES;
 
 procedure Main;
 var lInstrucoes :string;
@@ -15,7 +15,7 @@ begin
     'Os mesmos métodos também estão disponíveis sem o sufixo "P" para SQL pura, sem parâmetros, como no ERP!'                     + #13 + #13 +
     'Ao usar um Format(sql, [parâmetros]), pParametros devem ser passados como: null.'                                            + #13 +
     'Utilize esses métodos nas codificações TDD!';
-  {P39_TDD_CONSTANTES -> P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_ODBC', lInstrucoes);
+  {P39_TDD_CONSTANTES -> P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_ODBC', lInstrucoes);
 end;
 
 function TDDScalarODBC(pSql :string) :OleVariant;

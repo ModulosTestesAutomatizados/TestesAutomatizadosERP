@@ -1,0 +1,196 @@
+{
+  "roots": [
+    "P39_TDD_REGISTRAR_CASO_TESTE",
+    "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS"
+  ],
+  "nodes": [
+    {
+      "name": "P39_TDD_CONSTANTES",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CONSTANTES.pas",
+      "sha256": "1af65720aa8f28195b36096dc2f8fc554745b09fdd54daaf745174836167bfbc"
+    },
+    {
+      "name": "P39_TDD_FUNCOES_JSON",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_FUNCOES_JSON.pas",
+      "sha256": "cdac8956c3b4e6b02803029cdfafdb6fe65c3437bd7aa02e68a40539c13557ff"
+    },
+    {
+      "name": "P39_TDD_ODBC",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_ODBC.pas",
+      "sha256": "7e46d0f4b34b4b71bb96440c9f4c40de596342edfa8464f3542e459b0b4cd175"
+    },
+    {
+      "name": "P39_TDD_REGISTRAR_CASO_TESTE",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_REGISTRAR_CASO_TESTE.pas",
+      "sha256": "38d4cd00834ba402a726e0453804f322c4a5f4ab8f8658554419836a8b6a2208"
+    },
+    {
+      "name": "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS.pas",
+      "sha256": "253391be598aaed698ad6a08a83cba04a3655452092b11ddc1ee3b8f647a1c98"
+    },
+    {
+      "name": "TDD_RUN_LOGS",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_LOGS.pas",
+      "sha256": "b1a2eb021937250a642c0510ad4def64fb863f48fc7cc755680bfc3cdd636ded"
+    }
+  ],
+  "edges": [
+    {
+      "from": "P39_TDD_CONSTANTES",
+      "to": "TDD_RUN_LOGS",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CONSTANTES.pas",
+      "line": 1,
+      "declared": "P39_TDD_RUN_LOGS"
+    },
+    {
+      "from": "P39_TDD_ODBC",
+      "to": "P39_TDD_CONSTANTES",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_ODBC.pas",
+      "line": 1,
+      "declared": "P39_TDD_CONSTANTES"
+    },
+    {
+      "from": "P39_TDD_REGISTRAR_CASO_TESTE",
+      "to": "P39_TDD_ODBC",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_REGISTRAR_CASO_TESTE.pas",
+      "line": 1,
+      "declared": "P39_TDD_ODBC"
+    },
+    {
+      "from": "P39_TDD_FUNCOES_JSON",
+      "to": "TDD_RUN_LOGS",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_FUNCOES_JSON.pas",
+      "line": 1,
+      "declared": "P39_TDD_RUN_LOGS"
+    },
+    {
+      "from": "P39_TDD_REGISTRAR_CASO_TESTE",
+      "to": "P39_TDD_FUNCOES_JSON",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_REGISTRAR_CASO_TESTE.pas",
+      "line": 1,
+      "declared": "P39_TDD_FUNCOES_JSON"
+    },
+    {
+      "from": "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS",
+      "to": "P39_TDD_REGISTRAR_CASO_TESTE",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS.pas",
+      "line": 1,
+      "declared": "TDD_REGISTRAR_CASO_TESTE"
+    }
+  ],
+  "ast": {
+    "TDD_RUN_LOGS": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_LOGS.pas",
+      "clauses": []
+    },
+    "P39_TDD_CONSTANTES": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_CONSTANTES.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "P39_TDD_RUN_LOGS",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_ODBC": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_ODBC.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "P39_TDD_CONSTANTES",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_FUNCOES_JSON": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/P39_TDD_FUNCOES_JSON.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "P39_TDD_RUN_LOGS",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_REGISTRAR_CASO_TESTE": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_REGISTRAR_CASO_TESTE.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "P39_TDD_ODBC",
+              "line": 1
+            },
+            {
+              "name": "P39_TDD_FUNCOES_JSON",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "TDD_REGISTRAR_CASO_TESTE",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "reachable": {
+    "P39_TDD_REGISTRAR_CASO_TESTE": [
+      "P39_TDD_CONSTANTES",
+      "P39_TDD_FUNCOES_JSON",
+      "P39_TDD_ODBC",
+      "TDD_RUN_LOGS"
+    ],
+    "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS": [
+      "P39_TDD_CONSTANTES",
+      "P39_TDD_FUNCOES_JSON",
+      "P39_TDD_ODBC",
+      "P39_TDD_REGISTRAR_CASO_TESTE",
+      "TDD_RUN_LOGS"
+    ]
+  },
+  "dynamicLoads": []
+}

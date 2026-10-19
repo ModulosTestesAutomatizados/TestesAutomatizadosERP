@@ -1,17 +1,31 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "strict": true,
-    "noEmitOnError": true,
-    "rewriteRelativeImportExtensions": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
-    "rootDir": "app",
-    "outDir": ".build"
+    "types": [
+      "vite/client"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "app/*"
+      ]
+    }
   },
-  "include": ["app/**/*.ts"],
-  "exclude": ["app/arquivo"]
+  "include": [
+    "app/**/*.ts",
+    "app/**/*.vue",
+    "app/**/*.d.ts"
+  ]
 }

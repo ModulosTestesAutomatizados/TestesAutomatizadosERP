@@ -1,4 +1,4 @@
-﻿uses P39_TDD_ODBC;
+uses P39_TDD_ODBC, P39_TDD_FUNCOES_JSON;
 
 type
   TCasoTeste = record
@@ -28,19 +28,19 @@ begin
     '                                pDescricaoArea,'                                                                          + #13 +
     '                                pDescricaoCasoTeste,'                                                                     + #13 +
     '                                pRequisitoVersao,'                                                                        + #13 +
-    '                                pUnitJsonCasoTeste,'                                                                      + #13 +
-    '                                pUnitJsonCamposDisponiveis,'                                                              + #13 +
-    '                                pUnitJsonResultadoEsperado :string;'                                                      + #13 +
+    '                                pUnitJsonCasoTeste :string;'                                                              + #13 +
     '                                pSincRemoto :boolean'                                                                     + #13 +
     '                             )'                                                                                           + #13 +
     '  - Orquestra o registro de um caso de teste.'                                                                            + #13 +
     'function CarregarConteudoUnit(pNomeUnit :string; pSincRemoto :boolean) :string'                                           + #13 +
     '  - Trata o controle de sincronizar com fontes do remoto ou locais.'                                                      + #13 +
-    '  - Carrega o conteúdo de uma unidade de codificação como string, garante json vazio.'                                    + #13 +
-    'procedure SincronizarCasoTeste'                                                                                           + #13 +
+    '  - Carrega o conteúdo obrigatório; falhas de leitura não são convertidas em json vazio.'                                 + #13 +
+    'function ObterObjetoConfiguracao(pJson, pPropriedade, pUnitFallback :string; pFallbackSeVazio :boolean) :string'          + #13 +
+    '  - Resolve objetos explícitos ou a propriedade de uma unit remota mínima, conforme a política de vazio.'                 + #13 +
+    'function SincronizarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste :string) :integer'                    + #13 +
     '  - Camada de validação se o caso de teste já existe no banco de dados.'                                                  + #13 +
-    '  - Chamada ao questionamento/confirmação para sobreescrita quando o caso de teste já estiver registrado.'                + #13 +
-    'procedure QuestionarParaRodarUpdateCasoTeste(pCodigoCasoTeste :integer)'                                                  + #13 +
+    '  - Confirma antes de carregar fontes; retorna -1 para recusa, 0 para novo ou o código para atualização.'                 + #13 +
+    'procedure AtualizarCasoTeste(pCodigoCasoTeste :integer)'                                                                  + #13 +
     '  - SQL de update do caso de teste e execução de {P39_TDD_ODBC.}TDDCommandODBCP passando os parâmetros via FCasoTeste.'   + #13 +
     'procedure InsertCasoTeste'                                                                                                + #13 +
     '  - SQL de insert do caso de teste e execução de {P39_TDD_ODBC.}TDDCommandODBCP passando os parâmetros via FCasoTeste.'   + #13 +
@@ -58,7 +58,7 @@ begin
     'function RegistroFallbackArea(pCodigoModulo :integer; pDescricaoArea :string; pAtivarFallback :boolean) :integer'         + #13 +
     '  - Monta as SQLs de select e insert com returning para chamar RegistroFallbackBase com fallback ativado.'                + #13 +
     '====================================================================================================================';
-  {P39_TDD_ODBC -> P39_TDD_CONSTANTES -> P39_TDD_LOGS.}MostrarInstrucoesUnit('TDD_REGISTRAR_CASO_TESTE', lInstrucoes);
+  {P39_TDD_ODBC -> P39_TDD_CONSTANTES -> P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_REGISTRAR_CASO_TESTE', lInstrucoes);
 end;
 
 procedure RegistrarCasoTeste(
@@ -66,135 +66,239 @@ procedure RegistrarCasoTeste(
   pDescricaoArea,
   pDescricaoCasoTeste,
   pRequisitoVersao,
-  pUnitJsonCasoTeste,
-  pUnitJsonCamposDisponiveis,
-  pUnitJsonResultadoEsperado  :string;
-  pSincRemoto                 :boolean
+  pUnitJsonCasoTeste :string;
+  pSincRemoto        :boolean
 );
 var
+  lIndice,
   lCodigoModulo,
-  lCodigoArea,
-  lSqlCasoTeste           :string;
+  lCodigoCasoTeste,
+  lCodigoArea        :integer;
+  lFonte,
   lJsonCasoTeste,
   lJsonCamposDisponiveis,
-  lJsonResultadoEsperado  :TStringList;
+  lJsonResultadoEsperado,
+  lNome,
+  lSeparador         :string;
+  lObjeto            :TJSONObject;
+  lPar               :TJSONPair;
 begin
-  lJsonCasoTeste         := TStringList.Create;
-  lJsonCamposDisponiveis := TStringList.Create;
-  lJsonResultadoEsperado := TStringList.Create;
+  lCodigoCasoTeste := SincronizarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste);
+  if lCodigoCasoTeste < 0 then
+    Exit;
 
-  try  
-    lJsonCasoTeste.Text         := CarregarConteudoUnit(pUnitJsonCasoTeste,         pSincRemoto);
-    lJsonCamposDisponiveis.Text := CarregarConteudoUnit(pUnitJsonCamposDisponiveis, pSincRemoto);
-    lJsonResultadoEsperado.Text := CarregarConteudoUnit(pUnitJsonResultadoEsperado, pSincRemoto);
+  lFonte                 := CarregarConteudoUnit(pUnitJsonCasoTeste, pSincRemoto);
+  lJsonResultadoEsperado := ObterObjetoConfiguracao(lFonte, 'resultadoEsperado', 'P39_TDD_ASSERTS_JSON_MINIMO', false);
+  lJsonCamposDisponiveis := ObterObjetoConfiguracao(lFonte, 'camposDisponiveis', 'P39_TDD_CAMPOS_DISPONIVEIS_JSON_MINIMO', true);
+  lObjeto                := TJSONObject.ParseJSONValue(lFonte);
 
-    // RegistrarLogEmModoDebug('Retorno da leitura da Codificacao Json:' + #13 + JSONFormatado(lJsonCasoTeste.Text)); // Debug
+  if not Assigned(lObjeto) then
+    raise Exception.Create('JSON do caso de teste inválido.');
 
-    lCodigoModulo := RegistroFallbackModulo(pDescricaoModulo, true);
-    lCodigoArea   := RegistroFallbackArea(lCodigoModulo, pDescricaoArea, true);
+  try
+    lJsonCasoTeste := '{';
+    lSeparador     := '';
 
-    FCasoTeste.Modulo            := lCodigoModulo;
-    FCasoTeste.Area              := lCodigoArea;
-    FCasoTeste.Descricao         := pDescricaoCasoTeste;
-    FCasoTeste.RequisitoVersao   := pRequisitoVersao;
-    FCasoTeste.CasoTeste         := lJsonCasoTeste.Text;
-    FCasoTeste.CamposDisponiveis := lJsonCamposDisponiveis.Text;
-    FCasoTeste.ResultadoEsperado := lJsonResultadoEsperado.Text;
+    for lIndice := 0 to lObjeto.Count - 1 do
+    begin
+      lPar  := ExecutarMetodoDeObjeto(lObjeto, 'GetPair', [lIndice]);
+      lNome := GetPairName(lPar);
 
-    // RegistrarLogEmModoDebug('Valor atribuido ao Caso de Teste:' + #13 + JSONFormatado(FCasoTeste.CasoTeste)); // Debug 
-
-    try
-      SincronizarCasoTeste;
-    except on ex: Exception do
-      raise Exception.Create(ex.Message);
+      if (lNome <> 'resultadoEsperado') and (lNome <> 'camposDisponiveis') then
+      begin
+        lJsonCasoTeste := lJsonCasoTeste + lSeparador + ExecutarMetodoDeObjeto(lPar, 'ToJSON');
+        lSeparador     := ',';
+      end;
     end;
+
+    // Os objetos resolvidos permanecem na raiz, inclusive quando vierem dos mínimos.
+    lJsonCasoTeste := lJsonCasoTeste + lSeparador +
+      Copy(lJsonCamposDisponiveis, 2, Length(lJsonCamposDisponiveis) - 2) + ',' +
+      Copy(lJsonResultadoEsperado, 2, Length(lJsonResultadoEsperado) - 2) + '}';
   finally
-    lJsonCasoTeste.Free;
-    lJsonCamposDisponiveis.Free;
-    lJsonResultadoEsperado.Free;  
-  end;    
+    lObjeto.Free;
+  end;
+
+  lCodigoModulo := RegistroFallbackModulo(pDescricaoModulo, true);
+  lCodigoArea   := RegistroFallbackArea(lCodigoModulo, pDescricaoArea, true);
+  
+  FCasoTeste.Modulo            := lCodigoModulo;
+  FCasoTeste.Area              := lCodigoArea;
+  FCasoTeste.Descricao         := pDescricaoCasoTeste;
+  FCasoTeste.RequisitoVersao   := pRequisitoVersao;
+  FCasoTeste.CasoTeste         := JSONFormatado(lJsonCasoTeste);
+  FCasoTeste.CamposDisponiveis := JSONFormatado(lJsonCamposDisponiveis);
+  FCasoTeste.ResultadoEsperado := JSONFormatado(lJsonResultadoEsperado);
+
+  // Debug fora do IRunner, se utilizado precisa implementar o .Free no estado dos logs mantidos por FLogsCasoTeste.
+  // {P39_TDD_RUN_LOGS.}RegistrarLog('Valor atribuido ao Caso de Teste:' + #13 + JSONFormatado(FCasoTeste.CasoTeste));
+
+  try
+    if lCodigoCasoTeste > 0 then
+      AtualizarCasoTeste(lCodigoCasoTeste)
+    else
+      InsertCasoTeste;
+  except on ex: Exception do
+    raise Exception.Create(ex.Message);
+  end;
 end;
 
 function CarregarConteudoUnit(pNomeUnit :string; pSincRemoto :boolean) :string;
 begin
-  Result := '{}';
-
+  pNomeUnit := Trim(pNomeUnit);
   if Trim(pNomeUnit) = '' then
-    Exit;
+    raise Exception.Create('Nome da unit JSON não informado.');
 
-  if pSincRemoto then
-    pNomeUnit := {P39_TDD_CONSTANTES.}cPrefixoSincRemoto + pNomeUnit;
+  if pSincRemoto and (UpperCase(Copy(pNomeUnit, 1, 4)) <> 'P39_') then
+    pNomeUnit := 'P39_' + pNomeUnit;
 
   try
     Result := CodificacaoUnit(pNomeUnit);
-  except
-    // Silencia o erro e mantém o Result padrão ('{}')
+  except on Ex: Exception do
+    raise Exception.Create('Falha ao carregar a unit JSON ' + pNomeUnit + ': ' + #13 + Ex.Message);
+  end;
+
+  if Trim(Result) = '' then
+    raise Exception.Create('Conteúdo vazio na unit JSON ' + pNomeUnit + '.');
+end;
+
+function ObterObjetoConfiguracao(pJson, pPropriedade, pUnitFallback :string; pFallbackSeVazio :boolean) :string;
+var
+  lObjeto, lValorObjeto :TJSONObject;
+  lPar                  :TJSONPair;
+  lIndice, lTentativa   :integer;
+  lFonte, lValor        :string;
+  lUsandoFallback       :boolean;
+begin
+  lFonte          := pJson;
+  lUsandoFallback := false;
+
+  // Uma tentativa para a fonte e outra, se necessária, para o mínimo remoto.
+  for lTentativa := 1 to 2 do
+  begin
+    if Copy(Trim(lFonte), 1, 1) <> '{' then
+      raise Exception.Create('JSON de configuração deve ser um objeto: ' + pPropriedade);
+
+    lObjeto := TJSONObject.ParseJSONValue(lFonte);
+
+    if not Assigned(lObjeto) then
+      raise Exception.Create('JSON inválido para a configuração: ' + pPropriedade);
+
+    lValor := '';
+    try
+      // O mínimo de campos atualmente é apenas {}. Resultado exige objeto nomeado.
+      if lUsandoFallback and pFallbackSeVazio and (lObjeto.Count = 0) then
+      begin
+        Result := '{"' + pPropriedade + '":{}}';
+        Exit;
+      end;
+
+      for lIndice := 0 to lObjeto.Count - 1 do
+      begin
+        lPar := ExecutarMetodoDeObjeto(lObjeto, 'GetPair', [lIndice]);
+        if GetPairName(lPar) = pPropriedade then
+          lValor := GetPairValue(lPar);
+      end;
+
+      if lValor <> '' then
+      begin
+        if Copy(Trim(lValor), 1, 1) <> '{' then
+          raise Exception.Create('A propriedade ' + pPropriedade + ' deve ser um objeto.');
+
+        lValorObjeto := TJSONObject.ParseJSONValue(lValor);
+
+        if not Assigned(lValorObjeto) then
+          raise Exception.Create('Objeto JSON inválido: ' + pPropriedade);
+
+        try
+          if lUsandoFallback and (lValorObjeto.Count = 0) and not pFallbackSeVazio then
+            raise Exception.Create('Fallback sem configurações: ' + pUnitFallback);
+
+          if (lValorObjeto.Count > 0) or not pFallbackSeVazio or lUsandoFallback then
+          begin
+            Result := '{"' + pPropriedade + '":' + lValor + '}';
+            Exit;
+          end;
+        finally
+          lValorObjeto.Free;
+        end;
+      end;
+    finally
+      lObjeto.Free;
+    end;
+
+    if lUsandoFallback then
+      raise Exception.Create('Propriedade ' + pPropriedade + ' não encontrada na unit ' + pUnitFallback);
+
+    if pUnitFallback = '' then
+    begin
+      Result := '{"' + pPropriedade + '":{}}';
+      Exit;
+    end;
+
+    // O fallback tem nome remoto exato e independe da origem local/remota do caso.
+    lFonte := CarregarConteudoUnit(pUnitFallback, false);
+    lUsandoFallback := true;
   end;
 end;
 
-procedure SincronizarCasoTeste;
+function SincronizarCasoTeste(pDescricaoModulo, pDescricaoArea, pDescricaoCasoTeste :string) :integer;
 var
-  lCodigoCasoTeste :integer;
+  lRespostaUsuario :integer;
   lSqlCasoTeste    :string;
 begin
-  lSqlCasoTeste := 'select CT.AUTOINC_CT'                + #13 +
-    'from CASO_TESTE CT'                                 + #13 +
-    'where CT.DESCRICAO_CASO_TESTE_CT = :pDescricao and' + #13 +
-    '      CT.MODULO_CT               = :pModulo    and' + #13 +
-    '      CT.AREA_CT                 = :pArea;';
+  lSqlCasoTeste := 'select CT.AUTOINC_CT'                          + #13 +
+    'from CASO_TESTE CT'                                           + #13 +
+    'join MODULO MD on MD.CODIGO_MODULO = CT.MODULO_CT'             + #13 +
+    'join AREA AR on AR.AUTOINC_AREA = CT.AREA_CT'                  + #13 +
+    'where CT.DESCRICAO_CASO_TESTE_CT = :pDescricao and'            + #13 +
+    '      MD.DESCRICAO_MODULO        = :pModulo    and'            + #13 +
+    '      AR.DESCRICAO_AREA          = :pArea;';
 
-  lCodigoCasoTeste := {P39_TDD_ODBC.}TDDScalarODBCP(lSqlCasoTeste, [
-    FCasoTeste.Descricao,
-    FCasoTeste.Modulo,
-    FCasoTeste.Area    
-  ]);
+  Result := StrToIntDef(VarToStr({P39_TDD_ODBC.}TDDScalarODBCP(lSqlCasoTeste, [
+    pDescricaoCasoTeste,
+    pDescricaoModulo,
+    pDescricaoArea
+  ])), 0);
 
-  if lCodigoCasoTeste > 0 then
-    QuestionarParaRodarUpdateCasoTeste(lCodigoCasoTeste)
-  else
-    InsertCasoTeste;
-end;
+  if Result <= 0 then
+    Exit;
 
-procedure QuestionarParaRodarUpdateCasoTeste(pCodigoCasoTeste :integer);
-var
-  lRespostaUsuario    :integer;
-  lSqlUpdateCasoTeste :string;
-begin
   lRespostaUsuario := MessageDlg(
     Format(
       'Registro para o caso de teste: %s já existe!' + #13 + 'A operação de sincronização será realizada via update.' + #13 + 'Confirmar esta operação?',
-      [FCasoTeste.Descricao]
+      [pDescricaoCasoTeste]
     ), mtConfirmation, [mbYes, mbNo], 0
   );
 
-  if lRespostaUsuario = mrYes then
-  begin
-    lSqlUpdateCasoTeste := 'update CASO_TESTE CT'                         + #13 +
-      'set CT.MODULO_CT                           = :pModulo,'            + #13 +
-      '    CT.AREA_CT                             = :pArea,'              + #13 +
-      '    CT.DESCRICAO_CASO_TESTE_CT             = :pDescricao,'         + #13 +
-      '    CT.REQUISITO_VERSAO_CT                 = :pRequisitoVersao,'   + #13 +
-      '    CT.CASO_TESTE_CT                       = :pCasoTest,'          + #13 +
-      '    CT.CAMPOS_DISPONIVEIS_CT               = :pCamposDisponiveis,' + #13 +
-      '    CT.RESULTADO_ESPERADO_CT               = :pResultadoEsperado'  + #13 +
-      'where CT.AUTOINC_CT                        = :pCodigoCasoTeste';
+  if lRespostaUsuario <> mrYes then
+    Result := -1;
+end;
 
-    // Comando parametrizado: NÃO usar QuotedStr (aspas literais corrompem o JSON no banco).
-    {P39_TDD_ODBC.}TDDCommandODBCP(lSqlUpdateCasoTeste, [
-      FCasoTeste.Modulo,
-      FCasoTeste.Area,
-      FCasoTeste.Descricao,
-      FCasoTeste.RequisitoVersao,
-      FCasoTeste.CasoTeste,
-      FCasoTeste.CamposDisponiveis,
-      FCasoTeste.ResultadoEsperado,
-      pCodigoCasoTeste
-    ]);
-  end
-  else
-  begin
-    Exit;
-  end;
+procedure AtualizarCasoTeste(pCodigoCasoTeste :integer);
+var lSqlUpdateCasoTeste :string;
+begin
+  lSqlUpdateCasoTeste := 'update CASO_TESTE CT'                         + #13 +
+    'set CT.MODULO_CT                           = :pModulo,'            + #13 +
+    '    CT.AREA_CT                             = :pArea,'              + #13 +
+    '    CT.DESCRICAO_CASO_TESTE_CT             = :pDescricao,'         + #13 +
+    '    CT.REQUISITO_VERSAO_CT                 = :pRequisitoVersao,'   + #13 +
+    '    CT.CASO_TESTE_CT                       = :pCasoTest,'          + #13 +
+    '    CT.CAMPOS_DISPONIVEIS_CT               = :pCamposDisponiveis,' + #13 +
+    '    CT.RESULTADO_ESPERADO_CT               = :pResultadoEsperado'  + #13 +
+    'where CT.AUTOINC_CT                        = :pCodigoCasoTeste';
+
+  // Comando parametrizado: NÃO usar QuotedStr (aspas literais corrompem o JSON no banco).
+  {P39_TDD_ODBC.}TDDCommandODBCP(lSqlUpdateCasoTeste, [
+    FCasoTeste.Modulo,
+    FCasoTeste.Area,
+    FCasoTeste.Descricao,
+    FCasoTeste.RequisitoVersao,
+    FCasoTeste.CasoTeste,
+    FCasoTeste.CamposDisponiveis,
+    FCasoTeste.ResultadoEsperado,
+    pCodigoCasoTeste
+  ]);
 end;
 
 procedure InsertCasoTeste;
