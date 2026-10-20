@@ -19,8 +19,8 @@ export default criarDocumentoUnit({
   "metodos": [
     [
       "procedure Main;",
-      "Define FExibirInstrucoes=False e FModoDebug=True e chama ExecutarIRunner.",
-      "Declaração no fonte atual, linha 5. Consulte a implementação canônica vinculada."
+      "Pergunta se exibe instruções e logs, depois chama ExecutarIRunner.",
+      "Declaração no fonte atual, linha 5. Usa TDD_FILTROS para atribuir FExibirInstrucoes e FModoDebug antes do lote."
     ],
     [
       "procedure ExecutarIRunner;",
@@ -30,11 +30,12 @@ export default criarDocumentoUnit({
   ],
   "implementacao": [
     "ExecutarIRunner seleciona TDD_FIN_FINANCEIRO, passa os literais '''FINANCEIRO''' duas vezes e chama TDD_RUN_IRUNNER.Executar.",
-    "Main configura debug e instruções antes da execução. A string de instruções ainda cita P39_TDD_PROCESSAMENTO_FINANCEIRO em MostrarInstrucoesUnit; o arquivo canônico atual é P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO.",
+    "Main usa TDD_FILTROS para perguntar 'Exibir Instruções?' e 'Modo Debug?'. Cada opção começa em N; MostrarInstrucoesUnit usa o nome real P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO.",
     "Configura TDD_FIN_FINANCEIRO por SetTDDUnit, informa FINANCEIRO como módulo e área e chama Executar. Não sincroniza cadastros nem registra métodos individuais. O arquivo canônico fica junto dos processamentos do piloto financeiro."
   ],
   "dependencias": [
-    "TDD_RUN_IRUNNER: cláusula uses do fonte."
+    "TDD_RUN_IRUNNER: cláusula uses do fonte.",
+    "TDD_FILTROS: cláusula uses do fonte; configura as flags Boolean antes do lote."
   ],
   "limites": [
     "Fonte local e documentação não comprovam cadastro remoto instalado ou homologação no ERP. APIs do host e efeitos financeiros precisam de evidência própria."

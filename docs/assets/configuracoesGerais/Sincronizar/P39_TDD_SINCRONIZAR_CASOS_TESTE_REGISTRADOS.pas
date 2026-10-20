@@ -1,4 +1,4 @@
-uses TDD_REGISTRAR_CASO_TESTE;
+uses P39_TDD_REGISTRAR_CASO_TESTE, P39_TDD_FILTROS;
 
 var FSincRemoto :Boolean;
 
@@ -30,6 +30,7 @@ begin
   CallBack_AbreTela(ClassOwner);
   try
     CallBack_Mensagem(ClassOwner, '[SINCRONIZANDO] Carregando registros...');
+    {P39_TDD_FILTROS} FiltroLogicoEmBoolean('Sincronizar com Remoto? (Tek Store)', FSincRemoto);
     RegistrosCasosTestes(FSincRemoto);
   finally
     CallBack_FechaTela(ClassOwner);
@@ -44,4 +45,5 @@ begin
   RegistrarCasoTeste('FATURAMENTO',             'PEDIDO DE VENDA',       'PEDIDO COM DESCONTO PERCENTUAL',                      '',                     'TDD_JSON_PEDIDO_DESCONTO_PERCENTUAL',               pSincRemoto);
   RegistrarCasoTeste('FATURAMENTO',             'PEDIDO DE VENDA',       'PEDIDO POR UNIDADE FABRIL',                           '',                     'TDD_JSON_PEDIDO_UNIDADE_FABRIL',                    pSincRemoto);
   RegistrarCasoTeste('FATURAMENTO',             'PEDIDO DE VENDA',       'PEDIDO COM SEQUENCIA NOS ITENS',                      '',                     'TDD_JSON_PEDIDO_SEQUENCIA_ITENS',                   pSincRemoto);
+  RegistrarCasoTeste('FATURAMENTO',             'CARGA',                 'TDD_FAT_CARGA',                                       '',                     'TDD_FAT_CARGA_JSON',                                pSincRemoto);
 end;

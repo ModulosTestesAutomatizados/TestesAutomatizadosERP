@@ -1,5 +1,7 @@
+uses TDD_FILTROS;
+
 var
-  FModoDebug, FExibirInstrucoes :Boolean;
+  FFlagsSetadas, FModoDebug, FExibirInstrucoes :Boolean;
   // Registro em memoria; Run controlara Clear por caso e o lote liberara a lista.
   FLogsCasoTeste :TStringList;
 
@@ -9,12 +11,18 @@ begin
   lInstrucoes := 'Unit responsável pelo registro de mensagens em memória e pela exibição condicionada de instruções.'      + #13 +
     '====================================================================================================================' + #13 +
     'Estado compartilhado:'                                                                                                + #13 +
+    'FFlagsSetadas :Boolean'                                                                                                + #13 +
+    '  - Impede que as opcoes de debug e instrucoes sejam perguntadas mais de uma vez.'                                     + #13 +
     'FModoDebug :Boolean'                                                                                                  + #13 +
     '  - Habilita a exibição das mensagens; o registro em FLogsCasoTeste ocorre sempre.'                                   + #13 +
     'FExibirInstrucoes :Boolean'                                                                                           + #13 +
     '  - Habilita a exibição das instruções, independentemente de FModoDebug.'                                             + #13 +
     'FLogsCasoTeste :TStringList'                                                                                          + #13 +
     '  - Armazena mensagens do caso corrente; Run limpa por tentativa e o lote libera a lista.'                            + #13 +
+    '====================================================================================================================' + #13 +
+    'Metodo de configuracao:'                                                                                              + #13 +
+    'procedure SetterFlags'                                                                                                + #13 +
+    '  - Pergunta sobre debug e instrucoes uma unica vez com TDD_FILTROS.'                                                 + #13 +
     '====================================================================================================================' + #13 +
     'Métodos de registro:'                                                                                                 + #13 +
     'procedure RegistrarLog(pLog :string)'                                                                                 + #13 +
@@ -28,6 +36,18 @@ begin
     '====================================================================================================================';
   {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_RUN_LOGS', lInstrucoes);
 end;
+
+{$region Setter de Flags}
+procedure SetterFlags;
+begin
+  if not FFlagsSetadas then
+  begin
+    {TDD_FILTROS.}FiltroLogicoEmBoolean('Executar com Modo Debug ativo?', FModoDebug);
+    {TDD_FILTROS.}FiltroLogicoEmBoolean('Exibir Instruções das Units?', FExibirInstrucoes);
+    FFlagsSetadas := True;
+  end;
+end;
+{$endregion}
 
 {$region RegistroLogs}
 procedure DelimitadorLog(pTitulo :string);

@@ -24,6 +24,8 @@ flowchart LR
   n19["TDD_RUN_STARTED"]
   n20["TDD_RUN_UNIT_BASE_IRUNNER"]
   n21["__USES_UNITS__"]
+  n22["TDD_FILTROS"]
+  n24["TDD_FAT_PROCESSAMENTO_CARGA"]
   n16 --> n17
   n2 --> n17
   n1 --> n2
@@ -48,6 +50,11 @@ flowchart LR
   n13 --> n4
   n13 --> n3
   n5 --> n16
+  n5 --> n22
+  n24 --> n16
+  n24 --> n22
+  n22 --> n17
+  n17 --> n22
   n16 -. CodificacaoUnit .-> n20
   n10 -. CodificacaoUnit .-> n14
 ```

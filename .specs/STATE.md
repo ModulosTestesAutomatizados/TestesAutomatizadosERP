@@ -20,14 +20,10 @@ SetarCasoTeste recebe somente módulo e área. O usuário confirmou que o fluxo 
 
 ## Handoff
 
-- Feature atual: `.specs/features/irunner-application/spec.md`. Implementação local e documentação concluídas; sem publicação ou confirmação no ERP.
-- Artefatos atuais em docs/assets/configuracoesGerais/arquiteturaIRunner. TDD_RUN_RUNNER usa TDD_RUN_APPLICATION; arquivo remoto P39_TDD_RUN_APPLICATION.pas. Piloto financeiro em docs/assets/casosTestesFinanceiro/TDD_FIN_FINANCEIRO.pas.
-- Catálogo: TDD_RUN_APPLICATION_MAPEAMENTO_JSON.json no diretório da arquitetura, módulo -> Form -> caption/evento. Runtime lê P39_TDD_RUN_APPLICATION_MAPEAMENTO_JSON. Usuário confirmou Contas a Receber / FCadReceber / Receber1Click; demais Forms do piloto têm caption/evento vazios e preservam abertura direta por Form.
-- AbrirTela aceita eventos encontrados por MetodosDeObjeto (sem sufixo obrigatório), ou Caption/Form do catálogo; rejeita alias ambíguo, reutiliza instâncias, não mascara falha de evento com criação silenciosa.
-- Helper movido para docs/assets/snippets/TDD_MAPEAMENTO_EVENTOS.pas. Coleta somente evento/menu selecionado, usa Caption do menu, preserva Forms anteriores e fecha somente novos. Exige revisão manual de candidatos; não foi executado no ERP.
-- Skill contribuir-documentacao explicitamente autorizada: helper no portal, página Application, aliases/redirects, paths e inventários reconciliados. npm run check e npm run build aprovados. Não houve inspeção visual no navegador.
-- Verificação: 7 grupos principais, 7 independentes, sensor 3/3, verificação independente APP-12 dos dados/documentação. Ver relatorio-servico.md e revisao-independente.md na feature.
-- Limites de regressão preservados: expectativa antiga FParamsCasosTeste=nil falha no fluxo atual do usuário; sonda antiga de logs espera MostrarLogTexto com 1 argumento e fonte atual usa 2. Não declarar toda suíte anterior aprovada.
-- Próximo passo no ambiente: cadastrar/atualizar unit remota do catálogo, atualizar conjunto de fontes coerente e testar aliases/Form/eventos e helper manualmente. Sem banco, menus reais, stage, commit ou deploy nesta iteração. Preservar alterações e movimentações prévias do usuário.
-
-- Correção atual: buffer próprio de preparação em Executar e lista própria do lote em Main, com restauração da referência do chamador. Sem nil. Atualizar as duas units juntas. Quatro testes estritos e dezesseis regressões aprovados; reteste nativo pendente. Ver irunner-logs-preparacao/correcao-invalid-pointer.md.
+- Feature atual: `.specs/features/fat-carga-issue-36/spec.md`, aprovada pelo usuário. Arquivos Pascal/JSON do MVP em `docs/assets/emDesenvolvimento/carga`; planejamento e evidências na feature TLC.
+- Sincronização alterada em `docs/assets/configuracoesGerais/Sincronizar/P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS.pas` para criar/reutilizar `FATURAMENTO/CARGA` com fonte `TDD_FAT_CARGA_JSON`.
+- Pedido informado pelo usuário: `843172`. Leitura somente leitura no banco dedicado de testes confirmou tipo 1, empresa 1 e zero vínculos na ocasião. Schema e consulta documentados em `evidencias/banco-teste.md`; o endereço de infraestrutura não é publicado.
+- O executável FaturamentoMC.exe foi analisado em cópia descompactada temporária; DFM confirma `FCadCarga`, `DMCadCarga`, cinco controles e 28 abas. `inventario-executavel.md` contém limites da evidência.
+- Sonda estática aprovada: `python .specs/features/fat-carga-issue-36/evidencias/verificar_mvp.py`; validadores TLC: `validate_spec.py` 0 erros/1 aviso de questão aberta, `validate_tasks.py` 0 erros/3 avisos de tarefas sem teste automatizado.
+- Próximo passo: interpretar as novas units no BI, sincronizar caso, executar processamento e confirmar `CODIGO_CARGA` e par `CARGA_CARDOC/DOCUMENTO_CARDOC`. Só essa execução pode fechar CARGA-05/07/08/09/10/11/12; possível ajuste em `CDSDocumentos` se sua projeção divergir da tabela.
+- Preservar exclusão preexistente de `docs/assets/emDesenvolvimento/TDD_JSON_FINANCEIRO.json`. Nenhum arquivo foi staged, commitado ou instalado no ERP nesta iteração.

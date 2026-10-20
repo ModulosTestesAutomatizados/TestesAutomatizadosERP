@@ -7,7 +7,7 @@ uses TDD_RUN_RUNNER, TDD_FIN_FINANCEIRO;
   Main chama ExecutarLote com o módulo e a área configurados.
   ExecutarLote carrega uma vez,  controla First/Run/Next e libera o lote.
   Falhas individuais são acumuladas e apresentadas depois do encerramento.
-  Main concentra o único prefixo MensagemPersonalizada deste fluxo.
+  Main propaga a excecao sem acrescentar prefixo neste exemplo.
   Run prepara o caso corrente,  executa Started/Teste,  mantém ASSERTS
   reservado e persiste histórico e tempos individuais.
   FLogsCasoTeste mantém as mensagens capturadas e é limpa após tentar persistir.
@@ -23,7 +23,7 @@ begin
     ExecutarLote('FINANCEIRO', 'FINANCEIRO');
   except
     on Ex: Exception do
-      raise Exception.Create(MensagemPersonalizada + #13 + Ex.Message);
+      raise;
   end;
 end;
 

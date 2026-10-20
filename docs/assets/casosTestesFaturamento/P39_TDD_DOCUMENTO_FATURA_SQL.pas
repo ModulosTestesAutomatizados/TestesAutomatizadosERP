@@ -37,10 +37,10 @@ var
 procedure Main;
 begin
   if ExecutandoNoServidor then
-    raise exception.Create(MensagemPersonalizada + #13 + 'Processamento nÃ£o disponÃ­vel para execuÃ§Ã£o pelo servidor!');
+    raise exception.Create('Processamento nÃ£o disponÃ­vel para execuÃ§Ã£o pelo servidor!');
 
   if CodigoComoClienteTekSystem <> 1000 then
-    raise exception.Create(MensagemPersonalizada + #13 + 'Processamento exclusivo para uso de testes dentro da TekSystem!');
+    raise exception.Create('Processamento exclusivo para uso de testes dentro da TekSystem!');
   
   P39_GERAR_FAT_CONFIG_TESTE.Main;
 
