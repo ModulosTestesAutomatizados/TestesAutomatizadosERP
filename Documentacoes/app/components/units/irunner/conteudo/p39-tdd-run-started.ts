@@ -1,15 +1,14 @@
 import { criarDocumentoUnit } from '../../../../contracts/criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
-  "nome": "TDD_RUN_STARTED",
+  "nome": "P39_TDD_RUN_STARTED",
   "resumo": "Validar a versão requerida e aplicar os parâmetros do caso corrente antes de Teste.",
   "responsabilidade": "Validar a versão requerida e aplicar os parâmetros do caso corrente antes de Teste.",
   "problema": "Preparar a execução com o JSON e a identidade já definidos no registro corrente.",
-  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_STARTED.pas",
+  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_STARTED.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [
     "P39_TDD_STARTED",
-    "P39_TDD_RUN_STARTED",
     "TDD_STARTED"
   ],
   "navegacao": {

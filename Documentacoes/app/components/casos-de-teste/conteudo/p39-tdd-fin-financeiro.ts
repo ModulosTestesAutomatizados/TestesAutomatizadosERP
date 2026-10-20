@@ -1,10 +1,10 @@
 import { criarDocumentoUnit } from '../../../contracts/criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
-  "nome": "TDD_FIN_FINANCEIRO",
+  "nome": "P39_TDD_FIN_FINANCEIRO",
   "resumo": "Executar duplicata receber/pagar e borderô receber/pagar para o registro corrente.",
   "responsabilidade": "Executar duplicata receber/pagar e borderô receber/pagar para o registro corrente.",
   "problema": "Exercitar o financeiro com captura de dados antes do fechamento e deixar a comparação para ASSERTS.",
-  "fonte": "docs/assets/casosTestesFinanceiro/TDD_FIN_FINANCEIRO.pas",
+  "fonte": "docs/assets/casosTestesFinanceiro/P39_TDD_FIN_FINANCEIRO.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [
@@ -64,7 +64,7 @@ export default criarDocumentoUnit({
     "ValidarCasoTeste exige a empresa corrente e os dados financeiros do JSON preparado por Started. Não recarrega casos nem move o cursor do lote.",
     "Teste executa quatro operações: duplicata receber, duplicata pagar, borderô receber e borderô pagar. Captura CDSCadastro por DataSet|DM depois de gravar e antes de TearDown_DestruirObjetos.",
     "O finally marca FNomeMetodoAtual como TEARDOWN e fecha recursos financeiros/cancela edições pendentes. CDS compartilhados continuam pertencendo ao lote. ASSERTS é executado pela casca após o retorno do Teste.",
-    "A abertura é delegada a TDD_RUN_APPLICATION.AbrirTela, disponível pela cadeia de uses do runner. Duplicatas usam DuplicatasaReceber1Click e DuplicatasaPagar1Click; borderôs usam BorderdeAcerto1Click e BorderdePagamento1Click. São os eventos configurados neste fonte, a conferir no módulo do ERP.",
+    "A abertura é delegada a P39_TDD_RUN_APPLICATION.AbrirTela, disponível pela cadeia de uses do runner. Duplicatas usam DuplicatasaReceber1Click e DuplicatasaPagar1Click; borderôs usam BorderdeAcerto1Click e BorderdePagamento1Click. São os eventos configurados neste fonte, a conferir no módulo do ERP.",
     "O cenário conserva a localização dos DMs/componentes, filtros, totalização, gravação e foco dos campos. TearDown_DestruirObjetos cancela edições e fecha Forms; não libera datasets pertencentes ao ERP.",
     "A fonte única do caso é docs/assets/casosTestesFinanceiro/TDD_FIN_FINANCEIRO_JSON.json, carregada na sincronização como TDD_FIN_FINANCEIRO_JSON (com P39_ conforme a origem). parametros é opcional; camposDisponiveis e resultadoEsperado são resolvidos e preservados na raiz pelo registro."
   ],

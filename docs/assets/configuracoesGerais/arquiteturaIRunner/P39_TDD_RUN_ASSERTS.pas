@@ -80,7 +80,7 @@ begin
     '===================================================================================================================='  + #13 +
     'Cada assert registra PASS/FAIL acumulado e retorna Boolean.'                                                           + #13 +
     '====================================================================================================================';
-  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_RUN_ASSERTS', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('P39_TDD_RUN_ASSERTS', lInstrucoes);
 end;
 
 {$Region 'Nucleo interno'}

@@ -152,7 +152,7 @@ const secoesAdicionais: ISecao[] = [
           [
             "CASO_TESTE_CT",
             "Dados do caso + parametros + objetos resolvidos camposDisponiveis e resultadoEsperado na raiz.",
-            "CDSCasosTestes / TDD_RUN_STARTED / cenário"
+            "CDSCasosTestes / P39_TDD_RUN_STARTED / cenário"
           ],
           [
             "CAMPOS_DISPONIVEIS_CT",

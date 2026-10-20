@@ -34,7 +34,7 @@ begin
     '===================================================================================================================='  + #13 +
     'Exige que FModulo e FDescModulo estejam previamente preenchidos; caso contrário, dispara exceção.'                     + #13 +
     '====================================================================================================================';
-  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_RUN_APPLICATION', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('P39_TDD_RUN_APPLICATION', lInstrucoes);
 end;
   
 procedure AbrirTela(pTela :string);

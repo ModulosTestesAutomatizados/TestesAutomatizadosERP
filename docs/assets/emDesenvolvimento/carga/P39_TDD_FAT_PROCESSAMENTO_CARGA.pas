@@ -1,11 +1,11 @@
-unit TDD_FAT_PROCESSAMENTO_CARGA;
+unit P39_TDD_FAT_PROCESSAMENTO_CARGA;
 
-uses TDD_RUN_IRUNNER, TDD_FILTROS;
+uses P39_TDD_RUN_IRUNNER, P39_TDD_FILTROS;
 
 procedure Main;
 var lInstrucoes: String;
 begin
-  {TDD_FILTROS.}FiltroLogicoEmBoolean('Exibir Instruções?', {P39_TDD_RUN_LOGS.}FExibirInstrucoes);
+  {P39_TDD_FILTROS.}FiltroLogicoEmBoolean('Exibir Instruções?', {P39_TDD_RUN_LOGS.}FExibirInstrucoes);
   lInstrucoes := 'Unit responsavel por iniciar o lote IRunner da area FATURAMENTO/CARGA.'                                   + #13 +
     '===================================================================================================================='  + #13 +
     'Estado compartilhado:'                                                                                                 + #13 +
@@ -18,7 +18,7 @@ begin
     '===================================================================================================================='  + #13 +
     'Main pergunta se exibe as instrucoes e chama ExecutarIRunner uma vez.'                                                 + #13 +
     '====================================================================================================================';
-  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_FAT_PROCESSAMENTO_CARGA', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('P39_TDD_FAT_PROCESSAMENTO_CARGA', lInstrucoes);
   ExecutarIRunner;
 end;
 

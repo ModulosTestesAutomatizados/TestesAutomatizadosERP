@@ -19,7 +19,7 @@ Compare `schemaVersion` e `contentVersion` do índice ao reutilizar uma consulta
 
 O índice contém `documentos`. Procure `unit`, `titulo` e `aliases` para nomes de units. Para artefatos e estados globais, examine `simbolos` com `tipo: estado`, incluindo seus aliases. Para procedures/functions, examine `tipo: metodo`, `nome` e `assinatura`. `navegacao.contexto` distingue fluxo, unit, helper e caso de teste.
 
-Exemplos: `FCDSCasosTestes` pode ser alias de um estado; `RegistrarLog` é método de TDD_RUN_LOGS. Leia o Markdown do resultado e siga as citações de dependências conforme a dúvida. Não trate um consumidor que menciona o símbolo como seu proprietário. A assinatura e o ciclo de vida estão na página individual; o fluxo explica a ordem entre units.
+Exemplos: `FCDSCasosTestes` pode ser alias de um estado; `RegistrarLog` é método de P39_TDD_RUN_LOGS. Leia o Markdown do resultado e siga as citações de dependências conforme a dúvida. Não trate um consumidor que menciona o símbolo como seu proprietário. A assinatura e o ciclo de vida estão na página individual; o fluxo explica a ordem entre units.
 
 Use `markdown` para o texto, `pagina` para a interface e `fontes` para o código de origem. Os símbolos também oferecem links para suas seções. Resolva URLs que começam com `/` no mesmo host da documentação, preservando `/TestesAutomatizadosERP/`.
 

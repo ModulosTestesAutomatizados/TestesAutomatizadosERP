@@ -1,7 +1,7 @@
 // Helper manual para coletar candidatos ao DE -> PARA de telas do módulo atual.
 // Catálogo: docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_APPLICATION_MAPEAMENTO_JSON.json.
 // Unit remota do catálogo: P39_TDD_RUN_APPLICATION_MAPEAMENTO_JSON.
-// Documentação: Helpers -> Gerais -> TDD_MAPEAMENTO_EVENTOS no portal.
+// Documentação: Helpers -> Gerais -> P39_TDD_MAPEAMENTO_EVENTOS no portal.
 // Execute somente no ambiente de testes: o evento selecionado realmente é chamado.
 // Revise os candidatos antes de atualizar o catálogo; a coleta não publica nem grava dados.
 

@@ -39,7 +39,7 @@ begin
     'Os tempos são registrados pelos métodos existentes; FModoDebug controla somente a exibição dos logs.'                + #13 +
     'FExibirInstrucoes controla a exibição destas instruções.'                                                             + #13 +
     '====================================================================================================================';
-  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_RUN_STARTED', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('P39_TDD_RUN_STARTED', lInstrucoes);
 end;
 
 {$region Aplicação de parâmetros do sistema do caso de teste}
@@ -130,10 +130,10 @@ begin
 end;
 {$endregion}
 
-{$region Use case da TDD_RUN_STARTED}
+{$region Use case da P39_TDD_RUN_STARTED}
 { ================================================================
-  USE CASE DA TDD_RUN_STARTED PARA O TDD_RUN_RUNNER.Run
-    - Está sendo cronometrado por sua chamada em TDD_RUN_RUNNER
+  USE CASE DA P39_TDD_RUN_STARTED PARA O P39_TDD_RUN_RUNNER.Run
+    - Está sendo cronometrado por sua chamada em P39_TDD_RUN_RUNNER
   ================================================================ }
 procedure Started;
 begin
@@ -143,7 +143,7 @@ begin
 
   if (Trim(FContextoCasoTeste.DescricaoModulo) = '') or
      (Trim(FContextoCasoTeste.DescricaoArea) = '') then
-    raise Exception.Create('Contexto do caso de teste não foi configurado corretamente no TDD_RUN_RUNNER.');
+    raise Exception.Create('Contexto do caso de teste não foi configurado corretamente no P39_TDD_RUN_RUNNER.');
 
   if not Assigned(CDSCasosTestes) then
     raise Exception.Create('CDS global dos casos de teste não foi inicializado.');

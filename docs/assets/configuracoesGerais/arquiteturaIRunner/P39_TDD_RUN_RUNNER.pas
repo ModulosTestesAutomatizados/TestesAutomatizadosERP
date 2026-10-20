@@ -1,4 +1,4 @@
-uses TDD_RUN_STARTED, TDD_RUN_APPLICATION, TDD_RUN_VALIDAR_RESULTADO, TDD_RUN_FINISHED;
+uses P39_TDD_RUN_STARTED, P39_TDD_RUN_APPLICATION, P39_TDD_RUN_VALIDAR_RESULTADO, P39_TDD_RUN_FINISHED;
 
 type
   THistoricoExecucao  = record
@@ -84,7 +84,7 @@ begin
     'function FormatarTickDiff(pTempoMs :Cardinal) :string'                                                                 + #13 +
     '  - Métodos de apoio à formatação das durações.'                                                                       + #13 +
     '====================================================================================================================';
-  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_RUN_RUNNER', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('P39_TDD_RUN_RUNNER', lInstrucoes);
 end;
 
 {$region Setup Casos de Testes}

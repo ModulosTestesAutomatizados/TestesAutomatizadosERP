@@ -1,15 +1,14 @@
 import { criarDocumentoUnit } from '../../../../contracts/criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
-  "nome": "TDD_RUN_RUNNER",
+  "nome": "P39_TDD_RUN_RUNNER",
   "resumo": "Preparar lote e contexto corrente e medir tempos relativos por tentativa.",
   "responsabilidade": "Preparar lote e contexto corrente e medir tempos relativos por tentativa.",
   "problema": "Separar os records de execução e os ticks do cenário e da persistência.",
-  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_RUNNER.pas",
+  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_RUNNER.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [
     "P39_TDD_RUNNER",
-    "P39_TDD_RUN_RUNNER",
     "TDD_RUNNER"
   ],
   "navegacao": {
@@ -103,10 +102,10 @@ export default criarDocumentoUnit({
     "FTempoExecucaoMs recebe a duração da etapa IRUNNER antes de ASSERTS. RegistrarTick(1, nome) também encerra as métricas pendentes em RegistrarMetricas; não existe API EncerrarTemposPendentes."
   ],
   "dependencias": [
-    "TDD_RUN_STARTED: cláusula uses do fonte.",
-    "TDD_RUN_APPLICATION: cláusula uses do fonte.",
+    "P39_TDD_RUN_STARTED: cláusula uses do fonte.",
+    "P39_TDD_RUN_APPLICATION: cláusula uses do fonte.",
     "P39_TDD_RUN_VALIDAR_RESULTADO: cláusula uses do fonte.",
-    "TDD_RUN_FINISHED: cláusula uses do fonte."
+    "P39_TDD_RUN_FINISHED: cláusula uses do fonte."
   ],
   "limites": [
     "Fonte local e documentação não comprovam cadastro remoto instalado ou homologação no ERP. APIs do host e efeitos financeiros precisam de evidência própria."

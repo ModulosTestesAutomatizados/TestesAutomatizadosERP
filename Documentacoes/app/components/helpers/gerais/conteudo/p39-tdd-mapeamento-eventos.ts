@@ -1,11 +1,11 @@
 import { criarDocumentoUnit } from '../../../../contracts/criarDocumentoUnit.ts';
 
 const documento = criarDocumentoUnit({
-  nome: 'TDD_MAPEAMENTO_EVENTOS', tipoArtefato: 'processamento',
-  resumo: 'Coleta manual de Evento, Form e Caption de menu para o catálogo de TDD_RUN_APPLICATION.',
+  nome: 'P39_TDD_MAPEAMENTO_EVENTOS', tipoArtefato: 'processamento',
+  resumo: 'Coleta manual de Evento, Form e Caption de menu para o catálogo de P39_TDD_RUN_APPLICATION.',
   responsabilidade: 'Comparar os Forms abertos antes e depois de um evento escolhido e apresentar candidatos ao DE → PARA de telas.',
   problema: 'O Caption amigável do menu pode diferir do título do Form e do nome do handler. O helper auxilia o levantamento; a revisão dos vínculos continua necessária.',
-  fonte: 'docs/assets/snippets/TDD_MAPEAMENTO_EVENTOS.pas', estado: 'em-desenvolvimento',
+  fonte: 'docs/assets/snippets/P39_TDD_MAPEAMENTO_EVENTOS.pas', estado: 'em-desenvolvimento',
   navegacao: { grupo: 'helpers', subgrupo: 'gerais', ordem: 1 },
   estados: [
     ['FP: TForm / RE: TRichEdit', 'Referências emprestadas do principal e de RichEdit1.', 'Resolvidas no início; não são destruídas. O texto do RichEdit é restaurado no finally.'],
@@ -36,6 +36,6 @@ const documento = criarDocumentoUnit({
 });
 documento.fontes.push({ caminho: 'docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_APPLICATION_MAPEAMENTO_JSON.json' });
 documento.secoes.push({ id: 'molde', titulo: 'Processamento copiável', blocos: [
-  { tipo: 'codigo-fonte', fonte: 'docs/assets/snippets/TDD_MAPEAMENTO_EVENTOS.pas', linguagem: 'pascal' }
+  { tipo: 'codigo-fonte', fonte: 'docs/assets/snippets/P39_TDD_MAPEAMENTO_EVENTOS.pas', linguagem: 'pascal' }
 ] });
 export default documento;

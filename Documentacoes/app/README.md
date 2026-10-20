@@ -45,7 +45,7 @@ O bounded context identificado é a publicação documental: Documento, Seção,
 
 O guia ativo fica em `components/contribuir/conteudo/autoria.ts`. Snippets da IDE estão em `.vscode/documentacao.code-snippets`; a skill compartilhável do projeto é `.agents/skills/contribuir-documentacao/SKILL.md`. Use os caminhos relativos à profundidade da slice ao criar documentos TypeScript. SFCs podem usar o alias `@` para imports do app.
 
-O nome local real identifica a página de unit. Referência remota, alias de busca e redirect de URL têm finalidades diferentes; não force P39_ em um identificador TDD_RUN_ real. `validado-no-erp` exige data, versão e evidência identificáveis para o contrato atual.
+Toda unit TDD publicada no portal usa `P39_` no nome canônico, no arquivo Pascal e nas referências `uses`, qualquer que seja o estado documental. Referência remota, alias de busca e redirect de URL têm finalidades diferentes e não substituem essa identidade. `validado-no-erp` exige data, versão e evidência identificáveis para o contrato atual.
 
 Mermaids permanecem canônicos em `docs/MAPEAMENTO_AST_USES_UNITS/<slug>/`. Exemplos JSON devem estar no conteúdo versionado e não depender de arquivos pessoais ignorados. Fontes e inventários devem ser reconciliados antes de declarar um contrato atualizado. Testes/ferramentas temporários de agentes permanecem em diretórios ignorados.
 

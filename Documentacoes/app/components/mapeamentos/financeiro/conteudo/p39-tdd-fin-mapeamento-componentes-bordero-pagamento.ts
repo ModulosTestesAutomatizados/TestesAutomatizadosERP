@@ -700,7 +700,7 @@ export default {
           "tipo": "lista",
           "itens": [
             "Sem uses ativo no fonte; tipos e métodos de localização são fornecidos pelo host.",
-            "O piloto TDD_FIN_FINANCEIRO referencia P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO no uses."
+            "O piloto P39_TDD_FIN_FINANCEIRO referencia P39_TDD_FIN_MAPEAMENTO_COMPONENTES_BORDERO_PAGAMENTO no uses."
           ]
         },
         {

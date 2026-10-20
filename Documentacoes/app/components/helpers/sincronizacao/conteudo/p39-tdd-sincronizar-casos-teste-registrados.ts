@@ -45,12 +45,12 @@ const documento = criarDocumentoUnit({
     "O processamento pergunta FSincRemoto e FExibirInstrucoes antes de chamar Main e Sincronizar. Sincronizar pergunta FSincRemoto outra vez; essa segunda escolha é intencional e é a que chega a RegistrosCasosTestes.",
     "Sincronizar abre callback, chama RegistrosCasosTestes(FSincRemoto), fecha callback no finally e apresenta conclusão somente após retorno.",
     "RegistrosCasosTestes faz cinco chamadas de seis argumentos: financeiro, desconto percentual do pedido, unidade fabril, sequência dos itens e faturamento/CARGA. Cada caso usa uma única fonte JSON; CARGA usa TDD_FAT_CARGA_JSON.",
-    "O registro financeiro atual usa descrição TDD_FIN_FINANCEIRO, requisito 160.00 e fonte TDD_FIN_FINANCEIRO_JSON. A descrição e a fonte não são a mesma coisa que o nome remoto instalado; pSincRemoto controla o prefixo da leitura.",
+    "O registro financeiro atual usa descrição P39_TDD_FIN_FINANCEIRO, requisito 160.00 e fonte TDD_FIN_FINANCEIRO_JSON. A descrição e a fonte não são a mesma coisa que o nome remoto instalado; pSincRemoto controla o prefixo da leitura.",
     "Os exemplos P39_TDD_JSON_PEDIDO_*.pas do repositório contêm Pascal. Não tratá-los como JSON puro nem afirmar que sua migração remota já ocorreu. Expectativas específicas devem ficar em resultadoEsperado da respectiva fonte."
   ],
   "dependencias": [
     "P39_TDD_REGISTRAR_CASO_TESTE: cláusula uses do fonte; executa RegistrarCasoTeste.",
-    "P39_TDD_FILTROS: cláusula uses do fonte; configura FSincRemoto dentro de Sincronizar. O fonte local vinculado à página de filtros se chama TDD_FILTROS.pas."
+    "P39_TDD_FILTROS: cláusula uses do fonte; configura FSincRemoto dentro de Sincronizar. O fonte local vinculado à página de filtros se chama P39_TDD_FILTROS.pas."
   ],
   "limites": [
     "Sem execução de SQL, TekStore ou ERP pela documentação. Arquivos e aliases não comprovam nomes remotos instalados.",

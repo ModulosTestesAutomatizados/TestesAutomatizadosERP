@@ -1,12 +1,11 @@
 import { criarDocumentoUnit } from '../../../../contracts/criarDocumentoUnit.ts';
 
 export default criarDocumentoUnit({
-  nome: 'TDD_FILTROS',
-  aliases: ['P39_TDD_FILTROS'],
+  nome: 'P39_TDD_FILTROS',
   resumo: 'Ler um filtro lógico e atribuir sua escolha a uma flag Boolean.',
   responsabilidade: 'Oferecer aos processamentos uma entrada lógica para configurar flags antes da execução.',
   problema: 'Evitar valores Boolean fixos nas entradas de sincronização e dos lotes IRunner.',
-  fonte: 'docs/assets/emDesenvolvimento/TDD_FILTROS.pas',
+  fonte: 'docs/assets/emDesenvolvimento/P39_TDD_FILTROS.pas',
   estado: 'em-desenvolvimento',
   navegacao: { grupo: 'helpers', subgrupo: 'gerais', ordem: 2 },
   metodos: [
@@ -18,8 +17,8 @@ export default criarDocumentoUnit({
   implementacao: [
     'Cada chamada apresenta um filtro lógico independente com valor inicial N. Passe o nome exibido e uma variável Boolean do processamento.',
     'O processamento de sincronização, fora do IRunner, chama o filtro diretamente para FSincRemoto e FExibirInstrucoes. Sincronizar apresenta uma segunda pergunta para FSincRemoto antes de registrar os casos; as duas perguntas são intencionais.',
-    'No fluxo IRunner, TDD_RUN_LOGS oferece SetterFlags para configurar FModoDebug e FExibirInstrucoes uma vez. O ponto de chamada no fluxo ainda precisa ser definido; a existência do método não significa que ele já seja executado.',
-    'O fonte e a página canônica se chamam TDD_FILTROS. P39_TDD_FILTROS é referência da sincronização e alias de consulta; a rota /units/p39-tdd-filtros redireciona para esta página.',
+    'No fluxo IRunner, P39_TDD_RUN_LOGS oferece SetterFlags para configurar FModoDebug e FExibirInstrucoes uma vez. O ponto de chamada no fluxo ainda precisa ser definido; a existência do método não significa que ele já seja executado.',
+    'O arquivo Pascal, a página e as cláusulas uses dos consumidores usam P39_TDD_FILTROS.',
     'A unit não declara estado global próprio. A variável recebida por referência pertence à unit consumidora ou a uma dependência dela.'
   ],
   dependencias: [

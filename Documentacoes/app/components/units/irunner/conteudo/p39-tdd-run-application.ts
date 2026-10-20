@@ -1,7 +1,7 @@
 import { criarDocumentoUnit } from '../../../../contracts/criarDocumentoUnit.ts';
 
 const documento = criarDocumentoUnit({
-  nome: 'P39_TDD_RUN_APPLICATION', aliases: ['TDD_RUN_APPLICATION'],
+  nome: 'P39_TDD_RUN_APPLICATION',
   resumo: 'Abrir telas por Caption, Form ou evento e controlar o principal da aplicação.',
   responsabilidade: 'Resolver os aliases de telas do módulo corrente e apresentar o Form correspondente, reutilizando instâncias existentes.',
   problema: 'Permitir AbrirTela com um título amigável sem exigir que o autor do teste memorize os handlers dos menus.',
@@ -20,11 +20,11 @@ const documento = criarDocumentoUnit({
     'A comparação de módulo e aliases ignora caixa e espaços externos; captions também desconsideram & de atalhos. Acentos permanecem significativos. O catálogo é lido por chamada e seus objetos JSON são liberados no finally.',
     'O vínculo Contas a Receber → FCadReceber → Receber1Click foi informado pelo usuário. Os demais Forms financeiros estão cadastrados sem Caption ou Evento presumidos.',
     'Quando precisa abrir, registra destino, traz o principal à frente e aplica foco antes do evento/criação. O foco dos campos específicos continua pertencendo ao teste.',
-    'O runner usa TDD_RUN_APPLICATION. O arquivo Pascal versionado tem prefixo P39_ e serve como referência local; o cadastro dessa unit no ERP requer verificação própria.'
+    'O runner usa P39_TDD_RUN_APPLICATION. O arquivo Pascal versionado tem prefixo P39_ e serve como referência local; o cadastro dessa unit no ERP requer verificação própria.'
   ],
-  dependencias: ['P39_TDD_CASOS_DE_TESTE e seu contexto herdado.', 'Carga dinâmica de P39_TDD_RUN_APPLICATION_MAPEAMENTO_JSON; não é um uses Pascal.', 'TDD_MAPEAMENTO_EVENTOS auxilia a coleta manual; não é chamado por AbrirTela.'],
+  dependencias: ['P39_TDD_CASOS_DE_TESTE e seu contexto herdado.', 'Carga dinâmica de P39_TDD_RUN_APPLICATION_MAPEAMENTO_JSON; não é um uses Pascal.', 'P39_TDD_MAPEAMENTO_EVENTOS auxilia a coleta manual; não é chamado por AbrirTela.'],
   limites: ['Cadastro remoto e comportamento no ERP precisam de validação própria; o build não constitui homologação.', 'Alias ausente ou ambíguo falha antes de abrir telas. Se o evento mapeado não abrir o Form esperado, não existe fallback que esconda a falha.', 'Evento direto não possui Form esperado no contrato e não depende do catálogo. Form e Caption exigem registro no módulo corrente.']
 });
 documento.fontes.push({ caminho: 'docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_APPLICATION_MAPEAMENTO_JSON.json' });
-documento.secoes.push({ id: 'exemplos', titulo: 'As três formas de chamada', blocos: [{ tipo: 'codigo', linguagem: 'pascal', codigo: "{TDD_RUN_APPLICATION.}AbrirTela('Contas a Receber');\n{TDD_RUN_APPLICATION.}AbrirTela('FCadReceber');\n{TDD_RUN_APPLICATION.}AbrirTela('Receber1Click');" }] });
+documento.secoes.push({ id: 'exemplos', titulo: 'As três formas de chamada', blocos: [{ tipo: 'codigo', linguagem: 'pascal', codigo: "{P39_TDD_RUN_APPLICATION.}AbrirTela('Contas a Receber');\n{P39_TDD_RUN_APPLICATION.}AbrirTela('FCadReceber');\n{P39_TDD_RUN_APPLICATION.}AbrirTela('Receber1Click');" }] });
 export default documento;

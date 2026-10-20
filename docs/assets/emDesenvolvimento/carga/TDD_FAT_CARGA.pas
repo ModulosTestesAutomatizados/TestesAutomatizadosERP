@@ -14,7 +14,7 @@ begin
     '  - Codigo do pedido de venda informado pelo JSON corrente.'                                                           + #13 +
     'FDescricaoCarga: String'                                                                                               + #13 +
     '  - Descricao da carga informada pelo JSON corrente.'                                                                  + #13 +
-    'FEtapaAtual: Integer (TDD_RUN_RUNNER)'                                                                                 + #13 +
+    'FEtapaAtual: Integer (P39_TDD_RUN_RUNNER)'                                                                                 + #13 +
     '  - Etapa incrementada por RegistrarTick e registrada no historico de falhas.'                                         + #13 +
     '===================================================================================================================='  + #13 +
     'Metodos disponibilizados pela Unit:'                                                                                   + #13 +

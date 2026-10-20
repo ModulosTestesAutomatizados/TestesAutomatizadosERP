@@ -11,22 +11,22 @@ export default {
   },
   "fontes": [
     {
-      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_IRUNNER.pas"
+      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_IRUNNER.pas"
     },
     {
-      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_UNIT_BASE_IRUNNER.pas"
+      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_UNIT_BASE_IRUNNER.pas"
     },
     {
-      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_RUNNER.pas"
+      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_RUNNER.pas"
     },
     {
-      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_STARTED.pas"
+      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_STARTED.pas"
     },
     {
-      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_FINISHED.pas"
+      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_FINISHED.pas"
     },
     {
-      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_LOGS.pas"
+      "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_LOGS.pas"
     },
     {
       "caminho": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_ASSERTS.pas"
@@ -44,10 +44,10 @@ export default {
       "caminho": "docs/assets/casosTestesFinanceiro/processamentos/P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO.pas"
     },
     {
-      "caminho": "docs/assets/casosTestesFinanceiro/TDD_FIN_FINANCEIRO.pas"
+      "caminho": "docs/assets/casosTestesFinanceiro/P39_TDD_FIN_FINANCEIRO.pas"
     },
     {
-      "caminho": "docs/MAPEAMENTO_AST_USES_UNITS/runner/TDD_RUN_IRUNNER.ast.json"
+      "caminho": "docs/MAPEAMENTO_AST_USES_UNITS/runner/P39_TDD_RUN_IRUNNER.ast.json"
     }
   ],
   "secoes": [
@@ -57,12 +57,12 @@ export default {
       "blocos": [
         {
           "tipo": "paragrafo",
-          "texto": "P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO configura uma única unit com procedure Teste sem parâmetros, informa módulo e área como literais Pascal e chama TDD_RUN_IRUNNER.Executar. A interpretação ocorre uma vez; a casca percorre os registros do lote."
+          "texto": "P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO configura uma única unit com procedure Teste sem parâmetros, informa módulo e área como literais Pascal e chama P39_TDD_RUN_IRUNNER.Executar. A interpretação ocorre uma vez; a casca percorre os registros do lote."
         },
         {
           "tipo": "codigo",
           "linguagem": "pascal",
-          "codigo": "SetTDDUnit('TDD_FIN_FINANCEIRO');\nAddParamsRun('''FINANCEIRO''');\nAddParamsRun('''FINANCEIRO''');\nExecutar;"
+          "codigo": "SetTDDUnit('P39_TDD_FIN_FINANCEIRO');\nAddParamsRun('''FINANCEIRO''');\nAddParamsRun('''FINANCEIRO''');\nExecutar;"
         },
         {
           "tipo": "paragrafo",
@@ -88,22 +88,22 @@ export default {
           ],
           "linhas": [
             [
-              "TDD_RUN_IRUNNER",
+              "P39_TDD_RUN_IRUNNER",
               "Montagem e Interpretar uma vez",
               "FTDDUnit, FParamsCasosTeste, FUnitInterpretar"
             ],
             [
-              "TDD_RUN_UNIT_BASE_IRUNNER",
+              "P39_TDD_RUN_UNIT_BASE_IRUNNER",
               "Lote, cursor, Run, continuidade e limpeza",
               "FLogsPreparacao e lista própria de logs do lote; consome o contexto do registro corrente"
             ],
             [
-              "TDD_RUN_RUNNER",
+              "P39_TDD_RUN_RUNNER",
               "Preparação do caso e ticks",
               "FHistoricoExecucao, FContextoCasoTeste, FMetricasAsserts, FCDSMetricasTickDiff"
             ],
             [
-              "TDD_RUN_STARTED",
+              "P39_TDD_RUN_STARTED",
               "Versão e aplicação de parâmetros",
               "Registro corrente e parâmetros do ERP"
             ],
@@ -118,12 +118,12 @@ export default {
               "Consome capturas/tempo e acumula por RUN_ASSERTS"
             ],
             [
-              "TDD_RUN_FINISHED",
+              "P39_TDD_RUN_FINISHED",
               "Consolidação e persistência, incluindo snapshot dos logs",
               "Consome records/métricas, preenche AutoIncHistorico"
             ],
             [
-              "TDD_RUN_LOGS",
+              "P39_TDD_RUN_LOGS",
               "Captura permanente; exibição por debug e instruções separadas",
               "FModoDebug, FExibirInstrucoes, FLogsCasoTeste"
             ],
@@ -147,7 +147,7 @@ export default {
       "blocos": [
         {
           "tipo": "paragrafo",
-          "texto": "Executar lê CodificacaoUnit('TDD_RUN_UNIT_BASE_IRUNNER') e substitui cinco marcadores: __USES_UNITS__, __PARAMETROS_CASO_TESTE__, __CHAMADAS_METODOS__, __MODO_DEBUG__ e __LOGS_PREPARACAO__. A chamada Teste gerada recebe delimitadores, callback e ticks; o cenário não deve controlar o cursor."
+          "texto": "Executar lê CodificacaoUnit('P39_TDD_RUN_UNIT_BASE_IRUNNER') e substitui cinco marcadores: __USES_UNITS__, __PARAMETROS_CASO_TESTE__, __CHAMADAS_METODOS__, __MODO_DEBUG__ e __LOGS_PREPARACAO__. A chamada Teste gerada recebe delimitadores, callback e ticks; o cenário não deve controlar o cursor."
         },
         {
           "tipo": "paragrafo",
@@ -166,7 +166,7 @@ export default {
       "blocos": [
         {
           "tipo": "mermaid",
-          "fonte": "docs/MAPEAMENTO_AST_USES_UNITS/runner/TDD_RUN_IRUNNER.md",
+          "fonte": "docs/MAPEAMENTO_AST_USES_UNITS/runner/P39_TDD_RUN_IRUNNER.md",
           "titulo": "Dependências reais do conjunto Runner"
         },
         {
@@ -175,7 +175,7 @@ export default {
         },
         {
           "tipo": "paragrafo",
-          "texto": "Variantes sem P39_ só apontam para um arquivo local quando há candidato inequívoco, identificado como variante de referência no inventário; isso não comprova cadastro remoto. TDD_RUN_RUNNER usa P39_TDD_RUN_VALIDAR_RESULTADO e TDD_RUN_APPLICATION; este último resolve o arquivo P39_TDD_RUN_APPLICATION.pas como variante local de referência."
+          "texto": "Variantes sem P39_ só apontam para um arquivo local quando há candidato inequívoco, identificado como variante de referência no inventário; isso não comprova cadastro remoto. P39_TDD_RUN_RUNNER usa P39_TDD_RUN_VALIDAR_RESULTADO e P39_TDD_RUN_APPLICATION; este último resolve o arquivo P39_TDD_RUN_APPLICATION.pas como variante local de referência."
         }
       ]
     },
@@ -280,7 +280,7 @@ export default {
         },
         {
           "tipo": "paragrafo",
-          "texto": "RegistrarLog sempre acumula mensagens em TDD_RUN_LOGS; FModoDebug controla somente sua exibição e FExibirInstrucoes controla instruções independentemente. As chamadas do conjunto atual usam RegistrarLog. O diagnóstico do código gerado deixa a preparação vazia apenas na representação exibida, evitando autorreferência; o código interpretado recebe a cópia integral com literais consecutivos, sem uma cadeia extensa de somas. FINISHED copia FLogsCasoTeste.Text imediatamente antes do INSERT."
+          "texto": "RegistrarLog sempre acumula mensagens em P39_TDD_RUN_LOGS; FModoDebug controla somente sua exibição e FExibirInstrucoes controla instruções independentemente. As chamadas do conjunto atual usam RegistrarLog. O diagnóstico do código gerado deixa a preparação vazia apenas na representação exibida, evitando autorreferência; o código interpretado recebe a cópia integral com literais consecutivos, sem uma cadeia extensa de somas. FINISHED copia FLogsCasoTeste.Text imediatamente antes do INSERT."
         },
         {
           "tipo": "paragrafo",
@@ -288,7 +288,7 @@ export default {
         },
         {
           "tipo": "paragrafo",
-          "texto": "TDD_RUN_FINISHED insere HISTORICO_EXECUCAO com RETURNING, uma linha agregada de METRICAS_ASSERTS e linhas de METRICAS_TICK_DIFF. Os asserts incluem total zero/parciais, etapa, tempo, aprovados/falhos e esperado/obtido de FResultadoEsperadoCaso/FResultados.Text. O campo de logs é LOGS_PROCESSAMENTO_HE."
+          "texto": "P39_TDD_RUN_FINISHED insere HISTORICO_EXECUCAO com RETURNING, uma linha agregada de METRICAS_ASSERTS e linhas de METRICAS_TICK_DIFF. Os asserts incluem total zero/parciais, etapa, tempo, aprovados/falhos e esperado/obtido de FResultadoEsperadoCaso/FResultados.Text. O campo de logs é LOGS_PROCESSAMENTO_HE."
         },
         {
           "tipo": "paragrafo",
@@ -302,7 +302,7 @@ export default {
       "blocos": [
         {
           "tipo": "paragrafo",
-          "texto": "TDD_RUN_STARTED usa TJSONObject/GetPair/GetPairName/GetPairValue. parametros ausente ou objeto vazio não aplica alterações; seção com tipo incorreto falha. GetValueJson não deve ser usado para extrair objeto inteiro: a sonda nativa observou Conversion from TJSONObject to string is not supported, e propriedade ausente também pode lançar."
+          "texto": "P39_TDD_RUN_STARTED usa TJSONObject/GetPair/GetPairName/GetPairValue. parametros ausente ou objeto vazio não aplica alterações; seção com tipo incorreto falha. GetValueJson não deve ser usado para extrair objeto inteiro: a sonda nativa observou Conversion from TJSONObject to string is not supported, e propriedade ausente também pode lançar."
         },
         {
           "tipo": "paragrafo",

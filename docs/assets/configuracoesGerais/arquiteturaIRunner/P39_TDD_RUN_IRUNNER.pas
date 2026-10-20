@@ -1,4 +1,4 @@
-uses TDD_RUN_LOGS;
+uses P39_TDD_RUN_LOGS;
 
 var
   FTDDUnit                            :string;
@@ -24,7 +24,7 @@ begin
     'A casca controla a carga e o cursor dos casos. Esta unit monta código; não executa Teste fora de Interpretar.'        + #13 +
     'Os diagnósticos usam RegistrarLog. FExibirInstrucoes controla a exibição destas instruções.'                          + #13 +
     '====================================================================================================================';
-  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_RUN_IRUNNER', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('P39_TDD_RUN_IRUNNER', lInstrucoes);
 end;
 
 // Define a única unit cujo Teste será chamado por Run para cada caso.
@@ -68,7 +68,7 @@ begin
     FLogsCasoTeste := lLogsMontagem;
 
     FUnitInterpretar.Clear;
-    FUnitInterpretar.Add(CodificacaoUnit('TDD_RUN_UNIT_BASE_IRUNNER'));
+    FUnitInterpretar.Add(CodificacaoUnit('P39_TDD_RUN_UNIT_BASE_IRUNNER'));
 
     lLS.Clear;
     lMetodo := 'Teste';
@@ -84,7 +84,7 @@ begin
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, ',', ', ');
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__CHAMADAS_METODOS__ // Identacao incorreta propositalmente!', lLS.Text);
 
-    {P39_TDD_RUN_LOGS.}DelimitadorLog('CÓDIGO GERADO - TDD_RUN_IRUNNER.Executar');
+    {P39_TDD_RUN_LOGS.}DelimitadorLog('CÓDIGO GERADO - P39_TDD_RUN_IRUNNER.Executar');
     // Exibe o código sem incorporar a própria cópia de logs recursivamente.
     {P39_TDD_RUN_LOGS.}RegistrarLog(Troca(FUnitInterpretar.Text, '__LOGS_PREPARACAO__', ''''''));
 

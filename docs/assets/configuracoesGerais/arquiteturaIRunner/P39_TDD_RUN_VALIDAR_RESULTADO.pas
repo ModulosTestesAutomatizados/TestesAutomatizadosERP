@@ -38,7 +38,7 @@ begin
     '===================================================================================================================='   + #13 +
     'Toda falha de estrutura JSON, conversão de tipo ou regra de negócio é capturada e registrada via AssertsFalhou.'        + #13 +
     '====================================================================================================================';
-  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_RUN_VALIDAR_RESULTADO', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('P39_TDD_RUN_VALIDAR_RESULTADO', lInstrucoes);
 end;
 
 function GetOperacao(pOperacao :String): Integer;

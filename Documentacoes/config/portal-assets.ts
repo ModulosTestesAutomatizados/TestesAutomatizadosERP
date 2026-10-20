@@ -11,7 +11,7 @@ import { gerarConhecimento } from './knowledge.ts';
 
 interface INoInventario { file?: string; sha256?: string }
 export const inventarios = [
-  'docs/MAPEAMENTO_AST_USES_UNITS/runner/TDD_RUN_IRUNNER.ast.json',
+  'docs/MAPEAMENTO_AST_USES_UNITS/runner/P39_TDD_RUN_IRUNNER.ast.json',
   'docs/MAPEAMENTO_AST_USES_UNITS/p39-tdd-registrar-caso-teste/sincronizacao.ast.json'
 ];
 

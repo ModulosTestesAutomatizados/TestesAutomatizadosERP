@@ -39,7 +39,7 @@ begin
     'Resultados e comparações pertencem à etapa de asserts, que não é implementada nesta unit.'                            + #13 +
     'FExibirInstrucoes controla a exibição destas instruções.'                                                             + #13 +
     '====================================================================================================================';
-  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_FIN_FINANCEIRO', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('P39_TDD_FIN_FINANCEIRO', lInstrucoes);
 end;
 
 procedure ValidarCasoTeste;

@@ -1,15 +1,14 @@
 import { criarDocumentoUnit } from '../../../../contracts/criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
-  "nome": "TDD_RUN_UNIT_BASE_IRUNNER",
+  "nome": "P39_TDD_RUN_UNIT_BASE_IRUNNER",
   "resumo": "Controlar lote, cursor, preparação, execução, asserts e finalização de cada tentativa.",
   "responsabilidade": "Controlar lote, cursor, preparação, execução, asserts e finalização de cada tentativa.",
   "problema": "Manter o ciclo central e propagar falhas sem misturar carga do lote com o cenário Teste.",
-  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_UNIT_BASE_IRUNNER.pas",
+  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_UNIT_BASE_IRUNNER.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [
     "P39_TDD_BASE_UNIT_IRUNNER",
-    "P39_TDD_RUN_UNIT_BASE_IRUNNER",
     "TDD_UNIT_BASE_IRUNNER"
   ],
   "navegacao": {
@@ -50,7 +49,7 @@ export default criarDocumentoUnit({
     "VERSAO_INCOMPATIVEL é preservado. O resumo de lote falho vem depois da limpeza e dos históricos individuais; não é automaticamente persistido em cada histórico."
   ],
   "dependencias": [
-    "TDD_RUN_RUNNER: cláusula uses do fonte.",
+    "P39_TDD_RUN_RUNNER: cláusula uses do fonte.",
     "__USES_UNITS__: cláusula uses do fonte."
   ],
   "limites": [

@@ -278,7 +278,7 @@ export default {
         {
           "tipo": "lista",
           "itens": [
-            "TDD_RUN_LOGS fornece instruções; P39_TDD_PARAMETRO consome o mapa para comparação e UPDATE."
+            "P39_TDD_RUN_LOGS fornece instruções; P39_TDD_PARAMETRO consome o mapa para comparação e UPDATE."
           ]
         },
         {

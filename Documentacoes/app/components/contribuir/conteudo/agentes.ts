@@ -26,7 +26,7 @@ https://modulostestesautomatizados.github.io/TestesAutomatizadosERP/knowledge/in
         ['documentos[].estado, evidenciaValidacao', 'Preservar o estado documental e conferir o escopo de qualquer evidência ERP.'],
         ['inventarios', 'Seguir os inventários canônicos de uses; distinguir origens locais de referências não resolvidas.']
       ] },
-      { tipo: 'paragrafo', texto: 'Para FCDSCasosTestes, consulte também aliases de símbolos para chegar a P39_TDD_CASOS_DE_TESTE. Para RegistrarLog e FModoDebug, leia TDD_RUN_LOGS e suas limitações. Um fluxo pode citar um estado sem ser seu proprietário.' }
+      { tipo: 'paragrafo', texto: 'Para FCDSCasosTestes, consulte também aliases de símbolos para chegar a P39_TDD_CASOS_DE_TESTE. Para RegistrarLog e FModoDebug, leia P39_TDD_RUN_LOGS e suas limitações. Um fluxo pode citar um estado sem ser seu proprietário.' }
     ] },
     { id: 'skill', titulo: 'Skill de consulta e exemplo de pedido', blocos: [
       { tipo: 'paragrafo', texto: 'A skill consultar-documentacao-tdd está em .agents/skills/consultar-documentacao-tdd/SKILL.md. Ela orienta consulta local ou publicada, seleção por símbolo, leitura de dependências e citação de evidências. Para editar o portal, use contribuir-documentacao. Cada ferramenta de IA precisa ser configurada para carregar a skill ou receber o endereço do índice na tarefa.' },

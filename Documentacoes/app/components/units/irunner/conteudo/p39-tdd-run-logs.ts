@@ -1,15 +1,14 @@
 import { criarDocumentoUnit } from '../../../../contracts/criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
-  "nome": "TDD_RUN_LOGS",
+  "nome": "P39_TDD_RUN_LOGS",
   "resumo": "Acumular mensagens em memória e controlar a exibição por debug; instruções têm controle separado.",
   "responsabilidade": "Acumular mensagens em memória e controlar a exibição por debug; instruções têm controle separado.",
   "problema": "Separar captura de mensagens, instruções e ponto de snapshot para persistência.",
-  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_LOGS.pas",
+  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_LOGS.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [
     "P39_TDD_LOGS",
-    "P39_TDD_RUN_LOGS",
     "TDD_LOGS"
   ],
   "navegacao": {
@@ -48,7 +47,7 @@ export default criarDocumentoUnit({
     [
       "procedure SetterFlags;",
       "Pergunta uma vez se deve ativar debug e exibir instruções.",
-      "Quando FFlagsSetadas é False, chama TDD_FILTROS.FiltroLogicoEmBoolean para FModoDebug e FExibirInstrucoes e então marca FFlagsSetadas como True. Destina-se ao IRunner; o ponto de chamada ainda não foi definido."
+      "Quando FFlagsSetadas é False, chama P39_TDD_FILTROS.FiltroLogicoEmBoolean para FModoDebug e FExibirInstrucoes e então marca FFlagsSetadas como True. Destina-se ao IRunner; o ponto de chamada ainda não foi definido."
     ],
     [
       "procedure DelimitadorLog(pTitulo :string);",
@@ -67,13 +66,13 @@ export default criarDocumentoUnit({
     ]
   ],
   "implementacao": [
-    "TDD_RUN_LOGS declara uses TDD_FILTROS. O filtro referencia P39_TDD_RUN_LOGS para exibir sua Main; essa referência circular é controlada pelas chamadas explícitas, sem inicialização automática das instruções.",
-    "Exibir instruções de uma unit exige FExibirInstrucoes ativo e chamada explícita à Main dessa unit. SetterFlags não é chamado automaticamente pela Main de TDD_RUN_LOGS.",
+    "P39_TDD_RUN_LOGS declara uses P39_TDD_FILTROS. O filtro referencia P39_TDD_RUN_LOGS para exibir sua Main; essa referência circular é controlada pelas chamadas explícitas, sem inicialização automática das instruções.",
+    "Exibir instruções de uma unit exige FExibirInstrucoes ativo e chamada explícita à Main dessa unit. SetterFlags não é chamado automaticamente pela Main de P39_TDD_RUN_LOGS.",
     "RegistrarLog garante a lista e sempre adiciona pLog + #13. FModoDebug controla somente MostrarLogTexto(pLog, '[DEBUG]'). Sucesso e falha são registrados independentemente do debug.",
     "DelimitadorLog registra separador e título por RegistrarLog. FExibirInstrucoes controla MostrarInstrucoesUnit independentemente de FModoDebug.",
     "IRunner transfere a preparação por texto ao molde. Run limpa a lista, copia a preparação e acrescenta mensagens do caso. FINISHED captura imediatamente antes de persistir LOGS_PROCESSAMENTO_HE; Run limpa após essa tentativa e o lote libera sua lista."
   ],
-  "dependencias": ["TDD_FILTROS: cláusula uses do fonte para configurar FModoDebug e FExibirInstrucoes em SetterFlags."],
+  "dependencias": ["P39_TDD_FILTROS: cláusula uses do fonte para configurar FModoDebug e FExibirInstrucoes em SetterFlags."],
   "limites": [
     "Fonte local e documentação não comprovam cadastro remoto instalado ou homologação no ERP. APIs do host e efeitos financeiros precisam de evidência própria."
   ]

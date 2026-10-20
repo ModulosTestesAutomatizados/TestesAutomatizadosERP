@@ -1,15 +1,14 @@
 import { criarDocumentoUnit } from '../../../../contracts/criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
-  "nome": "TDD_RUN_FINISHED",
+  "nome": "P39_TDD_RUN_FINISHED",
   "resumo": "Encerrar tempos, consolidar evidências e persistir histórico, asserts agregados e ticks.",
   "responsabilidade": "Encerrar tempos, consolidar evidências e persistir histórico, asserts agregados e ticks.",
   "problema": "Salvar evidências inclusive parciais sem atribuir persistência à casca ou ao validador.",
-  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_FINISHED.pas",
+  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_FINISHED.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [
     "P39_TDD_FINISHED",
-    "P39_TDD_RUN_FINISHED",
     "TDD_FINISHED"
   ],
   "navegacao": {

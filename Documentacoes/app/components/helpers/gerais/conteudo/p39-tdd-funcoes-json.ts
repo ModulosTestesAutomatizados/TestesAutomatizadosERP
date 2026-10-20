@@ -299,7 +299,7 @@ export default {
         {
           "tipo": "lista",
           "itens": [
-            "TDD_RUN_LOGS fornece instruções; leitura JSON, conversão e recorte são fornecidos pelo host."
+            "P39_TDD_RUN_LOGS fornece instruções; leitura JSON, conversão e recorte são fornecidos pelo host."
           ]
         },
         {

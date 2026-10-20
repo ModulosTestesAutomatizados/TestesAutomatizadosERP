@@ -58,7 +58,7 @@ begin
     'function RegistroFallbackArea(pCodigoModulo :integer; pDescricaoArea :string; pAtivarFallback :boolean) :integer'         + #13 +
     '  - Monta as SQLs de select e insert com returning para chamar RegistroFallbackBase com fallback ativado.'                + #13 +
     '====================================================================================================================';
-  {P39_TDD_ODBC -> P39_TDD_CONSTANTES -> P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_REGISTRAR_CASO_TESTE', lInstrucoes);
+  {P39_TDD_ODBC -> P39_TDD_CONSTANTES -> P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('P39_TDD_REGISTRAR_CASO_TESTE', lInstrucoes);
 end;
 
 procedure RegistrarCasoTeste(

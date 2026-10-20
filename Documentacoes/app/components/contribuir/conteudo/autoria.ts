@@ -48,7 +48,7 @@ import novoFluxo from './conteudo/novo-fluxo.ts';
 // Acrescente novoFluxo ao array exportado que já existe.` }
     ] },
     { id: 'unit', titulo: 'Documentar uma unit', blocos: [
-      { tipo: 'paragrafo', texto: 'Use docunit e criarDocumentoUnit. Informe nome local real, arquivo Pascal correspondente, responsabilidade, problema, estados globais/ciclo de vida, assinaturas e efeitos, implementação, dependências e limites. O mesmo nome local é usado no título e menu. Referências remotas e aliases não renomeiam o fonte.' },
+      { tipo: 'paragrafo', texto: 'Use docunit e criarDocumentoUnit. Toda unit TDD publicada precisa ter prefixo P39_ no nome canônico, no arquivo Pascal e nas referências uses, esteja em desenvolvimento ou em uso. Reconcilie fontes, consumidores e inventários antes de publicar. Informe responsabilidade, problema, estados globais/ciclo de vida, assinaturas e efeitos, implementação, dependências e limites. O nome canônico é usado no título e menu; referências remotas e aliases não renomeiam o fonte.' },
       { tipo: 'paragrafo', texto: 'A fábrica gera seções e símbolos de busca a partir de estados e metodos. Citar o nome de uma unit documentada em parágrafo, lista, tabela, código ou Mermaid cria um link para a página da unit. O texto literal do bloco continua sendo o conteúdo enviado à área de transferência.' },
       { tipo: 'aviso', severidade: 'info', texto: 'Alias é um nome de pesquisa/citação. Ele não cria redirecionamento de URL. Ao substituir uma página, registre explicitamente o destino da rota antiga e confira links internos; não reintroduza páginas que foram excluídas do mapa.' }
     ] },

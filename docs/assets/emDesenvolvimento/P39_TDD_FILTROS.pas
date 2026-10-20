@@ -18,7 +18,7 @@ begin
     '===================================================================================================================='  + #13 +
     'Cada chamada a FiltroLogicoEmBoolean abre uma selecao independente.'                                                   + #13 +
     '====================================================================================================================';
-  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_FILTROS', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('P39_TDD_FILTROS', lInstrucoes);
 end;
 
 {$region CAST - CONVERSORES}

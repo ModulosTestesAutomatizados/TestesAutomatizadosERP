@@ -331,7 +331,7 @@ export default {
         {
           "tipo": "lista",
           "itens": [
-            "TDD_RUN_STARTED consome parametros do JSON do registro corrente e chama VerificarParametros.",
+            "P39_TDD_RUN_STARTED consome parametros do JSON do registro corrente e chama VerificarParametros.",
             "CONFIG_SISTEMA é global; CONFIG_SISTEMA_EMPRESA e PCP_CONFIG recebem filtros da empresa atual.",
             "As mudanças pertencem ao banco do ERP, não ao banco dedicado de testes."
           ]

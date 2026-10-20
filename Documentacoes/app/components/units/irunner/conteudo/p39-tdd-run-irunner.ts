@@ -1,15 +1,14 @@
 import { criarDocumentoUnit } from '../../../../contracts/criarDocumentoUnit.ts';
 export default criarDocumentoUnit({
-  "nome": "TDD_RUN_IRUNNER",
+  "nome": "P39_TDD_RUN_IRUNNER",
   "resumo": "Montar uma interpretação para uma única unit com entrada Teste e dois parâmetros de contexto.",
   "responsabilidade": "Montar uma interpretação para uma única unit com entrada Teste e dois parâmetros de contexto.",
   "problema": "Evitar interpretar novamente a estrutura para cada caso do lote.",
-  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_IRUNNER.pas",
+  "fonte": "docs/assets/configuracoesGerais/arquiteturaIRunner/P39_TDD_RUN_IRUNNER.pas",
   "estado": "em-desenvolvimento",
   "tipoArtefato": "unit",
   "aliases": [
     "P39_TDD_IRUNNER",
-    "P39_TDD_RUN_IRUNNER",
     "TDD_IRUNNER"
   ],
   "navegacao": {
@@ -63,14 +62,14 @@ export default criarDocumentoUnit({
   ],
   "implementacao": [
     "SetTDDUnit define uma unit com entrada Teste. AddParamsRun recebe exatamente dois literais Pascal: módulo e área; Executar valida a configuração.",
-    "Lê TDD_RUN_UNIT_BASE_IRUNNER por CodificacaoUnit e preenche __USES_UNITS__, __PARAMETROS_CASO_TESTE__, __CHAMADAS_METODOS__, __MODO_DEBUG__ e __LOGS_PREPARACAO__. Chama Interpretar uma vez para o lote.",
+    "Lê P39_TDD_RUN_UNIT_BASE_IRUNNER por CodificacaoUnit e preenche __USES_UNITS__, __PARAMETROS_CASO_TESTE__, __CHAMADAS_METODOS__, __MODO_DEBUG__ e __LOGS_PREPARACAO__. Chama Interpretar uma vez para o lote.",
     "Executar cria seu buffer local de preparação, guarda a referência anterior de FLogsCasoTeste e a restaura no finally. O buffer local, o auxiliar lLS, FUnitInterpretar e FParamsCasosTeste são liberados com Free. A lista do lote é criada por Main e liberada pelo lote, sem compartilhar a propriedade da lista de montagem.",
     "O diagnóstico do código gerado substitui __LOGS_PREPARACAO__ por uma string vazia para não incorporar a própria cópia recursivamente. Depois captura os logs e injeta seu conteúdo completo no programa efetivamente interpretado.",
     "A serialização usa QuotedStr e literais consecutivos, como 'linha'#13#10'outra linha', preservando aspas e quebras sem gerar centenas de operadores + em uma expressão. Cada Run recebe uma cópia textual em FLogsPreparacao.",
     "FModoDebug controla somente a exibição. FTDDUnit permanece selecionada. Não se presume memória ou thread compartilhada entre interpretações; somente o texto é transferido."
   ],
   "dependencias": [
-    "TDD_RUN_LOGS: cláusula uses do fonte."
+    "P39_TDD_RUN_LOGS: cláusula uses do fonte."
   ],
   "limites": [
     "Fonte local e documentação não comprovam cadastro remoto instalado ou homologação no ERP. APIs do host e efeitos financeiros precisam de evidência própria.",

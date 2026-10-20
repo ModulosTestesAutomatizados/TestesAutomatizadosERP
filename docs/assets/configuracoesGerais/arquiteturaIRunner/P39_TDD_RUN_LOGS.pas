@@ -1,4 +1,4 @@
-uses TDD_FILTROS;
+uses P39_TDD_FILTROS;
 
 var
   FFlagsSetadas, FModoDebug, FExibirInstrucoes :Boolean;
@@ -22,7 +22,7 @@ begin
     '====================================================================================================================' + #13 +
     'Metodo de configuracao:'                                                                                              + #13 +
     'procedure SetterFlags'                                                                                                + #13 +
-    '  - Pergunta sobre debug e instrucoes uma unica vez com TDD_FILTROS.'                                                 + #13 +
+    '  - Pergunta sobre debug e instrucoes uma unica vez com P39_TDD_FILTROS.'                                                 + #13 +
     '====================================================================================================================' + #13 +
     'Métodos de registro:'                                                                                                 + #13 +
     'procedure RegistrarLog(pLog :string)'                                                                                 + #13 +
@@ -34,7 +34,7 @@ begin
     'procedure MostrarInstrucoesUnit(pNomeUnitInstrucao, pInstrucoes :string)'                                             + #13 +
     '  - Exige o nome da unit e exibe as instruções apenas quando FExibirInstrucoes está ativo.'                           + #13 +
     '====================================================================================================================';
-  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_RUN_LOGS', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('P39_TDD_RUN_LOGS', lInstrucoes);
 end;
 
 {$region Setter de Flags}
@@ -42,8 +42,8 @@ procedure SetterFlags;
 begin
   if not FFlagsSetadas then
   begin
-    {TDD_FILTROS.}FiltroLogicoEmBoolean('Executar com Modo Debug ativo?', FModoDebug);
-    {TDD_FILTROS.}FiltroLogicoEmBoolean('Exibir Instruções das Units?', FExibirInstrucoes);
+    {P39_TDD_FILTROS.}FiltroLogicoEmBoolean('Executar com Modo Debug ativo?', FModoDebug);
+    {P39_TDD_FILTROS.}FiltroLogicoEmBoolean('Exibir Instruções das Units?', FExibirInstrucoes);
     FFlagsSetadas := True;
   end;
 end;

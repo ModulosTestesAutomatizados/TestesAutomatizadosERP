@@ -284,7 +284,7 @@ export default {
         {
           "tipo": "lista",
           "itens": [
-            "TDD_RUN_LOGS fornece a apresentação de instruções."
+            "P39_TDD_RUN_LOGS fornece a apresentação de instruções."
           ]
         },
         {

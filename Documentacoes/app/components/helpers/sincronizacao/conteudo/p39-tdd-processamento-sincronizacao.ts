@@ -26,15 +26,15 @@ const documento = criarDocumentoUnit({
     ]
   ],
   "implementacao": [
-    "Main apresenta 'Sincronizar Remoto?' e 'Exibir Instruções?' por TDD_FILTROS antes da sincronização. Cada resposta é atribuída à flag correspondente; o valor inicial de cada filtro é N. Sincronizar apresenta depois sua própria pergunta 'Sincronizar com Remoto? (Tek Store)' e atualiza FSincRemoto; ambas as perguntas são intencionais.",
+    "Main apresenta 'Sincronizar Remoto?' e 'Exibir Instruções?' por P39_TDD_FILTROS antes da sincronização. Cada resposta é atribuída à flag correspondente; o valor inicial de cada filtro é N. Sincronizar apresenta depois sua própria pergunta 'Sincronizar com Remoto? (Tek Store)' e atualiza FSincRemoto; ambas as perguntas são intencionais.",
     "O fluxo de sincronização é separado de IRunner.Executar: resolve e persiste os dados antes de o runner carregar o lote. Não executa o cenário financeiro nem é fallback consultado por cada tentativa."
   ],
   "dependencias": [
     "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS: cláusula uses do fonte.",
-    "TDD_FILTROS: cláusula uses do fonte; recebe FSincRemoto e FExibirInstrucoes por referência."
+    "P39_TDD_FILTROS: cláusula uses do fonte; recebe FSincRemoto e FExibirInstrucoes por referência."
   ],
   "limites": [
-    "Sem execução de SQL, TekStore ou ERP pela documentação. Arquivos e aliases não comprovam nomes remotos instalados; TDD_FILTROS precisa estar disponível no interpretador.",
+    "Sem execução de SQL, TekStore ou ERP pela documentação. Arquivos e aliases não comprovam nomes remotos instalados; P39_TDD_FILTROS precisa estar disponível no interpretador.",
     "Fontes inválidos não são substituídos silenciosamente; escrita pode ser parcial, sem atomicidade global ou retry automático."
   ]
 });

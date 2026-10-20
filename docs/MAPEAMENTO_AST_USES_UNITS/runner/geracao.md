@@ -2,19 +2,19 @@
 
 ```mermaid
 flowchart LR
- P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO --> TDD_RUN_IRUNNER
- P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO --> TDD_FILTROS
- TDD_FAT_PROCESSAMENTO_CARGA --> TDD_RUN_IRUNNER
- TDD_FAT_PROCESSAMENTO_CARGA --> TDD_FILTROS
- TDD_FILTROS --> P39_TDD_RUN_LOGS
- TDD_RUN_LOGS --> TDD_FILTROS
- TDD_RUN_IRUNNER -. "CodificacaoUnit" .-> TDD_RUN_UNIT_BASE_IRUNNER
- TDD_RUN_IRUNNER --> M["5 marcadores: uses, parâmetros, chamada, debug e logs de preparação"]
+ P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO --> P39_TDD_RUN_IRUNNER
+ P39_TDD_FIN_PROCESSAMENTO_FINANCEIRO --> P39_TDD_FILTROS
+ P39_TDD_FAT_PROCESSAMENTO_CARGA --> P39_TDD_RUN_IRUNNER
+ P39_TDD_FAT_PROCESSAMENTO_CARGA --> P39_TDD_FILTROS
+ P39_TDD_FILTROS --> P39_TDD_RUN_LOGS
+ P39_TDD_RUN_LOGS --> P39_TDD_FILTROS
+ P39_TDD_RUN_IRUNNER -. "CodificacaoUnit" .-> P39_TDD_RUN_UNIT_BASE_IRUNNER
+ P39_TDD_RUN_IRUNNER --> M["5 marcadores: uses, parâmetros, chamada, debug e logs de preparação"]
  M --> I["Interpretar uma vez"]
  I --> L["Main → ExecutarLote"]
- TDD_RUN_IRUNNER -. "snapshot por texto; literais sem cadeia de somas" .-> P["FLogsPreparacao"]
+ P39_TDD_RUN_IRUNNER -. "snapshot por texto; literais sem cadeia de somas" .-> P["FLogsPreparacao"]
  P --> L
- TDD_RUN_IRUNNER -. "SetTDDUnit / Teste" .-> TDD_FIN_FINANCEIRO
+ P39_TDD_RUN_IRUNNER -. "SetTDDUnit / Teste" .-> P39_TDD_FIN_FINANCEIRO
 ```
 
 Setas tracejadas representam seleção/carga dinâmica; não são cláusulas uses extraídas do AST.

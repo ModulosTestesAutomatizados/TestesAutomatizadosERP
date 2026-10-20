@@ -43,7 +43,7 @@ require(set(mapped_tabs) == set(tabs) and len(mapped_tabs) == 28, "Mapper tabs d
 for control in controls:
     require(f"'{control}'" in mapper, f"Page control missing: {control}")
 
-processor = (CARGA / "TDD_FAT_PROCESSAMENTO_CARGA.pas").read_text(encoding="utf-8")
+processor = (CARGA / "P39_TDD_FAT_PROCESSAMENTO_CARGA.pas").read_text(encoding="utf-8")
 require("SetTDDUnit('TDD_FAT_CARGA')" in processor, "Processor must call Cargo case")
 require("AddParamsRun('''FATURAMENTO''')" in processor, "Processor module mismatch")
 require("AddParamsRun('''CARGA''')" in processor, "Processor area mismatch")

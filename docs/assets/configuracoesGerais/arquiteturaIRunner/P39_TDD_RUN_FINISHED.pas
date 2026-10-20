@@ -16,7 +16,7 @@ begin
     'Falhas de encerramento e persistência são registradas; o diagnóstico preserva a causa anterior.'                      + #13 +
     'FExibirInstrucoes controla a exibição destas instruções.'                                                             + #13 +
     '====================================================================================================================';
-  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_RUN_FINISHED', lInstrucoes);
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('P39_TDD_RUN_FINISHED', lInstrucoes);
 end;
 
 {$region 'Persistência'}
