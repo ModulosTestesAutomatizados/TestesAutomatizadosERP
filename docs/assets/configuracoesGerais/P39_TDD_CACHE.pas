@@ -44,7 +44,7 @@ begin
   CDSAreas.IndexFieldNames := 'DESCRICAO_AREA';
 
   if not CDSAreas.FindKey([pArea]) then
-    raise Exception.Create(MensagemPersonalizada + 'Área ' + pArea + ' não encontrada.');
+    raise Exception.Create('Área ' + pArea + ' não encontrada.');
    
   Result := CDSAreas.FieldByName('AUTOINC_AREA').AsInteger;
 end;
@@ -55,7 +55,7 @@ begin
   CDSAreas.IndexFieldNames := 'AUTOINC_AREA';
 
   if not CDSAreas.FindKey([pCodArea]) then
-    raise Exception.Create(MensagemPersonalizada + 'Área ' + IntToStr(pCodArea) + ' não encontrada.');
+    raise Exception.Create('Área ' + IntToStr(pCodArea) + ' não encontrada.');
    
   Result := CDSAreas.FieldByName('AUTOINC_AREA').AsInteger; 
 end;
@@ -64,10 +64,10 @@ procedure ValidarArea;
 begin
   VerificaCarregamentoCache;  
   if not assigned(CDSAreas)then
-    raise exception.create(MensagemPersonalizada + 'Cache Areas Não Carregadas.');
+    raise exception.create('Cache Areas Não Carregadas.');
 
   if CDSAreas.IsEmpty then
-    raise exception.create(MensagemPersonalizada + 'Areas Não Carregadas.');
+    raise exception.create('Areas Não Carregadas.');
 end;
 
 function ModuloPeloNome(pModulo: String): Integer;
@@ -75,7 +75,7 @@ begin
   ValidarModulo;
   CDSModulos.IndexFieldNames := 'DESCRICAO_MODULO'; 
   if not CDSModulos.FindKey([pModulo]) then
-    raise Exception.Create(MensagemPersonalizada + 'Módulo ' + pModulo + ' não encontrado.');
+    raise Exception.Create('Módulo ' + pModulo + ' não encontrado.');
     
   Result := CDSModulos.FieldByName('CODIGO_MODULO').AsInteger;
   
@@ -86,7 +86,7 @@ begin
   ValidarModulo;
   CDSModulos.IndexFieldNames := 'CODIGO_MODULO'; 
   if not CDSModulos.FindKey([pCodModulo]) then
-    raise Exception.Create(MensagemPersonalizada + 'Módulo ' + IntToStr(pCodModulo) + ' não encontrado.');
+    raise Exception.Create('Módulo ' + IntToStr(pCodModulo) + ' não encontrado.');
     
   Result := CDSModulos.FieldByName('CODIGO_MODULO').AsInteger;
 end;
@@ -95,8 +95,8 @@ procedure ValidarModulo;
 begin
   VerificaCarregamentoCache;
   if not assigned(CDSModulos)then
-    raise exception.create(MensagemPersonalizada + 'Cache Modulos Não Carregados.');
+    raise exception.create('Cache Modulos Não Carregados.');
 
   if CDSModulos.IsEmpty then
-    raise exception.create(MensagemPersonalizada + 'Modulos Não Carregados.');
+    raise exception.create('Modulos Não Carregados.');
 end;

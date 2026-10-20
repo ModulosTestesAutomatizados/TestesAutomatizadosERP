@@ -65,7 +65,7 @@ begin
     CallBack_Mensagem(ClassOwner, 'Carregando Informações de Casos de Testes...');
     
     if (Trim(Modulo) = '') then
-      raise Exception.Create(MensagemPersonalizada + 'Modulo não Informado.');
+      raise Exception.Create('Modulo não Informado.');
     
     iMod := GetModulo(Modulo);
 
@@ -87,7 +87,7 @@ begin
       CDS.Data := TDDReaderODBC(SL.Text);
       
       if CDS.IsEmpty then
-        raise Exception.Create(MensagemPersonalizada + 'Falha ao carregar Casos de Testes.');
+        raise Exception.Create('Falha ao carregar Casos de Testes.');
         
       PreencheInformacoesDataSets(CDS, iMod, iArea);
     finally

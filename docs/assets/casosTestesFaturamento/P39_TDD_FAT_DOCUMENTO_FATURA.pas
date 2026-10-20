@@ -70,10 +70,10 @@ var
 procedure Main;
 begin
   if ExecutandoNoServidor then
-    raise exception.Create(MensagemPersonalizada + #13 + 'Processamento nÃ£o disponÃ­vel para execuÃ§Ã£o pelo servidor!');
+    raise exception.Create('Processamento nÃ£o disponÃ­vel para execuÃ§Ã£o pelo servidor!');
 
   if CodigoComoClienteTekSystem <> 1000 then
-    raise exception.Create(MensagemPersonalizada + #13 + 'Processamento exclusivo para uso de testes dentro da TekSystem!');      
+    raise exception.Create('Processamento exclusivo para uso de testes dentro da TekSystem!');
 end;
 
 procedure Setup_Inicializar;
@@ -169,7 +169,7 @@ end;
 procedure Teste_Executar;
 begin
   if CDSCasosTestes.IsEmpty then
-    raise Exception.Create(MensagemPersonalizada + 'NÃ£o hÃ¡ casos de teste para ser executado.');  
+    raise Exception.Create('NÃ£o hÃ¡ casos de teste para ser executado.');
 
   //MostrarLogTexto(MetodosDeObjeto(FormCadastro));
   try
@@ -289,5 +289,5 @@ begin
     FCDSClientes.Data := _BuscaDadosClientes(FCDSConfigFaturamentoCasoTeste.FieldByName('PESSOA_GERAL_FATCONFIG').AsInteger);    
       
   if FCDSClientes.IsEmpty then
-    raise Exception.Create(MensagemPersonalizada + 'NÃ£o hÃ¡ clientes para inclusÃ£o.');
+    raise Exception.Create('NÃ£o hÃ¡ clientes para inclusÃ£o.');
 end;

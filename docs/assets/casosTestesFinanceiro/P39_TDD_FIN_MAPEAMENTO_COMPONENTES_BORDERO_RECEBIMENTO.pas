@@ -133,7 +133,7 @@ begin
   except
     on E:Exception do
     begin
-      ShowMessage(MensagemPersonalizada + E.Message);
+      ShowMessage(E.Message);
       FCadBorderoAcerto.Free; 
     end;
   end; 

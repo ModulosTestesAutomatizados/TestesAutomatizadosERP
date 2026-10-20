@@ -34,7 +34,7 @@ end;
 procedure VerificaArquivoCarregado;
 begin
     if not FJSONCarregado then
-        raise Exception.Create(MensagemPersonalizada + 'Carregue o JSON chamando o Metodo"SetJSON_Caso_Teste(pJSONDoc, pJSONItem, pItens: String);"' + #13 + 
+        raise Exception.Create('Carregue o JSON chamando o Metodo"SetJSON_Caso_Teste(pJSONDoc, pJSONItem, pItens: String);"' + #13 +
                                'de caso de teste para Continuar.');   
 end;
 
@@ -115,8 +115,8 @@ end;
 procedure ValidarCasoTeste;
 begin
   if Trim(FJSON.Doc) = '' then
-    raise Exception.Create(MensagemPersonalizada + 'JSON do documento Vazio!'); 
+    raise Exception.Create('JSON do documento Vazio!');
   
   if Trim(FJSON.Item) = '' then
-    raise Exception.Create(MensagemPersonalizada + 'JSON de configuraÃ§Ã£o do ITEM Vazio!');
+    raise Exception.Create('JSON de configuraÃ§Ã£o do ITEM Vazio!');
 end;

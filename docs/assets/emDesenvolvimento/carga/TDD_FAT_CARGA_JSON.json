@@ -1,0 +1,17 @@
+{
+  "PEDIDO_VENDA": 843172,
+  "DESCRICAO_CARGA": "Carga TDD issue 36",
+  "camposDisponiveis": {},
+  "resultadoEsperado": {
+    "valor": [
+      {
+        "campo": "CODIGO_CARGA",
+        "tipo_campo": "ftInteger",
+        "operacao": "Maior",
+        "resultado": 0,
+        "cds": "CDSCadastro",
+        "dm": "DMCadCarga"
+      }
+    ]
+  }
+}

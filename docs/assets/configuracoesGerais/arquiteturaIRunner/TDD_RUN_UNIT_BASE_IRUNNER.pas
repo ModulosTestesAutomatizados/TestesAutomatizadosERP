@@ -153,7 +153,9 @@ __CHAMADAS_METODOS__ // Identacao incorreta propositalmente!
           begin
             FHistoricoExecucao.MensagemErro := 'Falha no caso ID ' + IntToStr(FHistoricoExecucao.AutoIncCasoTeste) +
               ', método ' + FNomeMetodoAtual + ': ' + Ex.Message;
-            FHistoricoExecucao.EtapaFalha := FEtapaAtual;
+            // O caso pode ter registrado a etapa da falha antes do tick de TEARDOWN.
+            if (FNomeMetodoAtual = 'TEARDOWN') or (FHistoricoExecucao.EtapaFalha = 0) then
+              FHistoricoExecucao.EtapaFalha := FEtapaAtual;
             if FHistoricoExecucao.StatusExecucao <> 'VERSAO_INCOMPATIVEL' then
               FHistoricoExecucao.StatusExecucao := 'FALHA';
 
