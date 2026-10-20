@@ -19,14 +19,19 @@ export default criarDocumentoUnit({
   },
   "estados": [
     [
+      "FFlagsSetadas: Boolean",
+      "Evita repetir as perguntas de debug e instruções.",
+      "Inicialmente False; SetterFlags marca True depois das duas respostas. Não há chamada ao setter no fluxo local atual."
+    ],
+    [
       "FModoDebug: Boolean",
       "Habilita somente a exibição das mensagens; o registro em memória ocorre sempre.",
-      "Configurado pelo processamento e transmitido ao programa gerado."
+      "SetterFlags pode configurar no fluxo IRunner; a passagem ao programa interpretado depende da integração do IRunner."
     ],
     [
       "FExibirInstrucoes: Boolean",
       "Habilita instruções de Main independentemente do debug.",
-      "Configurado pelo chamador; consultado em MostrarInstrucoesUnit."
+      "SetterFlags pode configurar no fluxo IRunner; MostrarInstrucoesUnit consulta a flag quando uma Main é chamada."
     ],
     [
       "FLogsCasoTeste: TStringList",
@@ -38,7 +43,12 @@ export default criarDocumentoUnit({
     [
       "procedure Main;",
       "Apresenta as instruções da unit conforme FExibirInstrucoes.",
-      "Declaração no fonte atual, linha 6. Consulte a implementação canônica vinculada."
+      "Monta as instruções e chama MostrarInstrucoesUnit; precisa ser invocada explicitamente pelo fluxo."
+    ],
+    [
+      "procedure SetterFlags;",
+      "Pergunta uma vez se deve ativar debug e exibir instruções.",
+      "Quando FFlagsSetadas é False, chama TDD_FILTROS.FiltroLogicoEmBoolean para FModoDebug e FExibirInstrucoes e então marca FFlagsSetadas como True. Destina-se ao IRunner; o ponto de chamada ainda não foi definido."
     ],
     [
       "procedure DelimitadorLog(pTitulo :string);",
@@ -57,11 +67,13 @@ export default criarDocumentoUnit({
     ]
   ],
   "implementacao": [
+    "TDD_RUN_LOGS declara uses TDD_FILTROS. O filtro referencia P39_TDD_RUN_LOGS para exibir sua Main; essa referência circular é controlada pelas chamadas explícitas, sem inicialização automática das instruções.",
+    "Exibir instruções de uma unit exige FExibirInstrucoes ativo e chamada explícita à Main dessa unit. SetterFlags não é chamado automaticamente pela Main de TDD_RUN_LOGS.",
     "RegistrarLog garante a lista e sempre adiciona pLog + #13. FModoDebug controla somente MostrarLogTexto(pLog, '[DEBUG]'). Sucesso e falha são registrados independentemente do debug.",
     "DelimitadorLog registra separador e título por RegistrarLog. FExibirInstrucoes controla MostrarInstrucoesUnit independentemente de FModoDebug.",
     "IRunner transfere a preparação por texto ao molde. Run limpa a lista, copia a preparação e acrescenta mensagens do caso. FINISHED captura imediatamente antes de persistir LOGS_PROCESSAMENTO_HE; Run limpa após essa tentativa e o lote libera sua lista."
   ],
-  "dependencias": [],
+  "dependencias": ["TDD_FILTROS: cláusula uses do fonte para configurar FModoDebug e FExibirInstrucoes em SetterFlags."],
   "limites": [
     "Fonte local e documentação não comprovam cadastro remoto instalado ou homologação no ERP. APIs do host e efeitos financeiros precisam de evidência própria."
   ]

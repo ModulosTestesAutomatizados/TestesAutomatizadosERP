@@ -1,7 +1,8 @@
 {
   "roots": [
     "P39_TDD_REGISTRAR_CASO_TESTE",
-    "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS"
+    "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS",
+    "P39_TDD_PROCESSAMENTO_SINCRONIZACAO"
   ],
   "nodes": [
     {
@@ -32,13 +33,25 @@
       "name": "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS.pas",
-      "sha256": "253391be598aaed698ad6a08a83cba04a3655452092b11ddc1ee3b8f647a1c98"
+      "sha256": "abe822b89b4035e7a4306e8c0169127eb496c08d856b3a369dd9ddc001ba03dc"
     },
     {
       "name": "TDD_RUN_LOGS",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_LOGS.pas",
-      "sha256": "b1a2eb021937250a642c0510ad4def64fb863f48fc7cc755680bfc3cdd636ded"
+      "sha256": "15331a9685bbf669bb27a1e7949f7608b720d3f1bb6db0192164bd9153477603"
+    },
+    {
+      "name": "TDD_FILTROS",
+      "status": "local",
+      "file": "docs/assets/emDesenvolvimento/TDD_FILTROS.pas",
+      "sha256": "180bc97ae6c853b82934eeba45af5722abbbb7d74e292b3824ae73eada3748b0"
+    },
+    {
+      "name": "P39_TDD_PROCESSAMENTO_SINCRONIZACAO",
+      "status": "local",
+      "file": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_PROCESSAMENTO_SINCRONIZACAO.pas",
+      "sha256": "dc7d94d5ddc8db1988968093fdd5cbac427c9e9c31fb83e21bfdab9f991249a4"
     }
   ],
   "edges": [
@@ -89,13 +102,63 @@
       "file": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS.pas",
       "line": 1,
       "declared": "TDD_REGISTRAR_CASO_TESTE"
+    },
+    {
+      "from": "P39_TDD_PROCESSAMENTO_SINCRONIZACAO",
+      "to": "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_PROCESSAMENTO_SINCRONIZACAO.pas",
+      "line": 3,
+      "declared": "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS"
+    },
+    {
+      "from": "P39_TDD_PROCESSAMENTO_SINCRONIZACAO",
+      "to": "TDD_FILTROS",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_PROCESSAMENTO_SINCRONIZACAO.pas",
+      "line": 3,
+      "declared": "TDD_FILTROS"
+    },
+    {
+      "from": "TDD_FILTROS",
+      "to": "TDD_RUN_LOGS",
+      "kind": "uses",
+      "file": "docs/assets/emDesenvolvimento/TDD_FILTROS.pas",
+      "line": 1,
+      "declared": "P39_TDD_RUN_LOGS"
+    },
+    {
+      "from": "TDD_RUN_LOGS",
+      "to": "TDD_FILTROS",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_LOGS.pas",
+      "line": 1,
+      "declared": "TDD_FILTROS"
+    },
+    {
+      "from": "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS",
+      "to": "TDD_FILTROS",
+      "kind": "uses",
+      "file": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS.pas",
+      "line": 1,
+      "declared": "P39_TDD_FILTROS"
     }
   ],
   "ast": {
     "TDD_RUN_LOGS": {
       "type": "UsesFile",
       "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_LOGS.pas",
-      "clauses": []
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "TDD_FILTROS",
+              "line": 1
+            }
+          ]
+        }
+      ]
     },
     "P39_TDD_CONSTANTES": {
       "type": "UsesFile",
@@ -169,7 +232,45 @@
           "line": 1,
           "units": [
             {
-              "name": "TDD_REGISTRAR_CASO_TESTE",
+              "name": "P39_TDD_REGISTRAR_CASO_TESTE",
+              "line": 1
+            },
+            {
+              "name": "P39_TDD_FILTROS",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    "P39_TDD_PROCESSAMENTO_SINCRONIZACAO": {
+      "type": "UsesFile",
+      "file": "docs/assets/configuracoesGerais/Sincronizar/P39_TDD_PROCESSAMENTO_SINCRONIZACAO.pas",
+      "clauses": [
+        {
+          "line": 3,
+          "units": [
+            {
+              "name": "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS",
+              "line": 3
+            },
+            {
+              "name": "TDD_FILTROS",
+              "line": 3
+            }
+          ]
+        }
+      ]
+    },
+    "TDD_FILTROS": {
+      "type": "UsesFile",
+      "file": "docs/assets/emDesenvolvimento/TDD_FILTROS.pas",
+      "clauses": [
+        {
+          "line": 1,
+          "units": [
+            {
+              "name": "P39_TDD_RUN_LOGS",
               "line": 1
             }
           ]
@@ -182,6 +283,7 @@
       "P39_TDD_CONSTANTES",
       "P39_TDD_FUNCOES_JSON",
       "P39_TDD_ODBC",
+      "TDD_FILTROS",
       "TDD_RUN_LOGS"
     ],
     "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS": [
@@ -189,6 +291,16 @@
       "P39_TDD_FUNCOES_JSON",
       "P39_TDD_ODBC",
       "P39_TDD_REGISTRAR_CASO_TESTE",
+      "TDD_FILTROS",
+      "TDD_RUN_LOGS"
+    ],
+    "P39_TDD_PROCESSAMENTO_SINCRONIZACAO": [
+      "P39_TDD_CONSTANTES",
+      "P39_TDD_FUNCOES_JSON",
+      "P39_TDD_ODBC",
+      "P39_TDD_REGISTRAR_CASO_TESTE",
+      "P39_TDD_SINCRONIZAR_CASOS_TESTE_REGISTRADOS",
+      "TDD_FILTROS",
       "TDD_RUN_LOGS"
     ]
   },

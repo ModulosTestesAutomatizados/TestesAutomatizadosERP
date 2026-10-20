@@ -1,4 +1,5 @@
 export const redirecionamentos: Record<string, string> = {
+  "/units/p39-tdd-filtros": "/units/tdd-filtros",
   "/units/p39-tdd-base-unit-irunner": "/units/tdd-run-unit-base-irunner",
   "/units/p39-tdd-irunner": "/units/tdd-run-irunner",
   "/units/p39-tdd-runner": "/units/tdd-run-runner",
