@@ -197,13 +197,13 @@ procedure TearDown_Finalizar_CasosTeste;
 var lErros: String;
 begin
   lErros := '';
-  try CDSCasosTestes.Free;
+  try if Assigned(CDSCasosTestes) then CDSCasosTestes.Free;
   except on Ex: Exception do lErros := lErros + 'CDSCasosTestes: ' + Ex.Message + #13; end;
-  try CDSResultadoEsperado.Free;
+  try if Assigned(CDSResultadoEsperado) then CDSResultadoEsperado.Free;
   except on Ex: Exception do lErros := lErros + 'CDSResultadoEsperado: ' + Ex.Message + #13; end;
-  try CDSCamposDisponiveis.Free;
+  try if Assigned(CDSCamposDisponiveis) then CDSCamposDisponiveis.Free;
   except on Ex: Exception do lErros := lErros + 'CDSCamposDisponiveis: ' + Ex.Message + #13; end;
-  try CDSConfiguracao.Free;
+  try if Assigned(CDSConfiguracao) then CDSConfiguracao.Free;
   except on Ex: Exception do lErros := lErros + 'CDSConfiguracao: ' + Ex.Message + #13; end;
   FEstruturaCasoTesteIniciada := False;
   if lErros <> '' then
