@@ -12,13 +12,13 @@
       "name": "P39_TDD_CACHE",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/P39_TDD_CACHE.pas",
-      "sha256": "6a25c5185c314ac4602b0767e600016c630a062b18fe1098df073cf99449bed0"
+      "sha256": "92eba2ec80830be0a01afa4f86f393f34e1608713a11d1cd6a292388a57d5eb6"
     },
     {
       "name": "P39_TDD_CASOS_DE_TESTE",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas",
-      "sha256": "163a4efb5291ab8b5caefd845aa2488fb12c6d6bc208e8d73135e7d644e523dc"
+      "sha256": "1491f1e42139b20a79c7792d26c36cc1f8d97bc6b209b28c1839bc54e9168281"
     },
     {
       "name": "P39_TDD_CONSTANTES",
@@ -60,7 +60,7 @@
       "name": "P39_TDD_PARAMETRO",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO.pas",
-      "sha256": "352789c251520dc1fc7991c8f5e54da3653760a2b85db73559a72bc6294e0b19"
+      "sha256": "e2d534ab56c2b79e7ae48ff3e7f49648ada212b2dc88e833c551bf5742a43f8b"
     },
     {
       "name": "P39_TDD_PARAMETRO_MAPEAMENTO",
