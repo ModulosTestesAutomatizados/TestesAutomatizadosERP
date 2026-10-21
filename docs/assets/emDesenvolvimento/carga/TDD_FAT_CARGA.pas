@@ -102,6 +102,7 @@ var
   lCodigoCarga: Integer;
   lFormExistente: TForm;
   lMetodoAntesTeardown: String;
+  lOperacaoVinculo: String;
 begin
   FNomeMetodoAtual := 'CARGA_VALIDAR_ENTRADA';
   {P39_TDD_RUN_RUNNER.}RegistrarTick(0, FNomeMetodoAtual);
@@ -146,9 +147,17 @@ begin
       if not Assigned(CDSDocumentosCarga.FindField('DOCUMENTO_CARDOC')) then
         raise Exception.Create('Campo DOCUMENTO_CARDOC ausente no detalhe da carga.');
 
-      CDSDocumentosCarga.Insert;
-      CDSDocumentosCarga.FieldByName('DOCUMENTO_CARDOC').AsInteger := FPedidoVendaCarga;
-      CDSDocumentosCarga.Post;
+      lOperacaoVinculo := 'Insert';
+      try
+        CDSDocumentosCarga.Insert;
+        lOperacaoVinculo := 'atribuir DOCUMENTO_CARDOC';
+        CDSDocumentosCarga.FieldByName('DOCUMENTO_CARDOC').AsInteger := FPedidoVendaCarga;
+        lOperacaoVinculo := 'Post';
+        CDSDocumentosCarga.Post;
+      except
+        on Ex: Exception do
+          raise Exception.Create('CDSDocumentos.' + lOperacaoVinculo + ': ' + Ex.Message);
+      end;
       {P39_TDD_RUN_RUNNER.}RegistrarTick(1, FNomeMetodoAtual);
 
       FNomeMetodoAtual := 'CARGA_GRAVAR';

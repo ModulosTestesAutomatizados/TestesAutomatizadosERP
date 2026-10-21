@@ -27,8 +27,10 @@ end;
 
 procedure Cache_TearDown_LimparInformacoes;
 begin
-  CDSModulos.Free;
-  CDSAreas.Free;
+  if Assigned(CDSModulos) then
+    CDSModulos.Free;
+  if Assigned(CDSAreas) then
+    CDSAreas.Free;
   FCacheCarregado := False;  
 end;
 

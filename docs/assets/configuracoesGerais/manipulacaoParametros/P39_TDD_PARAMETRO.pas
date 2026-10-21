@@ -197,5 +197,6 @@ end;
 
 procedure TearDown_FinalizarParametros;
 begin
-  CDSParametro.Free;    
+  if Assigned(CDSParametro) then
+    CDSParametro.Free;
 end;
