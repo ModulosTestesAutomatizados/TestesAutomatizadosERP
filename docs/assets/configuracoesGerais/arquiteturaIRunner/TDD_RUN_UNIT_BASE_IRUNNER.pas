@@ -21,9 +21,13 @@ procedure Main;
 begin
   try
     // Esta lista pertence ao lote; não reutiliza o buffer da montagem do IRunner.
-    FLogsCasoTeste  := TStringList.Create;
-    FModoDebug      := __MODO_DEBUG__;
-    FLogsPreparacao := __LOGS_PREPARACAO__;
+    FLogsCasoTeste    := TStringList.Create;
+    FModoDebug        := __MODO_DEBUG__;
+    FExibirInstrucoes := __EXIBIR_INSTRUCOES__;
+    FLogsPreparacao   := __LOGS_PREPARACAO__;
+    P39_TDD_CACHE.Main;
+    P39_TDD_PARAMETRO.Main;
+    P39_TDD_CASOS_DE_TESTE.Main;
     ExecutarLote(__PARAMETROS_CASO_TESTE__);
   except
     on Ex: Exception do

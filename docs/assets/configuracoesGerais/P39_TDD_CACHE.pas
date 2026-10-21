@@ -8,8 +8,37 @@ var
 procedure Main;
 var lInstrucoes :string;
 begin
-  lInstrucoes := '';
-  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_CACHE', lInstrucoes);
+  lInstrucoes := 'Unit responsável pelo cache de módulos e áreas usados na seleção dos casos de teste.'                     + #13 +
+    '===================================================================================================================='  + #13 +
+    'Estado compartilhado:'                                                                                                 + #13 +
+    'CDSModulos, CDSAreas :TClientDataSet'                                                                                  + #13 +
+    '  - Guardam as tabelas de módulos e áreas carregadas do banco dedicado.'                                               + #13 +
+    'FCacheCarregado :Boolean'                                                                                              + #13 +
+    '  - Indica que os dois datasets foram preenchidos.'                                                                    + #13 +
+    '===================================================================================================================='  + #13 +
+    'Métodos disponibilizados pela Unit:'                                                                                   + #13 +
+    'procedure Cache_Setup_CarregarInformacoes'                                                                             + #13 +
+    '  - Cria os datasets quando necessário e carrega módulos e áreas.'                                                     + #13 +
+    'procedure Cache_TearDown_LimparInformacoes'                                                                            + #13 +
+    '  - Libera os datasets criados, inclusive após setup parcial.'                                                         + #13 +
+    'procedure VerificaCarregamentoCache'                                                                                   + #13 +
+    '  - Solicita a carga quando o cache ainda não foi preenchido.'                                                         + #13 +
+    'function AreaPeloNome(pArea :String) :Integer'                                                                         + #13 +
+    '  - Localiza a área pela descrição.'                                                                                   + #13 +
+    'function GetArea(pCodArea :Integer) :Integer'                                                                          + #13 +
+    '  - Localiza a área pelo código.'                                                                                      + #13 +
+    'procedure ValidarArea'                                                                                                 + #13 +
+    '  - Garante que o dataset de áreas foi carregado e contém registros.'                                                  + #13 +
+    'function ModuloPeloNome(pModulo :String) :Integer'                                                                     + #13 +
+    '  - Localiza o módulo pela descrição.'                                                                                 + #13 +
+    'function GetModulo(pCodModulo :Integer) :Integer'                                                                      + #13 +
+    '  - Localiza o módulo pelo código.'                                                                                    + #13 +
+    'procedure ValidarModulo'                                                                                               + #13 +
+    '  - Garante que o dataset de módulos foi carregado e contém registros.'                                                + #13 +
+    '===================================================================================================================='  + #13 +
+    'O cache é compartilhado no lote e liberado no encerramento do fluxo IRunner.'                                          + #13 +
+    '====================================================================================================================';
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('P39_TDD_CACHE', lInstrucoes);
 end;
 
 procedure Cache_Setup_CarregarInformacoes;

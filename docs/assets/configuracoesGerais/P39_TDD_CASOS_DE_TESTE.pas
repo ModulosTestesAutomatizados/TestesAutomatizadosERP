@@ -13,8 +13,43 @@ var
 procedure Main;
 var lInstrucoes :string;
 begin
-  lInstrucoes := '';
-  {P39_TDD_CONSTANTES -> P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_CASOS_DE_TESTE', lInstrucoes);
+  lInstrucoes := 'Unit responsável por preparar, carregar e liberar os datasets compartilhados dos casos de teste.'         + #13 +
+    '===================================================================================================================='  + #13 +
+    'Estado compartilhado:'                                                                                                 + #13 +
+    'CDSCasosTestes, CDSResultadoEsperado, CDSCamposDisponiveis, CDSConfiguracao :TClientDataSet'                           + #13 +
+    '  - Guardam os casos, resultados esperados, campos e configurações do lote.'                                           + #13 +
+    'FModulo, FArea :Integer / FDescModulo, FDescArea :String'                                                              + #13 +
+    '  - Identificam o módulo e a área selecionados.'                                                                       + #13 +
+    'FEstruturaCasoTesteIniciada :Boolean'                                                                                  + #13 +
+    '  - Indica que o setup dos datasets, cache e parâmetros terminou.'                                                     + #13 +
+    '===================================================================================================================='  + #13 +
+    'Métodos disponibilizados pela Unit:'                                                                                   + #13 +
+    'procedure CarregarConfiguracoes'                                                                                       + #13 +
+    '  - Carrega a configuração do módulo selecionado.'                                                                     + #13 +
+    'procedure SetModulo(Value :String)'                                                                                    + #13 +
+    '  - Localiza e guarda o código e a descrição do módulo.'                                                               + #13 +
+    'procedure SetArea(Value :String)'                                                                                      + #13 +
+    '  - Localiza e guarda o código e a descrição da área.'                                                                 + #13 +
+    'procedure CarregarCasosTeste'                                                                                          + #13 +
+    '  - Garante o setup e inicia a carga para o módulo e a área selecionados.'                                             + #13 +
+    'procedure CarregarCasosTestes(Modulo, Area :Integer)'                                                                  + #13 +
+    '  - Consulta os casos ativos e preenche os datasets do lote.'                                                          + #13 +
+    'procedure PreencheInformacoesDataSets(CDSTemp :TClientDataSet; Modulo, Area :Integer)'                                 + #13 +
+    '  - Copia casos e resultados esperados para os datasets do lote.'                                                      + #13 +
+    'procedure ConfigurarDataSets'                                                                                          + #13 +
+    '  - Define os campos e índices dos datasets compartilhados.'                                                           + #13 +
+    'function GetConfiguracao :OleVariant'                                                                                  + #13 +
+    '  - Retorna os dados de configuração quando foram preparados.'                                                         + #13 +
+    'function GetCasosTeste :OleVariant'                                                                                    + #13 +
+    '  - Retorna os dados dos casos quando estão disponíveis.'                                                              + #13 +
+    'procedure Setup_Inicializar_CasosTeste'                                                                                + #13 +
+    '  - Cria os datasets e prepara cache e parâmetros do lote.'                                                            + #13 +
+    'procedure TearDown_Finalizar_CasosTeste'                                                                               + #13 +
+    '  - Libera os datasets criados, inclusive após setup parcial.'                                                         + #13 +
+    '===================================================================================================================='  + #13 +
+    'O IRunner mantém um cursor de casos por lote e libera esses recursos ao encerrar.'                                     + #13 +
+    '====================================================================================================================';
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('P39_TDD_CASOS_DE_TESTE', lInstrucoes);
 end;
 
 procedure CarregarConfiguracoes;

@@ -7,6 +7,7 @@
 - Alinhe todos os trechos `+ #13 +` da `Main` na mesma coluna do snippet, preservando o espacamento entre as quebras de linha.
 - Chame `{P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('NOME_UNIT', lInstrucoes)` com o nome real da unit. Nao substitua essa chamada por um log generico nem deixe a string de instrucoes sem uso.
 - Descreva apenas estado e metodos que a unit efetivamente oferece; quando uma secao nao tiver itens proprios, esclareca isso no texto.
+- No fluxo IRunner, configure e propague `FExibirInstrucoes` ao codigo interpretado antes das chamadas de instrucoes. Na entrada do lote, invoque explicitamente `NOME_UNIT.Main` para cada unit auxiliar desejada, com nome qualificado e sem chaves, uma vez antes do setup.
 
 ## Propagacao de excecoes no fluxo IRunner
 

@@ -12,8 +12,37 @@ var
 procedure Main;
 var lInstrucoes :string;
 begin
-  lInstrucoes := '';
-  {P39_TDD_PARAMETRO_MAPEAMENTO -> P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('TDD_PARAMETRO', lInstrucoes);
+  lInstrucoes := 'Unit responsável por consultar e aplicar parâmetros de configuração do sistema para os testes.'           + #13 +
+    '===================================================================================================================='  + #13 +
+    'Estado compartilhado:'                                                                                                 + #13 +
+    'CDSParametro :TClientDataSet'                                                                                          + #13 +
+    '  - Contém os parâmetros lidos no setup do lote; o teardown o libera quando foi criado.'                               + #13 +
+    'cTipoString, cTipoInteiro, cTipoCurrency, cTipoboolean :Integer'                                                       + #13 +
+    '  - Identificam o tipo de valor ao montar a atualização.'                                                              + #13 +
+    '===================================================================================================================='  + #13 +
+    'Métodos disponibilizados pela Unit:'                                                                                   + #13 +
+    'function GetSQLParametro :String'                                                                                      + #13 +
+    '  - Monta a consulta das configurações de sistema, empresa e PCP.'                                                     + #13 +
+    'procedure VerificarParametros(pJSONParametros :String)'                                                                + #13 +
+    '  - Compara o JSON recebido e atualiza apenas chaves com valor diferente.'                                             + #13 +
+    'function NecessarioModificarParam(pCampo, pValor :String) :Boolean'                                                    + #13 +
+    '  - Compara o valor solicitado com a seção atual de parâmetros.'                                                       + #13 +
+    'procedure AtualizarParametros(pCDS :TClientDataSet)'                                                                   + #13 +
+    '  - Executa os updates solicitados e chama Relogar.'                                                                   + #13 +
+    'procedure Relogar'                                                                                                     + #13 +
+    '  - Reconecta e recarrega a seção atual após atualizar configurações.'                                                 + #13 +
+    'function PegarTipoCampo(pValue :String) :Integer'                                                                      + #13 +
+    '  - Classifica o valor para formatar a instrução SQL.'                                                                 + #13 +
+    'procedure CriarEstruturaParametrosAtualizar(pCDS :TClientDataSet)'                                                     + #13 +
+    '  - Prepara o dataset temporário de chaves e valores.'                                                                 + #13 +
+    'procedure Setup_Inicializar_Parametros'                                                                                + #13 +
+    '  - Mapeia os campos e carrega os parâmetros no dataset global.'                                                       + #13 +
+    'procedure TearDown_FinalizarParametros'                                                                                + #13 +
+    '  - Libera o dataset global quando foi criado.'                                                                        + #13 +
+    '===================================================================================================================='  + #13 +
+    'A seção parametros no JSON do caso é opcional; sua ausência não chama VerificarParametros.'                            + #13 +
+    '====================================================================================================================';
+  {P39_TDD_RUN_LOGS.}MostrarInstrucoesUnit('P39_TDD_PARAMETRO', lInstrucoes);
 end;
 
 function GetSQLParametro:String;

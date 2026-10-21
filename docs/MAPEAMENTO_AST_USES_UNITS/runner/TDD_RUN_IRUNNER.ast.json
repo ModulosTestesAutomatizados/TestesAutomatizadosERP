@@ -12,13 +12,13 @@
       "name": "P39_TDD_CACHE",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/P39_TDD_CACHE.pas",
-      "sha256": "92eba2ec80830be0a01afa4f86f393f34e1608713a11d1cd6a292388a57d5eb6"
+      "sha256": "c263f23fc78c95b80d483ef0299d281594c6fa5559934c13a5a9d59de2e0f593"
     },
     {
       "name": "P39_TDD_CASOS_DE_TESTE",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/P39_TDD_CASOS_DE_TESTE.pas",
-      "sha256": "1491f1e42139b20a79c7792d26c36cc1f8d97bc6b209b28c1839bc54e9168281"
+      "sha256": "70ace61a0ee12f68784eadf81354c3fe3bc8fb4aae4218256b3bd9bb07ff4c53"
     },
     {
       "name": "P39_TDD_CONSTANTES",
@@ -60,7 +60,7 @@
       "name": "P39_TDD_PARAMETRO",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/manipulacaoParametros/P39_TDD_PARAMETRO.pas",
-      "sha256": "e2d534ab56c2b79e7ae48ff3e7f49648ada212b2dc88e833c551bf5742a43f8b"
+      "sha256": "9198e7d246a731225f6ce501fa2753f9155325a67c97637121445fdbbfcdd76a"
     },
     {
       "name": "P39_TDD_PARAMETRO_MAPEAMENTO",
@@ -108,7 +108,7 @@
       "name": "TDD_RUN_IRUNNER",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_IRUNNER.pas",
-      "sha256": "de6f327c7fefbd02ce7d5e5ca51dde00fe798225fc7b0bff0805806e06607102"
+      "sha256": "a6a9a97e220acbb705594c9e5b0784e198fac2fe57e55bc84fe6d52234cd7d39"
     },
     {
       "name": "TDD_RUN_LOGS",
@@ -132,7 +132,7 @@
       "name": "TDD_RUN_UNIT_BASE_IRUNNER",
       "status": "local",
       "file": "docs/assets/configuracoesGerais/arquiteturaIRunner/TDD_RUN_UNIT_BASE_IRUNNER.pas",
-      "sha256": "a4b5c3218c1fab2c43e772a9bae75c43f24beb3dcc7b0b29e10e56680673b61c"
+      "sha256": "4b5508179dfe255daab22c481c8a235e0c8ebe1318beda01b0754325166c3b1a"
     },
     {
       "name": "__USES_UNITS__",

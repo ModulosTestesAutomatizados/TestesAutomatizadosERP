@@ -59,6 +59,8 @@ begin
   if FParamsCasosTeste.Count <> 2 then
     raise Exception.Create('Informe exatamente dois parâmetros: módulo e área.');
 
+  {P39_TDD_RUN_LOGS}SetterFlags;
+
   lLS              := TStringList.Create;
   lLogsMontagem    := TStringList.Create;
   lLogsAnteriores  := FLogsCasoTeste;
@@ -80,6 +82,7 @@ begin
 
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__USES_UNITS__', FTDDUnit);
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__MODO_DEBUG__', iif(FModoDebug, 'True', 'False'));
+    FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__EXIBIR_INSTRUCOES__', iif(FExibirInstrucoes, 'True', 'False'));
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__PARAMETROS_CASO_TESTE__', FParamsCasosTeste.CommaText);
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, ',', ', ');
     FUnitInterpretar.Text := Troca(FUnitInterpretar.Text, '__CHAMADAS_METODOS__ // Identacao incorreta propositalmente!', lLS.Text);
